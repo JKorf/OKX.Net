@@ -4,7 +4,7 @@ A .Net wrapper for the OKX API as described on [OKX](https://www.okx.com/docs-v5
 
 **If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/JKorf/OKX.Net/issues)**
 
-[Documentation](https://jkorf.github.io/OXK.Net/)
+[Documentation](https://jkorf.github.io/OKX.Net/)
 
 ## Support the project
 I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
