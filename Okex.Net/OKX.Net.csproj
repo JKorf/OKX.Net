@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>OKX.Net</PackageId>
+    <Authors>JKorf</Authors>
+    <Version>5.3.0</Version>
+    <FileVersion>5.3.0</FileVersion>
+    <PackageVersion>5.3.0</PackageVersion>
+    <AssemblyVersion>5.3.0</AssemblyVersion>
+    <Description>OKX.Net is a .Net wrapper for the OKX API (https://www.okx.com). It includes all features the API provides, REST API and Websocket, using clear and readable objects including but not limited to Reading market info, Placing and managing orders and Reading balances and funds</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>OKX OKEx OKEx.Net C# .Net CryptoCurrency Exchange Rest API and WebSocket API Wrapper</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>
+		
+	</PackageReleaseNotes>
+  </PropertyGroup>
+	<PropertyGroup>
+		<DocumentationFile>OKX.Net.xml</DocumentationFile>
+	</PropertyGroup>
+  <PropertyGroup>
+    <PackageProjectUrl>https://github.com/burakoner/OKEx.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/burakoner/OKEx.Net</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+	  <None Include="Icon\icon.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CryptoExchange.Net\CryptoExchange.Net\CryptoExchange.Net.csproj" />
+  </ItemGroup>
+</Project>

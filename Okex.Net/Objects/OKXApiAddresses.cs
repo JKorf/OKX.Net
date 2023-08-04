@@ -1,0 +1,25 @@
+﻿namespace OKX.Net.Objects;
+
+/// <summary>
+/// Api addresses
+/// </summary>
+public class OKXApiAddresses
+{
+    /// <summary>
+    /// Base rest address
+    /// </summary>
+    public string UnifiedRestAddress { get; set; } = string.Empty;
+    /// <summary>
+    /// Base socket address
+    /// </summary>
+    public string UnifiedSocketAddress { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Default live addresses
+    /// </summary>
+    public static OKXApiAddresses Default = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://www.okx.com",
+        UnifiedSocketAddress = "wss://ws.okx.com:8443",
+    };
+}
