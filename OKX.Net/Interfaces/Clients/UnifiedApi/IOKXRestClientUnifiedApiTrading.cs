@@ -259,8 +259,8 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? priceLimit = null, 
         long? timeInterval = null,
         decimal? callbackRatio = null,
-        decimal? activePx = null, decimal? 
-        callbackSpread = null, 
+        decimal? activePx = null, 
+        decimal? callbackSpread = null, 
         CancellationToken ct = default);
 
     /// <summary>
