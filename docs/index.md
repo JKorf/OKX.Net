@@ -2,7 +2,7 @@
 title: Home
 nav_order: 1
 ---
-[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) ![Nuget version](https://img.shields.io/nuget/v/okx.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/okx.Net.svg)
+[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) ![Nuget version](https://img.shields.io/nuget/v/JKorf.okx.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/JKorf.okx.Net.svg)
 
 This library is based on the CryptoExchange.Net base library. General usage/configuration information can be found in the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net)
 
