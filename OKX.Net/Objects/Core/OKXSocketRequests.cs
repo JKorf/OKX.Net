@@ -66,10 +66,10 @@ internal class OKXSocketRequestArgument
     public string Channel { get; set; } = string.Empty;
 
     [JsonProperty("uly", NullValueHandling = NullValueHandling.Ignore)]
-    public string Underlying { get; set; } = string.Empty;
+    public string? Underlying { get; set; } = string.Empty;
 
     [JsonProperty("instId", NullValueHandling = NullValueHandling.Ignore)]
-    public string InstrumentId { get; set; } = string.Empty;
+    public string? InstrumentId { get; set; } = string.Empty;
 
     [JsonProperty("instType", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(InstrumentTypeConverter))]
     public OKXInstrumentType? InstrumentType { get; set; }
