@@ -1,4 +1,4 @@
-﻿# ![Icon!](https://github.com/JKorf/OKX.Net/blob/master/OKX.Net/Icon/icon.png?raw=true "OKX.Net") OKX.Net
+﻿# ![Icon!](https://github.com/JKorf/OKX.Net/blob/358d31f58d8ee51fc234bff1940878a8d0ce5676/Okex.Net/Icon/icon.png "OKX.Net") OKX.Net
 
 A .Net wrapper for the OKX API as described on [OKEx](https://www.okx.com/docs-v5/en/), including all features the API provides using clear and readable objects.
 
