@@ -298,8 +298,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
-        string symbol,
-        string underlying,
+        string? symbol,
+        string? underlying,
         Action<OKXOrder> onData,
         CancellationToken ct = default)
     {

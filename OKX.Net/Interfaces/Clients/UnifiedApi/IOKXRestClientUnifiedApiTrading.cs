@@ -278,16 +278,50 @@ public interface IOKXRestClientUnifiedApiTrading
     /// </summary>
     /// <param name="symbol">Symbol</param>
     /// <param name="tradeMode">Trade Mode</param>
-    /// <param name="orderSide">Order Side</param>
+    /// <param name="side">Order Side</param>
     /// <param name="positionSide">Position Side</param>
-    /// <param name="orderType">Order Type</param>
+    /// <param name="type">Order Type</param>
     /// <param name="quantity">Quantity</param>
     /// <param name="price">Price</param>
     /// <param name="asset">Asset</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
     /// <param name="quantityType">Quantity Type</param>
+    /// <param name="takeProfitTriggerPrice">Take profit trigger price</param>
+    /// <param name="stopLossTriggerPrice">Stop loss trigger price</param>
+    /// <param name="takeProfitOrderPrice">Take profit order price</param>
+    /// <param name="stopLossOrderPrice">Stop loss order price</param>
+    /// <param name="takeProfitTriggerPriceType">Take profit price type</param>
+    /// <param name="stopLossTriggerPriceType">Stop loss price type</param>
+    /// <param name="quickMarginType">Quick margin type</param>
+    /// <param name="selfTradePreventionId">Self trade prevention id</param>
+    /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
+    /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol, OKXTradeMode tradeMode, OKXOrderSide orderSide, OKXPositionSide positionSide, OKXOrderType orderType, decimal quantity, decimal? price = null, string? asset = null, string? clientOrderId = null, bool? reduceOnly = null, OKXQuantityType? quantityType = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
+        string symbol,
+        OKXOrderSide side,
+        OKXOrderType type,
+        decimal quantity,
+        decimal? price = null,
+        OKXPositionSide? positionSide = null,
+        OKXTradeMode? tradeMode = null,
+
+        decimal? takeProfitTriggerPrice = null,
+        decimal? stopLossTriggerPrice = null,
+        decimal? takeProfitOrderPrice = null,
+        decimal? stopLossOrderPrice = null,
+        OXKTriggerPriceType? takeProfitTriggerPriceType = null,
+        OXKTriggerPriceType? stopLossTriggerPriceType = null,
+        OKXQuickMarginType? quickMarginType = null,
+        int? selfTradePreventionId = null,
+        SelfTradePreventionMode? selfTradePreventionMode = null,
+
+        string? asset = null,
+        OKXQuantityAsset? quantityAsset = null,
+        string? clientOrderId = null,
+        bool? reduceOnly = null,
+        OKXQuantityType? quantityType = null,
+        CancellationToken ct = default);
 }

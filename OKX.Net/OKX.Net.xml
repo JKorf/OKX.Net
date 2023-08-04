@@ -340,7 +340,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXPositionSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.String,System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
@@ -579,6 +579,81 @@
         <member name="F:OKX.Net.Enums.OKXPeriod.OneYear">
             <summary>
             1Y
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXQuantityAsset">
+            <summary>
+            Quantity asset
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXQuantityAsset.BaseAsset">
+            <summary>
+            Quantity in base asset
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXQuantityAsset.QuoteAsset">
+            <summary>
+            Quantity in quote asset
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXQuickMarginType">
+            <summary>
+            Quick margin type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXQuickMarginType.Manual">
+            <summary>
+            Manual
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXQuickMarginType.AutoBorrow">
+            <summary>
+            Auto borrow
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXQuickMarginType.AutoRepay">
+            <summary>
+            Auto repay
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OXKTriggerPriceType">
+            <summary>
+            Trigger price tpye
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OXKTriggerPriceType.Last">
+            <summary>
+            Last price
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OXKTriggerPriceType.Index">
+            <summary>
+            Index price
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OXKTriggerPriceType.Mark">
+            <summary>
+            Mark price
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.SelfTradePreventionMode">
+            <summary>
+            Self trade prevention mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelMaker">
+            <summary>
+            Cancel maker
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelTaker">
+            <summary>
+            Cancel taker
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelBoth">
+            <summary>
+            Cancel both
             </summary>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.IOKXRestClient">
@@ -1195,7 +1270,7 @@
             <param name="period">Bar size, the default is 1m</param>
             <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
             <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-            /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+            <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -1811,22 +1886,32 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXPositionSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.String,System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
             <summary>
             You can place an order only if you have sufficient funds.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
             </summary>
             <param name="symbol">Symbol</param>
             <param name="tradeMode">Trade Mode</param>
-            <param name="orderSide">Order Side</param>
+            <param name="side">Order Side</param>
             <param name="positionSide">Position Side</param>
-            <param name="orderType">Order Type</param>
+            <param name="type">Order Type</param>
             <param name="quantity">Quantity</param>
             <param name="price">Price</param>
             <param name="asset">Asset</param>
             <param name="clientOrderId">Client Order ID</param>
             <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
             <param name="quantityType">Quantity Type</param>
+            <param name="takeProfitTriggerPrice">Take profit trigger price</param>
+            <param name="stopLossTriggerPrice">Stop loss trigger price</param>
+            <param name="takeProfitOrderPrice">Take profit order price</param>
+            <param name="stopLossOrderPrice">Stop loss order price</param>
+            <param name="takeProfitTriggerPriceType">Take profit price type</param>
+            <param name="stopLossTriggerPriceType">Stop loss price type</param>
+            <param name="quickMarginType">Quick margin type</param>
+            <param name="selfTradePreventionId">Self trade prevention id</param>
+            <param name="selfTradePreventionMode">Self trade prevention mode</param>
+            <param name="quantityAsset">Asset of the quantity when placing market order</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>

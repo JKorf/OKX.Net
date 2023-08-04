@@ -41,13 +41,25 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
         string symbol,
-        OKXTradeMode tradeMode,
-        OKXOrderSide orderSide,
-        OKXPositionSide positionSide,
-        OKXOrderType orderType,
+        OKXOrderSide side,
+        OKXOrderType type,
         decimal quantity,
         decimal? price = null,
+        OKXPositionSide? positionSide = null,
+        OKXTradeMode? tradeMode = null,
+
+        decimal? takeProfitTriggerPrice = null,
+        decimal? stopLossTriggerPrice = null,
+        decimal? takeProfitOrderPrice = null,
+        decimal? stopLossOrderPrice = null,
+        OXKTriggerPriceType? takeProfitTriggerPriceType = null,
+        OXKTriggerPriceType? stopLossTriggerPriceType = null,
+        OKXQuickMarginType? quickMarginType = null,
+        int? selfTradePreventionId = null,
+        SelfTradePreventionMode? selfTradePreventionMode = null,
+
         string? asset = null,
+        OKXQuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
         OKXQuantityType? quantityType = null,
@@ -55,17 +67,30 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     {
         var parameters = new Dictionary<string, object> {
             {"instId", symbol },
-            {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
-            {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },
-            {"posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)) },
-            {"ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)) },
+            {"tdMode", JsonConvert.SerializeObject(tradeMode ?? OKXTradeMode.Cash, new TradeModeConverter(false)) },
+            {"side", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
+            {"ordType", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
             {"tag", _ref },
         };
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("ccy", asset);
+
+        parameters.AddOptionalParameter("tgtCcy", EnumConverter.GetString(quantityAsset));
+        parameters.AddOptionalParameter("tpTriggerPx", takeProfitTriggerPrice);
+        parameters.AddOptionalParameter("slTriggerPx", stopLossTriggerPrice);
+        parameters.AddOptionalParameter("tpOrdPx", takeProfitOrderPrice);
+        parameters.AddOptionalParameter("slOrdPx", stopLossOrderPrice);
+        parameters.AddOptionalParameter("tpTriggerPxType", EnumConverter.GetString(takeProfitTriggerPriceType));
+        parameters.AddOptionalParameter("slTriggerPxType", EnumConverter.GetString(stopLossTriggerPriceType));
+        parameters.AddOptionalParameter("quickMgnType", EnumConverter.GetString(quickMarginType));
+        parameters.AddOptionalParameter("stpId", selfTradePreventionId);
+        parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
+
         parameters.AddOptionalParameter("clOrdId", _ref + (clientOrderId ?? RandomString(15)));
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
+        if (positionSide.HasValue)
+            parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
         if (quantityType.HasValue)
             parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
 

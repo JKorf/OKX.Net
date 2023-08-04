@@ -177,7 +177,7 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? underlying, Action<OKXOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
