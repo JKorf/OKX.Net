@@ -101,7 +101,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 Channel = "candle" + jc, 
                 Symbol = symbol 
             });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
+        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -177,7 +177,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 Channel = "mark-price-candle" + jc, 
                 Symbol = symbol 
             });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
+        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -271,7 +271,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             Channel = "index-candle" + jc,
             Symbol = symbol
         });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
+        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -406,8 +406,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
-        string symbol,
-        string instrumentFamily,
+        string? symbol,
+        string? instrumentFamily,
         Action<OKXAlgoOrder> onData,
         CancellationToken ct = default)
     {
@@ -425,7 +425,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             InstrumentType = instrumentType,
             InstrumentFamily = instrumentFamily,
         });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -450,7 +450,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             InstrumentType = instrumentType,
             InstrumentFamily = instrumentFamily,
         });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
 
     internal string GetUri(string path) => BaseAddress.Trim(new[] { '/' }) + path;

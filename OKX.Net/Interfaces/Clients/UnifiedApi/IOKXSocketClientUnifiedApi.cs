@@ -47,7 +47,7 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
