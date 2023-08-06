@@ -38,7 +38,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "instruments", instrumentType);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "instruments",
+            InstrumentType = instrumentType,
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -51,7 +55,12 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "tickers", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
+            new OKXSocketRequestArgument 
+            { 
+                Channel = "tickers", 
+                Symbol = symbol 
+            });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -64,7 +73,12 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "open-interest", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
+            new OKXSocketRequestArgument 
+            { 
+                Channel = "open-interest", 
+                Symbol = symbol 
+            });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -81,7 +95,12 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         });
 
         var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "candle" + jc, symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
+            new OKXSocketRequestArgument 
+            { 
+                Channel = "candle" + jc, 
+                Symbol = symbol 
+            });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -94,12 +113,16 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "trades", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "trades",
+            Symbol = symbol
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string underlying, Action<OKXEstimatedPrice> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<OKXEstimatedPrice> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXEstimatedPrice>>>>(data =>
         {
@@ -107,7 +130,13 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "estimated-price", instrumentType, underlying);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "estimated-price",
+            InstrumentFamily = instrumentFamily,
+            InstrumentType = instrumentType,
+            Symbol = symbol,
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -120,7 +149,12 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "mark-price", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
+            new OKXSocketRequestArgument 
+            { 
+                Channel = "mark-price", 
+                Symbol = symbol 
+            });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -137,7 +171,12 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         });
 
         var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "mark-price-candle" + jc, symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
+            new OKXSocketRequestArgument 
+            { 
+                Channel = "mark-price-candle" + jc, 
+                Symbol = symbol 
+            });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -150,7 +189,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "price-limit", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "price-limit",
+            Symbol = symbol
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -168,12 +211,16 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         });
 
         var jc = JsonConvert.SerializeObject(orderBookType, new OrderBookTypeConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, jc, symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = jc,
+            Symbol = symbol
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string underlying, Action<OKXOptionSummary> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<OKXOptionSummary> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOptionSummary>>>>(data =>
         {
@@ -181,7 +228,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "opt-summary", string.Empty, underlying);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "opt-summary",
+            InstrumentFamily = instrumentFamily
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -194,7 +245,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "funding-rate", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "funding-rate",
+            Symbol = symbol
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -211,7 +266,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         });
 
         var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "index-candle" + jc, symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "index-candle" + jc,
+            Symbol = symbol
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -224,7 +283,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "index-tickers", symbol);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "index-tickers",
+            Symbol = symbol,
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -237,12 +300,17 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "status", string.Empty, string.Empty);
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "status"
+        });
         return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
+        string? asset,
+        bool regularUpdates,
         Action<OKXAccountBalance> onData,
         CancellationToken ct = default)
     {
@@ -252,15 +320,24 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "account");
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "account",
+            Asset = asset,
+            ExtraParams = new Dictionary<string, object>
+            {
+                { "updateInterval", regularUpdates ? 0 : 1 }
+            }
+        });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(
         OKXInstrumentType instrumentType,
-        string symbol,
-        string underlying,
+        string? symbol,
+        string? instrumentFamily,
+        bool regularUpdates,
         Action<OKXPosition> onData,
         CancellationToken ct = default)
     {
@@ -273,9 +350,13 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
         {
             Channel = "positions",
-            InstrumentId = symbol,
+            Symbol = symbol,
             InstrumentType = instrumentType,
-            Underlying = underlying,
+            InstrumentFamily = instrumentFamily,
+            ExtraParams = new Dictionary<string, object>
+            {
+                { "updateInterval", regularUpdates ? 0 : 1 }
+            }
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -291,7 +372,10 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 onData(d);
         });
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, "balance_and_position");
+        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
+        {
+            Channel = "balance_and_position"
+        });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
 
@@ -299,7 +383,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
         string? symbol,
-        string? underlying,
+        string? instrumentFamily,
         Action<OKXOrder> onData,
         CancellationToken ct = default)
     {
@@ -312,9 +396,9 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
         {
             Channel = "orders",
-            InstrumentId = symbol,
+            Symbol = symbol,
             InstrumentType = instrumentType,
-            Underlying = underlying,
+            InstrumentFamily = instrumentFamily,
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -323,7 +407,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
         string symbol,
-        string underlying,
+        string instrumentFamily,
         Action<OKXAlgoOrder> onData,
         CancellationToken ct = default)
     {
@@ -337,9 +421,9 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
         {
             Channel = "orders-algo",
-            InstrumentId = symbol,
+            Symbol = symbol,
             InstrumentType = instrumentType,
-            Underlying = underlying,
+            InstrumentFamily = instrumentFamily,
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -348,7 +432,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
         string symbol,
-        string underlying,
+        string instrumentFamily,
         Action<OKXAlgoOrder> onData,
         CancellationToken ct = default)
     {
@@ -362,9 +446,9 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
         {
             Channel = "algo-advance",
-            InstrumentId = symbol,
+            Symbol = symbol,
             InstrumentType = instrumentType,
-            Underlying = underlying,
+            InstrumentFamily = instrumentFamily,
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -543,8 +627,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
 
             // Check Data
             if (reqArg.Channel == resArg!.Channel &&
-                reqArg.Underlying == resArg.Underlying &&
-                reqArg.InstrumentId == resArg.InstrumentId &&
+                reqArg.InstrumentFamily == resArg.InstrumentFamily &&
+                reqArg.Symbol == resArg.Symbol &&
                 reqArg.InstrumentType == resArg.InstrumentType)
             {
                 return true;
@@ -560,7 +644,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         if (s == null || s.Request == null)
             return false;
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Unsubscribe, ((OKXSocketRequest)s.Request).Arguments);
+        var request = new OKXSocketRequest(OKXSocketOperation.Unsubscribe, ((OKXSocketRequest)s.Request).Arguments[0]);
         await connection.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), s, data =>
         {
             if (data.Type != JTokenType.Object)

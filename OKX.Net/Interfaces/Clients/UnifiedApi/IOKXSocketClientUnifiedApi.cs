@@ -18,10 +18,12 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// Subscribe to account information updates. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-channel" /></para>
     /// </summary>
+    /// <param name="asset">Only receive updates for this asset</param>
+    /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(Action<OKXAccountBalance> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(string? asset, bool regularUpdates, Action<OKXAccountBalance> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to advance algo orders (includes iceberg order and twap order) updates. Data will be pushed when first subscribed. Data will be pushed when triggered by events such as placing/canceling order.
@@ -29,11 +31,11 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol</param>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
@@ -41,11 +43,11 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol</param>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
@@ -62,11 +64,12 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-estimated-delivery-exercise-price-channel" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family. Required if symbol is not set</param>
+    /// <param name="symbol">Symbol. Required if instrumentFamily is not set</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string underlying, Action<OKXEstimatedPrice> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<OKXEstimatedPrice> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to funding rate updates. Data will be pushed every minute.
@@ -145,11 +148,11 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// Subscribe to detailed pricing information updates of all OPTION contracts. Data will be pushed at once.
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-option-summary-channel" /></para>
     /// </summary>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string underlying, Action<OKXOptionSummary> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<OKXOptionSummary> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to order book data updates.
@@ -173,11 +176,11 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol</param>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? underlying, Action<OKXOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
@@ -185,11 +188,12 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Instrument ID</param>
-    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXPosition> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<OKXPosition> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the maximum buy price and minimum sell price of the instrument updates. Data will be pushed every 5 seconds when there are changes in limits, and will not be pushed when there is no changes on limit.

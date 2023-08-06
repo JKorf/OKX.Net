@@ -9,55 +9,13 @@ internal class OKXSocketRequest
     public OKXSocketOperation Operation { get; set; }
 
     [JsonProperty("args")]
-    public List<OKXSocketRequestArgument> Arguments { get; set; }
+    public List<OKXSocketRequestArgument> Arguments { get; set; } = new List<OKXSocketRequestArgument>();
 
-    public OKXSocketRequest(OKXSocketOperation op, params OKXSocketRequestArgument[] args)
+    public OKXSocketRequest(OKXSocketOperation op, OKXSocketRequestArgument argument)
     {
         Operation = op;
-        Arguments = args.ToList();
+        Arguments.Add(argument);
     }
-
-    public OKXSocketRequest(OKXSocketOperation op, IEnumerable<OKXSocketRequestArgument> args)
-    {
-        Operation = op;
-        Arguments = args.ToList();
-    }
-
-    public OKXSocketRequest(OKXSocketOperation op, string channel)
-    {
-        Operation = op;
-        Arguments = new List<OKXSocketRequestArgument>();
-        Arguments.Add(new OKXSocketRequestArgument(channel));
-    }
-
-    public OKXSocketRequest(OKXSocketOperation op, string channel, string instrumentId)
-    {
-        Operation = op;
-        Arguments = new List<OKXSocketRequestArgument>();
-        Arguments.Add(new OKXSocketRequestArgument(channel, instrumentId));
-    }
-
-    public OKXSocketRequest(OKXSocketOperation op, string channel, string underlying, string instrumentId)
-    {
-        Operation = op;
-        Arguments = new List<OKXSocketRequestArgument>();
-        Arguments.Add(new OKXSocketRequestArgument(channel, underlying, instrumentId));
-    }
-
-    public OKXSocketRequest(OKXSocketOperation op, string channel, OKXInstrumentType instrumentType)
-    {
-        Operation = op;
-        Arguments = new List<OKXSocketRequestArgument>();
-        Arguments.Add(new OKXSocketRequestArgument(channel, instrumentType));
-    }
-
-    public OKXSocketRequest(OKXSocketOperation op, string channel, OKXInstrumentType instrumentType, string underlying)
-    {
-        Operation = op;
-        Arguments = new List<OKXSocketRequestArgument>();
-        Arguments.Add(new OKXSocketRequestArgument(channel, instrumentType, underlying));
-    }
-
 }
 
 internal class OKXSocketRequestArgument
@@ -65,49 +23,20 @@ internal class OKXSocketRequestArgument
     [JsonProperty("channel")]
     public string Channel { get; set; } = string.Empty;
 
-    [JsonProperty("uly", NullValueHandling = NullValueHandling.Ignore)]
-    public string? Underlying { get; set; } = string.Empty;
+    [JsonProperty("instFamily", NullValueHandling = NullValueHandling.Ignore)]
+    public string? InstrumentFamily { get; set; } = string.Empty;
 
     [JsonProperty("instId", NullValueHandling = NullValueHandling.Ignore)]
-    public string? InstrumentId { get; set; } = string.Empty;
+    public string? Symbol { get; set; } = string.Empty;
 
     [JsonProperty("instType", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(InstrumentTypeConverter))]
     public OKXInstrumentType? InstrumentType { get; set; }
 
-    public OKXSocketRequestArgument()
-    {
-    }
+    [JsonProperty("ccy", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Asset { get; set; }
 
-    public OKXSocketRequestArgument(string channel)
-    {
-        if (!string.IsNullOrEmpty(channel)) Channel = channel;
-    }
-
-    public OKXSocketRequestArgument(string channel, string instrumentId)
-    {
-        if (!string.IsNullOrEmpty(channel)) Channel = channel;
-        if (!string.IsNullOrEmpty(instrumentId)) InstrumentId = instrumentId;
-    }
-
-    public OKXSocketRequestArgument(string channel, string underlying, string instrumentId)
-    {
-        if (!string.IsNullOrEmpty(channel)) Channel = channel;
-        if (!string.IsNullOrEmpty(underlying)) Underlying = underlying;
-        if (!string.IsNullOrEmpty(instrumentId)) InstrumentId = instrumentId;
-    }
-
-    public OKXSocketRequestArgument(string channel, OKXInstrumentType? instrumentType)
-    {
-        if (!string.IsNullOrEmpty(channel)) Channel = channel;
-        if (instrumentType != null) InstrumentType = instrumentType;
-    }
-
-    public OKXSocketRequestArgument(string channel, OKXInstrumentType? instrumentType, string underlying)
-    {
-        if (!string.IsNullOrEmpty(channel)) Channel = channel;
-        if (!string.IsNullOrEmpty(underlying)) Underlying = underlying;
-        if (instrumentType != null) InstrumentType = instrumentType;
-    }
+    [JsonProperty("extraParams", NullValueHandling = NullValueHandling.Ignore)]
+    public Dictionary<string, object>? ExtraParams { get; set; }
 }
 
 internal class OKXSocketAuthRequest
@@ -116,18 +45,12 @@ internal class OKXSocketAuthRequest
     public OKXSocketOperation Operation { get; set; }
 
     [JsonProperty("args")]
-    public List<OKXSocketAuthRequestArgument> Arguments { get; set; }
+    public List<OKXSocketAuthRequestArgument> Arguments { get; set; } = new List<OKXSocketAuthRequestArgument>();
 
-    public OKXSocketAuthRequest(OKXSocketOperation op, params OKXSocketAuthRequestArgument[] args)
+    public OKXSocketAuthRequest(OKXSocketOperation op, OKXSocketAuthRequestArgument argument)
     {
         Operation = op;
-        Arguments = args.ToList();
-    }
-
-    public OKXSocketAuthRequest(OKXSocketOperation op, IEnumerable<OKXSocketAuthRequestArgument> args)
-    {
-        Operation = op;
-        Arguments = args.ToList();
+        Arguments.Add(argument);
     }
 }
 
