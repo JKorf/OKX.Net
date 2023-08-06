@@ -22,5 +22,9 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
+* Version 0.0.2 - 06 Aug 2023
+    * Fixed Unified socket API stream addresses
+    * Renamed Unified socket API underlying parameters to intrumentFamily
+
 * Version 0.0.1 - 04 Aug 2023
     * Initial version
