@@ -324,10 +324,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         {
             Channel = "account",
             Asset = asset,
-            ExtraParams = new Dictionary<string, object>
-            {
-                { "updateInterval", regularUpdates ? 0 : 1 }
-            }
+            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -353,10 +350,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             Symbol = symbol,
             InstrumentType = instrumentType,
             InstrumentFamily = instrumentFamily,
-            ExtraParams = new Dictionary<string, object>
-            {
-                { "updateInterval", regularUpdates ? 0 : 1 }
-            }
+            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
         });
         return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }
@@ -431,8 +425,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(
         OKXInstrumentType instrumentType,
-        string symbol,
-        string instrumentFamily,
+        string? symbol,
+        string? algoId,
         Action<OKXAlgoOrder> onData,
         CancellationToken ct = default)
     {
@@ -448,7 +442,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             Channel = "algo-advance",
             Symbol = symbol,
             InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
+            AlgoId = algoId,
         });
         return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
     }

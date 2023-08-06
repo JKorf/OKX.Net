@@ -24,10 +24,10 @@ internal class OKXSocketRequestArgument
     public string Channel { get; set; } = string.Empty;
 
     [JsonProperty("instFamily", NullValueHandling = NullValueHandling.Ignore)]
-    public string? InstrumentFamily { get; set; } = string.Empty;
+    public string? InstrumentFamily { get; set; }
 
     [JsonProperty("instId", NullValueHandling = NullValueHandling.Ignore)]
-    public string? Symbol { get; set; } = string.Empty;
+    public string? Symbol { get; set; }
 
     [JsonProperty("instType", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(InstrumentTypeConverter))]
     public OKXInstrumentType? InstrumentType { get; set; }
@@ -35,8 +35,11 @@ internal class OKXSocketRequestArgument
     [JsonProperty("ccy", NullValueHandling = NullValueHandling.Ignore)]
     public string? Asset { get; set; }
 
+    [JsonProperty("algoId", NullValueHandling = NullValueHandling.Ignore)]
+    public string? AlgoId { get; set; }
+
     [JsonProperty("extraParams", NullValueHandling = NullValueHandling.Ignore)]
-    public Dictionary<string, object>? ExtraParams { get; set; }
+    public string? ExtraParams { get; set; }
 }
 
 internal class OKXSocketAuthRequest

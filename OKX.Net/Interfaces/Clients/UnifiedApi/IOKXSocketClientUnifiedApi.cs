@@ -31,11 +31,11 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol</param>
-    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="algoId">Algo order id</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? algoId, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
