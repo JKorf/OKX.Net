@@ -111,8 +111,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddOptionalParameter("ccy", asset);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountFundingBalance>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_FundingBalances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXSubAccountFundingBalance>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXSubAccountFundingBalance>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        if (!result.Success) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
         return result.As(result.Data.Data);
     }
