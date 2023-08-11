@@ -1,0 +1,12 @@
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+    {
+        "instType":"FUTURES",
+        "instId":"BTC-USDT-201227",
+        "settlePx":"200",
+        "ts":"1597026383085"
+    }
+  ]
+}

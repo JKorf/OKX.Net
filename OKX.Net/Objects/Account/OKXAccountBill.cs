@@ -91,4 +91,46 @@ public class OKXAccountBill
     /// </summary>
     [JsonProperty("notes")]
     public string? Notes { get; set; }
+
+    /// <summary>
+    /// Marker or take
+    /// </summary>
+    [JsonProperty("execType")]
+    public string? ExecutionType { get; set; }
+
+    /// <summary>
+    /// Profit and loss
+    /// </summary>
+    [JsonProperty("pnl")]
+    public decimal? ProfitAndLoss { get; set; }
+
+    /// <summary>
+    /// Position balance
+    /// </summary>
+    [JsonProperty("posBal")]
+    public decimal? PositionBalance { get; set; }
+
+    /// <summary>
+    /// Position balance change
+    /// </summary>
+    [JsonProperty("posBalChg")]
+    public decimal? PositionBalanceChange { get; set; }
+
+    /// <summary>
+    /// Sub type
+    /// </summary>
+    [JsonProperty("subType")]
+    public string? SubType { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Price
+    /// </summary>
+    [JsonProperty("px")]
+    public decimal? Price { get; set; }
+
+    /// <summary>
+    /// Type
+    /// </summary>
+    [JsonProperty("type")]
+    public string? Type { get; set; } = string.Empty;
 }

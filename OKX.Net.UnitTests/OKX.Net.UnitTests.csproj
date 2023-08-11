@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+	  <PackageReference Include="Moq" Version="4.16.1" />
+	  <PackageReference Include="NUnit" Version="3.13.2" />
+	  <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OkX.Net\OKX.Net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="JsonResponses\Unified\SubAccounts\" />
+    <Folder Include="JsonResponses\Unified\Trading\" />
+  </ItemGroup>
+
+</Project>

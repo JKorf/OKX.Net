@@ -109,4 +109,16 @@ public class OKXOptionSummary
     /// </summary>
     [JsonProperty("realVol")]
     public decimal? RealVolatility { get; set; }
+
+    /// <summary>
+    /// Implied volatility of at-the-money options
+    /// </summary>
+    [JsonProperty("volLv")]
+    public decimal? ImpliedVolatility { get; set; }
+
+    /// <summary>
+    /// Forward price
+    /// </summary>
+    [JsonProperty("fwdPx")]
+    public decimal? ForwardPrice { get; set; }
 }

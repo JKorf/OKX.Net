@@ -225,4 +225,75 @@ public class OKXPosition
     /// </summary>
     [JsonProperty("vegaPA")]
     public decimal? VegaPA { get; set; }
+
+    /// <summary>
+    /// Latest underlying index price
+    /// </summary>
+    [JsonProperty("idxPx")]
+    public decimal? IndexPrice { get; set; }
+
+    /// <summary>
+    /// Usd price
+    /// </summary>
+    [JsonProperty("usdPx")]
+    public decimal? UsdPrice { get; set; }
+
+    /// <summary>
+    /// Latest mark price
+    /// </summary>
+    [JsonProperty("markPx")]
+    public decimal? MarkPrice { get; set; }
+
+    /// <summary>
+    /// Base asset amount already borrowed
+    /// </summary>
+    [JsonProperty("baseBorrowed")]
+    public decimal? BaseBorrowed { get; set; }
+
+    /// <summary>
+    /// Base Interest, undeducted interest that has been incurred
+    /// </summary>
+    [JsonProperty("baseInterest")]
+    public decimal? BaseInterest { get; set; }
+
+    /// <summary>
+    /// Quote asset amount already borrowed
+    /// </summary>
+    [JsonProperty("quoteBorrowed")]
+    public decimal? QuoteBorrowed { get; set; }
+    /// <summary>
+    /// Quote Interest, undeducted interest that has been incurred
+    /// </summary>
+    [JsonProperty("quoteInterest")]
+    public decimal? QuoteInterest { get; set; }
+    /// <summary>
+    /// Spot in use amount
+    /// </summary>
+    [JsonProperty("spotInUseAmt")]
+    public decimal? SpotInUseAmount { get; set; }
+    /// <summary>
+    /// Spot in use asset
+    /// </summary>
+    [JsonProperty("spotInUseCcy")]
+    public string? SpotInUseAsset { get; set; }
+    /// <summary>
+    /// External business id
+    /// </summary>
+    [JsonProperty("bizRefId")]
+    public string? BusinessId { get; set; }
+    /// <summary>
+    /// External business type
+    /// </summary>
+    [JsonProperty("bizRefType")]
+    public string? BusinessType { get; set; }
+    /// <summary>
+    /// Unrealized profit and loss calculated by last price. Main usage is showing, actual value is upl.
+    /// </summary>
+    [JsonProperty("uplLastPx")]
+    public decimal? UnrealizedPnl { get; set; }
+    /// <summary>
+    /// Unrealized profit and loss ratio calculated by last price.
+    /// </summary>
+    [JsonProperty("uplRatioLastPx")]
+    public decimal? UnrealizedPnlRatio { get; set; }
 }

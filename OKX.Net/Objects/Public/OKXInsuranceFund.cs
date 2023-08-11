@@ -15,6 +15,12 @@ public class OKXInsuranceFund
     public decimal Total { get; set; }
 
     /// <summary>
+    /// Instrument family
+    /// </summary>
+    [JsonProperty("instFamily")]
+    public string InstrumentFamily { get; set; } = string.Empty;
+
+    /// <summary>
     /// Details
     /// </summary>
     [JsonProperty("details")]

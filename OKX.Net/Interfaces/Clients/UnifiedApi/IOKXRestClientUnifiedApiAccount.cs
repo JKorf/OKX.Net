@@ -128,6 +128,7 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Retrieve the deposit addresses of currencies, including previously-used addresses.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address" /></para>
     /// </summary>
     /// <param name="asset">Asset</param>
     /// <param name="ct">Cancellation Token</param>
@@ -323,7 +324,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionSide">Position Side</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(int leverage, string? asset = null, string? symbol = null, OKXMarginMode? marginMode = null, OKXPositionSide? positionSide = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(int leverage, OKXMarginMode marginMode, string? asset = null, string? symbol = null, OKXPositionSide? positionSide = null, CancellationToken ct = default);
 
     /// <summary>
     /// FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.

@@ -1,0 +1,19 @@
+{
+    "code": "0",
+    "data": [
+        {
+            "details": [
+                {
+                    "amt": "0.2465",
+                    "balance": "3228.0732",
+                    "ccy": "BTC",
+                    "ts": "1646726421082",
+                    "type": "liquidation_balance_deposit"
+                }
+            ],
+            "instFamily": "BTC-USD",
+            "total": "883110357.6581"
+        }
+    ],
+    "msg": ""
+}

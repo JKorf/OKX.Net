@@ -33,6 +33,30 @@ public class OKXFeeRate
     public decimal? Maker { get; set; }
 
     /// <summary>
+    /// Maker fee rate of USDT-margined contracts
+    /// </summary>
+    [JsonProperty("makerU")]
+    public decimal? MakerUsdtMarginContracts { get; set; }
+
+    /// <summary>
+    /// Taker fee rate of USDT-margined contracts
+    /// </summary>
+    [JsonProperty("takerU")]
+    public decimal? TakerUsdtMarginContracts { get; set; }
+
+    /// <summary>
+    /// Maker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
+    /// </summary>
+    [JsonProperty("makerUSDC")]
+    public decimal? MakerFeeUsdc { get; set; }
+
+    /// <summary>
+    /// Taker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
+    /// </summary>
+    [JsonProperty("takerUSDC")]
+    public decimal? TakerFeeUsdc { get; set; }
+
+    /// <summary>
     /// Taker
     /// </summary>
     [JsonProperty("taker")]

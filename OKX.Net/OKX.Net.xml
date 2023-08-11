@@ -124,7 +124,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountLeverageAsync(System.String,OKX.Net.Enums.OKXMarginMode,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountLeverageAsync(System.Int32,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountLeverageAsync(System.Int32,OKX.Net.Enums.OKXMarginMode,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumAmountAsync(System.String,OKX.Net.Enums.OKXTradeMode,System.String,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
@@ -496,6 +496,56 @@
             Trading account
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.OKXAccountRoleType">
+            <summary>
+            Role type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXAccountRoleType.GeneralUser">
+            <summary>
+            Normal user
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXAccountRoleType.LeadingTrader">
+            <summary>
+            Leading trader
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXAccountRoleType.CopyTrader">
+            <summary>
+            Copy trader
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXLoanType">
+            <summary>
+            Loan type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXLoanType.VIPLoans">
+            <summary>
+            VIP loans
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXLoanType.MarketLoans">
+            <summary>
+            Market loans
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXOptionalTradingStatus">
+            <summary>
+            Status of optional trading
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXOptionalTradingStatus.NotActivated">
+            <summary>
+            Not activated
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXOptionalTradingStatus.Activated">
+            <summary>
+            Activated
+            </summary>
+        </member>
         <member name="T:OKX.Net.Enums.OKXPeriod">
             <summary>
             Period
@@ -837,6 +887,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetDepositAddressAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve the deposit addresses of currencies, including previously-used addresses.
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address" /></para>
             </summary>
             <param name="asset">Asset</param>
             <param name="ct">Cancellation Token</param>
@@ -1016,7 +1067,7 @@
             <param name="ct"></param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetAccountLeverageAsync(System.Int32,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetAccountLeverageAsync(System.Int32,OKX.Net.Enums.OKXMarginMode,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Threading.CancellationToken)">
             <summary>
             The following are the setting leverage cases for an instrument:
             Set leverage for isolated MARGIN at pairs level.
@@ -1502,7 +1553,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetTickerAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
-            <para><a href="" /></para>
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-ticker" /></para>
             </summary>
             <param name="symbol">Symbol</param>
             <param name="ct">Cancellation Token</param>
@@ -1511,7 +1562,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
-            <para><a href="" /></para>
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-tickers" /></para>
             </summary>
             <param name="instrumentType">Instrument Type</param>
             <param name="underlying">Underlying</param>
@@ -1523,7 +1574,7 @@
             Get trades history
             Retrieve the recent transactions of an instrument from the last 3 months with pagination.
             Rate Limit: 10 requests per 2 seconds
-            <para><a href="" /></para>
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-trades-history" /></para>
             </summary>
             <param name="symbol">Symbol, e.g. BTC-USDT</param>
             <param name="type">Pagination Type</param>
@@ -1545,7 +1596,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetVIPInterestRatesAsync(System.Threading.CancellationToken)">
             <summary>
             Get interest rate and loan quota for VIP loans
-            <para><a href="" /></para>
+            <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-interest-rate-and-loan-quota" /></para>
             </summary>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
@@ -2338,6 +2389,16 @@
             Strategy equity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.FixedBalance">
+            <summary>
+            Frozen balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotInUseAmount">
+            <summary>
+            Spot in use amount
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">
             <summary>
             Account bill info
@@ -2413,6 +2474,41 @@
             Notes
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.ExecutionType">
+            <summary>
+            Marker or take
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.ProfitAndLoss">
+            <summary>
+            Profit and loss
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.PositionBalance">
+            <summary>
+            Position balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.PositionBalanceChange">
+            <summary>
+            Position balance change
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.SubType">
+            <summary>
+            Sub type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.Price">
+            <summary>
+            Price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.Type">
+            <summary>
+            Type
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountConfiguration">
             <summary>
             Account config
@@ -2471,6 +2567,41 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.SpotOffsetType">
             <summary>
             Spot offset type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.Label">
+            <summary>
+            API key note
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.RoleType">
+            <summary>
+            Account role
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.OpAuth">
+            <summary>
+            Optional trading activation status
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.KycLevel">
+            <summary>
+            KYC level
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.Ip">
+            <summary>
+            IP addresses linked to the current API key
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.Permissions">
+            <summary>
+            Permissions of the current API key
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.MainUserId">
+            <summary>
+            Main user id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountGreeksType">
@@ -2573,6 +2704,16 @@
             Underlying
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.PnlRatio">
+            <summary>
+            Profit and loss ratio
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXFeeRate">
             <summary>
             Fee rate
@@ -2596,6 +2737,26 @@
         <member name="P:OKX.Net.Objects.Account.OKXFeeRate.Maker">
             <summary>
             Maker
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeRate.MakerUsdtMarginContracts">
+            <summary>
+            Maker fee rate of USDT-margined contracts
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeRate.TakerUsdtMarginContracts">
+            <summary>
+            Taker fee rate of USDT-margined contracts
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeRate.MakerFeeUsdc">
+            <summary>
+            Maker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeRate.TakerFeeUsdc">
+            <summary>
+            Taker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXFeeRate.Taker">
@@ -2658,6 +2819,11 @@
             Timestamp
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXInterestAccrued.Type">
+            <summary>
+            Loan type
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXInterestRate">
             <summary>
             Interest rate
@@ -2711,6 +2877,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXMarginAmount.PositionSide">
             <summary>
             Position side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXMarginAmount.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXMarginAmount.Leverage">
+            <summary>
+            Real leverage after the margin adjustment
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXMarginAmount.Quantity">
@@ -2993,6 +3169,71 @@
             Vega PA
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.IndexPrice">
+            <summary>
+            Latest underlying index price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.UsdPrice">
+            <summary>
+            Usd price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.MarkPrice">
+            <summary>
+            Latest mark price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.BaseBorrowed">
+            <summary>
+            Base asset amount already borrowed
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.BaseInterest">
+            <summary>
+            Base Interest, undeducted interest that has been incurred
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.QuoteBorrowed">
+            <summary>
+            Quote asset amount already borrowed
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.QuoteInterest">
+            <summary>
+            Quote Interest, undeducted interest that has been incurred
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.SpotInUseAmount">
+            <summary>
+            Spot in use amount
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.SpotInUseAsset">
+            <summary>
+            Spot in use asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.BusinessId">
+            <summary>
+            External business id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.BusinessType">
+            <summary>
+            External business type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.UnrealizedPnl">
+            <summary>
+            Unrealized profit and loss calculated by last price. Main usage is showing, actual value is upl.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.UnrealizedPnlRatio">
+            <summary>
+            Unrealized profit and loss ratio calculated by last price.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountPositionMode">
             <summary>
             Position mode
@@ -3103,6 +3344,16 @@
             Position side
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.BaseBalance">
+            <summary>
+            Base asset balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.QuoteBalance">
+            <summary>
+            Quote asset balance
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXWithdrawalAmount">
             <summary>
             Withdrawal info
@@ -3116,6 +3367,21 @@
         <member name="P:OKX.Net.Objects.Account.OKXWithdrawalAmount.MaximumWithdrawal">
             <summary>
             Maximum withdrawal amount
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXWithdrawalAmount.MaximumWithdrawalIncl">
+            <summary>
+            Max withdrawal (including borrowed assets under Multi-currency margin/Portfolio margin)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXWithdrawalAmount.MaximumWithdrawalSpotOffset">
+            <summary>
+            Max withdrawal under Spot-Derivatives risk offset mode (excluding borrowed assets under Portfolio margin)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXWithdrawalAmount.MaximumWithdrawalSpotOffsetIncl">
+            <summary>
+            Max withdrawal under Spot-Derivatives risk offset mode (including borrowed assets under Portfolio margin)
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiError">
@@ -3200,6 +3466,81 @@
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaximumWithdrawalFee">
             <summary>
             Maximum withdrawal fee
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxDeposit">
+            <summary>
+            The fixed deposit limit, unit in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxDepositLayer2">
+            <summary>
+            The layer2 network daily deposit limit
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.LogoLink">
+            <summary>
+            Logo link
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.IsMainNet">
+            <summary>
+            Main net
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxWithdrawalFeeForContractAddress">
+            <summary>
+            The maximum withdrawal fee for contract address
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinWithdrawalFeeForContractAddress">
+            <summary>
+            The minimum withdrawal fee for contract address
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxWithdrawal">
+            <summary>
+            The maximum withdrawal amount in a single transaction
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinDeposit">
+            <summary>
+            The minimum deposit amount in a single transaction
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinDepositConfirmations">
+            <summary>
+            The minimum number of blockchain confirmations to acknowledge fund deposit.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinDepositConfirmationsWithdraw">
+            <summary>
+            The minimum number of blockchain confirmations required for withdrawal of a deposit
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.NeedsTag">
+            <summary>
+            Whether tag/memo information is required for withdrawal
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.UsedDepositQuota">
+            <summary>
+            The used amount of fixed deposit quota, unit in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.UsedWithdrawalQuota">
+            <summary>
+            The amount of currency withdrawal used in the past 24 hours, unit in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxWithdrawal24h">
+            <summary>
+            The withdrawal limit in the past 24 hours, unit in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.WithdrawalTickSize">
+            <summary>
+            The withdrawal precision, indicating the number of digits after the decimal point.
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Funding.OKXDepositAddress">
@@ -3302,6 +3643,21 @@
             Deposit state
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositHistory.Confirmations">
+            <summary>
+            Actual amount of blockchain confirm in a single deposit
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositHistory.AreaCodeFrom">
+            <summary>
+            If from is a phone number, this parameter return area code of the phone number
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositHistory.FromWithdrawalId">
+            <summary>
+            Internal transfer initiator's withdrawal ID
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXFundingBalance">
             <summary>
             Funding balance
@@ -3360,6 +3716,11 @@
         <member name="P:OKX.Net.Objects.Funding.OKXFundingBill.Time">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXFundingBill.ClientId">
+            <summary>
+            Client id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Funding.OKXLightningDeposit">
@@ -3487,6 +3848,11 @@
             To account
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferResponse.ClientId">
+            <summary>
+            Client id
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXWithdrawalHistory">
             <summary>
             Withdrawal history
@@ -3542,6 +3908,21 @@
             Quantity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalHistory.ClientId">
+            <summary>
+            Client id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalHistory.AreaCodeFrom">
+            <summary>
+            Area code for the phone number
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalHistory.AreaCodeTo">
+            <summary>
+            Area code for the phone number
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXWithdrawalId">
             <summary>
             Withdrawal id
@@ -3575,6 +3956,11 @@
         <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalResponse.WithdrawalId">
             <summary>
             Withdrawal id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalResponse.ClientId">
+            <summary>
+            Client id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Market.OKX24HourVolume">
@@ -4262,6 +4648,11 @@
             Instrument ID, e.g. BTC-USD-SWAP
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.InstrumentFamily">
+            <summary>
+            Instrument family, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Public.OKXInstrument.Underlying">
             <summary>
             Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
@@ -4357,6 +4748,36 @@
             State
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxLimitQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot limit order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxMarketQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot market order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxTwapQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot twap order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxIcebergQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot iceBerg order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxTriggerQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot trigger order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxStopQuantity">
+            <summary>
+            The maximum order quantity of the contract or spot stop market order.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund
@@ -4365,6 +4786,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXInsuranceFund.Total">
             <summary>
             Total
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInsuranceFund.InstrumentFamily">
+            <summary>
+            Instrument family
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXInsuranceFund.Details">
@@ -4727,6 +5153,16 @@
             Real volatitlity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXOptionSummary.ImpliedVolatility">
+            <summary>
+            Implied volatility of at-the-money options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXOptionSummary.ForwardPrice">
+            <summary>
+            Forward price
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXPositionTier">
             <summary>
             Position tier
@@ -4735,6 +5171,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXPositionTier.Symbol">
             <summary>
             Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPositionTier.InstrumentFamily">
+            <summary>
+            Instrument family
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXPositionTier.Underlying">

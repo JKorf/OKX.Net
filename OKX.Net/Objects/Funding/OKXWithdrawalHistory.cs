@@ -67,4 +67,22 @@ public class OKXWithdrawalHistory
     /// </summary>
     [JsonProperty("amt")]
     public decimal Quantity { get; set; }
+
+    /// <summary>
+    /// Client id
+    /// </summary>
+    [JsonProperty("clientId")]
+    public string? ClientId { get; set; }
+
+    /// <summary>
+    /// Area code for the phone number
+    /// </summary>
+    [JsonProperty("areaCodeFrom")]
+    public string? AreaCodeFrom { get; set; }
+
+    /// <summary>
+    /// Area code for the phone number
+    /// </summary>
+    [JsonProperty("areaCodeTo")]
+    public string? AreaCodeTo { get; set; }
 }

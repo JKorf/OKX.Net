@@ -148,7 +148,7 @@ public class OKXAccountBalanceDetail
     /// <summary>
     /// Unrealized profit and loss liabilities
     /// </summary>
-    [JsonProperty("uplLib")]
+    [JsonProperty("uplLiab")]
     public decimal? UnrealizedProfitAndLossLiabilities { get; set; }
 
     /// <summary>
@@ -178,7 +178,7 @@ public class OKXAccountBalanceDetail
     /// <summary>
     /// Interest
     /// </summary>
-    [JsonProperty("Interest")]
+    [JsonProperty("interest")]
     public decimal? Interest { get; set; }
 
     /// <summary>
@@ -210,4 +210,16 @@ public class OKXAccountBalanceDetail
     /// </summary>
     [JsonProperty("stgyEq")]
     public decimal? StrategyEquity { get; set; }
+
+    /// <summary>
+    /// Frozen balance
+    /// </summary>
+    [JsonProperty("fixedBal")]
+    public decimal? FixedBalance { get; set; }
+
+    /// <summary>
+    /// Spot in use amount
+    /// </summary>
+    [JsonProperty("spotInUseAmt")]
+    public decimal? SpotInUseAmount { get; set; }
 }

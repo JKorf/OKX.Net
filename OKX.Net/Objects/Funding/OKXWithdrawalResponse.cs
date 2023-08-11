@@ -28,4 +28,10 @@ public class OKXWithdrawalResponse
     /// </summary>
     [JsonProperty("wdId")]
     public string WithdrawalId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Client id
+    /// </summary>
+    [JsonProperty("clientId")]
+    public string? ClientId { get; set; }
 }

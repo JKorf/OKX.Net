@@ -74,4 +74,48 @@ public class OKXAccountConfiguration
     /// </summary>
     [JsonProperty("spotOffsetType")]
     public string SpotOffsetType { get; set; } = string.Empty;
+
+    /// <summary>
+    /// API key note
+    /// </summary>
+    [JsonProperty("label")]
+    public string Label { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Account role
+    /// </summary>
+    [JsonProperty("roleType")]
+    [JsonConverter(typeof(EnumConverter))]
+    public OKXAccountRoleType RoleType { get; set; }
+
+    /// <summary>
+    /// Optional trading activation status
+    /// </summary>
+    [JsonProperty("opAuth")]
+    [JsonConverter (typeof(EnumConverter))]
+    public OKXOptionalTradingStatus OpAuth { get; set; }
+
+    /// <summary>
+    /// KYC level
+    /// </summary>
+    [JsonProperty("kycLv")]
+    public string KycLevel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// IP addresses linked to the current API key
+    /// </summary>
+    [JsonProperty("ip")]
+    public string Ip { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Permissions of the current API key
+    /// </summary>
+    [JsonProperty("perm")]
+    public string Permissions { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Main user id
+    /// </summary>
+    [JsonProperty("mainUid")]
+    public string MainUserId { get; set; } = string.Empty;
 }

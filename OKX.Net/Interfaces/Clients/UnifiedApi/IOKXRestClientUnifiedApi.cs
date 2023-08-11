@@ -3,7 +3,7 @@
 /// <summary>
 /// Unified API endpoints
 /// </summary>
-public interface IOKXRestClientUnifiedApi : IBaseApiClient
+public interface IOKXRestClientUnifiedApi : IRestApiClient
 {
     /// <summary>
     /// Endpoints related to account settings, info or actions

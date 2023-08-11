@@ -43,4 +43,10 @@ public class OKXFundingBill
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Client id
+    /// </summary>
+    [JsonProperty("clientId")]
+    public string? ClientId { get; set; }
 }

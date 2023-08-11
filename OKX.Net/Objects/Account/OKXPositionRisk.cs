@@ -121,4 +121,16 @@ public class OKXAccountPositionRiskPositionData
     /// </summary>
     [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
     public OKXPositionSide PositionSide { get; set; }
+
+    /// <summary>
+    /// Base asset balance
+    /// </summary>
+    [JsonProperty("baseBal")]
+    public decimal? BaseBalance { get; set; }
+
+    /// <summary>
+    /// Quote asset balance
+    /// </summary>
+    [JsonProperty("quoteBal")]
+    public decimal? QuoteBalance { get; set; }
 }

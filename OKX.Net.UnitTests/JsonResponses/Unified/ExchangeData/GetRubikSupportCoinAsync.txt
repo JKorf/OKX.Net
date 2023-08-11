@@ -1,0 +1,17 @@
+{
+    "code": "0",
+    "data": {
+        "contract": [
+            "ADA",
+            "BTC"
+        ],
+        "option": [
+            "BTC"
+        ],
+        "spot": [
+            "ADA",
+            "BTC"
+        ]
+    },
+    "msg": ""
+}

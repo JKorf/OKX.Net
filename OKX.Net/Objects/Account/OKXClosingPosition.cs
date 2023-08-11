@@ -109,4 +109,16 @@ public class OKXClosingPosition
     /// </summary>
     [JsonProperty("uly")]
     public string Underlying { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Asset
+    /// </summary>
+    [JsonProperty("ccy")]
+    public string? Asset { get; set; }
+
+    /// <summary>
+    /// Profit and loss ratio
+    /// </summary>
+    [JsonProperty("pnlRatio")]
+    public decimal? PnlRatio { get; set; }
 }

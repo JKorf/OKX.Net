@@ -6,7 +6,7 @@ namespace OKX.Net.Interfaces.Clients;
 /// <summary>
 /// Client for accessing the OKX Rest API. 
 /// </summary>
-public interface IOKXRestClient
+public interface IOKXRestClient: IRestClient
 {
     /// <summary>
     /// Unified API endpoints

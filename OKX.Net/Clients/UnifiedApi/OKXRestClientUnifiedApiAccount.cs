@@ -257,9 +257,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(
         int leverage,
+        OKXMarginMode marginMode,
         string? asset = null,
         string? symbol = null,
-        OKXMarginMode? marginMode = null,
         OKXPositionSide? positionSide = null,
         CancellationToken ct = default)
     {
@@ -268,9 +268,6 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         if (string.IsNullOrEmpty(asset) && string.IsNullOrEmpty(symbol))
             throw new ArgumentException("Either instId or ccy is required; if both are passed, instId will be used by default.");
-
-        if (marginMode == null)
-            throw new ArgumentException("marginMode is required");
 
         var parameters = new Dictionary<string, object> {
             {"lever", leverage.ToString() },

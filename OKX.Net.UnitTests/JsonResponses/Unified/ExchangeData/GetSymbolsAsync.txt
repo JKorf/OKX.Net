@@ -1,0 +1,36 @@
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+    {
+        "instType":"SWAP",
+        "instId":"LTC-USD-SWAP",
+        "instFamily":"LTC-USD",
+        "uly":"LTC-USD",
+        "category":"1",
+        "baseCcy":"",
+        "quoteCcy":"",
+        "settleCcy":"LTC",
+        "ctVal":"10",
+        "ctMult":"1",
+        "ctValCcy":"USD",
+        "optType":"C",
+        "stk":"",
+        "listTime":"1597026383085",
+        "expTime":"1597026383085",
+        "lever":"10",
+        "tickSz":"0.01",
+        "lotSz":"1",
+        "minSz":"1",
+        "ctType":"inverse",
+        "alias":"this_week",
+        "state":"live",
+        "maxLmtSz":"10000",
+        "maxMktSz":"99999",
+        "maxTwapSz":"99999",
+        "maxIcebergSz":"99999",
+        "maxTriggerSz":"9999",
+        "maxStopSz":"9999"
+    }
+  ]
+}

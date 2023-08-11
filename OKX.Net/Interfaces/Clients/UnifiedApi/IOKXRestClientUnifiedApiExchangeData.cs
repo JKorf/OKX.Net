@@ -412,7 +412,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
 
     /// <summary>
     /// Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
-    /// <para><a href="" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-ticker" /></para>
     /// </summary>
     /// <param name="symbol">Symbol</param>
     /// <param name="ct">Cancellation Token</param>
@@ -421,7 +421,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
 
     /// <summary>
     /// Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.
-    /// <para><a href="" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-tickers" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
@@ -433,7 +433,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// Get trades history
     /// Retrieve the recent transactions of an instrument from the last 3 months with pagination.
     /// Rate Limit: 10 requests per 2 seconds
-    /// <para><a href="" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-trades-history" /></para>
     /// </summary>
     /// <param name="symbol">Symbol, e.g. BTC-USDT</param>
     /// <param name="type">Pagination Type</param>
@@ -455,7 +455,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
 
     /// <summary>
     /// Get interest rate and loan quota for VIP loans
-    /// <para><a href="" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-interest-rate-and-loan-quota" /></para>
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>

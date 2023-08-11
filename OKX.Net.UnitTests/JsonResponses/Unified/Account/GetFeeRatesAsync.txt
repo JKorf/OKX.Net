@@ -1,0 +1,19 @@
+{
+  "code": "0",
+  "msg": "",
+  "data": [{
+    "category": "1", //Deprecated
+    "delivery": "",
+    "exercise": "",
+    "instType": "SPOT",
+    "level": "lv1",
+    "maker": "-0.0008",
+    "makerU": "",
+    "makerUSDC": "",
+    "taker": "-0.001",
+    "takerU": "",
+    "takerUSDC": "",
+    "ts": "1608623351857"
+  }
+  ]
+}

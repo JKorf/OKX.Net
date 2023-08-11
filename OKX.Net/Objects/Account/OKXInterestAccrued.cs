@@ -49,4 +49,11 @@ public class OKXInterestAccrued
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Loan type
+    /// </summary>
+    [JsonProperty("type")]
+    [JsonConverter(typeof(EnumConverter))]
+    public OKXLoanType Type { get; set; }
 }

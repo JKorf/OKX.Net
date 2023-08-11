@@ -21,6 +21,12 @@ public class OKXInstrument
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
+    /// Instrument family, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
+    /// </summary>
+    [JsonProperty("instFamily")]
+    public string InstrumentFamily { get; set; } = string.Empty;
+
+    /// <summary>
     /// Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
     [JsonProperty("uly")]
@@ -133,4 +139,35 @@ public class OKXInstrument
     /// </summary>
     [JsonProperty("state"), JsonConverter(typeof(InstrumentStateConverter))]
     public OKXInstrumentState state { get; set; }
+
+    /// <summary>
+    /// The maximum order quantity of the contract or spot limit order.
+    /// </summary>
+    [JsonProperty("maxLmtSz")]
+    public decimal MaxLimitQuantity { get; set; }
+    /// <summary>
+    /// The maximum order quantity of the contract or spot market order.
+    /// </summary>
+    [JsonProperty("maxMktSz")]
+    public decimal MaxMarketQuantity { get; set; }
+    /// <summary>
+    /// The maximum order quantity of the contract or spot twap order.
+    /// </summary>
+    [JsonProperty("maxTwapSz")]
+    public decimal MaxTwapQuantity { get; set; }
+    /// <summary>
+    /// The maximum order quantity of the contract or spot iceBerg order.
+    /// </summary>
+    [JsonProperty("maxIcebergSz")]
+    public decimal MaxIcebergQuantity { get; set; }
+    /// <summary>
+    /// The maximum order quantity of the contract or spot trigger order.
+    /// </summary>
+    [JsonProperty("maxTriggerSz")]
+    public decimal MaxTriggerQuantity { get; set; }
+    /// <summary>
+    /// The maximum order quantity of the contract or spot stop market order.
+    /// </summary>
+    [JsonProperty("maxStopSz")]
+    public decimal MaxStopQuantity { get; set; }
 }

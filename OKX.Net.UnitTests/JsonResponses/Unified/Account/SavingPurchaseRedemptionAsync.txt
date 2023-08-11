@@ -1,0 +1,12 @@
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "ccy":"BTC",
+            "amt":"1",
+            "side":"purchase",
+            "rate": "0.01"
+        }
+    ]
+}

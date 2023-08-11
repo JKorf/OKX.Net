@@ -22,6 +22,19 @@
   <PropertyGroup>
     <DocumentationFile>OKX.Net.xml</DocumentationFile>
   </PropertyGroup>
+	<PropertyGroup Label="Deterministic Build" Condition="'$(Configuration)' == 'Release'">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+	<ItemGroup Label="Deterministic Build" Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/jkorf/OKX.Net</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jkorf/OKX.Net</RepositoryUrl>

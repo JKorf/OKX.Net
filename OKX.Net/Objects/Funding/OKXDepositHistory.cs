@@ -61,4 +61,22 @@ public class OKXDepositHistory
     /// </summary>
     [JsonProperty("state"), JsonConverter(typeof(DepositStateConverter))]
     public OKXDepositState State { get; set; }
+
+    /// <summary>
+    /// Actual amount of blockchain confirm in a single deposit
+    /// </summary>
+    [JsonProperty("actualDepBlkConfirm")]
+    public int? Confirmations { get; set; }
+
+    /// <summary>
+    /// If from is a phone number, this parameter return area code of the phone number
+    /// </summary>
+    [JsonProperty("areaCodeFrom")]
+    public string? AreaCodeFrom { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Internal transfer initiator's withdrawal ID
+    /// </summary>
+    [JsonProperty("fromWdId")]
+    public string? FromWithdrawalId { get; set; } = string.Empty;
 }

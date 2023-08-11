@@ -21,6 +21,18 @@ public class OKXMarginAmount
     public OKXPositionSide? PositionSide { get; set; }
 
     /// <summary>
+    /// Asset
+    /// </summary>
+    [JsonProperty("ccy")]
+    public string? Asset { get; set; }
+
+    /// <summary>
+    /// Real leverage after the margin adjustment
+    /// </summary>
+    [JsonProperty("leverage")]
+    public string? Leverage { get; set; }
+
+    /// <summary>
     /// Quantity
     /// </summary>
     [JsonProperty("amt")]

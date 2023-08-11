@@ -1,0 +1,28 @@
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+            "bal": "256.27611382",
+            "balChg": "256.27611382",
+            "billId": "374241568911437826",
+            "ccy": "GODS",
+            "execType": "",
+            "fee": "",
+            "from": "6",
+            "instId": "",
+            "instType": "",
+            "mgnMode": "",
+            "notes": "From",
+            "ordId": "",
+            "pnl": "",
+            "posBal": "",
+            "posBalChg": "",
+            "subType": "11",
+            "sz": "256.27611382",
+            "px": "",
+            "to": "18",
+            "ts": "1635498143100",
+            "type": "1"
+        }
+    ]
+}

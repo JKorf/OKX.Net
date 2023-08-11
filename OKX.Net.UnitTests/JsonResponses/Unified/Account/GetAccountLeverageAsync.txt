@@ -1,0 +1,15 @@
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "instId": "BTC-USDT-200626",
+        "mgnMode": "cross",
+        "posSide": "long",
+        "lever": "10"
+    },{
+        "instId": "BTC-USDT-200626",
+        "mgnMode": "cross",
+        "posSide": "short",
+        "lever": "10"
+    }]
+}

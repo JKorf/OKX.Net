@@ -37,4 +37,10 @@ public class OKXTransferResponse
     /// </summary>
     [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
     public OKXAccount? To { get; set; }
+
+    /// <summary>
+    /// Client id
+    /// </summary>
+    [JsonProperty("clientId")]
+    public string? ClientId { get; set; }
 }
