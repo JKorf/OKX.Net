@@ -31,7 +31,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountFundingBalance>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXSubAccountFundingBalance>>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
