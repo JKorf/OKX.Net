@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OkX.Net\OKX.Net.csproj" />
+    <ProjectReference Include="..\OKX.Net\OKX.Net.csproj" />
   </ItemGroup>
 
 </Project>
