@@ -43,7 +43,7 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel unfilled algo orders(trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /></para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -316,7 +316,7 @@ public interface IOKXRestClientUnifiedApiTrading
         OXKTriggerPriceType? stopLossTriggerPriceType = null,
         OKXQuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
-        SelfTradePreventionMode? selfTradePreventionMode = null,
+        OKXSelfTradePreventionMode? selfTradePreventionMode = null,
 
         string? asset = null,
         OKXQuantityAsset? quantityAsset = null,

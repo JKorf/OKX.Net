@@ -1,0 +1,6 @@
+{
+      "instType": "FUTURES",
+      "instId": "LTC-USD-190628",
+      "markPx": "0.1",
+      "ts": "1597026383085"
+    }

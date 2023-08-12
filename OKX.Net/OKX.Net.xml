@@ -340,7 +340,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
@@ -451,13 +451,13 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionRisk},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXOrderUpdate},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToAdvanceAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.SubscribeToAdvanceAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
@@ -529,6 +529,26 @@
         <member name="F:OKX.Net.Enums.OKXLoanType.MarketLoans">
             <summary>
             Market loans
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXMaintenanceType">
+            <summary>
+            Type of maintenance
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXMaintenanceType.ScheduledMaintenance">
+            <summary>
+            Scheduled
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXMaintenanceType.UnscheduledMaintenance">
+            <summary>
+            Unscheduled
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXMaintenanceType.SystemDisruption">
+            <summary>
+            Disruption
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OKXOptionalTradingStatus">
@@ -666,6 +686,26 @@
             Auto repay
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.OKXSelfTradePreventionMode">
+            <summary>
+            Self trade prevention mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXSelfTradePreventionMode.CancelMaker">
+            <summary>
+            Cancel maker
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXSelfTradePreventionMode.CancelTaker">
+            <summary>
+            Cancel taker
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXSelfTradePreventionMode.CancelBoth">
+            <summary>
+            Cancel both
+            </summary>
+        </member>
         <member name="T:OKX.Net.Enums.OXKTriggerPriceType">
             <summary>
             Trigger price tpye
@@ -684,26 +724,6 @@
         <member name="F:OKX.Net.Enums.OXKTriggerPriceType.Mark">
             <summary>
             Mark price
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Enums.SelfTradePreventionMode">
-            <summary>
-            Self trade prevention mode
-            </summary>
-        </member>
-        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelMaker">
-            <summary>
-            Cancel maker
-            </summary>
-        </member>
-        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelTaker">
-            <summary>
-            Cancel taker
-            </summary>
-        </member>
-        <member name="F:OKX.Net.Enums.SelfTradePreventionMode.CancelBoth">
-            <summary>
-            Cancel both
             </summary>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.IOKXRestClient">
@@ -1735,7 +1755,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.CancelAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
             <summary>
             Cancel unfilled algo orders(trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-            <para><a href="" /></para>
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /></para>
             </summary>
             <param name="orders">Orders</param>
             <param name="ct">Cancellation Token</param>
@@ -1937,7 +1957,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuantityType},System.Threading.CancellationToken)">
             <summary>
             You can place an order only if you have sufficient funds.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
@@ -1982,7 +2002,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToAdvanceAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToAdvanceAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate},System.Threading.CancellationToken)">
             <summary>
             Subscribe to advance algo orders (includes iceberg order and twap order) updates. Data will be pushed when first subscribed. Data will be pushed when triggered by events such as placing/canceling order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-advance-algo-orders-channel" /></para>
@@ -1994,7 +2014,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate},System.Threading.CancellationToken)">
             <summary>
             Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-algo-orders-channel" /></para>
@@ -2127,7 +2147,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXOrder},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SubscribeToOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{OKX.Net.Objects.Trade.OKXOrderUpdate},System.Threading.CancellationToken)">
             <summary>
             Subscribe to order information updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-order-channel" /></para>
@@ -2397,6 +2417,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotInUseAmount">
             <summary>
             Spot in use amount
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.AssetUsdPrice">
+            <summary>
+            Price index usd of the asset
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">
@@ -3289,6 +3314,16 @@
             Equity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskBalanceData.CashBalance">
+            <summary>
+            Cash balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskBalanceData.UpdateTime">
+            <summary>
+            Update time
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData">
             <summary>
             Position info
@@ -3329,9 +3364,19 @@
             Position quantity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.AverageOpenPrice">
+            <summary>
+            Average open price
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.PositionAsset">
             <summary>
             Position asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.TradeId">
+            <summary>
+            Last trade ID
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.PositionId">
@@ -3352,6 +3397,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.QuoteBalance">
             <summary>
             Quote asset balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.UpdateTime">
+            <summary>
+            Update time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXWithdrawalAmount">
@@ -4219,6 +4269,16 @@
         <member name="P:OKX.Net.Objects.Market.OKXOrderBook.Checksum">
             <summary>
             Checksum
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXOrderBook.SequenceId">
+            <summary>
+            Update sequence id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXOrderBook.PreviousSequenceId">
+            <summary>
+            Previous sequence id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Market.OKXOrderBookRow">
@@ -5235,7 +5295,7 @@
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXTime.Time">
             <summary>
-            System time, Unix timestamp format in milliseconds, e.g. 1597026383085
+            System time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXUnitConvert">
@@ -5351,6 +5411,11 @@
         <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccount.Type">
             <summary>
             Type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccount.Uid">
+            <summary>
+            Id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.SubAccount.OKXSubAccountApiKey">
@@ -5650,12 +5715,17 @@
         </member>
         <member name="P:OKX.Net.Objects.System.OKXStatus.Begin">
             <summary>
-            Begin time of system maintenance, Unix timestamp format in milliseconds, e.g. 1617788463867
+            Begin time of system maintenance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXStatus.PreOpenBegin">
+            <summary>
+            The time of pre_open. Canceling orders, placing Post Only orders, and transferring funds to trading accounts are back after PreOpenBegin
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.System.OKXStatus.End">
             <summary>
-            End time of system maintenance, Unix timestamp format in milliseconds, e.g. 1617788463867
+            End time of system maintenance
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.System.OKXStatus.Link">
@@ -5676,6 +5746,21 @@
         <member name="P:OKX.Net.Objects.System.OKXStatus.RescheduledDescription">
             <summary>
             Rescheduled description，e.g. Rescheduled from 2021-01-26T16:30:00.000Z to 2021-01-28T16:30:00.000Z
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXStatus.MaintenanceType">
+            <summary>
+            Maintenance type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXStatus.Environment">
+            <summary>
+            Environment. 1: Production Trading, 2: Demo Trading
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.System.OKXStatus.Timestamp">
+            <summary>
+            Push timestamp
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrder">
@@ -5701,6 +5786,16 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.OrderId">
             <summary>
             Order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.OrderIdList">
+            <summary>
+            Order id list
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.Asset">
@@ -5828,6 +5923,76 @@
             Actual side
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CloseFraction">
+            <summary>
+            Fraction of position to be closed when the algo order is triggered
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TakeProfitTriggerPriceType">
+            <summary>
+            Take profit trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.StopLossTriggerPriceType">
+            <summary>
+            Stop loss trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TriggerPriceType">
+            <summary>
+            Trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.Tag">
+            <summary>
+            Tag
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CallbackRatio">
+            <summary>
+            Callback price ratio
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CallbackSpread">
+            <summary>
+            Callback price variance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.ActivePrice">
+            <summary>
+            Active price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.MoveTriggerPrice">
+            <summary>
+            Trigger price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.LastPrice">
+            <summary>
+            Last filled price while placing
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.FailCode">
+            <summary>
+            Failure code of the trigger order
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.AlgoClientOrderId">
+            <summary>
+            Client algo order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.QuickMarginType">
+            <summary>
+            Quick Margin type
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderRequest">
             <summary>
             Algo order request
@@ -5853,6 +6018,16 @@
             Algo order id
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderResponse.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderResponse.AgloClientOrderId">
+            <summary>
+            Algo client order id
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderResponse.Code">
             <summary>
             Code
@@ -5861,6 +6036,36 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderResponse.Message">
             <summary>
             Message
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate">
+            <summary>
+            Algo order update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.AmendResult">
+            <summary>
+            The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.AmendSource">
+            <summary>
+            Source of the order amendation. 1: Order amended by user, 2: Order amended by user, but the order quantity is overriden by system due to reduce-only, 3: New order placed by user, but the order quantity is overriden by system due to reduce-only, 4: Order amended by system due to other pending orders
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.NotionalUsd">
+            <summary>
+            Estimated national value in USD of order
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.RequestId">
+            <summary>
+            Client Request ID as assigned by the client for order amendment
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.AlgoOrderCount">
+            <summary>
+            Algo Order count, only applicable to iceberg order or twap order
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXClosePositionResponse">
@@ -5876,6 +6081,16 @@
         <member name="P:OKX.Net.Objects.Trade.OKXClosePositionResponse.PositionSide">
             <summary>
             Position side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXClosePositionResponse.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXClosePositionResponse.Tag">
+            <summary>
+            Tag
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrder">
@@ -6046,6 +6261,66 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.ReduceOnly">
             <summary>
             Reduce only
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.AttachAlgoCllientOrderId">
+            <summary>
+            Client-supplied Algo ID when plaing order attaching TP/SL.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.TakeProfitTriggerPriceType">
+            <summary>
+            Take profit trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.StopLossTriggerPriceType">
+            <summary>
+            Stop loss trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.SelfTradePreventionId">
+            <summary>
+            Self trade prevention ID
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.SelfTradePreventionMode">
+            <summary>
+            Self trade prevention mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.Source">
+            <summary>
+            Order source
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.CancelSource">
+            <summary>
+            Code of the cancellation source.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.CancelSourceReason">
+            <summary>
+            Reason of the cancellation source.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.AlgoClientOrderId">
+            <summary>
+            Client algo order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.AlgoId">
+            <summary>
+            Algo id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.QuickMarginType">
+            <summary>
+            Quick Margin type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderAmendRequest">
@@ -6258,6 +6533,58 @@
             Message
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXOrderUpdate">
+            <summary>
+            Order info update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.AmendResult">
+            <summary>
+            The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.AmendSource">
+            <summary>
+            Source of the order amendation. 1: Order amended by user, 2: Order amended by user, but the order quantity is overriden by system due to reduce-only, 3: New order placed by user, but the order quantity is overriden by system due to reduce-only, 4: Order amended by system due to other pending orders
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.ExecutionType">
+            <summary>
+            Liquidity taker or maker of the last filled, T: taker M: maker
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.FillFee">
+            <summary>
+            Last filled fee amount or rebate amount:
+            Negative number represents the user transaction fee charged by the platform;
+            Positive number represents rebate
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.FillFeeAsset">
+            <summary>
+            Last filled fee currency or rebate currency.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.FillNotionalUsd">
+            <summary>
+            Filled notional value in USD of order
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.FillPnl">
+            <summary>
+            Last filled profit and loss
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.NotionalUsd">
+            <summary>
+            Estimated national value in USD of order
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.RequestId">
+            <summary>
+            Client Request ID as assigned by the client for order amendment
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXTransaction">
             <summary>
             Transaction info
@@ -6308,6 +6635,16 @@
             Fill quantity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillIndexPrice">
+            <summary>
+            Index price at the moment of trade execution
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillProfitAndLoss">
+            <summary>
+            Last filled profit and loss, applicable to orders which have a trade and aim to close position
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Trade.OKXTransaction.OrderSide">
             <summary>
             Order side
@@ -6333,9 +6670,14 @@
             Fee
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillTime">
+            <summary>
+            Trade time
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Trade.OKXTransaction.Time">
             <summary>
-            Time
+            Data time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trading.OKXInterestVolume">

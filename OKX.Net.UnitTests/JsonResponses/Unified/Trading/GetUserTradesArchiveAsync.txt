@@ -1,0 +1,46 @@
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+         {
+            "instType":"FUTURES",
+            "instId":"BTC-USD-200329",
+            "tradeId":"123",
+            "ordId":"123445",
+            "clOrdId": "b16",
+            "billId":"1111",
+            "tag":"",
+            "fillPx":"999",
+            "fillSz":"3",
+            "fillIdxPx":"998",
+            "fillPnl": "0.02",
+            "side":"buy",
+            "posSide":"long",
+            "execType":"M",             
+            "feeCcy":"",
+            "fee":"",
+            "ts": "1597026383085",
+            "fillTime": "1597026383084"
+        },
+        {
+            "instType":"FUTURES",
+            "instId":"BTC-USD-200329",
+            "tradeId":"123",
+            "ordId":"123445",
+            "clOrdId": "b16",
+            "billId":"1111",
+            "tag":"",
+            "fillPx":"999",
+            "fillSz":"3",
+            "fillIdxPx":"998",
+            "fillPnl": "0.01",
+            "side":"buy",
+            "posSide":"long",
+            "execType":"M",             
+            "feeCcy":"",
+            "fee":"",
+            "ts": "1597026383085",
+            "fillTime": "1597026383084"
+        }
+    ]
+}

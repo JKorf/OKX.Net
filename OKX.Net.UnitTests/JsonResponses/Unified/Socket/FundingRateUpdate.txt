@@ -1,0 +1,8 @@
+{
+      "fundingRate": "0.0001515",
+      "fundingTime": "1622822400000",
+      "instId": "BTC-USD-SWAP",
+      "instType": "SWAP",
+      "nextFundingRate": "0.00029",
+      "nextFundingTime": "1622851200000"
+    }

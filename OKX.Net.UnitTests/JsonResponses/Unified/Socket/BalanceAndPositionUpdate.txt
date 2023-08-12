@@ -1,0 +1,22 @@
+{
+        "pTime": "1597026383085",
+        "eventType": "snapshot",
+        "balData": [{
+            "ccy": "BTC",
+            "cashBal": "1",
+            "uTime": "1597026383085"
+        }],
+        "posData": [{
+            "posId": "1111111111",
+            "tradeId": "2",
+            "instId": "BTC-USD-191018",
+            "instType": "FUTURES",
+            "mgnMode": "cross",
+            "posSide": "long",
+            "pos": "10",
+            "ccy": "BTC",
+            "posCcy": "",
+            "avgPx": "3320",
+            "uTime": "1597026383085"
+        }]
+    }

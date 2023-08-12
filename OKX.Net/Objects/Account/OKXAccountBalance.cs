@@ -222,4 +222,10 @@ public class OKXAccountBalanceDetail
     /// </summary>
     [JsonProperty("spotInUseAmt")]
     public decimal? SpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Price index usd of the asset
+    /// </summary>
+    [JsonProperty("coinUsdPrice")]
+    public decimal? AssetUsdPrice { get; set; }
 }

@@ -1,5 +1,6 @@
 ﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
+using System.Numerics;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -205,4 +206,81 @@ public class OKXOrder
     /// </summary>
     [JsonProperty("reduceOnly")]
     public bool ReduceOnly { get; set; }
+
+    /// <summary>
+    /// Leverage
+    /// </summary>
+    [JsonProperty("lever")]
+    public decimal? Leverage { get; set; }
+
+    /// <summary>
+    /// Client-supplied Algo ID when plaing order attaching TP/SL.
+    /// </summary>
+    [JsonProperty("attachAlgoClOrdId")]
+    public string? AttachAlgoCllientOrderId { get; set; }
+
+    /// <summary>
+    /// Take profit trigger price type
+    /// </summary>
+    [JsonConverter(typeof(EnumConverter))]
+    [JsonProperty("tpTriggerPxType")]
+    public OXKTriggerPriceType? TakeProfitTriggerPriceType { get; set; }
+
+    /// <summary>
+    /// Stop loss trigger price type
+    /// </summary>
+    [JsonConverter(typeof(EnumConverter))]
+    [JsonProperty("slTriggerPxType")]
+    public OXKTriggerPriceType? StopLossTriggerPriceType { get; set; }
+
+    /// <summary>
+    /// Self trade prevention ID
+    /// </summary>
+    [JsonProperty("stpId")]
+    public string? SelfTradePreventionId { get; set; }
+
+    /// <summary>
+    /// Self trade prevention mode
+    /// </summary>
+    [JsonProperty("stpMode")]
+    [JsonConverter(typeof(EnumConverter))]
+    public OKXSelfTradePreventionMode? SelfTradePreventionMode { get; set; }
+
+    /// <summary>
+    /// Order source
+    /// </summary>
+    [JsonProperty("source")]
+    public string Source { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Code of the cancellation source.
+    /// </summary>
+    [JsonProperty("cancelSource")]
+    public string? CancelSource { get; set; }
+
+    /// <summary>
+    /// Reason of the cancellation source.
+    /// </summary>
+    [JsonProperty("cancelSourceReason")]
+    public string? CancelSourceReason { get; set; }
+
+    /// <summary>
+    /// Client algo order id
+    /// </summary>
+    [JsonProperty("algoClOrdId")]
+    public string? AlgoClientOrderId { get; set; }
+
+    /// <summary>
+    /// Algo id
+    /// </summary>
+    [JsonProperty("algoId")]
+    public string? AlgoId { get; set; }
+
+    /// <summary>
+    /// Quick Margin type
+    /// </summary>
+    [JsonProperty("quickMgnType")]
+    [JsonConverter(typeof(EnumConverter))]
+    public OKXQuickMarginType? QuickMarginType { get; set; }
+
 }

@@ -1,0 +1,29 @@
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+                   {
+                      "enable":true,
+                      "subAcct":"test-1",
+                      "uid": "*****",
+                      "type":"1",
+                      "label":"trade futures",
+                      "mobile":"1818181",
+                      "gAuth":true,
+                      "canTransOut": true,
+                      "ts":"1597026383085"
+                   },
+                   {
+                      "enable":false,
+                      "type":"1",
+                      "subAcct":"test-2",
+                      "uid": "*****",
+                      "label":"trade spot",
+                      "mobile":"1818199",
+                      "gAuth":true,
+                      "canTransOut": false,
+                      "ts":"1597026383082"
+                   }
+
+    ]
+}

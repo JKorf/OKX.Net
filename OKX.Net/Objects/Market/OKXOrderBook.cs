@@ -41,4 +41,16 @@ public class OKXOrderBook
     /// </summary>
     [JsonProperty("checksum")]
     public long? Checksum { get; set; }
+
+    /// <summary>
+    /// Update sequence id
+    /// </summary>
+    [JsonProperty("seqId")]
+    public long? SequenceId { get; set; }
+
+    /// <summary>
+    /// Previous sequence id
+    /// </summary>
+    [JsonProperty("prevSeqId")]
+    public long? PreviousSequenceId { get; set; }
 }

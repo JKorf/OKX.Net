@@ -378,10 +378,10 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         OKXInstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
-        Action<OKXOrder> onData,
+        Action<OKXOrderUpdate> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOrder>>>>(data =>
+        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOrderUpdate>>>>(data =>
         {
             foreach (var d in data.Data.Data)
                 onData(d);
@@ -402,10 +402,10 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         OKXInstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
-        Action<OKXAlgoOrder> onData,
+        Action<OKXAlgoOrderUpdate> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrder>>>>(data =>
+        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
         {
             foreach (var d in data.Data.Data)
                 onData(d);
@@ -427,10 +427,10 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         OKXInstrumentType instrumentType,
         string? symbol,
         string? algoId,
-        Action<OKXAlgoOrder> onData,
+        Action<OKXAlgoOrderUpdate> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrder>>>>(data =>
+        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
         {
             foreach (var d in data.Data.Data)
                 onData(d);

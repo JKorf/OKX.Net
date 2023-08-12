@@ -35,7 +35,7 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? algoId, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? algoId, Action<OKXAlgoOrderUpdate> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
@@ -47,7 +47,7 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXAlgoOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXAlgoOrderUpdate> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
@@ -180,7 +180,7 @@ public interface IOKXSocketClientUnifiedApi : ISocketApiClient
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXOrder> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXOrderUpdate> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.

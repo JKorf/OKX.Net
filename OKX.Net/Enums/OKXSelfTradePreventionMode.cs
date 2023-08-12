@@ -5,7 +5,7 @@ namespace OKX.Net.Enums;
 /// <summary>
 /// Self trade prevention mode
 /// </summary>
-public enum SelfTradePreventionMode
+public enum OKXSelfTradePreventionMode
 {
     /// <summary>
     /// Cancel maker

@@ -12,6 +12,18 @@ public class OKXAlgoOrderResponse
     public long? AlgoOrderId { get; set; }
 
     /// <summary>
+    /// Client order id
+    /// </summary>
+    [JsonProperty("clOrdId")]
+    public string? ClientOrderId { get; set; }
+
+    /// <summary>
+    /// Algo client order id
+    /// </summary>
+    [JsonProperty("algoClOrdId")]
+    public string? AgloClientOrderId { get; set; }
+
+    /// <summary>
     /// Code
     /// </summary>
     [JsonProperty("sCode")]

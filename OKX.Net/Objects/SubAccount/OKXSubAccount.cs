@@ -55,4 +55,10 @@ public class OKXSubAccount
     /// </summary>
     [JsonProperty("type"), JsonConverter(typeof(SubAccountTypeConverter))]
     public OKXSubAccountType Type { get; set; }
+
+    /// <summary>
+    /// Id
+    /// </summary>
+    [JsonProperty("uid")]
+    public string Uid { get; set; } = string.Empty;
 }

@@ -63,6 +63,18 @@ public class OKXTransaction
     public decimal? QuantityFilled { get; set; }
 
     /// <summary>
+    /// Index price at the moment of trade execution
+    /// </summary>
+    [JsonProperty("fillIdxPx")]
+    public decimal? FillIndexPrice { get; set; }
+
+    /// <summary>
+    /// Last filled profit and loss, applicable to orders which have a trade and aim to close position
+    /// </summary>
+    [JsonProperty("fillPnl")]
+    public decimal? FillProfitAndLoss { get; set; }
+
+    /// <summary>
     /// Order side
     /// </summary>
     [JsonProperty("side"), JsonConverter(typeof(OrderSideConverter))]
@@ -93,7 +105,13 @@ public class OKXTransaction
     public decimal? Fee { get; set; }
 
     /// <summary>
-    /// Time
+    /// Trade time
+    /// </summary>
+    [JsonProperty("fillTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime FillTime { get; set; }
+
+    /// <summary>
+    /// Data time
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

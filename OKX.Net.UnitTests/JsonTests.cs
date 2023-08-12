@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CryptoExchange.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
-using OKX.Net.UnitTests;
 using CryptoExchange.Net.Authentication;
 using OKX.Net.Objects;
 
-namespace Kucoin.Net.UnitTests
+namespace OKX.Net.UnitTests
 {
     [TestFixture]
     public class JsonTests
@@ -21,8 +20,8 @@ namespace Kucoin.Net.UnitTests
         }));
 
         [Test]
-        public async Task ValidateSpotAccountCalls()
-        {   
+        public async Task ValidateAccountCalls()
+        {
             await _comparer.ProcessSubject("Unified/Account", c => c.UnifiedApi.Account,
                useNestedJsonPropertyForAllCompare: new List<string> { "data" },
                 takeFirstItemForCompare: new List<string>
@@ -47,7 +46,7 @@ namespace Kucoin.Net.UnitTests
         }
 
         [Test]
-        public async Task ValidateSpotExchangeDataCalls()
+        public async Task ValidateExchangeDataCalls()
         {
             await _comparer.ProcessSubject("Unified/ExchangeData", c => c.UnifiedApi.ExchangeData,
                useNestedJsonPropertyForAllCompare: new List<string> { "data" },
@@ -68,24 +67,42 @@ namespace Kucoin.Net.UnitTests
         }
 
         [Test]
-        public async Task ValidateSpotTradingCalls()
+        public async Task ValidateTradingCalls()
         {
             await _comparer.ProcessSubject("Unified/Trading", c => c.UnifiedApi.Trading,
                useNestedJsonPropertyForAllCompare: new List<string> { "data" },
                parametersToSetNull: new[] { "pageSize", "quoteQuantity" },
                ignoreProperties: new Dictionary<string, List<string>>
                {
+               },
+               takeFirstItemForCompare: new List<string>
+               {
+                   "AmendOrderAsync",
+                   "CancelAdvanceAlgoOrderAsync",
+                   "CancelAlgoOrderAsync",
+                   "ClosePositionAsync",
+                   "CancelOrderAsync",
+                   "GetOrderDetailsAsync",
+                   "PlaceAlgoOrderAsync",
+                   "PlaceOrderAsync"
                }
                 );
         }
 
         [Test]
-        public async Task ValidateFuturesAccountCalls()
+        public async Task ValidateSubAccountCalls()
         {
-            await _comparer.ProcessSubject("Unified/SubAccounts", c => c.UnifiedApi.Account,
+            await _comparer.ProcessSubject("Unified/SubAccounts", c => c.UnifiedApi.SubAccounts,
                useNestedJsonPropertyForAllCompare: new List<string> { "data" },
                parametersToSetNull: new[] { "pageSize", "quoteQuantity" },
-               ignoreProperties: new Dictionary<string, List<string>> {                
+               ignoreProperties: new Dictionary<string, List<string>>
+               {
+               },
+               takeFirstItemForCompare: new List<string>
+               {
+                   "GetSubAccountTradingBalancesAsync",
+                   "ResetSubAccountApiKeyAsync",
+                   "TransferBetweenSubAccountsAsync",
                }
                 );
         }

@@ -1,0 +1,7 @@
+{
+      "instType": "SWAP",
+      "instId": "LTC-USD-SWAP",
+      "oi": "5000",
+      "oiCcy": "555.55",
+      "ts": "1597026383085"
+    }

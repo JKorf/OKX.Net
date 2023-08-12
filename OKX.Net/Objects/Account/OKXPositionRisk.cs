@@ -55,6 +55,19 @@ public class OKXAccountPositionRiskBalanceData
     /// </summary>
     [JsonProperty("eq")]
     public decimal? Equity { get; set; }
+
+    /// <summary>
+    /// Cash balance
+    /// </summary>
+    [JsonProperty("cashBal")]
+    public decimal? CashBalance { get; set; }
+
+    /// <summary>
+    /// Update time
+    /// </summary>
+    [JsonProperty("uTime")]
+    [JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? UpdateTime { get; set; }
 }
 
 /// <summary>
@@ -105,10 +118,22 @@ public class OKXAccountPositionRiskPositionData
     public decimal? Quantity { get; set; }
 
     /// <summary>
+    /// Average open price
+    /// </summary>
+    [JsonProperty("avgPx")]
+    public decimal? AverageOpenPrice { get; set; }
+
+    /// <summary>
     /// Position asset
     /// </summary>
     [JsonProperty("posCcy")]
     public string PositionAsset { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Last trade ID
+    /// </summary>
+    [JsonProperty("tradeId")]
+    public string? TradeId { get; set; }
 
     /// <summary>
     /// Position id
@@ -133,4 +158,11 @@ public class OKXAccountPositionRiskPositionData
     /// </summary>
     [JsonProperty("quoteBal")]
     public decimal? QuoteBalance { get; set; }
+
+    /// <summary>
+    /// Update time
+    /// </summary>
+    [JsonProperty("uTime")]
+    [JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? UpdateTime { get; set; }
 }

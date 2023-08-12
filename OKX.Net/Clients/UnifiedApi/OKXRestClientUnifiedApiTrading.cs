@@ -56,7 +56,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         OXKTriggerPriceType? stopLossTriggerPriceType = null,
         OKXQuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
-        SelfTradePreventionMode? selfTradePreventionMode = null,
+        OKXSelfTradePreventionMode? selfTradePreventionMode = null,
 
         string? asset = null,
         OKXQuantityAsset? quantityAsset = null,

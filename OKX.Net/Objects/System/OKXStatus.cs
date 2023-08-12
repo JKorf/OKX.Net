@@ -21,13 +21,19 @@ public class OKXStatus
     public OKXMaintenanceState Status { get; set; }
 
     /// <summary>
-    /// Begin time of system maintenance, Unix timestamp format in milliseconds, e.g. 1617788463867
+    /// Begin time of system maintenance
     /// </summary>
     [JsonProperty("begin"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? Begin { get; set; }
 
     /// <summary>
-    /// End time of system maintenance, Unix timestamp format in milliseconds, e.g. 1617788463867
+    /// The time of pre_open. Canceling orders, placing Post Only orders, and transferring funds to trading accounts are back after PreOpenBegin
+    /// </summary>
+    [JsonProperty("preOpenBegin"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? PreOpenBegin { get; set; }
+
+    /// <summary>
+    /// End time of system maintenance
     /// </summary>
     [JsonProperty("end"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? End { get; set; }
@@ -55,4 +61,22 @@ public class OKXStatus
     /// </summary>
     [JsonProperty("scheDesc")]
     public string RescheduledDescription { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Maintenance type
+    /// </summary>
+    [JsonProperty("maintType"), JsonConverter(typeof(EnumConverter))]
+    public OKXMaintenanceType MaintenanceType { get; set; }
+
+    /// <summary>
+    /// Environment. 1: Production Trading, 2: Demo Trading
+    /// </summary>
+    [JsonProperty("env")]
+    public string Environment { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Push timestamp
+    /// </summary>
+    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime Timestamp { get; set; }
 }

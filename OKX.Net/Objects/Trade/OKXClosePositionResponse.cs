@@ -19,4 +19,16 @@ public class OKXClosePositionResponse
     /// </summary>
     [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
     public OKXPositionSide PositionSide { get; set; }
+
+    /// <summary>
+    /// Client order id
+    /// </summary>
+    [JsonProperty("clOrdId")]
+    public string? ClientOrderId { get; set; }
+
+    /// <summary>
+    /// Tag
+    /// </summary>
+    [JsonProperty("tag")]
+    public string? Tag { get; set; }
 }
