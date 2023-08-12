@@ -114,7 +114,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         if (!result.Success) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
-        return result.As(result.Data.Data);
+        return result.As(result.Data.Data!);
     }
 
     /// <inheritdoc />
