@@ -97,9 +97,11 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested id</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(OKXInstrumentType? instrumentType = null, string? asset = null, OKXMarginMode? marginMode = null, OKXContractType? contractType = null, OKXAccountBillType? billType = null, OKXAccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(OKXInstrumentType? instrumentType = null, string? asset = null, OKXMarginMode? marginMode = null, OKXContractType? contractType = null, OKXAccountBillType? billType = null, OKXAccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
@@ -114,17 +116,20 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested id</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrumentType? instrumentType = null, string? asset = null, OKXMarginMode? marginMode = null, OKXContractType? contractType = null, OKXAccountBillType? billType = null, OKXAccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrumentType? instrumentType = null, string? asset = null, OKXMarginMode? marginMode = null, OKXContractType? contractType = null, OKXAccountBillType? billType = null, OKXAccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve a list of all currencies. Not all currencies can be traded. Currencies that have not been defined in ISO 4217 may use a custom symbol.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-currencies" /></para>
     /// </summary>
+    /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the deposit addresses of currencies, including previously-used addresses.
@@ -145,9 +150,12 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="depositId">Deposit ID</param>
+    /// <param name="fromWithdrawalId">Internal transfer initiator's withdrawal ID</param>
+    /// <param name="type">Deposit Type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(string? asset = null, string? transactionId = null, OKXDepositState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(string? asset = null, string? transactionId = null, OKXDepositState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? depositId = null, string? fromWithdrawalId = null, OKXDepositType? type = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get Fee Rates
@@ -157,9 +165,10 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="symbol">Symbol</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="category">Category</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXFeeRateCategory? category = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXFeeRateCategory? category = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the balances of all the assets, and the amount that is available or on hold.
@@ -179,9 +188,10 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="clientId">Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(string? asset = null, OKXFundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(string? asset = null, OKXFundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get interest-accrued
@@ -236,9 +246,10 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="asset">Asset</param>
     /// <param name="price">Price</param>
+    /// <param name="leverage">Leverage</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, OKXTradeMode tradeMode, string? asset = null, decimal? price = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, OKXTradeMode tradeMode, string? asset = null, decimal? price = null, int? leverage = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get Maximum Available Tradable Amount
@@ -293,9 +304,11 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="withdrawalId">Client-supplied ID</param>
+    /// <param name="clientId">Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(string? asset = null, string? transactionId = null, OKXWithdrawalState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(string? asset = null, string? transactionId = null, OKXWithdrawalState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? withdrawalId = null, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
     /// 
@@ -352,9 +365,11 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionSide">Position Side</param>
     /// <param name="marginAddReduce">Type</param>
     /// <param name="amount">Amount</param>
+    /// <param name="asset">Asset</param>
+    /// <param name="auto">Automatic loan transfer out</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string symbol, OKXPositionSide positionSide, OKXMarginAddReduce marginAddReduce, decimal amount, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string symbol, OKXPositionSide positionSide, OKXMarginAddReduce marginAddReduce, decimal amount, string? asset = null, bool? auto = null, CancellationToken ct = default);
 
     /// <summary>
     /// This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
@@ -368,9 +383,12 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="fromSymbol">MARGIN trading pair (e.g. BTC-USDT) or contract underlying (e.g. BTC-USD) to be transferred out.</param>
     /// <param name="toSymbol">MARGIN trading pair (e.g. BTC-USDT) or contract underlying (e.g. BTC-USD) to be transferred in.</param>
+    /// <param name="loanTransfer">Whether or not borrowed coins can be transferred out under Multi-currency margin and Portfolio margin</param>
+    /// <param name="clientId">Client id</param>
+    /// <param name="ignorePositionRisk">Ignore position risk</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, OKXTransferType type, OKXAccount fromAccount, OKXAccount toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, OKXTransferType type, OKXAccount fromAccount, OKXAccount toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, bool? loanTransfer = null, string? clientId = null, bool? ignorePositionRisk = null, CancellationToken ct = default);
 
     /// <summary>
     /// Withdrawal of tokens.
@@ -380,10 +398,11 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="amount">Amount</param>
     /// <param name="destination">Withdrawal destination address</param>
     /// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F:123456'</param>
-    /// <param name="password">Trade password</param>
     /// <param name="fee">Transaction fee</param>
     /// <param name="network">Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.</param>
+    /// <param name="areaCode">	Area code for the phone number, e.g. 86. If toAddr is a phone number, this parameter is required.</param>
+    /// <param name="clientId">Client-supplied ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, OKXWithdrawalDestination destination, string toAddress, string password, decimal fee, string? network = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, OKXWithdrawalDestination destination, string toAddress, decimal fee, string? network = null, string? areaCode = null, string? clientId = null, CancellationToken ct = default);
 }

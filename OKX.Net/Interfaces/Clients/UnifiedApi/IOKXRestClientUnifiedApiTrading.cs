@@ -28,13 +28,35 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="cancelOnFail">Cancel On Fail</param>
     /// <param name="newQuantity">New Quantity</param>
     /// <param name="newPrice">New Price</param>
+    /// <param name="newTriggerPrice">New trigger price</param>
+    /// <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
+    /// <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
+    /// <param name="newTakeProfitOrderPrice">New take profit order price</param>
+    /// <param name="newStopLossOrderPrice">New stop loss order price</param>
+    /// <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
+    /// <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderAmendResponse>> AmendOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, string? requestId = null, bool? cancelOnFail = null, decimal? newQuantity = null, decimal? newPrice = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXOrderAmendResponse>> AmendOrderAsync(
+        string symbol,
+        long? orderId = null,
+        string? clientOrderId = null,
+        string? requestId = null,
+        bool? cancelOnFail = null,
+        decimal? newQuantity = null,
+        decimal? newPrice = null,
+        decimal? newTriggerPrice = null,
+        decimal? newTakeProfitTriggerPrice = null,
+        decimal? newStopLossTriggerPrice = null,
+        decimal? newTakeProfitOrderPrice = null,
+        decimal? newStopLossOrderPrice = null,
+        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
+        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Cancel unfilled algo orders(iceberg order and twap order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /></para>
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-advance-algo-order" /></para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -78,9 +100,10 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="positionSide">Position Side</param>
     /// <param name="asset">Asset</param>
+    /// <param name="autoCancel">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, OKXMarginMode marginMode, OKXPositionSide? positionSide = null, string? asset = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, OKXMarginMode marginMode, OKXPositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve a list of untriggered Algo orders under the current account.
@@ -99,7 +122,7 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(OKXAlgoOrderType algoOrderType, OKXAlgoOrderState? algoOrderState = null, long? algoId = null, OKXInstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
-    /// Cancel unfilled algo orders(iceberg order and twap order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
+    /// Retrieve a list of untriggered Algo orders under the current account.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /></para>
     /// </summary>
     /// <param name="algoOrderType">Algo Order Type</param>
@@ -126,9 +149,12 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderArchiveAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, OKXOrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderArchiveAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, OKXOrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? fromId = null, string? toId = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve order details.
@@ -154,9 +180,16 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderHistoryAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, OKXOrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderHistoryAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, OKXOrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100,
+        string? instrumentFamily = null,
+        string? fromId = null,
+        string? toId = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve all incomplete orders under the current account.
@@ -170,9 +203,10 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrdersAsync(OKXInstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrdersAsync(OKXInstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OKXOrderType? orderType = null, OKXOrderState? state = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve recently-filled transaction details in the last 3 months.
@@ -185,9 +219,12 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesArchiveAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesArchiveAsync(OKXInstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve recently-filled transaction details in the last 3 day.
@@ -200,9 +237,12 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesAsync(OKXInstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesAsync(OKXInstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
@@ -233,6 +273,9 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="callbackSpread">Callback spread</param>
     /// <param name="activePx">Active price</param>
     /// <param name="timeInterval">Time Interval</param>
+    /// <param name="closeFraction">Fraction of position to be closed when the algo order is triggered. Currently the system supports fully closing the position only so the only accepted value is 1.</param>
+    /// <param name="cancelOnClose">Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
+    /// <param name="quickMarginType">Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -261,6 +304,9 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? callbackRatio = null,
         decimal? activePx = null, 
         decimal? callbackSpread = null, 
+        decimal? closeFraction = null,
+        bool? cancelOnClose = null,
+        OKXQuickMarginType? quickMarginType = null,
         CancellationToken ct = default);
 
     /// <summary>

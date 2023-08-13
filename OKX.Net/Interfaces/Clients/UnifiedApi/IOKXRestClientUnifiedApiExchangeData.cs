@@ -36,10 +36,11 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <para><a href="https://www.okx.com/docs-v5/en/#block-trading-rest-api-get-block-tickers" /></para>
     /// </summary>
     /// <param name="instrumentType">Type of instrument</param>
-    /// <param name="underlying">underlying</param>
+    /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get block trades
@@ -61,9 +62,10 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string underlying, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string? underlying = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve discount rate level and interest-free quota.
@@ -143,9 +145,10 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="symbol">Symbol</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get insurance fund
@@ -160,9 +163,10 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit"></param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType instrumentType, OKXInsuranceType type = OKXInsuranceType.All, string? underlying = null, string? asset = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType instrumentType, OKXInsuranceType type = OKXInsuranceType.All, string? underlying = null, string? asset = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get margin interest rate
@@ -228,9 +232,10 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="symbol">Symbol</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the total open interest for contracts on OKX.
@@ -239,19 +244,21 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="symbol">Symbol</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve option market data.
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-option-market-data" /></para>
     /// </summary>
     /// <param name="underlying">Underlying</param>
-    /// <param name="expiryDate">Contract expiry date, the format is "YYMMDD", e.g. "200527"</param>
+    /// <param name="expiryDate">Contract expiry date</param>
+    /// <param name="instrumentFamily">Instrument type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the crypto price of signing using Open Oracle smart contract.
@@ -279,10 +286,20 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="symbol">Symbol</param>
-    /// <param name="tier"></param>
+    /// <param name="tier">Tiers</param>
+    /// <param name="asset">Margin currency</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(OKXInstrumentType instrumentType, OKXMarginMode marginMode, string underlying, string? symbol = null, string? tier = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(
+        OKXInstrumentType instrumentType,
+        OKXMarginMode marginMode,
+        string underlying,
+        string? symbol = null,
+        string? tier = null,
+        string? asset = null,
+        string? instrumentFamily = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the recent transactions of an instrument.
@@ -425,9 +442,10 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
+    /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get trades history
@@ -465,12 +483,12 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// Convert units
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-unit-convert" /></para>
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="unit"></param>
-    /// <param name="symbol"></param>
-    /// <param name="price"></param>
-    /// <param name="size"></param>
+    /// <param name="type">Convert type</param>
+    /// <param name="unit">The unit of currency</param>
+    /// <param name="symbol">Symbol</param>
+    /// <param name="price">Order price</param>
+    /// <param name="quantity">Quantity to buy or sell</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType? type = OKXConvertType.CurrencyToContract, OKXConvertUnit? unit = null, string symbol = "", decimal? price = null, decimal? size = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType type, string symbol, decimal quantity, OKXConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
 }

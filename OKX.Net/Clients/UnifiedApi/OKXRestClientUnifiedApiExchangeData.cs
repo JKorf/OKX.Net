@@ -70,13 +70,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
         parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTicker>>>(_baseClient.GetUri(Endpoints_V5_Market_Tickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXTicker>>(result.Error!);
@@ -312,13 +313,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
         parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXBlockTicker>>>(_baseClient.GetUri(Endpoints_V5_Market_BlockTickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXBlockTicker>>(result.Error!);
@@ -358,14 +360,16 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
-        if (!string.IsNullOrEmpty(underlying)) parameters.AddOptionalParameter("uly", underlying);
-        if (!string.IsNullOrEmpty(symbol)) parameters.AddOptionalParameter("instId", symbol);
+        
+        parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInstrument>>>(_baseClient.GetUri(Endpoints_V5_Public_Instruments), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXInstrument>>(result.Error!);
@@ -375,9 +379,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string underlying,
+    public virtual async Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(
+        OKXInstrumentType instrumentType,
+        string? underlying = null,
         DateTime? startTime = null,
-        DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
+        DateTime? endTime = null, 
+        int limit = 100,
+        string? instrumentFamily = null,
+        CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(OKXInstrumentType.Futures, OKXInstrumentType.Option))
             throw new ArgumentException("Instrument Type can be only Futures or Option.");
@@ -387,12 +396,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var parameters = new Dictionary<string, object>
         {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-            { "uly", underlying },
+            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) }
         };
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDeliveryExerciseHistory>>>(_baseClient.GetUri(Endpoints_V5_Public_DeliveryExerciseHistory), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXDeliveryExerciseHistory>>(result.Error!);
@@ -402,7 +412,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
@@ -414,8 +424,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
-        if (!string.IsNullOrEmpty(underlying)) parameters.AddOptionalParameter("uly", underlying);
-        if (!string.IsNullOrEmpty(symbol)) parameters.AddOptionalParameter("instId", symbol);
+
+        parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOpenInterest>>>(_baseClient.GetUri(Endpoints_V5_Public_OpenInterest), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXOpenInterest>>(result.Error!);
@@ -478,13 +490,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
         {
             { "uly", underlying },
         };
         parameters.AddOptionalParameter("expTime", expiryDate?.ToString("yyMMdd"));
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOptionSummary>>>(_baseClient.GetUri(Endpoints_V5_Public_OptionSummary), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXOptionSummary>>(result.Error!);
@@ -536,7 +549,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Margin, Futures, Option or Swap.");
@@ -545,10 +558,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
-        if (!string.IsNullOrEmpty(underlying))
-            parameters.AddOptionalParameter("uly", underlying);
-        if (!string.IsNullOrEmpty(symbol))
-            parameters.AddOptionalParameter("instId", symbol);
+
+        parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMarkPrice>>>(_baseClient.GetUri(Endpoints_V5_Public_MarkPrice), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXMarkPrice>>(result.Error!);
@@ -564,6 +577,8 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         string underlying,
         string? symbol = null,
         string? tier = null,
+        string? asset = null,
+        string? instrumentFamily = null,
         CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
@@ -574,12 +589,12 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
             { "tdMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
         };
-        if (!string.IsNullOrEmpty(underlying))
-            parameters.AddOptionalParameter("uly", underlying);
-        if (!string.IsNullOrEmpty(symbol))
-            parameters.AddOptionalParameter("instId", symbol);
-        if (!string.IsNullOrEmpty(tier))
-            parameters.AddOptionalParameter("tier", tier);
+
+        parameters.AddOptionalParameter("uly", underlying);
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("tier", tier);
+        parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXPositionTier>>>(_baseClient.GetUri(Endpoints_V5_Public_PositionTiers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXPositionTier>>(result.Error!);
@@ -634,6 +649,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
         CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Swap, OKXInstrumentType.Futures, OKXInstrumentType.Option))
@@ -649,9 +665,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInsuranceFund>>>(_baseClient.GetUri(Endpoints_V5_Public_InsuranceFund), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXInsuranceFund>(result.Error!);
@@ -662,19 +679,19 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(
-        OKXConvertType? type = OKXConvertType.CurrencyToContract,
+        OKXConvertType type,
+        string symbol,
+        decimal quantity,
         OKXConvertUnit? unit = null,
-        string symbol = "",
         decimal? price = null,
-        decimal? size = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>();
-        if (type != null) parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ConvertTypeConverter(false)));
+        parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ConvertTypeConverter(false)));
         if (unit != null) parameters.AddOptionalParameter("unit", JsonConvert.SerializeObject(type, new ConvertUnitConverter(false)));
         if (!string.IsNullOrEmpty(symbol)) parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("sz", size?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("sz", quantity.ToString(CultureInfo.InvariantCulture));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXUnitConvert>>>(_baseClient.GetUri(Endpoints_V5_Public_ConvertContractCoin), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXUnitConvert>(result.Error!);

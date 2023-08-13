@@ -143,6 +143,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -150,8 +152,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         if (instrumentType.HasValue)
@@ -183,6 +187,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -190,8 +196,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         if (instrumentType.HasValue)
@@ -291,6 +299,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXTradeMode tradeMode,
         string? asset = null,
         decimal? price = null,
+        int? leverage = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -299,6 +308,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         };
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMaximumAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_MaxSize), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXMaximumAmount>>(result.Error!);
@@ -335,6 +345,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXPositionSide positionSide,
         OKXMarginAddReduce marginAddReduce,
         decimal amount,
+        string? asset = null,
+        bool? auto = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -343,6 +355,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             {"type", JsonConvert.SerializeObject(marginAddReduce, new MarginAddReduceConverter(false)) },
             {"amt", amount.ToString(CultureInfo.InvariantCulture) },
         };
+
+        parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalParameter("auto", auto);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMarginAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_PositionMarginBalance), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXMarginAmount>>(result.Error!);
@@ -377,6 +392,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? symbol = null,
         string? underlying = null,
         OKXFeeRateCategory? category = null,
+        string? instrumentFamily = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -385,6 +401,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new FeeRateCategoryConverter(false)));
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFeeRate>>>(_baseClient.GetUri(Endpoints_V5_Account_TradeFee), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXFeeRate>(result.Error!);
@@ -468,9 +485,12 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(string? asset = null, CancellationToken ct = default)
     {
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAsset>>>(_baseClient.GetUri(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, null, true).ConfigureAwait(false);
+        var parameters = new Dictionary<string, object>();
+        parameters.AddOptionalParameter("ccy", asset);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAsset>>>(_baseClient.GetUri(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXAsset>>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAsset>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
@@ -500,6 +520,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? subAccountName = null,
         string? fromSymbol = null,
         string? toSymbol = null,
+        bool? loanTransfer = null,
+        string? clientId = null,
+        bool? ignorePositionRisk = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -527,6 +550,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
+        string? clientId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -539,6 +563,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("clientId", clientId);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFundingBill>>>(_baseClient.GetUri(Endpoints_V5_Asset_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXFundingBill>>(result.Error!);
@@ -589,6 +614,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
+        string? depositId = null,
+        string? fromWithdrawalId = null,
+        OKXDepositType? type = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -602,6 +630,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("depId", depositId);
+        parameters.AddOptionalParameter("fromWdId", fromWithdrawalId);
+        parameters.AddOptionalParameter("type", EnumConverter.GetString(type));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDepositHistory>>>(_baseClient.GetUri(Endpoints_V5_Asset_DepositHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXDepositHistory>>(result.Error!);
@@ -616,9 +647,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         decimal amount,
         OKXWithdrawalDestination destination,
         string toAddress,
-        string password,
         decimal fee,
         string? network = null,
+        string? areaCode = null,
+        string? clientId = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -626,10 +658,11 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
             { "dest", JsonConvert.SerializeObject(destination, new WithdrawalDestinationConverter(false)) },
             { "toAddr",toAddress},
-            { "pwd",password},
             { "fee",fee.ToString(CultureInfo.InvariantCulture)},
         };
         parameters.AddOptionalParameter("chain", network);
+        parameters.AddOptionalParameter("areaCode", areaCode);
+        parameters.AddOptionalParameter("clientId", clientId);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalResponse>>>(_baseClient.GetUri(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXWithdrawalResponse>(result.Error!);
@@ -682,6 +715,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
+        string? withdrawalId = null,
+        string? clientId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -695,6 +730,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("wdId", withdrawalId);
+        parameters.AddOptionalParameter("clientId", clientId);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalHistory>>>(_baseClient.GetUri(Endpoints_V5_Asset_WithdrawalHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXWithdrawalHistory>>(result.Error!);

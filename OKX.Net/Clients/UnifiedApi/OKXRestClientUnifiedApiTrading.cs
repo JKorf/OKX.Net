@@ -72,6 +72,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"ordType", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
             {"tag", _ref },
+            {"clOrdId",  _ref + (clientOrderId ?? RandomString(15)) },
         };
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("ccy", asset);
@@ -87,7 +88,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("stpId", selfTradePreventionId);
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
 
-        parameters.AddOptionalParameter("clOrdId", _ref + (clientOrderId ?? RandomString(15)));
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
@@ -179,6 +179,13 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         bool? cancelOnFail = null,
         decimal? newQuantity = null,
         decimal? newPrice = null,
+        decimal? newTriggerPrice = null,
+        decimal? newTakeProfitTriggerPrice = null,
+        decimal? newStopLossTriggerPrice = null,
+        decimal? newTakeProfitOrderPrice = null,
+        decimal? newStopLossOrderPrice = null,
+        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
+        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>
@@ -191,6 +198,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("reqId", requestId);
         parameters.AddOptionalParameter("newSz", newQuantity?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("newPx", newPrice?.ToString(CultureInfo.InvariantCulture));
+
+        parameters.AddOptionalParameter("newTpTriggerPx", newTriggerPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("newTpOrdPx", newTakeProfitOrderPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("newSlTriggerPx", newStopLossTriggerPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("newSlOrdPx", newStopLossOrderPrice?.ToString(CultureInfo.InvariantCulture));
+
+        parameters.AddOptionalParameter("newTpTriggerPxType", EnumConverter.GetString(newTakeProfitPriceTriggerType));
+        parameters.AddOptionalParameter("newSlTriggerPxType", EnumConverter.GetString(newStopLossPriceTriggerType));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderAmendResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_AmendOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXOrderAmendResponse>(result.Error!);
@@ -219,6 +234,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         OKXMarginMode marginMode,
         OKXPositionSide? positionSide = null,
         string? asset = null,
+        bool? autoCancel = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -231,6 +247,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
         parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalParameter("autoCxl", autoCancel);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXClosePositionResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXClosePositionResponse>(result.Error!);
@@ -269,6 +286,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -280,6 +298,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
@@ -308,6 +327,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -319,9 +341,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         };
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("after", fromId?.ToString());
+        parameters.AddOptionalParameter("before", toId?.ToString());
 
         if (orderType.HasValue)
             parameters.AddOptionalParameter("ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)));
@@ -350,6 +374,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -361,9 +388,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         };
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("after", fromId?.ToString());
+        parameters.AddOptionalParameter("before", toId?.ToString());
 
         if (orderType.HasValue)
             parameters.AddOptionalParameter("ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)));
@@ -390,6 +420,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -401,9 +434,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", fromId?.ToString());
+        parameters.AddOptionalParameter("before", toId?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransaction>>>(_baseClient.GetUri(Endpoints_V5_Trade_Fills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXTransaction>>(result.Error!);
@@ -421,6 +457,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
+        string? instrumentFamily = null,
+        string? fromId = null,
+        string? toId = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -431,9 +470,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", fromId?.ToString());
+        parameters.AddOptionalParameter("before", toId?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
+        parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransaction>>>(_baseClient.GetUri(Endpoints_V5_Trade_FillsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXTransaction>>(result.Error!);
@@ -475,6 +517,10 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? activePx = null,
         decimal? callbackSpread = null,
 
+        decimal? closeFraction = null,
+        bool? cancelOnClose = null,
+        OKXQuickMarginType? quickMarginType = null,
+
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -511,15 +557,15 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("pxSpread", priceRatio?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("szLimit", sizeLimit?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("pxLimit", priceLimit?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("cxlOnClosePos", cancelOnClose);
+        parameters.AddOptionalParameter("quickMgnType", EnumConverter.GetString(quickMarginType));
 
-        if (callbackRatio.HasValue)
-            parameters.AddOptionalParameter("callbackRatio", callbackRatio?.ToString(CultureInfo.InvariantCulture));
-        if (callbackSpread.HasValue)
-            parameters.AddOptionalParameter("callbackSpread", callbackSpread?.ToString(CultureInfo.InvariantCulture));
-        if (activePx.HasValue)
-            parameters.AddOptionalParameter("activePx", activePx?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("callbackRatio", callbackRatio?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("callbackSpread", callbackSpread?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("activePx", activePx?.ToString(CultureInfo.InvariantCulture));
 
         parameters.AddOptionalParameter("timeInterval", timeInterval?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("closeFraction", closeFraction?.ToString(CultureInfo.InvariantCulture));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrderAlgo), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXAlgoOrderResponse>(result.Error!);
