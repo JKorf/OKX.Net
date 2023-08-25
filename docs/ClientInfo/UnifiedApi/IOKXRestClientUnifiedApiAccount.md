@@ -210,11 +210,12 @@ var result = await client.UnifiedApi.Account.GetAssetsAsync();
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(string? asset = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
+|_[Optional]_ asset|Single asset or multiple assets (no more than 20) separated with comma|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -234,7 +235,7 @@ var result = await client.UnifiedApi.Account.GetBillArchiveAsync(/* parameters *
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(OKXInstrumentType? instrumentType = default, string? asset = default, OKXMarginMode? marginMode = default, OKXContractType? contractType = default, OKXAccountBillType? billType = default, OKXAccountBillSubType? billSubType = default, DateTime? endTime = default, DateTime? startTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(OKXInstrumentType? instrumentType = default, string? asset = default, OKXMarginMode? marginMode = default, OKXContractType? contractType = default, OKXAccountBillType? billType = default, OKXAccountBillSubType? billSubType = default, DateTime? endTime = default, DateTime? startTime = default, int limit, string? fromId = default, string? toId = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -248,6 +249,8 @@ Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(OKXInstrume
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ fromId|Pagination of data to return records earlier than the requested id|
+|_[Optional]_ toId|Pagination of data to return records newer than the requested id|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -267,7 +270,7 @@ var result = await client.UnifiedApi.Account.GetBillHistoryAsync(/* parameters *
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrumentType? instrumentType = default, string? asset = default, OKXMarginMode? marginMode = default, OKXContractType? contractType = default, OKXAccountBillType? billType = default, OKXAccountBillSubType? billSubType = default, DateTime? endTime = default, DateTime? startTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrumentType? instrumentType = default, string? asset = default, OKXMarginMode? marginMode = default, OKXContractType? contractType = default, OKXAccountBillType? billType = default, OKXAccountBillSubType? billSubType = default, DateTime? endTime = default, DateTime? startTime = default, int limit, string? fromId = default, string? toId = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -281,6 +284,8 @@ Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrume
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ fromId|Pagination of data to return records earlier than the requested id|
+|_[Optional]_ toId|Pagination of data to return records newer than the requested id|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -289,6 +294,7 @@ Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(OKXInstrume
 
 ## GetDepositAddressAsync  
 
+[https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address](https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address)  
 <p>
 
 *Retrieve the deposit addresses of currencies, including previously-used addresses.*  
@@ -324,7 +330,7 @@ var result = await client.UnifiedApi.Account.GetDepositHistoryAsync(/* parameter
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(string? asset = default, string? transactionId = default, OKXDepositState? state = default, DateTime? endTime = default, DateTime? startTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(string? asset = default, string? transactionId = default, OKXDepositState? state = default, DateTime? endTime = default, DateTime? startTime = default, int limit, string? depositId = default, string? fromWithdrawalId = default, OKXDepositType? type = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -335,6 +341,9 @@ Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(strin
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ depositId|Deposit ID|
+|_[Optional]_ fromWithdrawalId|Internal transfer initiator's withdrawal ID|
+|_[Optional]_ type|Deposit Type|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -354,7 +363,7 @@ var result = await client.UnifiedApi.Account.GetFeeRatesAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(OKXInstrumentType instrumentType, string? symbol = default, string? underlying = default, OKXFeeRateCategory? category = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(OKXInstrumentType instrumentType, string? symbol = default, string? underlying = default, OKXFeeRateCategory? category = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -363,6 +372,7 @@ Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(OKXInstrumentType instrumentTyp
 |_[Optional]_ symbol|Symbol|
 |_[Optional]_ underlying|Underlying|
 |_[Optional]_ category|Category|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -407,7 +417,7 @@ var result = await client.UnifiedApi.Account.GetFundingBillDetailsAsync(/* param
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(string? asset = default, OKXFundingBillType? type = default, DateTime? endTime = default, DateTime? startTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(string? asset = default, OKXFundingBillType? type = default, DateTime? endTime = default, DateTime? startTime = default, int limit, string? clientId = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -417,6 +427,7 @@ Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(stri
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ clientId|Client id|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -545,7 +556,7 @@ var result = await client.UnifiedApi.Account.GetMaximumAmountAsync(/* parameters
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, OKXTradeMode tradeMode, string? asset = default, decimal? price = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, OKXTradeMode tradeMode, string? asset = default, decimal? price = default, int? leverage = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -554,6 +565,7 @@ Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string 
 |tradeMode|Trade Mode|
 |_[Optional]_ asset|Asset|
 |_[Optional]_ price|Price|
+|_[Optional]_ leverage|Leverage|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -680,7 +692,7 @@ var result = await client.UnifiedApi.Account.GetWithdrawalHistoryAsync(/* parame
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(string? asset = default, string? transactionId = default, OKXWithdrawalState? state = default, DateTime? endTime = default, DateTime? startTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(string? asset = default, string? transactionId = default, OKXWithdrawalState? state = default, DateTime? endTime = default, DateTime? startTime = default, int limit, string? withdrawalId = default, string? clientId = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -691,6 +703,8 @@ Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ withdrawalId|Client-supplied ID|
+|_[Optional]_ clientId|Client id|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -742,15 +756,15 @@ var result = await client.UnifiedApi.Account.SetAccountLeverageAsync(/* paramete
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(int leverage, string? asset = default, string? symbol = default, OKXMarginMode? marginMode = default, OKXPositionSide? positionSide = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(int leverage, OKXMarginMode marginMode, string? asset = default, string? symbol = default, OKXPositionSide? positionSide = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |leverage|Leverage|
+|marginMode|Margin Mode|
 |_[Optional]_ asset|Asset|
 |_[Optional]_ symbol|Symbol|
-|_[Optional]_ marginMode|Margin Mode|
 |_[Optional]_ positionSide|Position Side|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -821,7 +835,7 @@ var result = await client.UnifiedApi.Account.SetMarginAmountAsync(/* parameters 
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string symbol, OKXPositionSide positionSide, OKXMarginAddReduce marginAddReduce, decimal amount, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string symbol, OKXPositionSide positionSide, OKXMarginAddReduce marginAddReduce, decimal amount, string? asset = default, bool? auto = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -830,6 +844,8 @@ Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string sy
 |positionSide|Position Side|
 |marginAddReduce|Type|
 |amount|Amount|
+|_[Optional]_ asset|Asset|
+|_[Optional]_ auto|Automatic loan transfer out|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -849,7 +865,7 @@ var result = await client.UnifiedApi.Account.TransferAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, OKXTransferType type, OKXAccount fromAccount, OKXAccount toAccount, string? subAccountName = default, string? fromSymbol = default, string? toSymbol = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, OKXTransferType type, OKXAccount fromAccount, OKXAccount toAccount, string? subAccountName = default, string? fromSymbol = default, string? toSymbol = default, bool? loanTransfer = default, string? clientId = default, bool? ignorePositionRisk = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -862,6 +878,9 @@ Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amo
 |_[Optional]_ subAccountName|Sub Account Name|
 |_[Optional]_ fromSymbol|MARGIN trading pair (e.g. BTC-USDT) or contract underlying (e.g. BTC-USD) to be transferred out.|
 |_[Optional]_ toSymbol|MARGIN trading pair (e.g. BTC-USDT) or contract underlying (e.g. BTC-USD) to be transferred in.|
+|_[Optional]_ loanTransfer|Whether or not borrowed coins can be transferred out under Multi-currency margin and Portfolio margin|
+|_[Optional]_ clientId|Client id|
+|_[Optional]_ ignorePositionRisk|Ignore position risk|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -881,7 +900,7 @@ var result = await client.UnifiedApi.Account.WithdrawAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, OKXWithdrawalDestination destination, string toAddress, string password, decimal fee, string? network = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, OKXWithdrawalDestination destination, string toAddress, decimal fee, string? network = default, string? areaCode = default, string? clientId = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -890,9 +909,10 @@ Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal a
 |amount|Amount|
 |destination|Withdrawal destination address|
 |toAddress|Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F:123456'|
-|password|Trade password|
 |fee|Transaction fee|
 |_[Optional]_ network|Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.|
+|_[Optional]_ areaCode|	Area code for the phone number, e.g. 86. If toAddr is a phone number, this parameter is required.|
+|_[Optional]_ clientId|Client-supplied ID|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>

@@ -77,13 +77,14 @@ var result = await client.UnifiedApi.ExchangeData.GetBlockTickersAsync(/* parame
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Type of instrument|
-|_[Optional]_ underlying|underlying|
+|_[Optional]_ underlying|Underlying|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -130,16 +131,17 @@ var result = await client.UnifiedApi.ExchangeData.GetDeliveryExerciseHistoryAsyn
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string underlying, DateTime? startTime = default, DateTime? endTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string? underlying = default, DateTime? startTime = default, DateTime? endTime = default, int limit, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
-|underlying|Underlying|
+|_[Optional]_ underlying|Underlying|
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |limit|Number of results per request. The maximum is 100; the default is 100.|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -344,7 +346,7 @@ var result = await client.UnifiedApi.ExchangeData.GetInsuranceFundAsync(/* param
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType instrumentType, OKXInsuranceType type, string? underlying = default, string? asset = default, DateTime? startTime = default, DateTime? endTime = default, int limit, CancellationToken ct = default);  
+Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType instrumentType, OKXInsuranceType type, string? underlying = default, string? asset = default, DateTime? startTime = default, DateTime? endTime = default, int limit, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -356,6 +358,7 @@ Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType in
 |_[Optional]_ startTime|Pagination of data to return records earlier than the requested ts|
 |_[Optional]_ endTime|Pagination of data to return records newer than the requested ts|
 |limit||
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -512,7 +515,7 @@ var result = await client.UnifiedApi.ExchangeData.GetMarkPricesAsync(/* paramete
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -520,6 +523,7 @@ Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentT
 |instrumentType|Instrument Type|
 |_[Optional]_ underlying|Underlying|
 |_[Optional]_ symbol|Symbol|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -539,7 +543,7 @@ var result = await client.UnifiedApi.ExchangeData.GetOpenInterestsAsync(/* param
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -547,6 +551,7 @@ Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstr
 |instrumentType|Instrument Type|
 |_[Optional]_ underlying|Underlying|
 |_[Optional]_ symbol|Symbol|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -566,13 +571,14 @@ var result = await client.UnifiedApi.ExchangeData.GetOptionMarketDataAsync(/* pa
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |underlying|Underlying|
-|_[Optional]_ expiryDate|Contract expiry date, the format is "YYMMDD", e.g. "200527"|
+|_[Optional]_ expiryDate|Contract expiry date|
+|_[Optional]_ instrumentFamily|Instrument type|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -642,7 +648,7 @@ var result = await client.UnifiedApi.ExchangeData.GetPositionTiersAsync(/* param
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(OKXInstrumentType instrumentType, OKXMarginMode marginMode, string underlying, string? symbol = default, string? tier = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(OKXInstrumentType instrumentType, OKXMarginMode marginMode, string underlying, string? symbol = default, string? tier = default, string? asset = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -651,7 +657,9 @@ Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(OKXInstr
 |marginMode|Margin Mode|
 |underlying|Underlying|
 |_[Optional]_ symbol|Symbol|
-|_[Optional]_ tier||
+|_[Optional]_ tier|Tiers|
+|_[Optional]_ asset|Margin currency|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -989,7 +997,7 @@ var result = await client.UnifiedApi.ExchangeData.GetSymbolsAsync(/* parameters 
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = default, string? symbol = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -997,6 +1005,7 @@ Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentTyp
 |instrumentType|Instrument Type|
 |_[Optional]_ underlying|Underlying|
 |_[Optional]_ symbol|Symbol|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -1005,7 +1014,7 @@ Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentTyp
 
 ## GetTickerAsync  
 
-[]()  
+[https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-ticker](https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-ticker)  
 <p>
 
 *Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.*  
@@ -1030,7 +1039,7 @@ Task<WebCallResult<OKXTicker>> GetTickerAsync(string symbol, CancellationToken c
 
 ## GetTickersAsync  
 
-[]()  
+[https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-tickers](https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-tickers)  
 <p>
 
 *Retrieve the latest price snapshot, best bid/ask price, and trading volume in the last 24 hours.*  
@@ -1041,13 +1050,14 @@ var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(/* parameters 
 ```  
 
 ```csharp  
-Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = default, string? instrumentFamily = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
 |_[Optional]_ underlying|Underlying|
+|_[Optional]_ instrumentFamily|Instrument family|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
@@ -1056,7 +1066,7 @@ Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType in
 
 ## GetTradeHistoryAsync  
 
-[]()  
+[https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-trades-history](https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-trades-history)  
 <p>
 
 *Get trades history*  
@@ -1112,7 +1122,7 @@ Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(OKXInstrumentType in
 
 ## GetVIPInterestRatesAsync  
 
-[]()  
+[https://www.okx.com/docs-v5/en/#public-data-rest-api-get-interest-rate-and-loan-quota](https://www.okx.com/docs-v5/en/#public-data-rest-api-get-interest-rate-and-loan-quota)  
 <p>
 
 *Get interest rate and loan quota for VIP loans*  
@@ -1147,16 +1157,16 @@ var result = await client.UnifiedApi.ExchangeData.UnitConvertAsync(/* parameters
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType? type, OKXConvertUnit? unit = default, string symbol, decimal? price = default, decimal? size = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType type, string symbol, decimal quantity, OKXConvertUnit? unit = default, decimal? price = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
-|type||
-|_[Optional]_ unit||
-|symbol||
-|_[Optional]_ price||
-|_[Optional]_ size||
+|type|Convert type|
+|symbol|Symbol|
+|quantity|Quantity to buy or sell|
+|_[Optional]_ unit|The unit of currency|
+|_[Optional]_ price|Order price|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>

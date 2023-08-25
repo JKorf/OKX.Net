@@ -55,7 +55,7 @@ var result = await client.UnifiedApi.SubAccounts.GetSubAccountFundingBalancesAsy
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXSubAccountFundingBalance>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = default, CancellationToken ct = default);  
+Task<WebCallResult<IEnumerable<OKXSubAccountFundingBalance>>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|

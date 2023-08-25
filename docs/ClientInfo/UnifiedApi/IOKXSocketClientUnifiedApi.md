@@ -23,11 +23,13 @@ var result = await client.UnifiedApi.SubscribeToAccountUpdatesAsync(/* parameter
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(Action<OKXAccountBalance> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(string? asset, bool regularUpdates, Action<OKXAccountBalance> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
+|asset|Only receive updates for this asset|
+|regularUpdates|If true will send updates regularly even if nothing has changed. If false only send update on change|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -48,14 +50,14 @@ var result = await client.UnifiedApi.SubscribeToAdvanceAlgoOrderUpdatesAsync(/* 
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXAlgoOrder> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? algoId, Action<OKXAlgoOrderUpdate> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
 |symbol|Symbol|
-|underlying|Underlying|
+|algoId|Algo order id|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -76,14 +78,14 @@ var result = await client.UnifiedApi.SubscribeToAlgoOrderUpdatesAsync(/* paramet
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXAlgoOrder> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXAlgoOrderUpdate> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
 |symbol|Symbol|
-|underlying|Underlying|
+|instrumentFamily|Instrument family|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -130,13 +132,14 @@ var result = await client.UnifiedApi.SubscribeToEstimatedPriceUpdatesAsync(/* pa
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string underlying, Action<OKXEstimatedPrice> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<OKXEstimatedPrice> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
-|underlying|Underlying|
+|instrumentFamily|Instrument family. Required if symbol is not set|
+|symbol|Symbol. Required if instrumentFamily is not set|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -342,12 +345,12 @@ var result = await client.UnifiedApi.SubscribeToOptionSummaryUpdatesAsync(/* par
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string underlying, Action<OKXOptionSummary> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<OKXOptionSummary> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
-|underlying|Underlying|
+|instrumentFamily|Instrument family|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -400,14 +403,14 @@ var result = await client.UnifiedApi.SubscribeToOrderUpdatesAsync(/* parameters 
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? underlying, Action<OKXOrder> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<OKXOrderUpdate> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
 |symbol|Symbol|
-|underlying|Underlying|
+|instrumentFamily|Instrument family|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
@@ -428,14 +431,15 @@ var result = await client.UnifiedApi.SubscribeToPositionUpdatesAsync(/* paramete
 ```  
 
 ```csharp  
-Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(OKXInstrumentType instrumentType, string symbol, string underlying, Action<OKXPosition> onData, CancellationToken ct = default);  
+Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<OKXPosition> onData, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
 |---|---|
 |instrumentType|Instrument Type|
 |symbol|Instrument ID|
-|underlying|Underlying|
+|instrumentFamily|Instrument family|
+|regularUpdates|If true will send updates regularly even if nothing has changed. If false only send update on change|
 |onData|On Data Handler|
 |_[Optional]_ ct|Cancellation Token|
 
