@@ -85,12 +85,16 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     }
 
     /// <inheritdoc />
-    protected override Error ParseErrorResponse(JToken error)
+    protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, string data)
     {
-        if (error["code"] == null || error["msg"] == null)
-            return new ServerError(error.ToString());
+        var errorData = ValidateJson(data);
+        if (!errorData)
+            return new ServerError(data);
 
-        return new ServerError((int)error["code"]!, (string)error["msg"]!);
+        if (errorData.Data["code"] == null || errorData.Data["msg"] == null)
+            return new ServerError(data);
+
+        return new ServerError((int)errorData.Data["code"]!, (string)errorData.Data["msg"]!);
     }
 
 }

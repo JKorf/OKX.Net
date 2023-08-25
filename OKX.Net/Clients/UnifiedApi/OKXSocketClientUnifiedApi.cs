@@ -495,7 +495,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
 
         // Try to Login
         var result = new CallResult<bool>(new ServerError("No response from server"));
-        await s.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), null, data =>
+        await s.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), null, 1, data =>
         {
             if ((string?)data["event"] != "login")
                 return false;
@@ -639,7 +639,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             return false;
 
         var request = new OKXSocketRequest(OKXSocketOperation.Unsubscribe, ((OKXSocketRequest)s.Request).Arguments[0]);
-        await connection.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), s, data =>
+        await connection.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), s, 1, data =>
         {
             if (data.Type != JTokenType.Object)
                 return false;
