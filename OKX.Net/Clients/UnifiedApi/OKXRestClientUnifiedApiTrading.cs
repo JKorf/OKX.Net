@@ -62,7 +62,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         OKXQuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
-        OKXQuantityType? quantityType = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object> {
@@ -91,8 +90,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
-        if (quantityType.HasValue)
-            parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXOrderPlaceResponse>(result.Error!);
@@ -494,7 +491,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? asset = null,
         bool? reduceOnly = null,
         OKXPositionSide? positionSide = null,
-        OKXQuantityType? quantityType = null,
+        OKXQuantityAsset? quantityType = null,
 
         OKXAlgoPriceType? tpTriggerPxType = null,
         decimal? tpTriggerPrice = null,
@@ -537,8 +534,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
-        if (quantityType.HasValue)
-            parameters.AddOptionalParameter("tgtCcy", JsonConvert.SerializeObject(quantityType, new QuantityTypeConverter(false)));
+        parameters.AddOptionalParameter("tgtCcy", EnumConverter.GetString(quantityType));
 
         if (tpTriggerPxType.HasValue)
             parameters.AddOptionalParameter("tpTriggerPxType", JsonConvert.SerializeObject(tpTriggerPxType, new AlgoPriceTypeConverter(false)));

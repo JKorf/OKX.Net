@@ -141,6 +141,12 @@ namespace OKX.Net.UnitTests
             await TestFileToObject<OKXAlgoOrderUpdate>(@"JsonResponses/Unified/Socket/AdvancedAlgoOrderUpdate.txt", ignoreProperties: new List<string> { "pTime", "eventType", "code", "msg" });
         }
 
+        [Test]
+        public async Task ValidateLiquidationWarningUpdateStreamJson()
+        {
+            await TestFileToObject<OKXPosition>(@"JsonResponses/Unified/Socket/LiquidationWarningUpdate.txt", ignoreProperties: new List<string> { "pTime", "eventType", "code", "msg" });
+        }
+
         private static async Task TestFileToObject<T>(string filePath, List<string> ignoreProperties = null)
         {
             var listener = new EnumValueTraceListener();

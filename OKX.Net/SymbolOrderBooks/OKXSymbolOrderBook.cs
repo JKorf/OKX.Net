@@ -62,7 +62,7 @@ namespace OKX.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            var result = await _socketClient.UnifiedApi.SubscribeToOrderBookUpdatesAsync(Symbol, OKXOrderBookType.OrderBook, ProcessUpdate).ConfigureAwait(false);
+            var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, OKXOrderBookType.OrderBook, ProcessUpdate).ConfigureAwait(false);
             if (!result)
                 return result;
 

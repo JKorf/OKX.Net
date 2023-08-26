@@ -179,8 +179,8 @@ public class OKXAlgoOrder
     /// <summary>
     /// Quantity type
     /// </summary>
-    [JsonProperty("tgtCcy"), JsonConverter(typeof(QuantityTypeConverter))]
-    public OKXQuantityType? QuantityType { get; set; }
+    [JsonProperty("tgtCcy"), JsonConverter(typeof(EnumConverter))]
+    public OKXQuantityAsset? QuantityType { get; set; }
 
     /// <summary>
     /// State

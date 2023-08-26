@@ -3,6 +3,18 @@ using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Core;
 
+internal class OKXSocketMessage
+{
+    [JsonProperty("op")]
+    public string Operation { get; set; }
+
+    [JsonProperty("id")]
+    public string Id { get; set; }
+
+    [JsonProperty("args")]
+    public IEnumerable<object> Args { get; set; }
+}
+
 internal class OKXSocketRequest
 {
     [JsonProperty("op"), JsonConverter(typeof(OKXSocketOperationConverter))]

@@ -1,15 +1,8 @@
 ﻿using CryptoExchange.Net.Sockets;
-using OKX.Net.Converters;
-using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
-using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Core;
-using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Options;
-using OKX.Net.Objects.Public;
-using OKX.Net.Objects.System;
-using OKX.Net.Objects.Trade;
 using System.IO;
 using System.IO.Compression;
 
@@ -18,6 +11,13 @@ namespace OKX.Net.Clients.UnifiedApi;
 /// <inheritdoc />
 public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
 {
+    /// <inheritdoc />
+    public IOKXSocketClientUnifiedApiAccount Account { get; }
+    /// <inheritdoc />
+    public IOKXSocketClientUnifiedApiExchangeData ExchangeData { get; }
+    /// <inheritdoc />
+    public IOKXSocketClientUnifiedApiTrading Trading { get; }
+
     #region ctor
 
     internal OKXSocketClientUnifiedApi(ILogger logger, OKXSocketOptions options) :
@@ -26,425 +26,28 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         SetDataInterpreter(DecompressData, HandlePongData);
         SendPeriodic("Ping", TimeSpan.FromSeconds(5), con => "ping");
         AddGenericHandler("Ping", (a) => { });
+
+        Account = new OKXSocketClientUnifiedApiAccount(logger, this);
+        ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
+        Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
     }
     #endregion
 
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(OKXInstrumentType instrumentType, Action<OKXInstrument> onData, CancellationToken ct = default)
+    internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync<T>(string url, object? request, string? identifier, bool authenticated, Action<DataEvent<T>> dataHandler, CancellationToken ct)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXInstrument>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "instruments",
-            InstrumentType = instrumentType,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
+        return SubscribeAsync(url, request, identifier, authenticated, dataHandler, ct);
     }
 
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<OKXTicker> onData, CancellationToken ct = default)
+    internal Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXTicker>>>>(data =>
+        var requestWrapper = new OKXSocketMessage
         {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+            Id = ExchangeHelpers.NextId().ToString(),
+            Operation = operation,
+            Args = new[] { parameters }
+        };
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
-            new OKXSocketRequestArgument 
-            { 
-                Channel = "tickers", 
-                Symbol = symbol 
-            });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<OKXOpenInterest> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOpenInterest>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
-            new OKXSocketRequestArgument 
-            { 
-                Channel = "open-interest", 
-                Symbol = symbol 
-            });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXCandlestick>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-            {
-                d.Symbol = symbol;
-                onData(d);
-            }
-        });
-
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
-            new OKXSocketRequestArgument 
-            { 
-                Channel = "candle" + jc, 
-                Symbol = symbol 
-            });
-        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<OKXTrade> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXTrade>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "trades",
-            Symbol = symbol
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<OKXEstimatedPrice> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXEstimatedPrice>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "estimated-price",
-            InstrumentFamily = instrumentFamily,
-            InstrumentType = instrumentType,
-            Symbol = symbol,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<OKXMarkPrice> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXMarkPrice>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
-            new OKXSocketRequestArgument 
-            { 
-                Channel = "mark-price", 
-                Symbol = symbol 
-            });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXCandlestick>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-            {
-                d.Symbol = symbol;
-                onData(d);
-            }
-        });
-
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, 
-            new OKXSocketRequestArgument 
-            { 
-                Channel = "mark-price-candle" + jc, 
-                Symbol = symbol 
-            });
-        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<OKXLimitPrice> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXLimitPrice>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "price-limit",
-            Symbol = symbol
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OKXOrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXOrderBookUpdate>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-            {
-                d.Symbol = symbol;
-                d.Action = data.Data.Action!;
-                onData(data.As(d));
-            }
-        });
-
-        var jc = JsonConvert.SerializeObject(orderBookType, new OrderBookTypeConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = jc,
-            Symbol = symbol
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<OKXOptionSummary> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOptionSummary>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "opt-summary",
-            InstrumentFamily = instrumentFamily
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<OKXFundingRate> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXFundingRate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "funding-rate",
-            Symbol = symbol
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXCandlestick>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-            {
-                d.Symbol = symbol;
-                onData(d);
-            }
-        });
-
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "index-candle" + jc,
-            Symbol = symbol
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<OKXIndexTicker> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXIndexTicker>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "index-tickers",
-            Symbol = symbol,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<OKXStatus> onData, CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXStatus>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "status"
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/public"), request, null, false, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
-        string? asset,
-        bool regularUpdates,
-        Action<OKXAccountBalance> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAccountBalance>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "account",
-            Asset = asset,
-            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(
-        OKXInstrumentType instrumentType,
-        string? symbol,
-        string? instrumentFamily,
-        bool regularUpdates,
-        Action<OKXPosition> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPosition>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "positions",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
-        Action<OKXPositionRisk> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPositionRisk>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "balance_and_position"
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
-        string? symbol,
-        string? instrumentFamily,
-        Action<OKXOrderUpdate> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "orders",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
-        string? symbol,
-        string? instrumentFamily,
-        Action<OKXAlgoOrderUpdate> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "orders-algo",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
-        string? symbol,
-        string? algoId,
-        Action<OKXAlgoOrderUpdate> onData,
-        CancellationToken ct = default)
-    {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
-
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "algo-advance",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            AlgoId = algoId,
-        });
-        return await SubscribeAsync(GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return QueryAsync<T>(url, requestWrapper, authenticated, weight);
     }
 
     internal string GetUri(string path) => BaseAddress.Trim(new[] { '/' }) + path;
@@ -497,7 +100,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var result = new CallResult<bool>(new ServerError("No response from server"));
         await s.SendAndWaitAsync(request, TimeSpan.FromSeconds(10), null, 1, data =>
         {
-            if ((string?)data["event"] != "login")
+            var @event = (string?)data["event"];
+            if (@event != "login" && @event != "error")
                 return false;
 
             var authResponse = Deserialize<OKXSocketResponse>(data);
@@ -507,10 +111,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 result = new CallResult<bool>(authResponse.Error!);
                 return true;
             }
+
             if (!authResponse.Data.Success)
             {
-                _logger.Log(LogLevel.Warning, "Authorization failed: " + authResponse.Error!.Message);
-                result = new CallResult<bool>(new ServerError(authResponse.Error.Code!.Value, authResponse.Error.Message));
+                _logger.Log(LogLevel.Warning, "Authorization failed: " + authResponse.Data.ErrorMessage);
+                result = new CallResult<bool>(new ServerError(int.Parse(authResponse.Data.ErrorCode), authResponse.Data.ErrorMessage!));
                 return true;
             }
 
@@ -526,6 +131,19 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     protected override bool HandleQueryResponse<T>(SocketConnection s, object request, JToken data, out CallResult<T> callResult)
     {
         callResult = null!;
+
+        var msgId = data["id"];
+        if (msgId != null && request is OKXSocketMessage socketMessage)
+        {
+            if (msgId.ToString() == socketMessage.Id)
+            {
+                var dataObj = ((JArray)data["data"])[0];
+                callResult = Deserialize<T>(dataObj);
+                return true;
+            }
+
+            return false;
+        }
 
         // Check for Error
         if (data is JObject && data["event"] != null && (string)data["event"]! == "error" && data["code"] != null && data["msg"] != null)

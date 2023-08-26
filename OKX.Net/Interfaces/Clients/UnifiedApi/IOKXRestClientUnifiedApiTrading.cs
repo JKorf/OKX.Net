@@ -287,7 +287,7 @@ public interface IOKXRestClientUnifiedApiTrading
         string? asset = null,
         bool? reduceOnly = null, 
         OKXPositionSide? positionSide = null,
-        OKXQuantityType? quantityType = null,
+        OKXQuantityAsset? quantityType = null,
         OKXAlgoPriceType? tpTriggerPxType = null, 
         decimal? tpTriggerPrice = null, 
         decimal? tpOrderPrice = null, 
@@ -332,7 +332,6 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="asset">Asset</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
-    /// <param name="quantityType">Quantity Type</param>
     /// <param name="takeProfitTriggerPrice">Take profit trigger price</param>
     /// <param name="stopLossTriggerPrice">Stop loss trigger price</param>
     /// <param name="takeProfitOrderPrice">Take profit order price</param>
@@ -368,6 +367,5 @@ public interface IOKXRestClientUnifiedApiTrading
         OKXQuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
-        OKXQuantityType? quantityType = null,
         CancellationToken ct = default);
 }

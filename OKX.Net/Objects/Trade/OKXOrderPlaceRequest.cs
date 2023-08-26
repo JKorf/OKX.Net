@@ -77,6 +77,6 @@ public class OKXOrderPlaceRequest
     /// <summary>
     /// Quantity type
     /// </summary>
-    [JsonProperty("tgtCcy", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(QuantityTypeConverter))]
-    public OKXQuantityType? QuantityType { get; set; }
+    [JsonProperty("tgtCcy", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(EnumConverter))]
+    public OKXQuantityAsset? QuantityType { get; set; }
 }

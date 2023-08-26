@@ -1,0 +1,30 @@
+﻿using CryptoExchange.Net.Sockets;
+using OKX.Net.Objects.Account;
+
+namespace OKX.Net.Interfaces.Clients.UnifiedApi;
+
+/// <summary>
+/// Unified API
+/// </summary>
+public interface IOKXSocketClientUnifiedApiAccount
+{
+    /// <summary>
+    /// Subscribe to account information updates. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-channel" /></para>
+    /// </summary>
+    /// <param name="asset">Only receive updates for this asset</param>
+    /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(string? asset, bool regularUpdates, Action<OKXAccountBalance> onData, CancellationToken ct = default);
+
+    /// <summary>
+    /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-balance-and-position-channel" /></para>
+    /// </summary>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<OKXPositionRisk> onData, CancellationToken ct = default);
+}
