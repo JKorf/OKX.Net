@@ -22,6 +22,13 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
+* Version 1.2.0 - 26 Aug 2023
+    * Split socket client into different topics
+    * Added websocket order management support
+    * Added LiquidationWarning update stream
+    * Added Withdrawal update stream
+    * Added Deposit update stream
+
 * Version 1.1.1 - 25 Aug 2023
     * Updated CryptoExchange.Net
 
