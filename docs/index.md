@@ -2,9 +2,12 @@
 title: Home
 nav_order: 1
 ---
-[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) ![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg)  ![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg)
+[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) [![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg)](https://www.nuget.org/packages/JK.OKX.Net)
 
 This library is based on the CryptoExchange.Net base library. General usage/configuration information can be found in the [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net)
+
+## Installation
+`dotnet add package JK.OKX.Net`
 
 ## Discord
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
