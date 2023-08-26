@@ -158,10 +158,17 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                 {
                     callResult = new CallResult<T>(new ServerError(responseCode, data["msg"]!.ToString()));
                     return true;
-                }    
+                }
 
-                var dataObj = ((JArray)data["data"]);
-                callResult = Deserialize<T>(dataObj);
+                var dataObj = data["data"];
+                if (dataObj == null)
+                {
+                    callResult = new CallResult<T>(new ServerError("Unknown response format"));
+                    return true;
+                }
+
+                var dataArr = (JArray)dataObj;
+                callResult = Deserialize<T>(dataArr);
                 return true;
             }
 

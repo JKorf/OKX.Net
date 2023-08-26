@@ -6,13 +6,13 @@ namespace OKX.Net.Objects.Core;
 internal class OKXSocketMessage
 {
     [JsonProperty("op")]
-    public string Operation { get; set; }
+    public string Operation { get; set; } = string.Empty;
 
     [JsonProperty("id")]
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [JsonProperty("args")]
-    public IEnumerable<object> Args { get; set; }
+    public IEnumerable<object> Args { get; set; } = Array.Empty<object>();
 }
 
 internal class OKXSocketRequest
