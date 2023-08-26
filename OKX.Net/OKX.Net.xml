@@ -2146,6 +2146,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXDepositHistory},System.Threading.CancellationToken)">
             <summary>
             Subscribe to deposit updates
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-deposit-info-channel" /></para>
             </summary>
             <param name="onData">On Data Handler</param>
             <param name="ct">Cancellation Token</param>
@@ -2154,6 +2155,7 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXWithdrawalHistory},System.Threading.CancellationToken)">
             <summary>
             Subscribe to withdrawal updates
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-withdrawal-info-channel" /></para>
             </summary>
             <param name="onData">On Data Handler</param>
             <param name="ct">Cancellation Token</param>
