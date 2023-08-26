@@ -1,10 +1,15 @@
 # ![Icon!](https://github.com/JKorf/OKX.Net/blob/358d31f58d8ee51fc234bff1940878a8d0ce5676/Okex.Net/Icon/icon.png "OKX.Net") OKX.Net
 
+[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) [![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg)](https://www.nuget.org/packages/JK.OKX.Net)
+
 A .Net wrapper for the OKX API as described on [OKX](https://www.okx.com/docs-v5/en/), including all features the API provides using clear and readable objects.
 
 **If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/JKorf/OKX.Net/issues)**
 
 [Documentation](https://jkorf.github.io/OKX.Net/)
+
+## Installation
+`dotnet add package JK.OKX.Net`
 
 ## Support the project
 I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
