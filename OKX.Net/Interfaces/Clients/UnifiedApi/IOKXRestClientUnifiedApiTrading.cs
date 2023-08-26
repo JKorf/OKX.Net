@@ -319,7 +319,7 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
-    /// You can place an order only if you have sufficient funds.
+    /// Place a new order
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
     /// </summary>
     /// <param name="symbol">Symbol</param>

@@ -78,23 +78,23 @@ public interface IOKXSocketClientUnifiedApiTrading
         CancellationToken ct = default);
 
     /// <summary>
-    /// 
+    /// Place a new order
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
     /// </summary>
-    /// <param name="symbol"></param>
-    /// <param name="side"></param>
-    /// <param name="type"></param>
-    /// <param name="tradeMode"></param>
-    /// <param name="quantity"></param>
-    /// <param name="price"></param>
-    /// <param name="positionSide"></param>
-    /// <param name="quickMarginType"></param>
-    /// <param name="selfTradePreventionId"></param>
-    /// <param name="selfTradePreventionMode"></param>
-    /// <param name="asset"></param>
-    /// <param name="quantityAsset"></param>
-    /// <param name="clientOrderId"></param>
-    /// <param name="reduceOnly"></param>
-    /// <param name="ct"></param>
+    /// <param name="symbol">Symbol</param>
+    /// <param name="tradeMode">Trade Mode</param>
+    /// <param name="side">Order Side</param>
+    /// <param name="positionSide">Position Side</param>
+    /// <param name="type">Order Type</param>
+    /// <param name="quantity">Quantity</param>
+    /// <param name="price">Price</param>
+    /// <param name="asset">Asset</param>
+    /// <param name="clientOrderId">Client Order ID</param>
+    /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
+    /// <param name="quickMarginType">Quick margin type</param>
+    /// <param name="selfTradePreventionId">Self trade prevention id</param>
+    /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
+    /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
         OKXOrderSide side,
@@ -111,6 +111,58 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? asset = null,
         OKXQuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
-        bool? reduceOnly = null,
-        CancellationToken ct = default);
+        bool? reduceOnly = null);
+
+    /// <summary>
+    /// Place orders in a batch. Maximum 20 orders can be placed per request
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-multiple-orders" /></para>
+    /// </summary>
+    /// <param name="orders">The orders to place</param>
+    /// <returns></returns>
+    Task<CallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders);
+
+    /// <summary>
+    /// Cancel an incomplete order
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /></para>
+    /// </summary>
+    /// <param name="symbol">The symbol</param>
+    /// <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
+    /// <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
+    /// <returns></returns>
+    Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null);
+
+    /// <summary>
+    /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled per request.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-multiple-orders" /></para>
+    /// </summary>
+    /// <param name="ordersToCancel">Orders to cancel</param>
+    /// <returns></returns>
+    Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel);
+
+    /// <summary>
+    /// Amend an incomplete order.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /></para>
+    /// </summary>
+    /// <param name="symbol">Symbol</param>
+    /// <param name="orderId">Amend by order id. This or clientOrderId should be provided</param>
+    /// <param name="clientOrderId">Amend by client order id. This or orderId should be provided</param>
+    /// <param name="requestId">Request id</param>
+    /// <param name="newQuantity">New quantity</param>
+    /// <param name="newPrice">New price</param>
+    /// <returns></returns>
+    Task<CallResult<OKXOrderAmendResponse>> AmendOrderAsync(
+        string symbol,
+        long? orderId = null,
+        string? clientOrderId = null,
+        string? requestId = null,
+        decimal? newQuantity = null,
+        decimal? newPrice = null);
+
+    /// <summary>
+    /// Amend incomplete orders in batches. Maximum 20 orders can be amended per request.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /></para>
+    /// </summary>
+    /// <param name="ordersToCancel">Orders to cancel</param>
+    /// <returns></returns>
+    Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel);
 }

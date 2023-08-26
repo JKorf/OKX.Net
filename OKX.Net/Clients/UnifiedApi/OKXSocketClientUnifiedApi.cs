@@ -38,13 +38,29 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         return SubscribeAsync(url, request, identifier, authenticated, dataHandler, ct);
     }
 
-    internal Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
+    internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
     {
         var requestWrapper = new OKXSocketMessage
         {
             Id = ExchangeHelpers.NextId().ToString(),
             Operation = operation,
             Args = new[] { parameters }
+        };
+
+        var result = await QueryAsync<IEnumerable<T>>(url, requestWrapper, authenticated, weight);
+        if (!result)
+            return result.AsError<T>(result.Error!);
+
+        return result.As(result.Data.Single());
+    }
+
+    internal Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight)
+    {
+        var requestWrapper = new OKXSocketMessage
+        {
+            Id = ExchangeHelpers.NextId().ToString(),
+            Operation = operation,
+            Args = data
         };
 
         return QueryAsync<T>(url, requestWrapper, authenticated, weight);
@@ -137,7 +153,14 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         {
             if (msgId.ToString() == socketMessage.Id)
             {
-                var dataObj = ((JArray)data["data"])[0];
+                var responseCode = int.Parse(data["code"]!.ToString());
+                if (responseCode > 2)
+                {
+                    callResult = new CallResult<T>(new ServerError(responseCode, data["msg"]!.ToString()));
+                    return true;
+                }    
+
+                var dataObj = ((JArray)data["data"]);
                 callResult = Deserialize<T>(dataObj);
                 return true;
             }

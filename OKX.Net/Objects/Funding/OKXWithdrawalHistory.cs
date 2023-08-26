@@ -23,7 +23,7 @@ public class OKXWithdrawalHistory
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(WithdrawalStateConverter))]
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
     public OKXWithdrawalState State { get; set; }
 
     /// <summary>

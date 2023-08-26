@@ -59,7 +59,7 @@ public class OKXDepositHistory
     /// <summary>
     /// Deposit state
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(DepositStateConverter))]
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
     public OKXDepositState State { get; set; }
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Sockets;
 using OKX.Net.Objects.Account;
+using OKX.Net.Objects.Funding;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
@@ -27,4 +28,22 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<OKXPositionRisk> onData, CancellationToken ct = default);
+
+    /// <summary>
+    /// Subscribe to deposit updates
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-deposit-info-channel" /></para>
+    /// </summary>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(Action<OKXDepositHistory> onData, CancellationToken ct = default);
+
+    /// <summary>
+    /// Subscribe to withdrawal updates
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-withdrawal-info-channel" /></para>
+    /// </summary>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<OKXWithdrawalHistory> onData, CancellationToken ct = default);
 }

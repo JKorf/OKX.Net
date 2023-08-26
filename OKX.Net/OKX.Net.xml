@@ -436,6 +436,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionRisk},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXDepositHistory},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXWithdrawalHistory},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData">
             <inheritdoc />
         </member>
@@ -487,7 +493,22 @@
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,OKX.Net.Enums.OKXTradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,OKX.Net.Enums.OKXTradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean})">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest})">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderCancelRequest})">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.AmendMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderAmendRequest})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.SubscribeToPositionUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Boolean,System.Action{OKX.Net.Objects.Account.OKXPosition},System.Threading.CancellationToken)">
@@ -2051,7 +2072,7 @@
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
-            You can place an order only if you have sufficient funds.
+            Place a new order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
             </summary>
             <param name="symbol">Symbol</param>
@@ -2117,6 +2138,22 @@
             <summary>
             Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-balance-and-position-channel" /></para>
+            </summary>
+            <param name="onData">On Data Handler</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXDepositHistory},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to deposit updates
+            </summary>
+            <param name="onData">On Data Handler</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXWithdrawalHistory},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to withdrawal updates
             </summary>
             <param name="onData">On Data Handler</param>
             <param name="ct">Cancellation Token</param>
@@ -2353,25 +2390,72 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,OKX.Net.Enums.OKXTradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,OKX.Net.Enums.OKXTradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean})">
             <summary>
-            
+            Place a new order
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
             </summary>
-            <param name="symbol"></param>
-            <param name="side"></param>
-            <param name="type"></param>
-            <param name="tradeMode"></param>
-            <param name="quantity"></param>
-            <param name="price"></param>
-            <param name="positionSide"></param>
-            <param name="quickMarginType"></param>
-            <param name="selfTradePreventionId"></param>
-            <param name="selfTradePreventionMode"></param>
-            <param name="asset"></param>
-            <param name="quantityAsset"></param>
-            <param name="clientOrderId"></param>
-            <param name="reduceOnly"></param>
-            <param name="ct"></param>
+            <param name="symbol">Symbol</param>
+            <param name="tradeMode">Trade Mode</param>
+            <param name="side">Order Side</param>
+            <param name="positionSide">Position Side</param>
+            <param name="type">Order Type</param>
+            <param name="quantity">Quantity</param>
+            <param name="price">Price</param>
+            <param name="asset">Asset</param>
+            <param name="clientOrderId">Client Order ID</param>
+            <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
+            <param name="quickMarginType">Quick margin type</param>
+            <param name="selfTradePreventionId">Self trade prevention id</param>
+            <param name="selfTradePreventionMode">Self trade prevention mode</param>
+            <param name="quantityAsset">Asset of the quantity when placing market order</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest})">
+            <summary>
+            Place orders in a batch. Maximum 20 orders can be placed per request
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-multiple-orders" /></para>
+            </summary>
+            <param name="orders">The orders to place</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String)">
+            <summary>
+            Cancel an incomplete order
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /></para>
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
+            <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderCancelRequest})">
+            <summary>
+            Cancel incomplete orders in batches. Maximum 20 orders can be canceled per request.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-multiple-orders" /></para>
+            </summary>
+            <param name="ordersToCancel">Orders to cancel</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            Amend an incomplete order.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /></para>
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="orderId">Amend by order id. This or clientOrderId should be provided</param>
+            <param name="clientOrderId">Amend by client order id. This or orderId should be provided</param>
+            <param name="requestId">Request id</param>
+            <param name="newQuantity">New quantity</param>
+            <param name="newPrice">New price</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.AmendMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderAmendRequest})">
+            <summary>
+            Amend incomplete orders in batches. Maximum 20 orders can be amended per request.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /></para>
+            </summary>
+            <param name="ordersToCancel">Orders to cancel</param>
             <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.IOKXOrderBookFactory">

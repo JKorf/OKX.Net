@@ -15,7 +15,7 @@ public class OKXOrderCancelRequest
     /// Order id
     /// </summary>
     [JsonProperty("ordId", NullValueHandling = NullValueHandling.Ignore)]
-    public long? OrderId { get; set; }
+    public string? OrderId { get; set; }
 
     /// <summary>
     /// Client order id

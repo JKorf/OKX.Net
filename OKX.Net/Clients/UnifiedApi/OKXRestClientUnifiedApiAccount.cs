@@ -625,8 +625,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
-        if (state.HasValue)
-            parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new DepositStateConverter(false)));
+        parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
@@ -725,8 +724,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
-        if (state.HasValue)
-            parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new WithdrawalStateConverter(false)));
+        parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
