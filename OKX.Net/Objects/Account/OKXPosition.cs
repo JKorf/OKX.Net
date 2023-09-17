@@ -296,4 +296,29 @@ public class OKXPosition
     /// </summary>
     [JsonProperty("uplRatioLastPx")]
     public decimal? UnrealizedPnlRatio { get; set; }
+    /// <summary>
+    /// Base balance (Margin only)
+    /// </summary>
+    [JsonProperty("baseBal")]
+    public decimal? BaseBalance { get; set; }
+    /// <summary>
+    /// Quote balance (Margin only)
+    /// </summary>
+    [JsonProperty("quoteBal")]
+    public decimal? QuoteBalance { get; set; }
+    /// <summary>
+    /// Accumulated fee. Negative number represents the user transaction fee charged by the platform. Positive number represents rebate.
+    /// </summary>
+    [JsonProperty("fee")]
+    public decimal? Fee { get; set; }
+    /// <summary>
+    /// Accumulated funding fee
+    /// </summary>
+    [JsonProperty("fundingFee")]
+    public decimal? FundingFee { get; set; }
+    /// <summary>
+    /// Accumulated liquidation penalty. It is negative when there is a value.
+    /// </summary>
+    [JsonProperty("liqPenalty")]
+    public decimal? LiquidationPenalty { get; set; }
 }
