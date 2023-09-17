@@ -481,7 +481,7 @@ var result = await client.UnifiedApi.Trading.PlaceAlgoOrderAsync(/* parameters *
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(string symbol, OKXTradeMode tradeMode, OKXOrderSide orderSide, OKXAlgoOrderType algoOrderType, decimal quantity, string? asset = default, bool? reduceOnly = default, OKXPositionSide? positionSide = default, OKXQuantityType? quantityType = default, OKXAlgoPriceType? tpTriggerPxType = default, decimal? tpTriggerPrice = default, decimal? tpOrderPrice = default, OKXAlgoPriceType? slTriggerPxType = default, decimal? slTriggerPrice = default, decimal? slOrderPrice = default, decimal? triggerPrice = default, decimal? orderPrice = default, OKXPriceVariance? pxVar = default, decimal? priceRatio = default, decimal? sizeLimit = default, decimal? priceLimit = default, long? timeInterval = default, decimal? callbackRatio = default, decimal? activePx = default, decimal? callbackSpread = default, decimal? closeFraction = default, bool? cancelOnClose = default, OKXQuickMarginType? quickMarginType = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(string symbol, OKXTradeMode tradeMode, OKXOrderSide orderSide, OKXAlgoOrderType algoOrderType, decimal quantity, string? asset = default, bool? reduceOnly = default, OKXPositionSide? positionSide = default, OKXQuantityAsset? quantityType = default, OKXAlgoPriceType? tpTriggerPxType = default, decimal? tpTriggerPrice = default, decimal? tpOrderPrice = default, OKXAlgoPriceType? slTriggerPxType = default, decimal? slTriggerPrice = default, decimal? slOrderPrice = default, decimal? triggerPrice = default, decimal? orderPrice = default, OKXPriceVariance? pxVar = default, decimal? priceRatio = default, decimal? sizeLimit = default, decimal? priceLimit = default, long? timeInterval = default, decimal? callbackRatio = default, decimal? activePx = default, decimal? callbackSpread = default, decimal? closeFraction = default, bool? cancelOnClose = default, OKXQuickMarginType? quickMarginType = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -550,7 +550,7 @@ Task<WebCallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync
 [https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order](https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order)  
 <p>
 
-*You can place an order only if you have sufficient funds.*  
+*Place a new order*  
 
 ```csharp  
 var client = new OKXRestClient();  
@@ -558,7 +558,7 @@ var result = await client.UnifiedApi.Trading.PlaceOrderAsync(/* parameters */);
 ```  
 
 ```csharp  
-Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol, OKXOrderSide side, OKXOrderType type, decimal quantity, decimal? price = default, OKXPositionSide? positionSide = default, OKXTradeMode? tradeMode = default, decimal? takeProfitTriggerPrice = default, decimal? stopLossTriggerPrice = default, decimal? takeProfitOrderPrice = default, decimal? stopLossOrderPrice = default, OXKTriggerPriceType? takeProfitTriggerPriceType = default, OXKTriggerPriceType? stopLossTriggerPriceType = default, OKXQuickMarginType? quickMarginType = default, int? selfTradePreventionId = default, OKXSelfTradePreventionMode? selfTradePreventionMode = default, string? asset = default, OKXQuantityAsset? quantityAsset = default, string? clientOrderId = default, bool? reduceOnly = default, OKXQuantityType? quantityType = default, CancellationToken ct = default);  
+Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol, OKXOrderSide side, OKXOrderType type, decimal quantity, decimal? price = default, OKXPositionSide? positionSide = default, OKXTradeMode? tradeMode = default, decimal? takeProfitTriggerPrice = default, decimal? stopLossTriggerPrice = default, decimal? takeProfitOrderPrice = default, decimal? stopLossOrderPrice = default, OXKTriggerPriceType? takeProfitTriggerPriceType = default, OXKTriggerPriceType? stopLossTriggerPriceType = default, OKXQuickMarginType? quickMarginType = default, int? selfTradePreventionId = default, OKXSelfTradePreventionMode? selfTradePreventionMode = default, string? asset = default, OKXQuantityAsset? quantityAsset = default, string? clientOrderId = default, bool? reduceOnly = default, CancellationToken ct = default);  
 ```  
 
 |Parameter|Description|
@@ -583,7 +583,6 @@ Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol, OKXOrd
 |_[Optional]_ quantityAsset|Asset of the quantity when placing market order|
 |_[Optional]_ clientOrderId|Client Order ID|
 |_[Optional]_ reduceOnly|Whether to reduce position only or not, true false, the default is false.|
-|_[Optional]_ quantityType|Quantity Type|
 |_[Optional]_ ct|Cancellation Token|
 
 </p>
