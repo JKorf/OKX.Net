@@ -433,7 +433,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToAccountUpdatesAsync(System.String,System.Boolean,System.Action{OKX.Net.Objects.Account.OKXAccountBalance},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionRisk},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{OKX.Net.Objects.Funding.OKXDepositHistory},System.Threading.CancellationToken)">
@@ -2134,7 +2134,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionRisk},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate},System.Threading.CancellationToken)">
             <summary>
             Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-balance-and-position-channel" /></para>
@@ -3498,6 +3498,111 @@
             Unrealized profit and loss ratio calculated by last price.
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate">
+            <summary>
+            Position and balance update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate.EventType">
+            <summary>
+            Trigger event type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate.BalanceData">
+            <summary>
+            Balance data
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate.PositionData">
+            <summary>
+            Position data
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXBalanceUpdate">
+            <summary>
+            Balance info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXBalanceUpdate.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXBalanceUpdate.CashBalance">
+            <summary>
+            Cash balance
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXBalanceUpdate.UpdateTime">
+            <summary>
+            Update time
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountPositionUpdate">
+            <summary>
+            Position info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.InstrumentType">
+            <summary>
+            Instrument type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.MarginMode">
+            <summary>
+            Margin mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.Quantity">
+            <summary>
+            Position quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.AverageOpenPrice">
+            <summary>
+            Average open price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.PositionAsset">
+            <summary>
+            Position asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.TradeId">
+            <summary>
+            Last trade ID
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.PositionId">
+            <summary>
+            Position id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.PositionSide">
+            <summary>
+            Position side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.UpdateTime">
+            <summary>
+            Update time
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountPositionMode">
             <summary>
             Position mode
@@ -3553,16 +3658,6 @@
             Equity
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskBalanceData.CashBalance">
-            <summary>
-            Cash balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskBalanceData.UpdateTime">
-            <summary>
-            Update time
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData">
             <summary>
             Position info
@@ -3603,19 +3698,9 @@
             Position quantity
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.AverageOpenPrice">
-            <summary>
-            Average open price
-            </summary>
-        </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.PositionAsset">
             <summary>
             Position asset
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.TradeId">
-            <summary>
-            Last trade ID
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.PositionId">
@@ -3636,11 +3721,6 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.QuoteBalance">
             <summary>
             Quote asset balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.UpdateTime">
-            <summary>
-            Update time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXWithdrawalAmount">

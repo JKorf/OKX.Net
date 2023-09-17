@@ -27,7 +27,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<OKXPositionRisk> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<OKXPositionAndBalanceUpdate> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to deposit updates

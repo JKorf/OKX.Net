@@ -45,10 +45,10 @@ public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccoun
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
-        Action<OKXPositionRisk> onData,
+        Action<OKXPositionAndBalanceUpdate> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPositionRisk>>>>(data =>
+        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPositionAndBalanceUpdate>>>>(data =>
         {
             foreach (var d in data.Data.Data)
                 onData(d);

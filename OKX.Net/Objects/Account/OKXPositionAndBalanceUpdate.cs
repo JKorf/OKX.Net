@@ -4,39 +4,39 @@ using OKX.Net.Enums;
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
-/// Position risk info
+/// Position and balance update
 /// </summary>
-public class OKXPositionRisk
+public class OKXPositionAndBalanceUpdate
 {
     /// <summary>
-    /// Adjusted equity
+    /// Trigger event type
     /// </summary>
-    [JsonProperty("adjEq")]
-    public decimal? AdjustedEquity { get; set; }
+    [JsonProperty("eventType")]
+    public string EventType { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonProperty("pTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Balance data
     /// </summary>
     [JsonProperty("balData")]
-    public IEnumerable<OKXAccountPositionRiskBalanceData> BalanceData { get; set; } = Array.Empty<OKXAccountPositionRiskBalanceData>();
+    public IEnumerable<OKXBalanceUpdate> BalanceData { get; set; } = Array.Empty<OKXBalanceUpdate>();
 
     /// <summary>
     /// Position data
     /// </summary>
     [JsonProperty("posData")]
-    public IEnumerable<OKXAccountPositionRiskPositionData> PositionData { get; set; } = Array.Empty<OKXAccountPositionRiskPositionData>();
+    public IEnumerable<OKXAccountPositionUpdate> PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
 }
 
 /// <summary>
 /// Balance info
 /// </summary>
-public class OKXAccountPositionRiskBalanceData
+public class OKXBalanceUpdate
 {
     /// <summary>
     /// Asset
@@ -45,22 +45,23 @@ public class OKXAccountPositionRiskBalanceData
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Discount equity
+    /// Cash balance
     /// </summary>
-    [JsonProperty("disEq")]
-    public decimal? DiscountEquity { get; set; }
+    [JsonProperty("cashBal")]
+    public decimal? CashBalance { get; set; }
 
     /// <summary>
-    /// Equity
+    /// Update time
     /// </summary>
-    [JsonProperty("eq")]
-    public decimal? Equity { get; set; }
+    [JsonProperty("uTime")]
+    [JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? UpdateTime { get; set; }
 }
 
 /// <summary>
 /// Position info
 /// </summary>
-public class OKXAccountPositionRiskPositionData
+public class OKXAccountPositionUpdate
 {
     /// <summary>
     /// Asset
@@ -87,28 +88,28 @@ public class OKXAccountPositionRiskPositionData
     public OKXMarginMode MarginMode { get; set; }
 
     /// <summary>
-    /// Notional currency
-    /// </summary>
-    [JsonProperty("notionalCcy")]
-    public decimal? NotionalCcy { get; set; }
-
-    /// <summary>
-    /// Notional usd
-    /// </summary>
-    [JsonProperty("notionalUsd")]
-    public decimal? NotionalUsd { get; set; }
-
-    /// <summary>
     /// Position quantity
     /// </summary>
     [JsonProperty("pos")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
+    /// Average open price
+    /// </summary>
+    [JsonProperty("avgPx")]
+    public decimal? AverageOpenPrice { get; set; }
+
+    /// <summary>
     /// Position asset
     /// </summary>
     [JsonProperty("posCcy")]
     public string PositionAsset { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Last trade ID
+    /// </summary>
+    [JsonProperty("tradeId")]
+    public string? TradeId { get; set; }
 
     /// <summary>
     /// Position id
@@ -123,14 +124,9 @@ public class OKXAccountPositionRiskPositionData
     public OKXPositionSide PositionSide { get; set; }
 
     /// <summary>
-    /// Base asset balance
+    /// Update time
     /// </summary>
-    [JsonProperty("baseBal")]
-    public decimal? BaseBalance { get; set; }
-
-    /// <summary>
-    /// Quote asset balance
-    /// </summary>
-    [JsonProperty("quoteBal")]
-    public decimal? QuoteBalance { get; set; }
+    [JsonProperty("uTime")]
+    [JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? UpdateTime { get; set; }
 }

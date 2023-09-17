@@ -120,7 +120,7 @@ namespace OKX.Net.UnitTests
         [Test]
         public async Task ValidateBalanceAndPositionUpdateStreamJson()
         {
-            await TestFileToObject<OKXPositionRisk>(@"JsonResponses/Unified/Socket/BalanceAndPositionUpdate.txt", ignoreProperties: new List<string> { "pTime" , "eventType" });
+            await TestFileToObject<OKXPositionAndBalanceUpdate>(@"JsonResponses/Unified/Socket/BalanceAndPositionUpdate.txt");
         }
 
         [Test]
