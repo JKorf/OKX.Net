@@ -22,4 +22,13 @@ public class OKXApiAddresses
         UnifiedRestAddress = "https://www.okx.com",
         UnifiedSocketAddress = "wss://ws.okx.com:8443",
     };
+
+    /// <summary>
+    /// Demo addresses
+    /// </summary>
+    public static OKXApiAddresses Demo = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://www.okx.com",
+        UnifiedSocketAddress = "wss://wspap.okx.com:8443",
+    };
 }

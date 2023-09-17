@@ -23,6 +23,14 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
+
+        if (options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet)
+        {
+            StandardRequestHeaders = new Dictionary<string, string>
+            {
+                { "x-simulated-trading", "1" }
+            };
+        }
     }
 
     /// <inheritdoc />

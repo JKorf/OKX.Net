@@ -4790,6 +4790,11 @@
             Default live addresses
             </summary>
         </member>
+        <member name="F:OKX.Net.Objects.OKXApiAddresses.Demo">
+            <summary>
+            Demo addresses
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.OKXApiCredentials">
             <inheritdoc />
         </member>
@@ -7253,6 +7258,20 @@
             <summary>
             Live environment
             </summary>
+        </member>
+        <member name="P:OKX.Net.OKXEnvironment.Demo">
+            <summary>
+            Live environment
+            </summary>
+        </member>
+        <member name="M:OKX.Net.OKXEnvironment.CreateCustom(System.String,System.String,System.String)">
+            <summary>
+            Create a custom environment
+            </summary>
+            <param name="name"></param>
+            <param name="restAddress"></param>
+            <param name="socketAddress"></param>
+            <returns></returns>
         </member>
         <member name="T:OKX.Net.OKXHelpers">
             <summary>

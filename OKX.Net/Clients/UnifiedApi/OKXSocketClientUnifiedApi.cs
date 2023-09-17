@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Sockets;
+using Microsoft.Extensions.Options;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
@@ -18,6 +19,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
 
+    private bool _demoTrading;
     #region ctor
 
     internal OKXSocketClientUnifiedApi(ILogger logger, OKXSocketOptions options) :
@@ -30,11 +32,16 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         Account = new OKXSocketClientUnifiedApiAccount(logger, this);
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
+
+        _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
     }
     #endregion
 
     internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync<T>(string url, object? request, string? identifier, bool authenticated, Action<DataEvent<T>> dataHandler, CancellationToken ct)
     {
+        if (_demoTrading)
+            url += "?brokerId=9999";
+
         return SubscribeAsync(url, request, identifier, authenticated, dataHandler, ct);
     }
 

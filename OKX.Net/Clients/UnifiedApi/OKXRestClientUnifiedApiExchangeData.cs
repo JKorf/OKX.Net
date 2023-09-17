@@ -665,8 +665,8 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
