@@ -292,8 +292,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
@@ -628,8 +628,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         };
         parameters.AddOptionalParameter("algoId", algoId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("instId", symbol);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         if (instrumentType.HasValue)
@@ -663,8 +663,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         };
         parameters.AddOptionalParameter("algoId", algoId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("instId", symbol);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         if (algoOrderState.HasValue)

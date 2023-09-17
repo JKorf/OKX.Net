@@ -107,8 +107,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (type != null)
             parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ClosingPositionTypeConverter(false)));
         parameters.AddOptionalParameter("posId", positionId);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXClosingPosition>>>(_baseClient.GetUri(Endpoints_V5_Account_PositionsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
@@ -426,8 +426,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         if (marginMode.HasValue)
@@ -560,8 +560,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("ccy", asset);
         if (type.HasValue)
             parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new FundingBillTypeConverter(false)));
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clientId", clientId);
 
@@ -626,8 +626,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
         parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("depId", depositId);
         parameters.AddOptionalParameter("fromWdId", fromWithdrawalId);
@@ -725,8 +725,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
         parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("wdId", withdrawalId);
         parameters.AddOptionalParameter("clientId", clientId);

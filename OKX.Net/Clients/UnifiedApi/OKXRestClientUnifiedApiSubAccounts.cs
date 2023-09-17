@@ -38,8 +38,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         var parameters = new Dictionary<string, object>();
         parameters.AddOptionalParameter("enable", enable);
         parameters.AddOptionalParameter("subAcct", subAccountName);
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccount>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_List), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
@@ -134,8 +134,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new SubAccountTransferTypeConverter(false)));
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
 

@@ -3498,6 +3498,31 @@
             Unrealized profit and loss ratio calculated by last price.
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.BaseBalance">
+            <summary>
+            Base balance (Margin only)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.QuoteBalance">
+            <summary>
+            Quote balance (Margin only)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.Fee">
+            <summary>
+            Accumulated fee. Negative number represents the user transaction fee charged by the platform. Positive number represents rebate.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.FundingFee">
+            <summary>
+            Accumulated funding fee
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.LiquidationPenalty">
+            <summary>
+            Accumulated liquidation penalty. It is negative when there is a value.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate">
             <summary>
             Position and balance update
