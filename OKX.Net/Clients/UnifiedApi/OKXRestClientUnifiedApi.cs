@@ -125,6 +125,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<OrderId>> ISpotClient.PlaceOrderAsync(string symbol, CommonOrderSide side, CommonOrderType type, decimal quantity, decimal? price, string? accountId, string? clientOrderId, CancellationToken ct)
     {
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.PlaceOrderAsync), nameof(symbol));
+
         var orderResult = await Trading.PlaceOrderAsync(
             symbol,
             side == CommonOrderSide.Buy ? Enums.OKXOrderSide.Buy : Enums.OKXOrderSide.Sell,
@@ -132,7 +135,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             quantity,
             price,
             clientOrderId: clientOrderId,
-            ct: ct);
+            ct: ct).ConfigureAwait(false);
 
         if (!orderResult)
             return orderResult.As<OrderId>(default);
@@ -167,6 +170,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<Ticker>> IBaseRestClient.GetTickerAsync(string symbol, CancellationToken ct)
     {
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetTickerAsync), nameof(symbol));
+
         var ticker = await ExchangeData.GetTickerAsync(symbol, ct).ConfigureAwait(false);
         if (!ticker)
             return ticker.As<Ticker>(default);
@@ -203,6 +209,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Kline>>> IBaseRestClient.GetKlinesAsync(string symbol, TimeSpan timespan, DateTime? startTime, DateTime? endTime, int? limit, CancellationToken ct)
     {
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetKlinesAsync), nameof(symbol));
+
         var seconds = (int)timespan.TotalSeconds;
         var period = (Enums.OKXPeriod)seconds;
 
@@ -227,6 +236,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<OrderBook>> IBaseRestClient.GetOrderBookAsync(string symbol, CancellationToken ct)
     {
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetOrderBookAsync), nameof(symbol));
+
         var book = await ExchangeData.GetOrderBookAsync(symbol, 25, ct).ConfigureAwait(false);
         if (!book)
             return book.As<OrderBook>(default);
@@ -241,6 +253,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Trade>>> IBaseRestClient.GetRecentTradesAsync(string symbol, CancellationToken ct)
     {
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetRecentTradesAsync), nameof(symbol));
+
         var trades = await ExchangeData.GetRecentTradesAsync(symbol, ct: ct).ConfigureAwait(false);
         if (!trades)
             return trades.As<IEnumerable<Trade>>(default);
@@ -278,7 +293,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (!long.TryParse(orderId, out var longId))
             throw new ArgumentException(nameof(orderId) + " is not a valid id for OKX " + nameof(ISpotClient.GetOrderAsync), nameof(orderId));
 
-        var orderResult = await Trading.GetOrderDetailsAsync(symbol, longId, ct: ct);
+        var orderResult = await Trading.GetOrderDetailsAsync(symbol, longId, ct: ct).ConfigureAwait(false);
         if (!orderResult)
             return orderResult.As<Order>(default);
 
@@ -309,7 +324,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (!long.TryParse(orderId, out var longId))
             throw new ArgumentException(nameof(orderId) + " is not a valid id for OKX " + nameof(ISpotClient.GetOrderAsync), nameof(orderId));
 
-        var tradesResult = await Trading.GetUserTradesAsync(Enums.OKXInstrumentType.Spot, orderId: longId, ct: ct);
+        var tradesResult = await Trading.GetUserTradesAsync(Enums.OKXInstrumentType.Spot, orderId: longId, ct: ct).ConfigureAwait(false);
         if (!tradesResult)
             return tradesResult.As<IEnumerable<UserTrade>>(default);
 
@@ -328,7 +343,10 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Order>>> IBaseRestClient.GetOpenOrdersAsync(string? symbol, CancellationToken ct)
     {
-        var ordersResult = await Trading.GetOrdersAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct);
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetOpenOrdersAsync), nameof(symbol));
+
+        var ordersResult = await Trading.GetOrdersAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
         if (!ordersResult)
             return ordersResult.As<IEnumerable<Order>>(default);
 
@@ -353,7 +371,10 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Order>>> IBaseRestClient.GetClosedOrdersAsync(string? symbol, CancellationToken ct)
     {
-        var ordersResult = await Trading.GetOrderHistoryAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct);
+        if (symbol == null)
+            throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetClosedOrdersAsync), nameof(symbol));
+
+        var ordersResult = await Trading.GetOrderHistoryAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
         if (!ordersResult)
             return ordersResult.As<IEnumerable<Order>>(default);
 
@@ -384,7 +405,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (!long.TryParse(orderId, out var longId))
             throw new ArgumentException(nameof(orderId) + " is not a valid id for OKX " + nameof(ISpotClient.CancelOrderAsync), nameof(orderId));
 
-        var ordersResult = await Trading.CancelOrderAsync(symbol, longId, ct: ct);
+        var ordersResult = await Trading.CancelOrderAsync(symbol, longId, ct: ct).ConfigureAwait(false);
         if (!ordersResult)
             return ordersResult.As<OrderId>(default);
 
