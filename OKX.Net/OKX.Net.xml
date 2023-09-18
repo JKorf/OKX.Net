@@ -843,6 +843,12 @@
             Endpoints related to orders and trades
             </summary>
         </member>
+        <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.CommonSpotClient">
+            <summary>
+            Get the ISpotClient for this client. This is a common interface which allows for some basic operations without knowing any details of the exchange.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount">
             <summary>
             Unified account endpoints
@@ -4712,12 +4718,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.QuoteVolume">
             <summary>
-            Base Volume
+            Quote Volume
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.Volume">
             <summary>
-            Quote Volume
+            Base Volume
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.OpenPriceUtc0">

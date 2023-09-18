@@ -67,6 +67,7 @@ public static class OKXHelpers
 
         services.AddSingleton<IOKXOrderBookFactory, OKXOrderBookFactory>();
         services.AddTransient<IOKXRestClient, OKXRestClient>();
+        services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
         if (socketClientLifeTime == null)
             services.AddSingleton<IOKXSocketClient, OKXSocketClient>();
         else

@@ -104,7 +104,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        return result.As(result.Data.Data.FirstOrDefault());
+        var orderResult = result.Data.Data.FirstOrDefault();
+        _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
+        {
+            Id = orderResult.OrderId.ToString(),
+            SourceObject = result.Data
+        });
+
+        return result.As(orderResult);
     }
 
     /// <inheritdoc />
@@ -134,6 +141,18 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
+        foreach (var order in result.Data.Data!)
+        {
+            if (order.OrderId.HasValue)
+            {
+                _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
+                {
+                    Id = order.OrderId.ToString(),
+                    SourceObject = result.Data
+                });
+            }
+        }
+
         return result.As(result.Data.Data!);
     }
 
@@ -150,7 +169,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (!result.Success) return result.AsError<OKXOrderCancelResponse>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<OKXOrderCancelResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
-        return result.As(result.Data.Data.FirstOrDefault());
+        var orderResult = result.Data.Data.FirstOrDefault();
+        _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
+        {
+            Id = orderResult.OrderId.ToString(),
+            SourceObject = result.Data
+        });
+
+        return result.As(orderResult);
     }
 
     /// <inheritdoc />
@@ -163,6 +189,19 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_CancelBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<IEnumerable<OKXOrderCancelResponse>>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrderCancelResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+
+        foreach (var order in result.Data.Data!)
+        {
+            if (order.OrderId.HasValue)
+            {
+                _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
+                {
+                    Id = order.OrderId.ToString(),
+                    SourceObject = result.Data
+                });
+            }
+        }
 
         return result.As(result.Data.Data!);
     }

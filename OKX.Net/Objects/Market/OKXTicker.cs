@@ -75,13 +75,13 @@ public class OKXTicker
     public decimal LowPrice { get; set; }
 
     /// <summary>
-    /// Base Volume
+    /// Quote Volume
     /// </summary>
     [JsonProperty("volCcy24h")]
     public decimal QuoteVolume { get; set; }
 
     /// <summary>
-    /// Quote Volume
+    /// Base Volume
     /// </summary>
     [JsonProperty("vol24h")]
     public decimal Volume { get; set; }
