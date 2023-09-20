@@ -63,7 +63,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("stpId", selfTradePreventionId);
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
 
-        var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1);
+        var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1).ConfigureAwait(false);
         if (result.Data.Code != "0")
             return result.AsError<OKXOrderPlaceResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
 
@@ -79,7 +79,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
             order.ClientOrderId = _ref + (order.ClientOrderId ?? RandomString(15));
         }
 
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderPlaceResponse>>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1);
+        return await _client.QueryInternalAsync<IEnumerable<OKXOrderPlaceResponse>>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -93,7 +93,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("ordId", orderId);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-        var result = await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "cancel-order", parameters, true, 1);
+        var result = await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "cancel-order", parameters, true, 1).ConfigureAwait(false);
         if (result.Data.Code != "0")
             return result.AsError<OKXOrderCancelResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
 
@@ -103,7 +103,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     /// <inheritdoc />
     public async Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel)
     {
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderCancelResponse>>(_client.GetUri("/ws/v5/private"), "batch-cancel-orders", ordersToCancel, true, 1);
+        return await _client.QueryInternalAsync<IEnumerable<OKXOrderCancelResponse>>(_client.GetUri("/ws/v5/private"), "batch-cancel-orders", ordersToCancel, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -135,7 +135,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     /// <inheritdoc />
     public async Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel)
     {
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderAmendResponse>>(_client.GetUri("/ws/v5/private"), "batch-amend-orders", ordersToCancel, true, 1);
+        return await _client.QueryInternalAsync<IEnumerable<OKXOrderAmendResponse>>(_client.GetUri("/ws/v5/private"), "batch-amend-orders", ordersToCancel, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

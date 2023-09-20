@@ -54,7 +54,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             Args = new[] { parameters }
         };
 
-        var result = await QueryAsync<IEnumerable<T>>(url, requestWrapper, authenticated, weight);
+        var result = await QueryAsync<IEnumerable<T>>(url, requestWrapper, authenticated, weight).ConfigureAwait(false);
         if (!result)
             return result.AsError<T>(result.Error!);
 
@@ -145,7 +145,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             _logger.Log(LogLevel.Debug, "Authorization completed");
             result = new CallResult<bool>(true);
             return true;
-        });
+        }).ConfigureAwait(false);
 
         return result;
     }
@@ -305,7 +305,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
             }
 
             return false;
-        });
+        }).ConfigureAwait(false);
         return false;
     }
 }
