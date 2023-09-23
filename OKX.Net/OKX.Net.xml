@@ -4450,12 +4450,29 @@
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXCandlestick.Volume">
             <summary>
-            Trading volume
+            Trading volume, with a unit of contract.
+            If it is a derivatives contract, the value is the number of contracts.
+            If it is SPOT/MARGIN, the value is the quantity in base currency.
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Market.OKXCandlestick.QuoteVolume">
+        <member name="P:OKX.Net.Objects.Market.OKXCandlestick.VolumeCurrency">
             <summary>
-            Quote volume
+            Trading volume, with a unit of currency.
+            If it is a derivatives contract, the value is the number of base currency.
+            If it is SPOT/MARGIN, the value is the quantity in quote currency.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXCandlestick.VolumeCurrencyQuote">
+            <summary>
+            Trading volume, the value is the quantity in quote currency
+            e.g. The unit is USDT for BTC-USDT and BTC-USDT-SWAP;
+            The unit is USD for BTC-USD-SWAP
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXCandlestick.Confirm">
+            <summary>
+            The state of candlesticks.
+            false represents that it is uncompleted, true represents that it is completed.
             </summary>
         </member>
         <member name="M:OKX.Net.Objects.Market.OKXCandlestick.Equals(System.Object)">

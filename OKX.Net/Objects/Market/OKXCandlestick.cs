@@ -47,16 +47,35 @@ public class OKXCandlestick
     public decimal ClosePrice { get; set; }
 
     /// <summary>
-    /// Trading volume
+    /// Trading volume, with a unit of contract.
+    /// If it is a derivatives contract, the value is the number of contracts.
+    /// If it is SPOT/MARGIN, the value is the quantity in base currency.
     /// </summary>
     [ArrayProperty(5)]
     public decimal Volume { get; set; }
 
     /// <summary>
-    /// Quote volume
+    /// Trading volume, with a unit of currency.
+    /// If it is a derivatives contract, the value is the number of base currency.
+    /// If it is SPOT/MARGIN, the value is the quantity in quote currency.
     /// </summary>
     [ArrayProperty(6)]
-    public decimal QuoteVolume { get; set; }
+    public decimal VolumeCurrency { get; set; }
+    
+    /// <summary>
+    /// Trading volume, the value is the quantity in quote currency
+    /// e.g. The unit is USDT for BTC-USDT and BTC-USDT-SWAP;
+    /// The unit is USD for BTC-USD-SWAP
+    /// </summary>
+    [ArrayProperty(7)]
+    public decimal VolumeCurrencyQuote { get; set; }
+
+    /// <summary>
+    /// The state of candlesticks.
+    /// false represents that it is uncompleted, true represents that it is completed.
+    /// </summary>
+    [ArrayProperty(8), JsonConverter(typeof(OKXBooleanConverter))]
+    public bool Confirm { get; set; }
 
     /// <inheritdoc />
     public override bool Equals(object obj)
@@ -70,10 +89,12 @@ public class OKXCandlestick
         return Time == stick.Time
             && Symbol == stick.Symbol
             && OpenPrice == stick.OpenPrice
-            && QuoteVolume == stick.QuoteVolume
-            && QuoteVolume == stick.QuoteVolume
-            && QuoteVolume == stick.QuoteVolume
+            && HighPrice == stick.HighPrice
+            && LowPrice == stick.LowPrice
+            && ClosePrice == stick.ClosePrice
             && Volume == stick.Volume
-            && QuoteVolume == stick.QuoteVolume;
+            && VolumeCurrency == stick.VolumeCurrency
+            && VolumeCurrencyQuote == stick.VolumeCurrencyQuote
+            && Confirm == stick.Confirm;
     }
 }
