@@ -650,7 +650,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(
         OKXAlgoOrderType algoOrderType,
-        long? algoId = null,
+        string? algoId = null,
         OKXInstrumentType? instrumentType = null,
         string? symbol = null,
         DateTime? startTime = null,
@@ -665,7 +665,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         {
             {"ordType",   JsonConvert.SerializeObject(algoOrderType, new AlgoOrderTypeConverter(false))}
         };
-        parameters.AddOptionalParameter("algoId", algoId?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("algoId", algoId);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
@@ -685,7 +685,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     public virtual async Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(
         OKXAlgoOrderType algoOrderType,
         OKXAlgoOrderState? algoOrderState = null,
-        long? algoId = null,
+        string? algoId = null,
         OKXInstrumentType? instrumentType = null,
         string? symbol = null,
         DateTime? startTime = null,
@@ -700,7 +700,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         {
             {"ordType",   JsonConvert.SerializeObject(algoOrderType, new AlgoOrderTypeConverter(false))}
         };
-        parameters.AddOptionalParameter("algoId", algoId?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("algoId", algoId);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));

@@ -9,7 +9,7 @@ public class OKXAlgoOrderRequest
     /// Algo order id
     /// </summary>
     [JsonProperty("algoId")]
-    public long AlgoOrderId { get; set; }
+    public string AlgoOrderId { get; set; } = string.Empty;
 
     /// <summary>
     /// Symbol

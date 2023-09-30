@@ -9,7 +9,7 @@ public class OKXAlgoOrderResponse
     /// Algo order id
     /// </summary>
     [JsonProperty("algoId")]
-    public long? AlgoOrderId { get; set; }
+    public string? AlgoOrderId { get; set; }
 
     /// <summary>
     /// Client order id

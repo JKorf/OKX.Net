@@ -119,7 +119,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(OKXAlgoOrderType algoOrderType, OKXAlgoOrderState? algoOrderState = null, long? algoId = null, OKXInstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(OKXAlgoOrderType algoOrderType, OKXAlgoOrderState? algoOrderState = null, string? algoId = null, OKXInstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve a list of untriggered Algo orders under the current account.
@@ -134,7 +134,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(OKXAlgoOrderType algoOrderType, long? algoId = null, OKXInstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(OKXAlgoOrderType algoOrderType, string? algoId = null, OKXInstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the completed order data of the last 3 months, and the incomplete orders that have been canceled are only reserved for 2 hours.
