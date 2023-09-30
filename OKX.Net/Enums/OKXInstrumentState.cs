@@ -6,4 +6,5 @@ public enum OKXInstrumentState
     Live,
     Suspend,
     PreOpen,
+    Test,
 }

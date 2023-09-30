@@ -144,30 +144,30 @@ public class OKXInstrument
     /// The maximum order quantity of the contract or spot limit order.
     /// </summary>
     [JsonProperty("maxLmtSz")]
-    public decimal MaxLimitQuantity { get; set; }
+    public decimal? MaxLimitQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot market order.
     /// </summary>
     [JsonProperty("maxMktSz")]
-    public decimal MaxMarketQuantity { get; set; }
+    public decimal? MaxMarketQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot twap order.
     /// </summary>
     [JsonProperty("maxTwapSz")]
-    public decimal MaxTwapQuantity { get; set; }
+    public decimal? MaxTwapQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot iceBerg order.
     /// </summary>
     [JsonProperty("maxIcebergSz")]
-    public decimal MaxIcebergQuantity { get; set; }
+    public decimal? MaxIcebergQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot trigger order.
     /// </summary>
     [JsonProperty("maxTriggerSz")]
-    public decimal MaxTriggerQuantity { get; set; }
+    public decimal? MaxTriggerQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot stop market order.
     /// </summary>
     [JsonProperty("maxStopSz")]
-    public decimal MaxStopQuantity { get; set; }
+    public decimal? MaxStopQuantity { get; set; }
 }
