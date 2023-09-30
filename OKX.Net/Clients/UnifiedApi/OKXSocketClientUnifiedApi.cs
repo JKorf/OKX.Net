@@ -19,6 +19,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
 
+    internal readonly string _ref = "078ee129065aBCDE";
     private bool _demoTrading;
     #region ctor
 
@@ -32,6 +33,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         Account = new OKXSocketClientUnifiedApiAccount(logger, this);
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
+
+        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId : "078ee129065aBCDE";
 
         _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
     }

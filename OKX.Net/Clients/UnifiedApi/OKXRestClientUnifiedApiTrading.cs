@@ -7,7 +7,6 @@ using OKX.Net.Objects.Trade;
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 {
-    private const string _ref = "078ee129065aBCDE";
     private const string _bodyParameterKey = "<BODY>";
 
     private static Random _random = new Random();
@@ -70,8 +69,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"side", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
             {"ordType", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
-            {"tag", _ref },
-            {"clOrdId",  _ref + (clientOrderId ?? RandomString(15)) },
+            {"tag", _baseClient._ref },
+            {"clOrdId",  _baseClient._ref + (clientOrderId ?? RandomString(15)) },
         };
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("ccy", asset);
@@ -119,8 +118,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     {
         foreach (var order in orders)
         {
-            order.Tag = _ref;
-            order.ClientOrderId = _ref + (order.ClientOrderId ?? RandomString(15));
+            order.Tag = _baseClient._ref;
+            order.ClientOrderId = _baseClient._ref + (order.ClientOrderId ?? RandomString(15));
         }
 
         var parameters = new Dictionary<string, object>
@@ -276,8 +275,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new Dictionary<string, object> {
             {"instId", symbol },
             {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
-            {"tag", "c84128021aecBCDE" },
-            {"clOrdId", _ref + RandomString(15) }
+            {"tag", _baseClient._ref },
+            {"clOrdId", _baseClient._ref + RandomString(15) }
 
         };
         if (positionSide.HasValue)
@@ -565,8 +564,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },
             {"ordType", JsonConvert.SerializeObject(algoOrderType, new AlgoOrderTypeConverter(false)) },
             {"sz", quantity.ToString() },
-            {"tag", _ref },
-            {"clOrdId", _ref + RandomString(15) }
+            {"tag", _baseClient._ref },
+            {"clOrdId", _baseClient._ref + RandomString(15) }
         };
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);

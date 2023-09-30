@@ -22,6 +22,11 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXApiCredenti
     public bool SignPublicRequests { get; set; }
 
     /// <summary>
+    /// Broker ID for earning rebates
+    /// </summary>
+    public string? BrokerId { get; set; }
+
+    /// <summary>
     /// Options for the  unified API
     /// </summary>
     public RestApiOptions UnifiedOptions { get; private set; } = new RestApiOptions();
@@ -30,6 +35,7 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXApiCredenti
     {
         var options = Copy<OKXRestOptions>();
         options.SignPublicRequests = SignPublicRequests;
+        options.BrokerId = BrokerId;
         options.UnifiedOptions = UnifiedOptions.Copy<RestApiOptions>();
         return options;
     }

@@ -18,6 +18,11 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment>
     };
 
     /// <summary>
+    /// Broker ID for earning rebates
+    /// </summary>
+    public string? BrokerId { get; set; }
+
+    /// <summary>
     /// Options for the Unified API
     /// </summary>
     public SocketApiOptions UnifiedOptions { get; private set; } = new SocketApiOptions();
@@ -25,6 +30,7 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment>
     internal OKXSocketOptions Copy()
     {
         var options = Copy<OKXSocketOptions>();
+        options.BrokerId = BrokerId;
         options.UnifiedOptions = UnifiedOptions.Copy<SocketApiOptions>();
         return options;
     }

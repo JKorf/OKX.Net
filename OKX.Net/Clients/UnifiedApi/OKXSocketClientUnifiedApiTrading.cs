@@ -12,7 +12,6 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 {
     private readonly OKXSocketClientUnifiedApi _client;
     private static Random _random = new Random();
-    private const string _ref = "078ee129065aBCDE";
 
     private readonly ILogger _logger;
 
@@ -53,8 +52,8 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         };
 
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("clOrdId", _ref + (clientOrderId ?? RandomString(15)));
-        parameters.AddOptionalParameter("tag", _ref);
+        parameters.AddOptionalParameter("clOrdId", _client._ref + (clientOrderId ?? RandomString(15)));
+        parameters.AddOptionalParameter("tag", _client._ref);
         parameters.AddOptionalParameter("posSide", EnumConverter.GetString(positionSide));
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
@@ -75,8 +74,8 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     {
         foreach (var order in orders)
         {
-            order.Tag = _ref;
-            order.ClientOrderId = _ref + (order.ClientOrderId ?? RandomString(15));
+            order.Tag = _client._ref;
+            order.ClientOrderId = _client._ref + (order.ClientOrderId ?? RandomString(15));
         }
 
         return await _client.QueryInternalAsync<IEnumerable<OKXOrderPlaceResponse>>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1).ConfigureAwait(false);

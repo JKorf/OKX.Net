@@ -4875,6 +4875,11 @@
             Whether or not to sign public requests
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Options.OKXRestOptions.BrokerId">
+            <summary>
+            Broker ID for earning rebates
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Options.OKXRestOptions.UnifiedOptions">
             <summary>
             Options for the  unified API
@@ -4888,6 +4893,11 @@
         <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.Default">
             <summary>
             Default options for new OKXRestClients
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.BrokerId">
+            <summary>
+            Broker ID for earning rebates
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.UnifiedOptions">
