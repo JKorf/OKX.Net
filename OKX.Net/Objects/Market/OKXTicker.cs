@@ -24,37 +24,37 @@ public class OKXTicker
     /// Last price
     /// </summary>
     [JsonProperty("last")]
-    public decimal LastPrice { get; set; }
+    public decimal? LastPrice { get; set; }
 
     /// <summary>
     /// Last trade quantity
     /// </summary>
     [JsonProperty("lastSz")]
-    public decimal LastQuantity { get; set; }
+    public decimal? LastQuantity { get; set; }
 
     /// <summary>
     /// Best ask price
     /// </summary>
     [JsonProperty("askPx")]
-    public decimal BestAskPrice { get; set; }
+    public decimal? BestAskPrice { get; set; }
 
     /// <summary>
     /// Best ask quantity
     /// </summary>
     [JsonProperty("askSz")]
-    public decimal BestAskSize { get; set; }
+    public decimal? BestAskSize { get; set; }
 
     /// <summary>
     /// Best bid price
     /// </summary>
     [JsonProperty("bidPx")]
-    public decimal BestBidPrice { get; set; }
+    public decimal? BestBidPrice { get; set; }
 
     /// <summary>
     /// Best bid quantity
     /// </summary>
     [JsonProperty("bidSz")]
-    public decimal BestBidQuantity { get; set; }
+    public decimal? BestBidQuantity { get; set; }
 
     /// <summary>
     /// Open price

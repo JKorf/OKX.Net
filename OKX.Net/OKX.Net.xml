@@ -388,10 +388,10 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAdvanceAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{System.Int64},System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.Nullable{System.Int64},System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi">
@@ -1896,7 +1896,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.Nullable{System.Int64},System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <summary>
             Retrieve a list of untriggered Algo orders under the current account.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-history" /></para>
@@ -1912,7 +1912,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{System.Int64},System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <summary>
             Retrieve a list of untriggered Algo orders under the current account.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /></para>
