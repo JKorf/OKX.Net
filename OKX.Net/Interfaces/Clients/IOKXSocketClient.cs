@@ -6,7 +6,7 @@ namespace OKX.Net.Interfaces.Clients;
 /// <summary>
 /// Client for accessing the OKX websocket API. 
 /// </summary>
-public interface IOKXSocketClient
+public interface IOKXSocketClient : ISocketClient
 {
     /// <summary>
     /// Unified API

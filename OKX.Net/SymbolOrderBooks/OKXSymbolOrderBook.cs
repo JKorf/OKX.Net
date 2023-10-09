@@ -9,6 +9,7 @@ using CryptoExchange.Net.OrderBook;
 using CryptoExchange.Net.Sockets;
 using OKX.Net.Clients;
 using OKX.Net.Enums;
+using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Options;
 
@@ -19,7 +20,7 @@ namespace OKX.Net.SymbolOrderBooks
     /// </summary>
     public class OKXSymbolOrderBook : SymbolOrderBook
     {
-        private readonly OKXSocketClient _socketClient;
+        private readonly IOKXSocketClient _socketClient;
         private readonly bool _clientOwner;
         private bool _initialSnapshotDone;
         private readonly TimeSpan _initialDataTimeout;
@@ -44,7 +45,7 @@ namespace OKX.Net.SymbolOrderBooks
         public OKXSymbolOrderBook(string symbol,
             Action<OKXOrderBookOptions>? optionsDelegate,
             ILogger<OKXSymbolOrderBook>? logger,
-            OKXSocketClient? socketClient) : base(logger, "OKX", symbol)
+            IOKXSocketClient? socketClient) : base(logger, "OKX", symbol)
         {
             var options = OKXOrderBookOptions.Default.Copy();
             if (optionsDelegate != null)
