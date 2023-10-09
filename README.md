@@ -27,6 +27,11 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
+* Version 1.4.1 - 09 Oct 2023
+    * Updated CryptoExchange.Net version
+    * Fix incorrect OKXSocketClient injection
+    * Added missing ISocketClient interface on IOKXSocketClient
+
 * Version 1.4.0 - 30 Sep 2023
     * Added support for settings custom broker id
     * Added missing fields for klines/candles
