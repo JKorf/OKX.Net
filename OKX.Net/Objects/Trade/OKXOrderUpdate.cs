@@ -41,7 +41,7 @@ public class OKXOrderUpdate : OKXOrder
     /// Filled notional value in USD of order
     /// </summary>
     [JsonProperty("fillNotionalUsd")]
-    public decimal FillNotionalUsd { get; set; }
+    public decimal? FillNotionalUsd { get; set; }
 
     /// <summary>
     /// Last filled profit and loss
