@@ -101,9 +101,10 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="positionSide">Position Side</param>
     /// <param name="asset">Asset</param>
     /// <param name="autoCancel">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
+    /// <param name="clientOrderId">Client order id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, OKXMarginMode marginMode, OKXPositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, OKXMarginMode marginMode, OKXPositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve a list of untriggered Algo orders under the current account.
@@ -276,6 +277,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="closeFraction">Fraction of position to be closed when the algo order is triggered. Currently the system supports fully closing the position only so the only accepted value is 1.</param>
     /// <param name="cancelOnClose">Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
     /// <param name="quickMarginType">Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
+    /// <param name="clientOrderId">Client order id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -307,6 +309,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? closeFraction = null,
         bool? cancelOnClose = null,
         OKXQuickMarginType? quickMarginType = null,
+        string? clientOrderId = null,
         CancellationToken ct = default);
 
     /// <summary>
