@@ -54,20 +54,20 @@ internal class OKXSocketRequestArgument
     public string? ExtraParams { get; set; }
 }
 
-internal class OKXSocketAuthRequest
-{
-    [JsonProperty("op"), JsonConverter(typeof(OKXSocketOperationConverter))]
-    public OKXSocketOperation Operation { get; set; }
+//internal class OKXSocketAuthRequest
+//{
+//    [JsonProperty("op"), JsonConverter(typeof(OKXSocketOperationConverter))]
+//    public OKXSocketOperation Operation { get; set; }
 
-    [JsonProperty("args")]
-    public List<OKXSocketAuthRequestArgument> Arguments { get; set; } = new List<OKXSocketAuthRequestArgument>();
+//    [JsonProperty("args")]
+//    public List<OKXSocketAuthRequestArgument> Arguments { get; set; } = new List<OKXSocketAuthRequestArgument>();
 
-    public OKXSocketAuthRequest(OKXSocketOperation op, OKXSocketAuthRequestArgument argument)
-    {
-        Operation = op;
-        Arguments.Add(argument);
-    }
-}
+//    public OKXSocketAuthRequest(OKXSocketOperation op, OKXSocketAuthRequestArgument argument)
+//    {
+//        Operation = op;
+//        Arguments.Add(argument);
+//    }
+//}
 
 internal class OKXSocketAuthRequestArgument
 {
