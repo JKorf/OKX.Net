@@ -27,6 +27,9 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
+* Version 1.4.4 - 03 Dec 2023
+    * Updated CryptoExchange.Net
+
 * Version 1.4.3 - 28 Nov 2023
     * Updated BrokerId logic so clientOrderId isn't influenced
     * Fixed order update deserialization issue
