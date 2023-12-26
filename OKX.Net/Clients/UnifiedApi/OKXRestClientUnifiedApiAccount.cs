@@ -772,4 +772,18 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         return result.As(result.Data.Data.FirstOrDefault());
     }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default)
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.AddParameter("ccy", assets);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDustConvertResult>>>(_baseClient.GetUri("api/v5/asset/convert-dust-assets"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXDustConvertResult>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXDustConvertResult>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data!.FirstOrDefault());
+    }
+
 }

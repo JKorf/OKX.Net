@@ -35,6 +35,7 @@ namespace OKX.Net.UnitTests
                    "SetAccountPositionModeAsync",
                    "SetGreeksAsync",
                    "TransferAsync",
+                   "ConvertDustAsync",
                    "WithdrawAsync"
                 },
                 ignoreProperties: new Dictionary<string, List<string>>

@@ -405,4 +405,13 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, OKXWithdrawalDestination destination, string toAddress, decimal fee, string? network = null, string? areaCode = null, string? clientId = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Convert small assets in funding account to OKB
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
+    /// </summary>
+    /// <param name="assets">Assets to convert</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default);
 }

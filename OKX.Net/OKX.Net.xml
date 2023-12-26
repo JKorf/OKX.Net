@@ -193,6 +193,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SavingPurchaseRedemptionAsync(System.String,System.Decimal,OKX.Net.Enums.OKXSavingActionSide,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1247,6 +1250,15 @@
             <param name="network">Chain name. There are multiple chains under some currencies, such as USDT has USDT-ERC20, USDT-TRC20, and USDT-Omni. If this parameter is not filled in because it is not available, it will default to the main chain.</param>
             <param name="areaCode">	Area code for the phone number, e.g. 86. If toAddr is a phone number, this parameter is required.</param>
             <param name="clientId">Client-supplied ID</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Convert small assets in funding account to OKB
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
+            </summary>
+            <param name="assets">Assets to convert</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -2984,6 +2996,46 @@
         <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.PnlRatio">
             <summary>
             Profit and loss ratio
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXDustConvertResult">
+            <summary>
+            Dust conversion result
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertResult.TotalConvertedQuantity">
+            <summary>
+            Total quantity of OKB after conversion
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertResult.Assets">
+            <summary>
+            Details of asset conversion
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXDustConvertAsset">
+            <summary>
+            Dust conversion asset details
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Quantity">
+            <summary>
+            Quantity of asset before conversion
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Asset">
+            <summary>
+            Asset name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.ConvertQuantity">
+            <summary>
+            Quantity of OKB after conversion
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Fee">
+            <summary>
+            Fee
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXFeeRate">
