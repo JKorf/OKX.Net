@@ -417,10 +417,21 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set isolated margin mode for the Margin or Contracts instrument type
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-isolated-margin-trading-settings" /></para>
     /// </summary>
     /// <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
     /// <param name="isolatedMarginMode">Isolated margin mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(OKXInstrumentType instumentType, OKXIsolatedMarginMode isolatedMarginMode, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get info on a transfer
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-funds-transfer-state" /></para>
+    /// </summary>
+    /// <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
+    /// <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, OKXTransferType? type = null, CancellationToken ct = default);
 }

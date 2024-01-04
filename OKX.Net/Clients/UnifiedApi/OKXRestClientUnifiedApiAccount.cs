@@ -799,4 +799,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         return result.As(result.Data.Data.FirstOrDefault());
     }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, OKXTransferType? type = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("transId", transferId);
+        parameters.AddOptional("clientId", clientTransferId);
+        parameters.AddOptionalEnum("type", type);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransferInfo>>>(_baseClient.GetUri("api/v5/asset/transfer-state"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXTransferInfo>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXTransferInfo>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
 }

@@ -1,0 +1,17 @@
+{
+    "code": "0",
+    "data": [
+        {
+            "amt": "1.5",
+            "ccy": "USDT",
+            "clientId": "",
+            "from": "18",
+            "state": "success",
+            "subAcct": "test",
+            "to": "6",
+            "transId": "1",
+            "type": "1"
+        }
+    ],
+    "msg": ""
+}

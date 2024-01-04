@@ -199,6 +199,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -798,6 +801,26 @@
             Cancel both
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.OKXTransferStatus">
+            <summary>
+            Status of a transfer
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Success">
+            <summary>
+            Success
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Pending">
+            <summary>
+            Pending transfer
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXTransferStatus.Failed">
+            <summary>
+            Transfer failed
+            </summary>
+        </member>
         <member name="T:OKX.Net.Enums.OXKTriggerPriceType">
             <summary>
             Trigger price tpye
@@ -1294,9 +1317,20 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
             <summary>
             Set isolated margin mode for the Margin or Contracts instrument type
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-isolated-margin-trading-settings" /></para>
             </summary>
             <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
             <param name="isolatedMarginMode">Isolated margin mode</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
+            <summary>
+            Get info on a transfer
+            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-funds-transfer-state" /></para>
+            </summary>
+            <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
+            <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -4348,6 +4382,56 @@
         <member name="P:OKX.Net.Objects.Funding.OKXSavingBalance.PendingAmount">
             <summary>
             Pending amount
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Funding.OKXTransferInfo">
+            <summary>
+            Transfer info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.TransferId">
+            <summary>
+            Transfer id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.From">
+            <summary>
+            From account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.To">
+            <summary>
+            To account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.ClientId">
+            <summary>
+            Client id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Type">
+            <summary>
+            Type of transfer
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.SubAccountName">
+            <summary>
+            Name of the sub account
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXTransferInfo.Status">
+            <summary>
+            Type of transfer
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Funding.OKXTransferResponse">

@@ -1,0 +1,9 @@
+{
+    "code": "0",
+    "data": [
+        {
+            "isoMode": "automatic"
+        }
+    ],
+    "msg": ""
+}

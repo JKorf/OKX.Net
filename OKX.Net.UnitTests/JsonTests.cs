@@ -36,7 +36,9 @@ namespace OKX.Net.UnitTests
                    "SetGreeksAsync",
                    "TransferAsync",
                    "ConvertDustAsync",
-                   "WithdrawAsync"
+                   "WithdrawAsync",
+                   "GetTransferAsync",
+                   "SetIsolatedMarginModeAsync",
                 },
                 ignoreProperties: new Dictionary<string, List<string>>
                 {
@@ -72,7 +74,7 @@ namespace OKX.Net.UnitTests
         {
             await _comparer.ProcessSubject("Unified/Trading", c => c.UnifiedApi.Trading,
                useNestedJsonPropertyForAllCompare: new List<string> { "data" },
-               parametersToSetNull: new[] { "pageSize", "quoteQuantity", "clientOrderId" },
+               parametersToSetNull: new[] { "pageSize", "quoteQuantity", "clientAlgoId" },
                ignoreProperties: new Dictionary<string, List<string>>
                {
                },
