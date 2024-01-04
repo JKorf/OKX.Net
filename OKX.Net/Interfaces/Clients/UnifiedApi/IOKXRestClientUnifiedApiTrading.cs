@@ -371,4 +371,13 @@ public interface IOKXRestClientUnifiedApiTrading
         string? clientOrderId = null,
         bool? reduceOnly = null,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get a specific algo order
+    /// </summary>
+    /// <param name="orderId">Order id, this or clientOrderId should be provided</param>
+    /// <param name="clientOrderId">Client order id, this or orderId should be provided</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 }

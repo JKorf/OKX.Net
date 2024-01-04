@@ -397,6 +397,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi">
             <inheritdoc />
         </member>
@@ -2115,6 +2118,15 @@
             <param name="selfTradePreventionId">Self trade prevention id</param>
             <param name="selfTradePreventionMode">Self trade prevention mode</param>
             <param name="quantityAsset">Asset of the quantity when placing market order</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get a specific algo order
+            </summary>
+            <param name="orderId">Order id, this or clientOrderId should be provided</param>
+            <param name="clientOrderId">Client order id, this or orderId should be provided</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -6427,6 +6439,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.QuickMarginType">
             <summary>
             Quick Margin type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CostPriceSlEnabled">
+            <summary>
+            Whether to enable Cost-price SL. Only applicable to SL order of split TPs. false: disable, the default value, true: Enable “Cost-price SL”
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderRequest">

@@ -30,6 +30,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     private const string Endpoints_V5_Trade_CancelAdvanceAlgos = "api/v5/trade/cancel-advance-algos";
     private const string Endpoints_V5_Trade_OrdersAlgoPending = "api/v5/trade/orders-algo-pending";
     private const string Endpoints_V5_Trade_OrdersAlgoHistory = "api/v5/trade/orders-algo-history";
+
     #endregion
 
     internal OKXRestClientUnifiedApiTrading(OKXRestClientUnifiedApi baseClient)
@@ -723,5 +724,22 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAlgoOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
         return result.As(result.Data.Data!);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+    {
+        if ((orderId == null) == (clientOrderId == null))
+            throw new ArgumentException("Either orderId or clientOrderId need to be provided");
+
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("algoId", orderId);
+        parameters.AddOptional("algoClOrdId", clientOrderId);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrder>>>(_baseClient.GetUri("api/v5/trade/order-algo"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXAlgoOrder>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrder>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
     }
 }
