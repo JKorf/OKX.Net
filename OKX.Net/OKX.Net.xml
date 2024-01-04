@@ -196,6 +196,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -583,6 +586,26 @@
         <member name="F:OKX.Net.Enums.OKXDepositType.NetworkDeposit">
             <summary>
             Deposit
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OKXIsolatedMarginMode">
+            <summary>
+            Quick margin type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.Automatic">
+            <summary>
+            Auto transfers
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.Autonomy">
+            <summary>
+            Manual transfers (only supported in CONTRACTS)
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OKXIsolatedMarginMode.QuickMargin">
+            <summary>
+            Quick Margin Mode (only supported in MARGIN)
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OKXLoanType">
@@ -1265,6 +1288,15 @@
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
             </summary>
             <param name="assets">Assets to convert</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXIsolatedMarginMode,System.Threading.CancellationToken)">
+            <summary>
+            Set isolated margin mode for the Margin or Contracts instrument type
+            </summary>
+            <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
+            <param name="isolatedMarginMode">Isolated margin mode</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -2932,6 +2964,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountGreeksType.GreeksType">
             <summary>
             Greeks type
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountIsolatedMarginMode">
+            <summary>
+            Isolated margin mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountIsolatedMarginMode.PositionMode">
+            <summary>
+            Isolated margin mode
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXClosingPosition">

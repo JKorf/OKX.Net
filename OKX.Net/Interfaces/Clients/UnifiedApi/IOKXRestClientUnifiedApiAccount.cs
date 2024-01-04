@@ -414,4 +414,13 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default);
+
+    /// <summary>
+    /// Set isolated margin mode for the Margin or Contracts instrument type
+    /// </summary>
+    /// <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
+    /// <param name="isolatedMarginMode">Isolated margin mode</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(OKXInstrumentType instumentType, OKXIsolatedMarginMode isolatedMarginMode, CancellationToken ct = default);
 }

@@ -786,4 +786,17 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         return result.As(result.Data.Data!.FirstOrDefault());
     }
 
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(OKXInstrumentType instumentType, OKXIsolatedMarginMode isolatedMarginMode, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("type", instumentType);
+        parameters.AddEnum("isoMode", isolatedMarginMode);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountIsolatedMarginMode>>>(_baseClient.GetUri("api/v5/account/set-isolated-mode"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXAccountIsolatedMarginMode>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountIsolatedMarginMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
 }
