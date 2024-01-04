@@ -44,8 +44,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     private const string Endpoints_V5_Asset_WithdrawalLightning = "api/v5/asset/withdrawal-lightning";
     private const string Endpoints_V5_Asset_WithdrawalCancel = "api/v5/asset/cancel-withdrawal";
     private const string Endpoints_V5_Asset_WithdrawalHistory = "api/v5/asset/withdrawal-history";
-    private const string Endpoints_V5_Asset_SavingBalance = "api/v5/asset/saving-balance";
-    private const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/asset/purchase_redempt";
+    private const string Endpoints_V5_Asset_SavingBalance = "api/v5/finance/savings/balance";
+    private const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/finance/savings/purchase-redempt";
     #endregion
 
     internal OKXRestClientUnifiedApiAccount(OKXRestClientUnifiedApi baseClient)
