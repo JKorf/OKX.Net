@@ -27,6 +27,13 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
+* Version 1.5.0 - 04 Jan 2024
+    * Added UnifiedApi.Trading.GetAlgoOrderAsync endpoint
+    * Added UnifiedApi.Trading.AmendAlgoOrderAsync endpoint
+    * Added UnifiedApi.Account.SetIsolatedMarginModeAsync endpoint
+    * Added UnifiedApi.Account.GetTransferAsync endpoint
+    * Updated savings endpoints to new url
+
 * Version 1.4.5 - 26 Dec 2023
     * Added Account.DusConvertAsync endpoint
 
