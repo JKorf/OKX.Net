@@ -400,6 +400,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.AmendAlgoOrderAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi">
             <inheritdoc />
         </member>
@@ -2124,9 +2127,30 @@
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a specific algo order
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /></para>
             </summary>
-            <param name="orderId">Order id, this or clientOrderId should be provided</param>
-            <param name="clientOrderId">Client order id, this or orderId should be provided</param>
+            <param name="algoId">Algo id, this or clientAlgoId should be provided</param>
+            <param name="clientAlgoId">Client algo order id, this or algoId should be provided</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.AmendAlgoOrderAsync(System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Threading.CancellationToken)">
+            <summary>
+            Amend an incomplete order.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /></para>
+            </summary>
+            <param name="symbol">Instrument ID</param>
+            <param name="algoId">Algo ID</param>
+            <param name="clientAlgoId">Client Algo Order ID</param>
+            <param name="requestId">Request ID</param>
+            <param name="cancelOnFail">Cancel On Fail</param>
+            <param name="newQuantity">New Quantity</param>
+            <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
+            <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
+            <param name="newTakeProfitOrderPrice">New take profit order price</param>
+            <param name="newStopLossOrderPrice">New stop loss order price</param>
+            <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
+            <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -6444,6 +6468,36 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CostPriceSlEnabled">
             <summary>
             Whether to enable Cost-price SL. Only applicable to SL order of split TPs. false: disable, the default value, true: Enable “Cost-price SL”
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse">
+            <summary>
+            Order amend response
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.RequestId">
+            <summary>
+            Request id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse.Message">
+            <summary>
+            Message
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderRequest">

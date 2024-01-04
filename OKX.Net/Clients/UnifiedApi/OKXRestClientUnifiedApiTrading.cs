@@ -727,18 +727,60 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default)
     {
-        if ((orderId == null) == (clientOrderId == null))
-            throw new ArgumentException("Either orderId or clientOrderId need to be provided");
+        if ((algoId == null) == (clientAlgoId == null))
+            throw new ArgumentException("Either algoId or clientAlgoId needs to be provided");
 
         var parameters = new ParameterCollection();
-        parameters.AddOptional("algoId", orderId);
-        parameters.AddOptional("algoClOrdId", clientOrderId);
+        parameters.AddOptional("algoId", algoId);
+        parameters.AddOptional("algoClOrdId", clientAlgoId);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrder>>>(_baseClient.GetUri("api/v5/trade/order-algo"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXAlgoOrder>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrder>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAlgoOrderAmendResponse>> AmendAlgoOrderAsync(
+        string symbol,
+        string? algoId = null,
+        string? clientAlgoId = null,
+        string? requestId = null,
+        bool? cancelOnFail = null,
+        decimal? newQuantity = null,
+        decimal? newTakeProfitTriggerPrice = null,
+        decimal? newStopLossTriggerPrice = null,
+        decimal? newTakeProfitOrderPrice = null,
+        decimal? newStopLossOrderPrice = null,
+        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
+        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
+        CancellationToken ct = default)
+    {
+        if ((algoId == null) == (clientAlgoId == null))
+            throw new ArgumentException("Either algoId or clientAlgoId needs to be provided");
+
+        var parameters = new ParameterCollection
+        {
+            { "instId", symbol },
+        };
+        parameters.AddOptional("algoId", algoId?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("algoClOrdId", clientAlgoId);
+        parameters.AddOptional("cxlOnFail", cancelOnFail);
+        parameters.AddOptional("reqId", requestId);
+        parameters.AddOptional("newSz", newQuantity?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("newTpTriggerPx", newTakeProfitTriggerPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("newTpOrdPx", newTakeProfitOrderPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("newSlTriggerPx", newStopLossTriggerPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("newSlOrdPx", newStopLossOrderPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalEnum("newTpTriggerPxType", newTakeProfitPriceTriggerType);
+        parameters.AddOptionalEnum("newSlTriggerPxType", newStopLossPriceTriggerType);
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderAmendResponse>>>(_baseClient.GetUri("api/v5/trade/amend-algos"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXAlgoOrderAmendResponse>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrderAmendResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
         return result.As(result.Data.Data.FirstOrDefault());
     }
