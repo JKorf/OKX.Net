@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.SocketsV2;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 using System;
@@ -7,19 +8,19 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace OKX.Net.Objects.Sockets.Subscriptions;
-internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketUpdate<T>>
+internal class OKXSubscription<T, U> : Subscription<OKXSocketResponse, OKXSocketResponse> where T: OKXSocketUpdate<U>
 {
     private List<OKXSocketArgs> _args;
-    private Action<DataEvent<T>> _handler;
+    private Action<DataEvent<U>> _handler;
 
-    public override List<string> Identifiers { get; }
+    public override List<string> StreamIdentifiers { get; set; }
 
-    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<T>> handler, bool authenticated) : base(logger, authenticated)
+    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<U>> handler, bool authenticated) : base(logger, authenticated)
     {
         _args = args;
         _handler = handler;
 
-        Identifiers = args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()).ToList();
+        StreamIdentifiers = args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()).ToList();
     }
 
     public override BaseQuery? GetSubQuery(SocketConnection connection)
@@ -40,9 +41,12 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketUpd
         }, false);
     }
 
-    public override Task<CallResult> HandleEventAsync(SocketConnection connection, DataEvent<ParsedMessage<OKXSocketUpdate<T>>> message)
+    public override Type? GetMessageType(SocketMessage message) => typeof(OKXSocketUpdate<T>);
+
+    public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
     {
-        _handler.Invoke(message.As(message.Data.TypedData.Data, message.Data.TypedData.Arg.Symbol, SocketUpdateType.Update));
+        var data = (OKXSocketUpdate<U>)message.Data;
+        _handler.Invoke(message.As(data.Data, data.Arg.Symbol, SocketUpdateType.Update));
         return Task.FromResult(new CallResult(null));
     }
 }

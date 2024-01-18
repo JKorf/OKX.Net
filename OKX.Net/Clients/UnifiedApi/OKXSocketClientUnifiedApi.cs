@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.SocketsV2;
 using Microsoft.Extensions.Options;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
@@ -24,8 +25,6 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
 
-    public override SocketConverter StreamConverter { get; } = new OKXSocketConverter();
-
     internal readonly string _ref = "078ee129065aBCDE";
     private bool _demoTrading;
     #region ctor
@@ -46,6 +45,17 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
     }
     #endregion
+    public override string GetStreamHash(SocketMessage message)
+    {
+        var id = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("reqid")));
+        if (id != null)
+            return id;
+
+        var evnt = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("event")));
+        var channel = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("arg:channel")));
+        var instId = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("arg:instId")));
+        return $"{evnt}{channel?.ToLowerInvariant()}{instId?.ToLowerInvariant()}";
+    }
 
     protected override BaseQuery GetAuthenticationRequest()
     {
@@ -74,7 +84,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         if (_demoTrading)
             url += "?brokerId=9999";
 
-        var subscription = new OKXSubscription<T>(_logger, request, dataHandler, authenticated);
+        var subscription = new OKXSubscription<OKXSocketUpdate<T>, T>(_logger, request, dataHandler, authenticated);
         return SubscribeAsync(url,subscription, ct);
     }
 
