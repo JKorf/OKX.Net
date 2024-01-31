@@ -1,6 +1,5 @@
 ﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
-using System.Numerics;
 
 namespace OKX.Net.Objects.Trade;
 

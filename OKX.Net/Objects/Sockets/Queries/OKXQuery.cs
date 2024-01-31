@@ -1,28 +1,28 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using OKX.Net.Objects.Sockets.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OKX.Net.Objects.Sockets.Queries;
 internal class OKXQuery : Query<OKXSocketResponse>
 {
-    public override List<string> StreamIdentifiers { get; set;  }
+    public override HashSet<string> ListenerIdentifiers { get; set;  }
 
     public OKXQuery(OKXSocketRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
     {
-        StreamIdentifiers = request.Args.Select(a => request.Op + a.Channel.ToLowerInvariant() + a.InstrumentType?.ToString().ToLowerInvariant() + a.Symbol?.ToLowerInvariant()).ToList();
+        ListenerIdentifiers = new HashSet<string>(request.Args.Select(a => request.Op + a.Channel.ToLowerInvariant() + a.InstrumentType?.ToString().ToLowerInvariant() + a.InstrumentFamily?.ToString().ToLowerInvariant() + a.Symbol?.ToLowerInvariant()));
+        _ = ListenerIdentifiers.Add("error");
     }
 
     public OKXQuery(OKXSocketAuthRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
     {
-        StreamIdentifiers = new List<string> { "login" };
+        ListenerIdentifiers = new HashSet<string> { "login", "error" };
     }
 
     public override Task<CallResult<OKXSocketResponse>> HandleMessageAsync(SocketConnection connection, DataEvent<OKXSocketResponse> message)
     {
-        // TODO
+        if (message.Data.Event == "error")
+            return Task.FromResult(new CallResult<OKXSocketResponse>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData));
+
         return base.HandleMessageAsync(connection, message);
     }
 }

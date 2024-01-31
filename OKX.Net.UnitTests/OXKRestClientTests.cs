@@ -7,6 +7,7 @@ using CryptoExchange.Net.Sockets;
 using OKX.Net.Clients;
 using OKX.Net.Objects.Core;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
+using CryptoExchange.Net.Objects.Sockets;
 
 namespace OKX.Net.UnitTests
 {

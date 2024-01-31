@@ -1,23 +1,22 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
+using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net.Objects.Sockets.Subscriptions;
-internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketResponse>
+internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketResponse>
 {
     private List<OKXSocketArgs> _args;
-    private Action<DataEvent<T>>? _singleHandler;
-    private Action<DataEvent<IEnumerable<T>>>? _arrayHandler;
+    private Action<DataEvent<OKXOrderBook>> _handler;
 
     public override HashSet<string> ListenerIdentifiers { get; set; }
 
-    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<T>>? singleHandler, Action<DataEvent<IEnumerable<T>>>? arrayHandler, bool authenticated) : base(logger, authenticated)
+    public OKXBookSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<OKXOrderBook>> handler, bool authenticated) : base(logger, authenticated)
     {
         _args = args;
-        _singleHandler = singleHandler;
-        _arrayHandler = arrayHandler;
+        _handler = handler;
 
         ListenerIdentifiers = new HashSet<string>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() +  x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()));
     }
@@ -40,15 +39,14 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
         }, false);
     }
 
-    public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<IEnumerable<T>>);
+    public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<IEnumerable<OKXOrderBook>>);
 
     public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
     {
-        var data = (OKXSocketUpdate<IEnumerable<T>>)message.Data;
-        if (_singleHandler != null)
-            _singleHandler.Invoke(message.As(data.Data.Single(), data.Arg.Symbol, SocketUpdateType.Update));
-        else
-            _arrayHandler!.Invoke(message.As(data.Data, data.Arg.Symbol, SocketUpdateType.Update));
+        var data = (OKXSocketUpdate<IEnumerable<OKXOrderBook>>)message.Data;
+        foreach (var item in data.Data)
+            item.Action = data.Action!;
+        _handler.Invoke(message.As(data.Data.Single(), data.Arg.Symbol, data.Action == "snapshot" || data.Action == null ? SocketUpdateType.Snapshot: SocketUpdateType.Update));
         return Task.FromResult(new CallResult(null));
     }
 }

@@ -34,7 +34,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
 
-        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId : "078ee129065aBCDE";
+        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "078ee129065aBCDE";
 
         if (options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet)
         {

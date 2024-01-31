@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.Market;
+﻿namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Order book

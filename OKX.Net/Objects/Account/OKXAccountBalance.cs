@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.Account;
+﻿namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Account balance

@@ -9,4 +9,11 @@ public enum OKXMaintenanceService
     Perpetual,
     Options,
     Trading,
+    SpreadTrading,
+    CopyTrading,
+    BlockTrading,
+    TradingBot,
+    TradingServiceAccounts,
+    TradingServiceProducts,
+    Other
 }

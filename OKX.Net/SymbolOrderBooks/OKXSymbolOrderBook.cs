@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.OrderBook;
-using CryptoExchange.Net.Sockets;
 using OKX.Net.Clients;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients;
@@ -64,21 +56,20 @@ namespace OKX.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            return new CallResult<UpdateSubscription>(new ServerError(""));
-            //var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, OKXOrderBookType.OrderBook, ProcessUpdate).ConfigureAwait(false);
-            //if (!result)
-            //    return result;
+            var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, OKXOrderBookType.OrderBook, ProcessUpdate).ConfigureAwait(false);
+            if (!result)
+                return result;
 
-            //if (ct.IsCancellationRequested)
-            //{
-            //    await result.Data.CloseAsync().ConfigureAwait(false);
-            //    return result.AsError<UpdateSubscription>(new CancellationRequestedError());
-            //}
+            if (ct.IsCancellationRequested)
+            {
+                await result.Data.CloseAsync().ConfigureAwait(false);
+                return result.AsError<UpdateSubscription>(new CancellationRequestedError());
+            }
 
-            //Status = OrderBookStatus.Syncing;
+            Status = OrderBookStatus.Syncing;
 
-            //var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            //return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+            var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
+            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
         /// <inheritdoc />

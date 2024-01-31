@@ -1,23 +1,28 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.SocketsV2;
-using Microsoft.Extensions.Options;
+using CryptoExchange.Net.Sockets.MessageParsing;
+using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
-using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
-using OKX.Net.Objects.Sockets;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
-using OKX.Net.Objects.Sockets.Subscriptions;
 using System.IO;
 using System.IO.Compression;
+using System.Net.WebSockets;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
 public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
 {
+    private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
+    private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
+    private static readonly MessagePath _channelPath = MessagePath.Get().Property("arg").Property("channel");
+    private static readonly MessagePath _instIdPath = MessagePath.Get().Property("arg").Property("instId");
+    private static readonly MessagePath _instTypePath = MessagePath.Get().Property("arg").Property("instType");
+    private static readonly MessagePath _instFamilyPath = MessagePath.Get().Property("arg").Property("instFamily");
+
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiAccount Account { get; }
     /// <inheritdoc />
@@ -27,39 +32,46 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
 
     internal readonly string _ref = "078ee129065aBCDE";
     private bool _demoTrading;
+
     #region ctor
 
     internal OKXSocketClientUnifiedApi(ILogger logger, OKXSocketOptions options) :
         base(logger, options.Environment.SocketAddress, options, options.UnifiedOptions)
     {
-        //SetDataInterpreter(DecompressData, HandlePongData);
-        //SendPeriodic("Ping", TimeSpan.FromSeconds(5), con => "ping");
-        //AddGenericHandler("Ping", (a) => { });
-
         Account = new OKXSocketClientUnifiedApiAccount(logger, this);
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
 
-        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId : "078ee129065aBCDE";
+        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "078ee129065aBCDE";
 
         _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
+
+        QueryPeriodic("Ping", TimeSpan.FromSeconds(20), x => new OKXPingQuery(), null);
     }
     #endregion
-    public override string GetStreamHash(SocketMessage message)
+
+    /// <inheritdoc />
+    public override string GetListenerIdentifier(IMessageAccessor message)
     {
-        var id = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("reqid")));
+        if (!message.IsJson)
+            return "pong";
+
+        var id = message.GetValue<string>(_idPath);
         if (id != null)
             return id;
 
-        var evnt = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("event")));
-        var channel = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("arg:channel")));
-        var instId = message.MessageData.GetValue<string>(new MessagePath(MessageNode.String("arg:instId")));
-        return $"{evnt}{channel?.ToLowerInvariant()}{instId?.ToLowerInvariant()}";
+        var evnt = message.GetValue<string>(_eventPath);
+        var channel = message.GetValue<string>(_channelPath);
+        var instType = message.GetValue<string>(_instTypePath);
+        var instId = message.GetValue<string>(_instIdPath);
+        var instFamily = message.GetValue<string>(_instFamilyPath);
+        return $"{evnt}{channel?.ToLowerInvariant()}{instType?.ToLowerInvariant()}{instFamily?.ToLowerInvariant()}{instId?.ToLowerInvariant()}";
     }
 
-    protected override BaseQuery GetAuthenticationRequest()
+    /// <inheritdoc />
+    protected override Query GetAuthenticationRequest()
     {
-        var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider;
+        var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider!;
         var timestamp = (DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow) / 1000).Value.ToString(CultureInfo.InvariantCulture);
         var signature = okxAuthProvider.SignWebsocket(timestamp);
         var request = new OKXSocketAuthRequest
@@ -79,42 +91,39 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         return new OKXQuery(request, false);
     }
 
-    internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync<T>(string url, List<OKXSocketArgs> request, bool authenticated, Action<DataEvent<T>> dataHandler, CancellationToken ct)
+    internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
     {
-        if (_demoTrading)
-            url += "?brokerId=9999";
-
-        var subscription = new OKXSubscription<OKXSocketUpdate<T>, T>(_logger, request, dataHandler, authenticated);
-        return SubscribeAsync(url,subscription, ct);
+        return SubscribeAsync(url, subscription, ct);
     }
 
-    //internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
-    //{
-    //    var requestWrapper = new OKXSocketMessage
-    //    {
-    //        Id = ExchangeHelpers.NextId().ToString(),
-    //        Operation = operation,
-    //        Args = new[] { parameters }
-    //    };
+    /// <inheritdoc />
+    protected override Task<CallResult<string?>> GetConnectionUrlAsync(string address, bool authentication)
+    {
+        if (_demoTrading && !address.EndsWith("brokerId=9999"))
+            address += "?brokerId=9999";
 
-    //    var result = await QueryAsync<IEnumerable<T>>(url, requestWrapper, authenticated, weight).ConfigureAwait(false);
-    //    if (!result)
-    //        return result.AsError<T>(result.Error!);
+        return Task.FromResult(new CallResult<string?>(address));
+    }
 
-    //    return result.As(result.Data.Single());
-    //}
+    internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
+    {
+        var query = new OKXIdQuery<T>(operation, new object[] { parameters }, authenticated, weight);
+        var result = await QueryAsync(url, query).ConfigureAwait(false);
+        if (!result)
+            return result.AsError<T>(result.Error!);
 
-    //internal Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight)
-    //{
-    //    var requestWrapper = new OKXSocketMessage
-    //    {
-    //        Id = ExchangeHelpers.NextId().ToString(),
-    //        Operation = operation,
-    //        Args = data
-    //    };
+        return result.As(result.Data.Data.First());
+    }
 
-    //    return QueryAsync<T>(url, requestWrapper, authenticated, weight);
-    //}
+    internal async Task<CallResult<IEnumerable<T>>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight)
+    {
+        var query = new OKXIdQuery<T>(operation, data, authenticated, weight);
+        var result = await QueryAsync(url, query).ConfigureAwait(false);
+        if (!result)
+            return result.AsError<IEnumerable<T>>(result.Error!);
+
+        return result.As(result.Data.Data);
+    }
 
     internal string GetUri(string path) => BaseAddress.Trim(new[] { '/' }) + path;
 
@@ -122,25 +131,18 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
-    internal static string DecompressData(byte[] byteData)
+    /// <inheritdoc />
+    public override Stream PreprocessStreamMessage(WebSocketMessageType type, Stream stream)
     {
-        using var decompressedStream = new MemoryStream();
-        using var compressedStream = new MemoryStream(byteData);
-        using var deflateStream = new DeflateStream(compressedStream, CompressionMode.Decompress);
+        if (type != WebSocketMessageType.Binary)
+            return stream;
+
+        var decompressedStream = new MemoryStream();
+        using var deflateStream = new GZipStream(stream, CompressionMode.Decompress);
         deflateStream.CopyTo(decompressedStream);
         decompressedStream.Position = 0;
-
-        using var streamReader = new StreamReader(decompressedStream);
-        return streamReader.ReadToEnd();
+        return decompressedStream;
     }
-
-    //internal static string HandlePongData(string data)
-    //{
-    //    if (data == "pong")
-    //        return "{ \"op\": \"pong\" }";
-
-    //    return data;
-    //}
 
 
     ///// <inheritdoc />

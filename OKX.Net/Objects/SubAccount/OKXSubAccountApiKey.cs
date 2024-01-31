@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.SubAccount;
+﻿namespace OKX.Net.Objects.SubAccount;
 
 /// <summary>
 /// Subaccount api key info

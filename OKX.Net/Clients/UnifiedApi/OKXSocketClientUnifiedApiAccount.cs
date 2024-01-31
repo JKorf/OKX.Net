@@ -1,9 +1,8 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.Sockets;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
-using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Funding;
+using OKX.Net.Objects.Sockets.Subscriptions;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
@@ -23,73 +22,68 @@ public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccoun
     #endregion
 
     /// <inheritdoc />
-    //public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
-    //    string? asset,
-    //    bool regularUpdates,
-    //    Action<OKXAccountBalance> onData,
-    //    CancellationToken ct = default)
-    //{
-    //    var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAccountBalance>>>>(data =>
-    //    {
-    //        foreach (var d in data.Data.Data)
-    //            onData(d);
-    //    });
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
+        string? asset,
+        bool regularUpdates,
+        Action<DataEvent<OKXAccountBalance>> onData,
+        CancellationToken ct = default)
+    {
+        var subscription = new OKXSubscription<OKXAccountBalance>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "account",
+                    Asset = asset,
+                    ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
+                }
+            }, onData, null, true);
 
-    //    var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-    //    {
-    //        Channel = "account",
-    //        Asset = asset,
-    //        ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
-    //    });
-    //    return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    //}
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
         Action<DataEvent<OKXPositionAndBalanceUpdate>> onData,
         CancellationToken ct = default)
     {
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"),
-            new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPositionAndBalanceUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "balance_and_position"
                 }
-            }, true, (DataEvent<IEnumerable<OKXPositionAndBalanceUpdate>> x) => onData(x.As(x.Data.Single())), ct).ConfigureAwait(false);
+            }, onData, null, true);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 
-    ///// <inheritdoc />
-    //public virtual async Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(
-    //    Action<OKXDepositHistory> onData,
-    //    CancellationToken ct = default)
-    //{
-    //    var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXDepositHistory>>>>(data =>
-    //    {
-    //        foreach (var d in data.Data.Data)
-    //            onData(d);
-    //    });
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(
+        Action<DataEvent<OKXDepositHistory>> onData,
+        CancellationToken ct = default)
+    {
+        var subscription = new OKXSubscription<OKXDepositHistory>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "deposit-info"
+                }
+            }, onData, null, true);
 
-    //    var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-    //    {
-    //        Channel = "deposit-info"
-    //    });
-    //    return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    //}
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
+    }
 
-    ///// <inheritdoc />
-    //public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<OKXWithdrawalHistory> onData, CancellationToken ct = default)
-    //{
-    //    var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXWithdrawalHistory>>>>(data =>
-    //    {
-    //        foreach (var d in data.Data.Data)
-    //            onData(d);
-    //    });
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalHistory>> onData, CancellationToken ct = default)
+    {
+        var subscription = new OKXSubscription<OKXWithdrawalHistory>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "withdrawal-info"
+                }
+            }, onData, null, true);
 
-    //    var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-    //    {
-    //        Channel = "withdrawal-info"
-    //    });
-    //    return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    //}
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
+    }
 }
