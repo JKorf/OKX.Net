@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CryptoExchange.Net.Clients;
+using Microsoft.Extensions.DependencyInjection;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
@@ -65,8 +66,8 @@ public static class OKXHelpers
             return handler;
         });
 
+        services.AddTransient<ICryptoExchangeClient, CryptoExchangeClient>();
         services.AddSingleton<IOKXOrderBookFactory, OKXOrderBookFactory>();
-        services.AddTransient<IOKXRestClient, OKXRestClient>();
         services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
         if (socketClientLifeTime == null)
             services.AddSingleton<IOKXSocketClient, OKXSocketClient>();

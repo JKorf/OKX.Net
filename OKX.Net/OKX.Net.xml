@@ -18,11 +18,6 @@
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:OKX.Net.Clients.OKXRestClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory,System.Net.Http.HttpClient)">
-            <summary>
-            Create a new instance of the OKXRestClient using default options
-            </summary>
-        </member>
         <member name="M:OKX.Net.Clients.OKXRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
             <summary>
             Create a new instance of the OKXRestClient
