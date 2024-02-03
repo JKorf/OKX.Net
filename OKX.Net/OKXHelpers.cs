@@ -66,7 +66,8 @@ public static class OKXHelpers
             return handler;
         });
 
-        services.AddTransient<ICryptoExchangeClient, CryptoExchangeClient>();
+        services.AddTransient<ICryptoRestClient, CryptoRestClient>();
+        services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
         services.AddSingleton<IOKXOrderBookFactory, OKXOrderBookFactory>();
         services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
         if (socketClientLifeTime == null)
