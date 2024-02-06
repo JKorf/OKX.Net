@@ -830,6 +830,11 @@
             Mark price
             </summary>
         </member>
+        <member name="T:OKX.Net.ExtensionMethods.OKXExtensionMethods">
+            <summary>
+            Extension methods specific to using the OKX API
+            </summary>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.IOKXRestClient">
             <summary>
             Client for accessing the OKX Rest API. 
@@ -7547,21 +7552,6 @@
             <param name="socketAddress"></param>
             <returns></returns>
         </member>
-        <member name="T:OKX.Net.OKXHelpers">
-            <summary>
-            Helper methods
-            </summary>
-        </member>
-        <member name="M:OKX.Net.OKXHelpers.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
-            <summary>
-            Add the IOKXClient and IOKXSocketClient to the sevice collection so they can be injected
-            </summary>
-            <param name="services">The service collection</param>
-            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
-            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
-            <param name="socketClientLifeTime">The lifetime of the IOKXSocketClient for the service collection. Defaults to Singleton.</param>
-            <returns></returns>
-        </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
             <inheritdoc />
         </member>
@@ -7614,18 +7604,33 @@
             Extensions for the ICryptoRestClient and ICryptoSocketClient interfaces
             </summary>
         </member>
-        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.OKX(CryptoExchange.Net.Clients.ICryptoRestClient)">
+        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.OKX(CryptoExchange.Net.Interfaces.ICryptoRestClient)">
             <summary>
             Get the OKX REST Api client
             </summary>
             <param name="baseClient"></param>
             <returns></returns>
         </member>
-        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.OKX(CryptoExchange.Net.Clients.ICryptoSocketClient)">
+        <member name="M:CryptoExchange.Net.Clients.CryptoClientExtensions.OKX(CryptoExchange.Net.Interfaces.ICryptoSocketClient)">
             <summary>
             Get the OKX Websocket Api client
             </summary>
             <param name="baseClient"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Extensions for DI
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+            <summary>
+            Add the IOKXClient and IOKXSocketClient to the sevice collection so they can be injected
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
+            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
+            <param name="socketClientLifeTime">The lifetime of the IOKXSocketClient for the service collection. Defaults to Singleton.</param>
             <returns></returns>
         </member>
     </members>
