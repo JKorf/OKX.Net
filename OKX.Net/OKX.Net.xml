@@ -197,6 +197,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.OKXAccountLevel,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1326,6 +1329,15 @@
             <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
             <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
             <param name="type">The type of transfer</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.OKXAccountLevel,System.Threading.CancellationToken)">
+            <summary>
+            Set the account mode
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-account-mode" /></para>
+            </summary>
+            <param name="mode">New account mode</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -3003,6 +3015,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountIsolatedMarginMode.PositionMode">
             <summary>
             Isolated margin mode
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountMode">
+            <summary>
+            Account mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountMode.Mode">
+            <summary>
+            Account mode
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXClosingPosition">
