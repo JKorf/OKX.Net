@@ -3712,6 +3712,46 @@
             Accumulated liquidation penalty. It is negative when there is a value.
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPosition.CloseOrderAlgo">
+            <summary>
+            Close position algo orders attached to the position
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXPositionCloseOrder">
+            <summary>
+            Position close order info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.AlgoId">
+            <summary>
+            Algo id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.StopLossTriggerPrice">
+            <summary>
+            Stop losse trigger price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.StopLossTriggerType">
+            <summary>
+            Stop loss trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.TakeProfitTriggerPrice">
+            <summary>
+            Take profit trigger price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.TakeProfitTriggerType">
+            <summary>
+            Take profit trigger price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.CloseFraction">
+            <summary>
+            Fraction of position to be closed when the algo order is triggered.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate">
             <summary>
             Position and balance update

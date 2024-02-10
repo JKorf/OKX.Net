@@ -42,8 +42,7 @@ namespace OKX.Net.UnitTests
                 },
                 ignoreProperties: new Dictionary<string, List<string>>
                 {
-                    { "GetAccountConfigurationAsync", new List<string>{ "traderInsts" } },
-                    { "GetAccountPositionsAsync", new List<string>{ "closeOrderAlgo" } }
+                    { "GetAccountConfigurationAsync", new List<string>{ "traderInsts" } }
                 }
                 );
         }
