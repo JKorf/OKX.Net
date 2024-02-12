@@ -62,13 +62,13 @@ A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free t
 |Order Book Trade Websocket|✓|`socketClient.UnifiedApi.Trading`|
 |Order Book Algo Trading Rest|✓|`restClient.UnifiedApi.Trading`|
 |Order Book Algo Trading Websocket|✓|`socketClient.UnifiedApi.Trading`|
-|Order Book Grid Trading Rest|x|``|
-|Order Book Grid Trading Websocket|x|``|
-|Order Book Signal Trading Rest|x|``|
-|Order Book Recurring Buy Rest|x|``|
-|Order Book Recurring Buy Websocket|x|``|
-|Order Book Copy Trading Rest|x|``|
-|Order Book Copy Trading Websocket|x|``|
+|Order Book Grid Trading Rest|x||
+|Order Book Grid Trading Websocket|x||
+|Order Book Signal Trading Rest|x||
+|Order Book Recurring Buy Rest|x||
+|Order Book Recurring Buy Websocket|x||
+|Order Book Copy Trading Rest|x||
+|Order Book Copy Trading Websocket|x||
 |Order Book Market Data Rest|✓|`restClient.UnifiedApi.ExchangeData`|
 |Order Book Market Data Websocket|✓|`socketClient.UnifiedApi.ExchangeData`|
 |Block Trading|X||
