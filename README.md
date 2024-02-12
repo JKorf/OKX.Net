@@ -1,15 +1,93 @@
 # ![Icon!](https://github.com/JKorf/OKX.Net/blob/358d31f58d8ee51fc234bff1940878a8d0ce5676/Okex.Net/Icon/icon.png "OKX.Net") OKX.Net
 
-[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) [![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg)](https://www.nuget.org/packages/JK.OKX.Net)
+[![.NET](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml/badge.svg)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml)
 
 A .Net wrapper for the OKX API as described on [OKX](https://www.okx.com/docs-v5/en/), including all features the API provides using clear and readable objects.
 
-**If you think something is broken, something is missing or have any questions, please open an [Issue](https://github.com/JKorf/OKX.Net/issues)**
+## Get the library
+Available on Nuget  
+[![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg)](https://www.nuget.org/packages/JK.OKX.Net)
 
-[Documentation](https://jkorf.github.io/OKX.Net/)
-
-## Installation
 `dotnet add package JK.OKX.Net`
+
+## How to use
+Simplest usage
+```csharp
+// Get the ETH/USDT ticker via rest request
+var restClient = new OKXRestClient();
+var tickerResult = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
+var lastPrice = tickerResult.Data.LastPrice;
+```
+
+```csharp
+// Subscribe to ETH/USDT ticker updates via the websocket API
+var socketClient = new OKXSocketClient();
+var tickerSubscriptionResult = socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", (update) =>
+{
+    var lastPrice = update.Data.LastPrice;
+});
+```
+
+For information on the clients, dependency injection, response processing and more see the [documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples  [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
+
+## CryptoExchange.Net
+Mexc.Net is based on the [CryptoExchange.Net](https://github.com/JKorf/CryptoExchange.Net) base library. Other exchange API implementations based on the CryptoExchange.Net base library are available and follow the same logic.
+
+CryptoExchange.Net also allows for [easy access to different exchange API's](https://jkorf.github.io/CryptoExchange.Net#idocs_common).
+
+|Exchange|Repository|Nuget|
+|--|--|--|
+|Binance|[JKorf/Binance.Net](https://github.com/JKorf/Binance.Net)|[![Nuget version](https://img.shields.io/nuget/v/Binance.net.svg)](https://www.nuget.org/packages/Binance.Net)|
+|Bitfinex|[JKorf/Bitfinex.Net](https://github.com/JKorf/Bitfinex.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bitfinex.net.svg)](https://www.nuget.org/packages/Bitfinex.Net)|
+|Bitget|[JKorf/Bitget.Net](https://github.com/JKorf/Bitget.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bitget.net.svg)](https://www.nuget.org/packages/Bitget.Net)|
+|Bybit|[JKorf/Bybit.Net](https://github.com/JKorf/Bybit.Net)|[![Nuget version](https://img.shields.io/nuget/v/Bybit.net.svg)](https://www.nuget.org/packages/Bybit.Net)|
+|CoinEx|[JKorf/CoinEx.Net](https://github.com/JKorf/CoinEx.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinEx.net.svg)](https://www.nuget.org/packages/CoinEx.Net)|
+|CoinGecko|[JKorf/CoinGecko.Net](https://github.com/JKorf/CoinGecko.Net)|[![Nuget version](https://img.shields.io/nuget/v/CoinGecko.net.svg)](https://www.nuget.org/packages/CoinGecko.Net)|
+|Huobi/HTX|[JKorf/Huobi.Net](https://github.com/JKorf/Huobi.Net)|[![Nuget version](https://img.shields.io/nuget/v/Huobi.net.svg)](https://www.nuget.org/packages/Huobi.Net)|
+|Kraken|[JKorf/Kraken.Net](https://github.com/JKorf/Kraken.Net)|[![Nuget version](https://img.shields.io/nuget/v/KrakenExchange.net.svg)](https://www.nuget.org/packages/KrakenExchange.Net)|
+|Kucoin|[JKorf/Kucoin.Net](https://github.com/JKorf/Kucoin.Net)|[![Nuget version](https://img.shields.io/nuget/v/Kucoin.net.svg)](https://www.nuget.org/packages/Kucoin.Net)|
+|Mexc|[JKorf/Mexc.Net](https://github.com/JKorf/Mexc.Net)|[![Nuget version](https://img.shields.io/nuget/v/JK.Mexc.net.svg)](https://www.nuget.org/packages/JK.Mexc.Net)|
+
+## Discord
+A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
+
+## Supported functionality
+
+### Unified API
+|API|Supported|Location|
+|--|--:|--|
+|Trading Account Rest|✓|`restClient.UnifiedApi.Account`|
+|Trading Account Websocket|✓|`socketClient.UnifiedApi.Account`|
+|Order Book Trade Rest|✓|`restClient.UnifiedApi.Trading`|
+|Order Book Trade Websocket|✓|`socketClient.UnifiedApi.Trading`|
+|Order Book Algo Trading Rest|✓|`restClient.UnifiedApi.Trading`|
+|Order Book Algo Trading Websocket|✓|`socketClient.UnifiedApi.Trading`|
+|Order Book Grid Trading Rest|x|``|
+|Order Book Grid Trading Websocket|x|``|
+|Order Book Signal Trading Rest|x|``|
+|Order Book Recurring Buy Rest|x|``|
+|Order Book Recurring Buy Websocket|x|``|
+|Order Book Copy Trading Rest|x|``|
+|Order Book Copy Trading Websocket|x|``|
+|Order Book Market Data Rest|✓|`restClient.UnifiedApi.ExchangeData`|
+|Order Book Market Data Websocket|✓|`socketClient.UnifiedApi.ExchangeData`|
+|Block Trading|X||
+|Spread Trading|X||
+|Public Data Rest|✓|`restClient.UnifiedApi.ExchangeData`|
+|Public Data Websocket|✓|`socketClient.UnifiedApi.ExchangeData`|
+|Trading Statistics|✓|`restClient.UnifiedApi.ExchangeData`|
+|Funding Account Rest|✓|`restClient.UnifiedApi.Account`|
+|Funding Account Websocket|✓|`socketClient.UnifiedApi.Account`|
+|Sub-Account|✓|`restClient.UnifiedApi.SubAccounts`|
+|Financial Product|X||
+|Affiliate|X||
+|Status Rest|✓|`restClient.UnifiedApi.ExchangeData`|
+|Status Websocket|✓|`socketClient.UnifiedApi.ExchangeData`|
+
+### Broker API
+|API|Supported|Location|
+|--|--:|--|
+|Trading Account Rest|X||
 
 ## Support the project
 I develop and maintain this package on my own for free in my spare time, any support is greatly appreciated.
@@ -22,9 +100,6 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 
 ### Sponsor
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
-
-## Discord
-A Discord server is available [here](https://discord.gg/MSpeEtSY8t). Feel free to join for discussion and/or questions around the CryptoExchange.Net and implementation libraries.
 
 ## Release notes
 * Version 1.6.0-beta2 - 10 Feb 2024
