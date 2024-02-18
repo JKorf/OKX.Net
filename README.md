@@ -115,6 +115,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.6.0-beta3 - 18 Feb 2024
+    * Fixed websocket message handling with empty data array
+
 * Version 1.6.0-beta2 - 10 Feb 2024
     * Added UnifiedApi.Account.SetAccountModeAsync
     * Updated the position model to include stop order info
