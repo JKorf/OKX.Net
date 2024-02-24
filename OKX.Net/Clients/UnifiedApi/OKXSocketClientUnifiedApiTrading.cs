@@ -1,8 +1,8 @@
-﻿using CryptoExchange.Net.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
-using OKX.Net.Objects.Core;
+using OKX.Net.Objects.Sockets.Subscriptions;
 using OKX.Net.Objects.Trade;
 
 namespace OKX.Net.Clients.UnifiedApi;
@@ -11,7 +11,6 @@ namespace OKX.Net.Clients.UnifiedApi;
 public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrading
 {
     private readonly OKXSocketClientUnifiedApi _client;
-    private static Random _random = new Random();
 
     private readonly ILogger _logger;
 
@@ -51,8 +50,10 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
+        clientOrderId = clientOrderId ?? ExchangeHelpers.AppendRandomString(_client._ref, 32);
+
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("clOrdId", _client._ref + (clientOrderId ?? RandomString(15)));
+        parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("tag", _client._ref);
         parameters.AddOptionalParameter("posSide", EnumConverter.GetString(positionSide));
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
@@ -75,10 +76,10 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         foreach (var order in orders)
         {
             order.Tag = _client._ref;
-            order.ClientOrderId = _client._ref + (order.ClientOrderId ?? RandomString(15));
+            order.ClientOrderId = order.ClientOrderId ?? ExchangeHelpers.AppendRandomString(_client._ref, 32);
         }
 
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderPlaceResponse>>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1).ConfigureAwait(false);
+        return await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -102,7 +103,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     /// <inheritdoc />
     public async Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel)
     {
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderCancelResponse>>(_client.GetUri("/ws/v5/private"), "batch-cancel-orders", ordersToCancel, true, 1).ConfigureAwait(false);
+        return await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "batch-cancel-orders", ordersToCancel, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -134,7 +135,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     /// <inheritdoc />
     public async Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel)
     {
-        return await _client.QueryInternalAsync<IEnumerable<OKXOrderAmendResponse>>(_client.GetUri("/ws/v5/private"), "batch-amend-orders", ordersToCancel, true, 1).ConfigureAwait(false);
+        return await _client.QueryInternalAsync<OKXOrderAmendResponse>(_client.GetUri("/ws/v5/private"), "batch-amend-orders", ordersToCancel, true, 1).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -143,45 +144,41 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         string? symbol,
         string? instrumentFamily,
         bool regularUpdates,
-        Action<OKXPosition> onData,
+        Action<DataEvent<IEnumerable<OKXPosition>>> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPosition>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+        var subscription = new OKXSubscription<OKXPosition>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "positions",
+                    Symbol = symbol,
+                    InstrumentType = instrumentType,
+                    InstrumentFamily = instrumentFamily,
+                    ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
+                }
+            }, null, onData, true);
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "positions",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-            ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
-        });
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToLiquidationWarningUpdatesAsync(OKXInstrumentType instrumentType,
         string? instrumentFamily,
-        Action<OKXPosition> onData,
+        Action<DataEvent<OKXPosition>> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXPosition>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+        var subscription = new OKXSubscription<OKXPosition>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "liquidation-warning",
+                    InstrumentType = instrumentType,
+                    InstrumentFamily = instrumentFamily
+                }
+            }, onData, null, true);
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "liquidation-warning",
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily
-        });
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -189,23 +186,21 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         OKXInstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
-        Action<OKXOrderUpdate> onData,
+        Action<DataEvent<OKXOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+        var subscription = new OKXSubscription<OKXOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "orders",
+                    Symbol = symbol,
+                    InstrumentType = instrumentType,
+                    InstrumentFamily = instrumentFamily,
+                }
+            }, onData, null, true);
 
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "orders",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-        });
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -213,24 +208,21 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         OKXInstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
-        Action<OKXAlgoOrderUpdate> onData,
+        Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "orders-algo",
+                    Symbol = symbol,
+                    InstrumentType = instrumentType,
+                    InstrumentFamily = instrumentFamily,
+                }
+            }, onData, null, true);
 
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "orders-algo",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            InstrumentFamily = instrumentFamily,
-        });
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -238,30 +230,20 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         OKXInstrumentType instrumentType,
         string? symbol,
         string? algoId,
-        Action<OKXAlgoOrderUpdate> onData,
+        Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var internalHandler = new Action<DataEvent<OKXSocketUpdateResponse<IEnumerable<OKXAlgoOrderUpdate>>>>(data =>
-        {
-            foreach (var d in data.Data.Data)
-                onData(d);
-        });
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "algo-advance",
+                    Symbol = symbol,
+                    InstrumentType = instrumentType,
+                    AlgoId = algoId,
+                }
+            }, onData, null, true);
 
-
-        var request = new OKXSocketRequest(OKXSocketOperation.Subscribe, new OKXSocketRequestArgument
-        {
-            Channel = "algo-advance",
-            Symbol = symbol,
-            InstrumentType = instrumentType,
-            AlgoId = algoId,
-        });
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), request, null, true, internalHandler, ct).ConfigureAwait(false);
-    }
-
-    private string RandomString(int length)
-    {
-        const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return new string(Enumerable.Repeat(chars, length)
-            .Select(s => s[_random.Next(s.Length)]).ToArray());
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
 }

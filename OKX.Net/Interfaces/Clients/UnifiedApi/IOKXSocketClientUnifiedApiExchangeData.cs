@@ -1,11 +1,8 @@
-﻿using CryptoExchange.Net.Interfaces;
-using CryptoExchange.Net.Sockets;
+﻿using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
-using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.System;
-using OKX.Net.Objects.Trade;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
@@ -25,7 +22,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<OKXEstimatedPrice> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to funding rate updates. Data will be pushed every minute.
@@ -35,7 +32,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<OKXFundingRate> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the candlesticks data of the index updates. Data will be pushed every 500 ms.
@@ -46,7 +43,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to index tickers data updates
@@ -56,7 +53,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<OKXIndexTicker> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the open interest updates. Data will by pushed every 3 seconds.
@@ -66,7 +63,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<OKXOpenInterest> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the candlesticks data updates of a symbol. Data will be pushed every 500 ms.
@@ -77,7 +74,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the mark price updates. Data will be pushed every 200 ms when the mark price changes, and will be pushed every 10 seconds when the mark price does not change.
@@ -87,7 +84,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<OKXMarkPrice> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the candlesticks data updates of the mark price. Data will be pushed every 500 ms.
@@ -98,7 +95,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<OKXCandlestick> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to detailed pricing information updates of all OPTION contracts. Data will be pushed at once.
@@ -108,7 +105,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<OKXOptionSummary> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<IEnumerable<OKXOptionSummary>>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to order book data updates.
@@ -134,7 +131,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<OKXLimitPrice> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to symbols updates. The instruments will be pushed if there's any change to the instrument’s state (such as delivery of FUTURES, exercise of OPTION, listing of new contracts / trading pairs, trading suspension, etc.).
@@ -144,7 +141,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(OKXInstrumentType instrumentType, Action<OKXInstrument> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(OKXInstrumentType instrumentType, Action<DataEvent<IEnumerable<OKXInstrument>>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to status updates of system maintenance and push when the system maintenance status changes. First subscription: "Push the latest change data"; every time there is a state change, push the changed content
@@ -153,7 +150,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<OKXStatus> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<OKXStatus>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the last traded price updates, bid price, ask price and 24-hour trading volume of instruments. Data will be pushed every 100 ms.
@@ -163,7 +160,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<OKXTicker> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade.
@@ -173,6 +170,6 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<OKXTrade> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default);
 
 }

@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.Trading;
+﻿namespace OKX.Net.Objects.Trading;
 
 /// <summary>
 /// Put/Call ratio

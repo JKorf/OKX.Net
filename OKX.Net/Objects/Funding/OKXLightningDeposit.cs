@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.Funding;
+﻿namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Lightning deposit

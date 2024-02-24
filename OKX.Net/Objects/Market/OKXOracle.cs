@@ -1,5 +1,4 @@
 ﻿using OKX.Net.Attributes;
-using OKX.Net.Converters;
 
 namespace OKX.Net.Objects.Market;
 

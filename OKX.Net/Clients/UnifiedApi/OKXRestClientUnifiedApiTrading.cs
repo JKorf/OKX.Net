@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using OKX.Net.Converters;
+﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;

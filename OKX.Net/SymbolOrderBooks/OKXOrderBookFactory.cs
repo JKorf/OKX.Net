@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OKX.Net.Clients;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;

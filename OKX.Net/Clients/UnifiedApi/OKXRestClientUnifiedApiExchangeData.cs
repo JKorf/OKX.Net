@@ -1,5 +1,6 @@
 ﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
+using OKX.Net.ExtensionMethods;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Market;

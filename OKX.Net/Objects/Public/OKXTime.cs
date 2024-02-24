@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-
-namespace OKX.Net.Objects.Public;
+﻿namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Server time
