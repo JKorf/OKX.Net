@@ -42,5 +42,5 @@ public class OKXFundingRate
     /// Next funding rate
     /// </summary>
     [JsonProperty("nextFundingRate")]
-    public decimal NextFundingRate { get; set; }
+    public decimal? NextFundingRate { get; set; }
 }
