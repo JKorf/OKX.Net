@@ -233,6 +233,12 @@ public class OKXPosition
     public decimal? IndexPrice { get; set; }
 
     /// <summary>
+    /// Break-even price
+    /// </summary>
+    [JsonProperty("bePx")]
+    public decimal? BreakEvenPrice { get; set; }
+
+    /// <summary>
     /// Usd price
     /// </summary>
     [JsonProperty("usdPx")]
@@ -321,6 +327,16 @@ public class OKXPosition
     /// </summary>
     [JsonProperty("liqPenalty")]
     public decimal? LiquidationPenalty { get; set; }
+    /// <summary>
+    /// Realized profit and loss
+    /// </summary>
+    [JsonProperty("realizedPnl")]
+    public decimal? RealizedPnl { get; set; }
+    /// <summary>
+    /// Accumulated pnl of closing order(s)
+    /// </summary>
+    [JsonProperty("pnl")]
+    public decimal? Pnl { get; set; }
     /// <summary>
     /// Close position algo orders attached to the position
     /// </summary>
