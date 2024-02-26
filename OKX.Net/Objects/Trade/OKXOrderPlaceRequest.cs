@@ -1,4 +1,5 @@
-﻿using OKX.Net.Converters;
+﻿using Kraken.Net.Converters;
+using OKX.Net.Converters;
 using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
@@ -41,13 +42,13 @@ public class OKXOrderPlaceRequest
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonProperty("sz"), JsonConverter(typeof(DecimalStringWriterConverter))]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Price
     /// </summary>
-    [JsonProperty("px", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("px", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
     public decimal? Price { get; set; }
 
     /// <summary>
