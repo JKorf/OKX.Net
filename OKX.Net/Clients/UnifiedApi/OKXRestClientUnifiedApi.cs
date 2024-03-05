@@ -1,7 +1,9 @@
 ﻿using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
+using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
 
 namespace OKX.Net.Clients.UnifiedApi;
@@ -105,16 +107,16 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     }
 
     /// <inheritdoc />
-    protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, string data)
+    protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, IMessageAccessor accessor)
     {
-        var errorData = ValidateJson(data);
-        if (!errorData)
-            return new ServerError(data);
+        if (!accessor.IsJson)
+            return new ServerError(accessor.GetOriginalString());
 
-        if (errorData.Data["code"] == null || errorData.Data["msg"] == null)
-            return new ServerError(data);
+        var result = accessor.Deserialize<OKXRestApiResponse>();
+        if (!result)
+            return new ServerError(accessor.GetOriginalString());
 
-        return new ServerError((int)errorData.Data["code"]!, (string)errorData.Data["msg"]!);
+        return new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage!);
     }
 
     internal void InvokeOrderPlaced(OrderId id)

@@ -89,7 +89,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.SortedDictionary{System.String,System.Object},System.String)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},System.String)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Sockets.MessageParsing.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountBalanceAsync(System.String,System.Threading.CancellationToken)">
@@ -4035,21 +4035,26 @@
             <param name="message"></param>
             <param name="data"></param>
         </member>
+        <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse">
+            <summary>
+            Rest API response
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Core.OKXRestApiResponse.ErrorCode">
+            <summary>
+            Error code
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Core.OKXRestApiResponse.ErrorMessage">
+            <summary>
+            Error message
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse`1">
             <summary>
             Rest API response
             </summary>
             <typeparam name="T"></typeparam>
-        </member>
-        <member name="P:OKX.Net.Objects.Core.OKXRestApiResponse`1.ErrorCode">
-            <summary>
-            Error code
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Core.OKXRestApiResponse`1.ErrorMessage">
-            <summary>
-            Error message
-            </summary>
         </member>
         <member name="P:OKX.Net.Objects.Core.OKXRestApiResponse`1.Data">
             <summary>
