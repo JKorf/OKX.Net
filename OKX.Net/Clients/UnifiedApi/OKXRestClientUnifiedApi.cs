@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.Sockets.MessageParsing;
 using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
@@ -112,11 +113,17 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (!accessor.IsJson)
             return new ServerError(accessor.GetOriginalString());
 
-        var result = accessor.Deserialize<OKXRestApiResponse>();
-        if (!result)
+        var codePath = MessagePath.Get().Property("code");
+        var msgPath = MessagePath.Get().Property("msg");
+        var code = accessor.GetValue<int?>(codePath);
+        var msg = accessor.GetValue<string>(msgPath);
+        if (msg == null)
             return new ServerError(accessor.GetOriginalString());
 
-        return new ServerError(result.Data.ErrorCode, result.Data.ErrorMessage!);
+        if (code == null)
+            return new ServerError(msg);
+
+        return new ServerError(code.Value, msg);
     }
 
     internal void InvokeOrderPlaced(OrderId id)
