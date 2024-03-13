@@ -2,6 +2,7 @@
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
+using OKX.Net.Objects.Affiliate;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Funding;
 
@@ -824,6 +825,21 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountMode>>>(_baseClient.GetUri("api/v5/account/set-account-level"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         if (!result.Success) return result.AsError<OKXAccountMode>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default)
+    {
+        var parameters = new Dictionary<string, object>()
+        {
+            { "uid", userId }
+        };
+
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInviteeDetails>>>(_baseClient.GetUri("api/v5/affiliate/invitee/detail"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXInviteeDetails>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXInviteeDetails>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
         return result.As(result.Data.Data.FirstOrDefault());
     }

@@ -1,0 +1,12 @@
+{
+    "code": "0",
+    "msg": "",
+    "data": [
+        {
+            "inviteeLv": "2",
+            "joinTime":"1597026383085",
+            "inviteeRebateRate":"0.01",
+            "totalCommission":"100.01"
+        }
+    ]
+}

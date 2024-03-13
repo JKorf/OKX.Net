@@ -39,6 +39,7 @@ namespace OKX.Net.UnitTests
                    "WithdrawAsync",
                    "GetTransferAsync",
                    "SetIsolatedMarginModeAsync",
+                   "GetAffiliateInviteeDetailsAsync"
                 },
                 ignoreProperties: new Dictionary<string, List<string>>
                 {

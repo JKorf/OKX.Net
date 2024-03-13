@@ -1,5 +1,6 @@
 ﻿using OKX.Net.Enums;
 using OKX.Net.Objects.Account;
+using OKX.Net.Objects.Affiliate;
 using OKX.Net.Objects.Funding;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -444,4 +445,13 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAccountMode>> SetAccountModeAsync(OKXAccountLevel mode, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get details of an affiliate invitee
+    /// <para><a href="https://www.okx.com/docs-v5/en/#affiliate-rest-api-get-the-invitee-39-s-detail" /></para>
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default);
 }

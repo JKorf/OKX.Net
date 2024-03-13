@@ -200,6 +200,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.OKXAccountLevel,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAffiliateInviteeDetailsAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1339,6 +1342,15 @@
             </summary>
             <param name="mode">New account mode</param>
             <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetAffiliateInviteeDetailsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get details of an affiliate invitee
+            <para><a href="https://www.okx.com/docs-v5/en/#affiliate-rest-api-get-the-invitee-39-s-detail" /></para>
+            </summary>
+            <param name="userId"></param>
+            <param name="ct"></param>
             <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData">
@@ -4020,6 +4032,31 @@
         <member name="P:OKX.Net.Objects.Account.OKXWithdrawalAmount.MaximumWithdrawalSpotOffsetIncl">
             <summary>
             Max withdrawal under Spot-Derivatives risk offset mode (including borrowed assets under Portfolio margin)
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Affiliate.OKXInviteeDetails">
+            <summary>
+            Affiliate invitee info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Affiliate.OKXInviteeDetails.InviteeLevel">
+            <summary>
+            Invitee level
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Affiliate.OKXInviteeDetails.JoinTime">
+            <summary>
+            Time joined
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Affiliate.OKXInviteeDetails.InviteeRebateRate">
+            <summary>
+            Rebate rate
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Affiliate.OKXInviteeDetails.TotalCommission">
+            <summary>
+            Total commission earned
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiError">
