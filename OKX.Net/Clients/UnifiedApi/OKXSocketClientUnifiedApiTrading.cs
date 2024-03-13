@@ -222,7 +222,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
                 }
             }, onData, null, true);
 
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -244,6 +244,6 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
                 }
             }, onData, null, true);
 
-        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
 }
