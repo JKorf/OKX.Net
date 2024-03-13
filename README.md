@@ -118,6 +118,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.6.2 - 13 Mar 2024
+    * Added UnifiedApi.Account..GetAffiliateInviteeDetailsAsync endpoint
+    * Fixed websocket AlgoOrder update subscriptions url
+    * Fixed Symbol property not set on websocket kline updates
+
 * Version 1.6.1 - 26 Feb 2024
     * Update OKXPosition model
     * Fixed PlaceMultipleOrdersAsync and AmendMultipleOrdersAsync quantity and price parameter serialization
