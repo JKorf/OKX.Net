@@ -84,7 +84,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     /// <inheritdoc />
     protected override void WriteParamBody(IRequest request, SortedDictionary<string, object> parameters, string contentType)
     {
-        if (requestBodyFormat == RequestBodyFormat.Json)
+        if (RequestBodyFormat == RequestBodyFormat.Json)
         {
             if (parameters.Count == 1 && parameters.Keys.First() == "<BODY>")
             {
@@ -99,7 +99,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
                 request.SetContent(stringData, contentType);
             }
         }
-        else if (requestBodyFormat == RequestBodyFormat.FormData)
+        else if (RequestBodyFormat == RequestBodyFormat.FormData)
         {
             // Write the parameters as form data in the body
             var stringData = parameters.ToFormData();
