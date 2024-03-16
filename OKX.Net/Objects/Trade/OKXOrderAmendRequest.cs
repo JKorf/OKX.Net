@@ -1,6 +1,4 @@
-﻿using Kraken.Net.Converters;
-
-namespace OKX.Net.Objects.Trade;
+﻿namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order amend request

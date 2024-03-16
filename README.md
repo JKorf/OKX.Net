@@ -118,6 +118,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 1.7.0 - 16 Mar 2024
+    * Updated CryptoExchange.Net to 7.1.0, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
+    * Updated unit test package dependencies and updated tests accordingly
+	
 * Version 1.6.2 - 13 Mar 2024
     * Added UnifiedApi.Account..GetAffiliateInviteeDetailsAsync endpoint
     * Fixed websocket AlgoOrder update subscriptions url

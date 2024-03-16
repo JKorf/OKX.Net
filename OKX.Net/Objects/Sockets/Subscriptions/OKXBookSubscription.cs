@@ -1,6 +1,5 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
-using CryptoExchange.Net.Sockets.MessageParsing.Interfaces;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
@@ -41,12 +40,12 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
 
     public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<IEnumerable<OKXOrderBook>>);
 
-    public override Task<CallResult> DoHandleMessageAsync(SocketConnection connection, DataEvent<object> message)
+    public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
     {
         var data = (OKXSocketUpdate<IEnumerable<OKXOrderBook>>)message.Data;
         foreach (var item in data.Data)
             item.Action = data.Action!;
         _handler.Invoke(message.As(data.Data.Single(), data.Arg.Symbol, data.Action == "snapshot" || data.Action == null ? SocketUpdateType.Snapshot: SocketUpdateType.Update));
-        return Task.FromResult(new CallResult(null));
+        return new CallResult(null);
     }
 }

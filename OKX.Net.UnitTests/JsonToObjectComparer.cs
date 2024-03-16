@@ -1,8 +1,10 @@
 ﻿using CryptoExchange.Net.Converters;
+using CryptoExchange.Net.Converters.JsonNet;
 using CryptoExchange.Net.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -86,7 +88,7 @@ namespace OKX.Net.UnitTests
                 var result = (CallResult)await TestHelpers.InvokeAsync(method, getSubject(client), input.ToArray());
 
                 // assert
-                Assert.Null(result.Error, method.Name);
+                ClassicAssert.Null(result.Error, method.Name);
 
                 var resultProp = result.GetType().GetProperty("Data", BindingFlags.Public | BindingFlags.Instance);
                 if (resultProp == null)

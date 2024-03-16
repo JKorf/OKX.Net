@@ -12,11 +12,11 @@ internal class OKXIdQuery<T> : Query<OKXSocketResponse<IEnumerable<T>>>
         ListenerIdentifiers = new HashSet<string>() { ((OKXSocketIdRequest)Request).Id };
     }
 
-    public override Task<CallResult<OKXSocketResponse<IEnumerable<T>>>> HandleMessageAsync(SocketConnection connection, DataEvent<OKXSocketResponse<IEnumerable<T>>> message)
+    public override CallResult<OKXSocketResponse<IEnumerable<T>>> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse<IEnumerable<T>>> message)
     {
         if (message.Data.Event == "error")
-            return Task.FromResult(new CallResult<OKXSocketResponse<IEnumerable<T>>>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData));
+            return new CallResult<OKXSocketResponse<IEnumerable<T>>>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData);
 
-        return base.HandleMessageAsync(connection, message);
+        return base.HandleMessage(connection, message);
     }
 }

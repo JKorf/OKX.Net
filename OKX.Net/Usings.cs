@@ -1,5 +1,6 @@
 ﻿global using CryptoExchange.Net;
 global using CryptoExchange.Net.Authentication;
+global using CryptoExchange.Net.Converters.JsonNet;
 global using CryptoExchange.Net.Converters;
 global using CryptoExchange.Net.Interfaces;
 global using CryptoExchange.Net.Objects;

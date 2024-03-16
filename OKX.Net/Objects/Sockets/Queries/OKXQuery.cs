@@ -18,11 +18,11 @@ internal class OKXQuery : Query<OKXSocketResponse>
         ListenerIdentifiers = new HashSet<string> { "login", "error" };
     }
 
-    public override Task<CallResult<OKXSocketResponse>> HandleMessageAsync(SocketConnection connection, DataEvent<OKXSocketResponse> message)
+    public override CallResult<OKXSocketResponse> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse> message)
     {
         if (message.Data.Event == "error")
-            return Task.FromResult(new CallResult<OKXSocketResponse>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData));
+            return new CallResult<OKXSocketResponse>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData);
 
-        return base.HandleMessageAsync(connection, message);
+        return base.HandleMessage(connection, message);
     }
 }

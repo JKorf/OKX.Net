@@ -3,8 +3,7 @@
 /// <summary>
 /// Rest API response
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class OKXRestApiResponse<T>
+public class OKXRestApiResponse
 {
     /// <summary>
     /// Error code
@@ -17,7 +16,14 @@ public class OKXRestApiResponse<T>
     /// </summary>
     [JsonProperty("msg", NullValueHandling = NullValueHandling.Ignore)]
     public string? ErrorMessage { get; set; }
+}
 
+/// <summary>
+/// Rest API response
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class OKXRestApiResponse<T> : OKXRestApiResponse
+{
     /// <summary>
     /// Response data
     /// </summary>
