@@ -80,7 +80,12 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
                     Channel = "candle" + jc,
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            },
+            data => 
+            {
+                data.Data.Symbol = symbol;
+                onData(data);
+            }, null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }

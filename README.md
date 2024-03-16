@@ -23,22 +23,25 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 	dotnet add package JK.OKX.Net
 
 ## How to use
-* REST Endpoints
-	```csharp
-	// Get the ETH/USDT ticker via rest request
-	var restClient = new OKXRestClient();
-	var tickerResult = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
-	var lastPrice = tickerResult.Data.LastPrice;
-	```
-* Websocket streams
-	```csharp
-	// Subscribe to ETH/USDT ticker updates via the websocket API
-	var socketClient = new OKXSocketClient();
-	var tickerSubscriptionResult = socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", (update) =>
-	{
-		var lastPrice = update.Data.LastPrice;
-	});
-	```
+*REST Endpoints*  
+
+```csharp
+// Get the ETH/USDT ticker via rest request
+var restClient = new OKXRestClient();
+var tickerResult = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
+var lastPrice = tickerResult.Data.LastPrice;
+```
+	
+*Websocket streams*  
+
+```csharp
+// Subscribe to ETH/USDT ticker updates via the websocket API
+var socketClient = new OKXSocketClient();
+var tickerSubscriptionResult = socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", (update) =>
+{
+	var lastPrice = update.Data.LastPrice;
+});
+```
 
 For information on the clients, dependency injection, response processing and more see the [documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples  [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
 
@@ -119,6 +122,11 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
     * Updated CryptoExchange.Net to 7.1.0, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
     * Updated unit test package dependencies and updated tests accordingly
 	
+* Version 1.6.2 - 13 Mar 2024
+    * Added UnifiedApi.Account..GetAffiliateInviteeDetailsAsync endpoint
+    * Fixed websocket AlgoOrder update subscriptions url
+    * Fixed Symbol property not set on websocket kline updates
+
 * Version 1.6.1 - 26 Feb 2024
     * Update OKXPosition model
     * Fixed PlaceMultipleOrdersAsync and AmendMultipleOrdersAsync quantity and price parameter serialization
