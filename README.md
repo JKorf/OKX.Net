@@ -2,7 +2,7 @@
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/OKX.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/OKX.Net?style=for-the-badge)
 
-OKX.Net is client library for accessing the [OKX REST and Websocket API](https://www.okx.com/docs-v5/en/). All data is mapped to readable models and enum values. Additional features include an implementation for maintaining a client side order book, easy integration with other exchange client libraries and more.
+OKX.Net is strongly typed client library for accessing the [OKX REST and Websocket API](https://www.okx.com/docs-v5/en/). All data is mapped to readable models and enum values. Additional features include an implementation for maintaining a client side order book, easy integration with other exchange client libraries and more.
 
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
@@ -120,7 +120,6 @@ Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/s
 ## Release notes
 * Version 1.7.0 - 16 Mar 2024
     * Updated CryptoExchange.Net to 7.1.0, see https://github.com/JKorf/CryptoExchange.Net?tab=readme-ov-file#release-notes for release notes
-    * Updated unit test package dependencies and updated tests accordingly
 	
 * Version 1.6.2 - 13 Mar 2024
     * Added UnifiedApi.Account..GetAffiliateInviteeDetailsAsync endpoint
