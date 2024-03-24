@@ -37,8 +37,8 @@ namespace OKX.Net.SymbolOrderBooks
         /// <param name="socketClient">Socket client instance</param>
         public OKXSymbolOrderBook(string symbol,
             Action<OKXOrderBookOptions>? optionsDelegate,
-            ILogger<OKXSymbolOrderBook>? logger,
-            IOKXSocketClient? socketClient) : base(logger, "OKX", symbol)
+            ILoggerFactory? logger,
+            IOKXSocketClient? socketClient) : base(logger, "OKX", "Unified", symbol)
         {
             var options = OKXOrderBookOptions.Default.Copy();
             if (optionsDelegate != null)

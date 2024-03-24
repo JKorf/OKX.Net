@@ -23,7 +23,7 @@ namespace OKX.Net.SymbolOrderBooks
         public ISymbolOrderBook Create(string symbol, Action<OKXOrderBookOptions>? options = null)
             => new OKXSymbolOrderBook(symbol,
                                       options,
-                                      _serviceProvider.GetRequiredService<ILogger<OKXSymbolOrderBook>>(),
+                                      _serviceProvider.GetRequiredService<ILoggerFactory>(),
                                       _serviceProvider.GetRequiredService<IOKXSocketClient>());
     }
 }

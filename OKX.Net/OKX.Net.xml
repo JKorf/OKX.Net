@@ -7695,7 +7695,7 @@
             <param name="symbol">The symbol the order book is for</param>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:OKX.Net.SymbolOrderBooks.OKXSymbolOrderBook.#ctor(System.String,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions},Microsoft.Extensions.Logging.ILogger{OKX.Net.SymbolOrderBooks.OKXSymbolOrderBook},OKX.Net.Interfaces.Clients.IOKXSocketClient)">
+        <member name="M:OKX.Net.SymbolOrderBooks.OKXSymbolOrderBook.#ctor(System.String,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions},Microsoft.Extensions.Logging.ILoggerFactory,OKX.Net.Interfaces.Clients.IOKXSocketClient)">
             <summary>
             Create a new order book instance
             </summary>
