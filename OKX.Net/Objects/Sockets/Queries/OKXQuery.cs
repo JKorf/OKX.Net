@@ -20,7 +20,7 @@ internal class OKXQuery : Query<OKXSocketResponse>
 
     public override CallResult<OKXSocketResponse> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse> message)
     {
-        if (message.Data.Event == "error")
+        if (string.Equals(message.Data.Event, "error", StringComparison.Ordinal))
             return new CallResult<OKXSocketResponse>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData);
 
         return base.HandleMessage(connection, message);

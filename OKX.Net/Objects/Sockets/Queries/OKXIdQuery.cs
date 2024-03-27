@@ -14,7 +14,7 @@ internal class OKXIdQuery<T> : Query<OKXSocketResponse<IEnumerable<T>>>
 
     public override CallResult<OKXSocketResponse<IEnumerable<T>>> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse<IEnumerable<T>>> message)
     {
-        if (message.Data.Event == "error")
+        if (string.Equals(message.Data.Event, "error", StringComparison.Ordinal))
             return new CallResult<OKXSocketResponse<IEnumerable<T>>>(new ServerError(message.Data.Code ?? 0, message.Data.Message!), message.OriginalData);
 
         return base.HandleMessage(connection, message);
