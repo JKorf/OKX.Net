@@ -285,7 +285,7 @@ public interface IOKXRestClientUnifiedApiTrading
         OKXTradeMode tradeMode, 
         OKXOrderSide orderSide, 
         OKXAlgoOrderType algoOrderType, 
-        decimal quantity, 
+        decimal? quantity = null,
         string? asset = null,
         bool? reduceOnly = null, 
         OKXPositionSide? positionSide = null,

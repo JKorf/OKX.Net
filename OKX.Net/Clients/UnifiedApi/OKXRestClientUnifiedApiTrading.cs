@@ -530,7 +530,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         OKXTradeMode tradeMode,
         OKXOrderSide orderSide,
         OKXAlgoOrderType algoOrderType,
-        decimal quantity,
+        decimal? quantity = null,
         string? asset = null,
         bool? reduceOnly = null,
         OKXPositionSide? positionSide = null,
@@ -565,7 +565,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         CancellationToken ct = default)
     {
         clientOrderId = clientOrderId ?? ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
             {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },
@@ -574,6 +574,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"tag", _baseClient._ref },
             {"clOrdId", clientOrderId }
         };
+        parameters.AddOptionalString("sz", quantity);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
 
