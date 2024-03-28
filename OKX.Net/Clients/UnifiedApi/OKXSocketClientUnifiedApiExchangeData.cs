@@ -54,6 +54,23 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
 
+
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
+    {
+        var symbolSubs = symbols.Select(symbol =>  
+            new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "tickers",
+                    Symbol = symbol
+                }
+        ).ToList(); 
+
+        var subscription = new OKXSubscription<OKXTicker>(_logger, symbolSubs , onData, null, false);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
+    }
+
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {

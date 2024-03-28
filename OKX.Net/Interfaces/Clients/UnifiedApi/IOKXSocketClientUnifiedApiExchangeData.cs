@@ -162,6 +162,17 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <returns></returns>
     Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default);
 
+
+    /// <summary>
+    /// Subscribe to the last traded price updates, bid price, ask price and 24-hour trading volume of instruments. Data will be pushed every 100 ms.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-tickers-channel" /></para>
+    /// </summary>
+    /// <param name="symbols">Symbol</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default);
+
     /// <summary>
     /// Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /></para>
