@@ -15,7 +15,7 @@ namespace OKX.Net.UnitTests
         private JsonToObjectComparer<IOKXRestClient> _comparer = new JsonToObjectComparer<IOKXRestClient>((json) => TestHelpers.CreateResponseClient(json, x =>
         {
             x.ApiCredentials = new OKXApiCredentials("1234", "1234", "11");
-            x.UnifiedOptions.RateLimiters = new List<IRateLimiter>();
+            x.RatelimiterEnabled = false;
             x.UnifiedOptions.OutputOriginalData = false;
         }));
 
