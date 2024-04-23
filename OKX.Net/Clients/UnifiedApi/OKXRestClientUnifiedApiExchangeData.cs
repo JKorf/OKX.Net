@@ -129,8 +129,9 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         };
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderBook>>>(_baseClient.GetUri(Endpoints_V5_Market_Books), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
-        if (!result.Success || result.Data.Data.Count() == 0) return result.AsError<OKXOrderBook>(result.Error!);
+        if (!result.Success) return result.AsError<OKXOrderBook>(result.Error!);
         if (result.Data.ErrorCode > 0) return result.AsError<OKXOrderBook>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        if (result.Data.Data.Count() == 0) return result.AsError<OKXOrderBook>(new OKXRestApiError(null, "No data", null));
 
         var orderbook = result.Data.Data.FirstOrDefault();
         orderbook.Symbol = symbol;
