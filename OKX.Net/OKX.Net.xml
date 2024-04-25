@@ -77,6 +77,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.FormatSymbol(System.String,System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetServerTimestampAsync">
             <inheritdoc />
         </member>
@@ -420,6 +423,9 @@
             <inheritdoc />
         </member>
         <member name="P:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.Trading">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
@@ -2617,6 +2623,11 @@
         <member name="T:OKX.Net.Interfaces.IOKXOrderBookFactory">
             <summary>
             Order book factory
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Interfaces.IOKXOrderBookFactory.Unified">
+            <summary>
+            Unified API order book factory methods
             </summary>
         </member>
         <member name="M:OKX.Net.Interfaces.IOKXOrderBookFactory.Create(System.String,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions})">
@@ -7685,6 +7696,9 @@
             <returns></returns>
         </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.Unified">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.#ctor(System.IServiceProvider)">

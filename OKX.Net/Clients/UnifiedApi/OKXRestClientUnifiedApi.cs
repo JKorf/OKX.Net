@@ -52,6 +52,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
+    /// <inheritdoc />
+    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
     internal async Task<WebCallResult<T>> ExecuteAsync<T>(Uri uri, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, HttpMethodParameterPosition? parameterPosition = null) where T : class
     {
         var result = await SendRequestAsync<T>(uri, method, ct, parameters, signed, parameterPosition: parameterPosition, requestWeight: 0).ConfigureAwait(false);

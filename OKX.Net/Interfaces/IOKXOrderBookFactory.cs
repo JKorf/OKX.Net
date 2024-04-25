@@ -8,6 +8,11 @@ namespace OKX.Net.Interfaces;
 public interface IOKXOrderBookFactory
 {
     /// <summary>
+    /// Unified API order book factory methods
+    /// </summary>
+    IOrderBookFactory<OKXOrderBookOptions> Unified { get; }
+
+    /// <summary>
     /// Create a new order book
     /// </summary>
     /// <param name="symbol">The symbol</param>
