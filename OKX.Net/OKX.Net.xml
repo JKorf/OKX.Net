@@ -7695,6 +7695,26 @@
             <param name="socketAddress"></param>
             <returns></returns>
         </member>
+        <member name="T:OKX.Net.OKXExchange">
+            <summary>
+            OKX exchange information and configuration
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.ExchangeName">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.Url">
+            <summary>
+            Url to the main website
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.ApiDocsUrl">
+            <summary>
+            Urls to the API documentation
+            </summary>
+        </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
             <inheritdoc />
         </member>
