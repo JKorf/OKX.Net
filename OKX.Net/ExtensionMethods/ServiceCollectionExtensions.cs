@@ -57,7 +57,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
-            services.AddSingleton<IOKXOrderBookFactory, OKXOrderBookFactory>();
+            services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
             services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
             if (socketClientLifeTime == null)
                 services.AddSingleton<IOKXSocketClient, OKXSocketClient>();
