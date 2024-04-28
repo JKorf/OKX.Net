@@ -51,6 +51,9 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     #endregion
 
     /// <inheritdoc />
+    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
+    /// <inheritdoc />
     public override string GetListenerIdentifier(IMessageAccessor message)
     {
         if (!message.IsJson)

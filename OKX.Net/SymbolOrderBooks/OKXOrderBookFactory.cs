@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CryptoExchange.Net.OrderBook;
+using Microsoft.Extensions.DependencyInjection;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
@@ -10,6 +11,9 @@ namespace OKX.Net.SymbolOrderBooks
     {
         private readonly IServiceProvider _serviceProvider;
 
+        /// <inheritdoc />
+        public IOrderBookFactory<OKXOrderBookOptions> Unified { get; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -17,6 +21,8 @@ namespace OKX.Net.SymbolOrderBooks
         public OKXOrderBookFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            Unified = new OrderBookFactory<OKXOrderBookOptions>((symbol, options) => Create(symbol, options), (baseAsset, quoteAsset, options) => Create(baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant(), options));
         }
 
         /// <inheritdoc />
