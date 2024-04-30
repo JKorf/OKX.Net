@@ -16,28 +16,34 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
             throw new ArgumentException("No valid API credentials provided. Key/Secret needed.");
     }
 
-    public override void AuthenticateRequest(RestApiClient apiClient, Uri uri, HttpMethod method, Dictionary<string, object> providedParameters, bool auth, ArrayParametersSerialization arraySerialization, HttpMethodParameterPosition parameterPosition, RequestBodyFormat bodyFormat, out SortedDictionary<string, object> uriParameters, out SortedDictionary<string, object> bodyParameters, out Dictionary<string, string> headers)
+    public override void AuthenticateRequest(
+            RestApiClient apiClient,
+            Uri uri,
+            HttpMethod method,
+            IDictionary<string, object> uriParams,
+            IDictionary<string, object> bodyParams,
+            Dictionary<string, string> headers,
+            bool auth,
+            ArrayParametersSerialization arraySerialization,
+            HttpMethodParameterPosition parameterPosition,
+            RequestBodyFormat bodyFormat)
     {
-        uriParameters = parameterPosition == HttpMethodParameterPosition.InUri ? new SortedDictionary<string, object>(providedParameters) : new SortedDictionary<string, object>();
-        bodyParameters = parameterPosition == HttpMethodParameterPosition.InBody ? new SortedDictionary<string, object>(providedParameters) : new SortedDictionary<string, object>();
-        headers = new Dictionary<string, string>();
-
         if (!(auth || ((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests))
             return;
 
         // Set Parameters
-        uri = uri.SetParameters(uriParameters, arraySerialization);
+        uri = uri.SetParameters(uriParams, arraySerialization);
 
         // Signature Body
-        var time = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
+        var time = GetTimestamp(apiClient).ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
         var signtext = time + method.Method.ToUpper() + uri.PathAndQuery.Trim('?');
 
         if (method == HttpMethod.Post)
         {
-            if (bodyParameters.Count == 1 && bodyParameters.Keys.First() == "<BODY>")
-                signtext += JsonConvert.SerializeObject(bodyParameters["<BODY>"]);
+            if (bodyParams.Count == 1 && bodyParams.Keys.First() == "<BODY>")
+                signtext += JsonConvert.SerializeObject(bodyParams["<BODY>"]);
             else
-                signtext += JsonConvert.SerializeObject(bodyParameters);
+                signtext += JsonConvert.SerializeObject(bodyParams);
         }
 
         // Compute Signature
@@ -48,10 +54,6 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
         headers.Add("OK-ACCESS-SIGN", signature);
         headers.Add("OK-ACCESS-TIMESTAMP", time);
         headers.Add("OK-ACCESS-PASSPHRASE", _credentials.PassPhrase.GetString());
-
-        // Demo Trading Flag
-        //if (baseClient.Options.DemoTradingService)
-        //    headers.Add("x-simulated-trading", "1");
     }
 
     public string SignWebsocket(string timestamp)
