@@ -9,6 +9,8 @@ using OKX.Net.Objects.Core;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using CryptoExchange.Net.Objects.Sockets;
 using NUnit.Framework.Legacy;
+using CryptoExchange.Net.Clients;
+using OKX.Net.Objects;
 
 namespace OKX.Net.UnitTests
 {
@@ -78,45 +80,39 @@ namespace OKX.Net.UnitTests
             Assert.That(result.Error.Message == "Error occured");
         }
 
-        [Test]
-        public void CheckRestInterfaces()
-        {
-            var assembly = Assembly.GetAssembly(typeof(OKXRestClient));
-            var ignore = new string[] { "IOKXClientUnifiedApi" };
-            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IOKXClientUnifiedApi") && !ignore.Contains(t.Name));
 
-            foreach (var clientInterface in clientInterfaces)
-            {
-                var implementation = assembly.GetTypes().Single(t => t.IsAssignableTo(clientInterface) && t != clientInterface);
-                int methods = 0;
-                foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task))))
+        [Test]
+        public void CheckSignatureExample()
+        {
+            var authProvider = new OKXAuthenticationProvider(
+                new OKXApiCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
+                );
+            var client = (RestApiClient)new OKXRestClient().UnifiedApi;
+
+            CryptoExchange.Net.Testing.TestHelpers.CheckSignature(
+                client,
+                authProvider,
+                HttpMethod.Post,
+                "/api/v5/account/balance",
+                (uriParams, bodyParams, headers) =>
                 {
-                    var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    ClassicAssert.NotNull(interfaceMethod, $"{method.Name} not found in interface {clientInterface.Name}");
-                    methods++;
-                }
-                Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
-            }
+                    return headers["OK-ACCESS-SIGN"].ToString();
+                },
+                "SQ8OzSqaLcC5tF3MMKwonxGUXwGfGPkM60flrI/UJjo=",
+                new Dictionary<string, object>
+                {
+                    { "instId", "BTC-USDT" },
+                    { "lever", "5" },
+                    { "mgnMode", "isolated" }
+                },
+                time: new DateTime(2020, 12, 08, 09, 08, 57, 715, DateTimeKind.Utc));
         }
 
         [Test]
-        public void CheckSocketInterfaces()
+        public void CheckInterfaces()
         {
-            var assembly = Assembly.GetAssembly(typeof(IOKXSocketClientUnifiedApi));
-            var clientInterfaces = assembly.GetTypes().Where(t => t.Name.StartsWith("IOKXSocketClientUnifiedApi"));
-
-            foreach (var clientInterface in clientInterfaces)
-            {
-                var implementation = assembly.GetTypes().Single(t => t.IsAssignableTo(clientInterface) && t != clientInterface);
-                int methods = 0;
-                foreach (var method in implementation.GetMethods().Where(m => m.ReturnType.IsAssignableTo(typeof(Task<CallResult<UpdateSubscription>>))))
-                {
-                    var interfaceMethod = clientInterface.GetMethod(method.Name, method.GetParameters().Select(p => p.ParameterType).ToArray());
-                    ClassicAssert.NotNull(interfaceMethod);
-                    methods++;
-                }
-                Debug.WriteLine($"{clientInterface.Name} {methods} methods validated");
-            }
+            CryptoExchange.Net.Testing.TestHelpers.CheckForMissingRestInterfaces<OKXRestClient>();
+            CryptoExchange.Net.Testing.TestHelpers.CheckForMissingSocketInterfaces<OKXSocketClient>();
         }
     }
 }

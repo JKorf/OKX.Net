@@ -85,7 +85,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         => _timeSyncState.TimeOffset;
 
     /// <inheritdoc />
-    protected override void WriteParamBody(IRequest request, SortedDictionary<string, object> parameters, string contentType)
+    protected override void WriteParamBody(IRequest request, IDictionary<string, object> parameters, string contentType)
     {
         if (RequestBodyFormat == RequestBodyFormat.Json)
         {
