@@ -392,7 +392,6 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXInstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
-        OKXFeeRateCategory? category = null,
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
@@ -401,7 +400,6 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         };
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
-        parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new FeeRateCategoryConverter(false)));
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
         var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFeeRate>>>(_baseClient.GetUri(Endpoints_V5_Account_TradeFee), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
