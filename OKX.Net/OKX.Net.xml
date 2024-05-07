@@ -137,7 +137,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(System.String,OKX.Net.Enums.OKXMarginMode,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXFeeRateCategory},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetInterestAccruedAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
@@ -1065,7 +1065,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Nullable{OKX.Net.Enums.OKXFeeRateCategory},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get Fee Rates
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /></para>
@@ -1073,7 +1073,6 @@
             <param name="instrumentType">Instrument Type</param>
             <param name="symbol">Symbol</param>
             <param name="underlying">Underlying</param>
-            <param name="category">Category</param>
             <param name="instrumentFamily">Instrument family</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
