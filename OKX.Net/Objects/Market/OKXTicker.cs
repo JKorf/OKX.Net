@@ -42,7 +42,7 @@ public class OKXTicker
     /// Best ask quantity
     /// </summary>
     [JsonProperty("askSz")]
-    public decimal? BestAskSize { get; set; }
+    public decimal? BestAskQuantity { get; set; }
 
     /// <summary>
     /// Best bid price
