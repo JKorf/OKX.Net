@@ -453,4 +453,13 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct"></param>
     /// <returns></returns>
     Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get asset valuation
+    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-account-asset-valuation" /></para>
+    /// </summary>
+    /// <param name="asset">The asset to denote the value in, defaults to BTC</param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAssetValuation>> GetAssetValuationAsync(string? asset = null, CancellationToken ct = default);
 }

@@ -841,4 +841,16 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         return result.As(result.Data.Data.FirstOrDefault());
     }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAssetValuation>> GetAssetValuationAsync(string? asset = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("ccy", asset);
+        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAssetValuation>>>(_baseClient.GetUri("api/v5/asset/asset-valuation"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        if (!result.Success) return result.AsError<OKXAssetValuation>(result.Error!);
+        if (result.Data.ErrorCode > 0) return result.AsError<OKXAssetValuation>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        return result.As(result.Data.Data.FirstOrDefault());
+    }
 }

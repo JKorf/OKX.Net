@@ -39,11 +39,13 @@ namespace OKX.Net.UnitTests
                    "WithdrawAsync",
                    "GetTransferAsync",
                    "SetIsolatedMarginModeAsync",
-                   "GetAffiliateInviteeDetailsAsync"
+                   "GetAffiliateInviteeDetailsAsync",
+                   "GetAssetValuationAsync"
                 },
                 ignoreProperties: new Dictionary<string, List<string>>
                 {
-                    { "GetAccountConfigurationAsync", new List<string>{ "traderInsts" } }
+                    { "GetAccountConfigurationAsync", new List<string>{ "traderInsts" } },
+                    { "GetAssetValuationAsync", new List<string>{ "classic" } }
                 }
                 );
         }
