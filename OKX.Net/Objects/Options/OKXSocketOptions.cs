@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Options;
 /// <summary>
 /// Socket client options
 /// </summary>
-public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment>
+public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, OKXApiCredentials>
 {
     /// <summary>
     /// Default options for new OKXRestClients
