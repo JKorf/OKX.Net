@@ -20,19 +20,19 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
             RestApiClient apiClient,
             Uri uri,
             HttpMethod method,
-            IDictionary<string, object> uriParams,
-            IDictionary<string, object> bodyParams,
+            IDictionary<string, object> uriParameters,
+            IDictionary<string, object> bodyParameters,
             Dictionary<string, string> headers,
             bool auth,
             ArrayParametersSerialization arraySerialization,
             HttpMethodParameterPosition parameterPosition,
-            RequestBodyFormat bodyFormat)
+            RequestBodyFormat requestBodyFormat)
     {
         if (!(auth || ((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests))
             return;
 
         // Set Parameters
-        uri = uri.SetParameters(uriParams, arraySerialization);
+        uri = uri.SetParameters(uriParameters, arraySerialization);
 
         // Signature Body
         var time = GetTimestamp(apiClient).ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
@@ -40,10 +40,10 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
 
         if (method == HttpMethod.Post)
         {
-            if (bodyParams.Count == 1 && bodyParams.Keys.First() == "<BODY>")
-                signtext += JsonConvert.SerializeObject(bodyParams["<BODY>"]);
+            if (bodyParameters.Count == 1 && bodyParameters.Keys.First() == "<BODY>")
+                signtext += JsonConvert.SerializeObject(bodyParameters["<BODY>"]);
             else
-                signtext += JsonConvert.SerializeObject(bodyParams);
+                signtext += JsonConvert.SerializeObject(bodyParameters);
         }
 
         // Compute Signature

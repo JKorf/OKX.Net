@@ -45,7 +45,7 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         var data = (OKXSocketUpdate<IEnumerable<OKXOrderBook>>)message.Data;
         foreach (var item in data.Data)
             item.Action = data.Action!;
-        _handler.Invoke(message.As(data.Data.Single(), data.Arg.Symbol, string.Equals(data.Action, "snapshot", StringComparison.Ordinal) || data.Action == null ? SocketUpdateType.Snapshot: SocketUpdateType.Update));
+        _handler.Invoke(message.As(data.Data.Single(), data.Arg.Channel, data.Arg.Symbol, string.Equals(data.Action, "snapshot", StringComparison.Ordinal) || data.Action == null ? SocketUpdateType.Snapshot: SocketUpdateType.Update));
         return new CallResult(null);
     }
 }
