@@ -53,7 +53,7 @@ public class OKXOrderUpdate : OKXOrder
     /// Estimated national value in USD of order
     /// </summary>
     [JsonProperty("notionalUsd")]
-    public decimal NotionalUsd { get; set; }
+    public decimal? NotionalUsd { get; set; }
 
     /// <summary>
     /// Client Request ID as assigned by the client for order amendment
