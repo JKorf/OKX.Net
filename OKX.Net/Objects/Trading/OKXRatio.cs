@@ -4,7 +4,7 @@
 /// Ratio
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXRatio
+public record OKXRatio
 {
     /// <summary>
     /// Timestamp

@@ -3,7 +3,7 @@
 /// <summary>
 /// Order amend request
 /// </summary>
-public class OKXOrderAmendRequest
+public record OKXOrderAmendRequest
 {
     /// <summary>
     /// Order id

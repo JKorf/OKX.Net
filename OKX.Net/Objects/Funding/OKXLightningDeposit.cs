@@ -3,7 +3,7 @@
 /// <summary>
 /// Lightning deposit
 /// </summary>
-public class OKXLightningDeposit
+public record OKXLightningDeposit
 {
     /// <summary>
     /// Timestamp

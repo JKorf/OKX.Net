@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Position mode
 /// </summary>
-public class OKXAccountPositionMode
+public record OKXAccountPositionMode
 {
     /// <summary>
     /// Position mode

@@ -3,7 +3,7 @@
 /// <summary>
 /// Interest rate
 /// </summary>
-public class OKXVipInterestRate
+public record OKXVipInterestRate
 {
     /// <summary>
     /// Asset
@@ -33,7 +33,7 @@ public class OKXVipInterestRate
 /// <summary>
 /// Interest rate level
 /// </summary>
-public class OKXVipInterestRateLevel
+public record OKXVipInterestRateLevel
 {
     /// <summary>
     /// Level

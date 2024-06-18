@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Deposit address info
 /// </summary>
-public class OKXDepositAddress
+public record OKXDepositAddress
 {
     /// <summary>
     /// Address

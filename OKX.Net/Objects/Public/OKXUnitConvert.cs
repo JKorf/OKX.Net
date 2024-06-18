@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Unit conversion info
 /// </summary>
-public class OKXUnitConvert
+public record OKXUnitConvert
 {
     /// <summary>
     /// Symbol

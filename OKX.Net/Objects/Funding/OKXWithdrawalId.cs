@@ -3,7 +3,7 @@
 /// <summary>
 /// Withdrawal id
 /// </summary>
-public class OKXWithdrawalId
+public record OKXWithdrawalId
 {
     /// <summary>
     /// Withdrawal id

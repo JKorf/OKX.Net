@@ -3,7 +3,7 @@
 /// <summary>
 /// Maximum buy sell info
 /// </summary>
-public class OKXMaximumAmount
+public record OKXMaximumAmount
 {
     /// <summary>
     /// Symbol

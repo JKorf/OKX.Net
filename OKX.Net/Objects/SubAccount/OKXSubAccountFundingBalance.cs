@@ -3,7 +3,7 @@
 /// <summary>
 /// Sub account funding balance
 /// </summary>
-public class OKXSubAccountFundingBalance
+public record OKXSubAccountFundingBalance
 {
     /// <summary>
     /// Available balance

@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Funding rate history
 /// </summary>
-public class OKXFundingRateHistory
+public record OKXFundingRateHistory
 {
     /// <summary>
     /// Symbol

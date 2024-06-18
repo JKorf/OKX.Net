@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Isolated margin mode
 /// </summary>
-public class OKXAccountIsolatedMarginMode
+public record OKXAccountIsolatedMarginMode
 {
     /// <summary>
     /// Isolated margin mode

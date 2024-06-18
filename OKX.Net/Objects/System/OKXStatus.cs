@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.System;
 /// <summary>
 /// Status info
 /// </summary>
-public class OKXStatus
+public record OKXStatus
 {
     /// <summary>
     /// The title of system maintenance instructions

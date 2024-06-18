@@ -4,7 +4,7 @@
 /// Interest volume
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXInterestVolume
+public record OKXInterestVolume
 {
     /// <summary>
     /// Timestamp

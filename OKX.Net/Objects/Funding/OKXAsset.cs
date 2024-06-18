@@ -3,7 +3,7 @@
 /// <summary>
 /// Asset info
 /// </summary>
-public class OKXAsset
+public record OKXAsset
 {
     /// <summary>
     /// Asset name

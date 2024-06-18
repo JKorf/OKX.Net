@@ -3,7 +3,7 @@
 /// <summary>
 /// Saving balance
 /// </summary>
-public class OKXSavingBalance
+public record OKXSavingBalance
 {
     /// <summary>
     /// Earnings

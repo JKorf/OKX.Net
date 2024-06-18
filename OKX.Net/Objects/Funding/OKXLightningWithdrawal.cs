@@ -3,7 +3,7 @@
 /// <summary>
 /// Lightning withdrawal
 /// </summary>
-public class OKXLightningWithdrawal
+public record OKXLightningWithdrawal
 {
     /// <summary>
     /// Timestamp

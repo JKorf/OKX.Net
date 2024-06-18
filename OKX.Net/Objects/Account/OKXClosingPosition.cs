@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Position info
 /// </summary>
-public class OKXClosingPosition
+public record OKXClosingPosition
 {
     /// <summary>
     /// Instrument type

@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Trade;
 /// <summary>
 /// Algo order info
 /// </summary>
-public class OKXAlgoOrder
+public record OKXAlgoOrder
 {
     /// <summary>
     /// Create time

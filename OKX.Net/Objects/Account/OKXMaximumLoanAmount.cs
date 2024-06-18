@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Maximum loan amount
 /// </summary>
-public class OKXMaximumLoanAmount
+public record OKXMaximumLoanAmount
 {
     /// <summary>
     /// Symbol

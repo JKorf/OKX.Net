@@ -3,7 +3,7 @@
 /// <summary>
 /// Algo order request
 /// </summary>
-public class OKXAlgoOrderRequest
+public record OKXAlgoOrderRequest
 {
     /// <summary>
     /// Algo order id

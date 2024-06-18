@@ -4,7 +4,7 @@
 /// Taker volume
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXTakerVolume
+public record OKXTakerVolume
 {
     /// <summary>
     /// Asset

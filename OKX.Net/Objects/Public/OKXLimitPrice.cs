@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Limit price
 /// </summary>
-public class OKXLimitPrice
+public record OKXLimitPrice
 {
     /// <summary>
     /// Symbol

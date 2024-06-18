@@ -4,7 +4,7 @@
 /// Interest volume expiry
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXInterestVolumeExpiry
+public record OKXInterestVolumeExpiry
 {
     /// <summary>
     /// Timestamp

@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Market;
 /// <summary>
 /// Ticker
 /// </summary>
-public class OKXTicker
+public record OKXTicker
 {
     /// <summary>
     /// Instrument type

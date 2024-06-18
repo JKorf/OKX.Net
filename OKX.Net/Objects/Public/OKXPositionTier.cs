@@ -3,7 +3,7 @@
 /// <summary>
 /// Position tier
 /// </summary>
-public class OKXPositionTier
+public record OKXPositionTier
 {
     /// <summary>
     /// Symbol

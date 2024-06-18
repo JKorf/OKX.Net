@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Withdrawal history
 /// </summary>
-public class OKXWithdrawalHistory
+public record OKXWithdrawalHistory
 {
     /// <summary>
     /// Timestamp

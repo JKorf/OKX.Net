@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Market;
 /// <summary>
 /// Trade
 /// </summary>
-public class OKXTrade
+public record OKXTrade
 {
     /// <summary>
     /// Symbol

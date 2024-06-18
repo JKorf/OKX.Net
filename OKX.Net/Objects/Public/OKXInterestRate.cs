@@ -3,7 +3,7 @@
 /// <summary>
 /// Interest rate
 /// </summary>
-public class OKXInterestRate
+public record OKXInterestRate
 {
     /// <summary>
     /// Basic
@@ -28,7 +28,7 @@ public class OKXInterestRate
 /// <summary>
 /// Basic interest rate
 /// </summary>
-public class OKXPublicInterestRateBasic
+public record OKXPublicInterestRateBasic
 {
     /// <summary>
     /// Asset
@@ -52,7 +52,7 @@ public class OKXPublicInterestRateBasic
 /// <summary>
 /// VIP interest rate
 /// </summary>
-public class OKXPublicInterestRateVip
+public record OKXPublicInterestRateVip
 {
     /// <summary>
     /// Interest rate discount
@@ -76,7 +76,7 @@ public class OKXPublicInterestRateVip
 /// <summary>
 /// Regular interest rate
 /// </summary>
-public class OKXPublicInterestRateRegular
+public record OKXPublicInterestRateRegular
 {
     /// <summary>
     /// Interest rate discount

@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.SubAccount;
 /// <summary>
 /// Subaccount info
 /// </summary>
-public class OKXSubAccount
+public record OKXSubAccount
 {
     /// <summary>
     /// Enabled

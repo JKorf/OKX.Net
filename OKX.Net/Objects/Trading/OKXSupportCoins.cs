@@ -3,7 +3,7 @@
 /// <summary>
 /// Supported coins
 /// </summary>
-public class OKXSupportCoins
+public record OKXSupportCoins
 {
     /// <summary>
     /// Contracts

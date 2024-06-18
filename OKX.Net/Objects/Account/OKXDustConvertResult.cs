@@ -3,7 +3,7 @@
 /// <summary>
 /// Dust conversion result
 /// </summary>
-public class OKXDustConvertResult
+public record OKXDustConvertResult
 {
     /// <summary>
     /// Total quantity of OKB after conversion
@@ -20,7 +20,7 @@ public class OKXDustConvertResult
 /// <summary>
 /// Dust conversion asset details
 /// </summary>
-public class OKXDustConvertAsset
+public record OKXDustConvertAsset
 {
     /// <summary>
     /// Quantity of asset before conversion

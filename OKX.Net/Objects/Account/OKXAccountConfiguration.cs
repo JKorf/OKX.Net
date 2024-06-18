@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Account config
 /// </summary>
-public class OKXAccountConfiguration
+public record OKXAccountConfiguration
 {
     /// <summary>
     /// User id

@@ -3,7 +3,7 @@
 /// <summary>
 /// Affiliate invitee info
 /// </summary>
-public class OKXInviteeDetails
+public record OKXInviteeDetails
 {
     /// <summary>
     /// Invitee level

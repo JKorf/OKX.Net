@@ -3,7 +3,7 @@
 /// <summary>
 /// Algo order update
 /// </summary>
-public class OKXAlgoOrderUpdate : OKXAlgoOrder
+public record OKXAlgoOrderUpdate : OKXAlgoOrder
 {
     /// <summary>
     /// The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)

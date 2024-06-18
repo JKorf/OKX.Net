@@ -3,7 +3,7 @@
 /// <summary>
 /// Funding balance
 /// </summary>
-public class OKXFundingBalance
+public record OKXFundingBalance
 {
     /// <summary>
     /// Asset

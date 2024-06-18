@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Open interest
 /// </summary>
-public class OKXOpenInterest
+public record OKXOpenInterest
 {
     /// <summary>
     /// Instrument type

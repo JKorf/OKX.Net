@@ -7,7 +7,7 @@ namespace OKX.Net.Objects.Market;
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
-public class OKXCandlestick
+public record OKXCandlestick
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 {
     /// <summary>
@@ -76,25 +76,4 @@ public class OKXCandlestick
     /// </summary>
     [ArrayProperty(8), JsonConverter(typeof(OKXBooleanConverter))]
     public bool Confirm { get; set; }
-
-    /// <inheritdoc />
-    public override bool Equals(object obj)
-    {
-        // Check for null and compare run-time types.
-        if (obj == null || !GetType().Equals(obj.GetType()))
-            return false;
-
-        // Equal Check
-        var stick = (OKXCandlestick)obj;
-        return Time == stick.Time
-            && Symbol == stick.Symbol
-            && OpenPrice == stick.OpenPrice
-            && HighPrice == stick.HighPrice
-            && LowPrice == stick.LowPrice
-            && ClosePrice == stick.ClosePrice
-            && Volume == stick.Volume
-            && VolumeCurrency == stick.VolumeCurrency
-            && VolumeCurrencyQuote == stick.VolumeCurrencyQuote
-            && Confirm == stick.Confirm;
-    }
 }

@@ -3,7 +3,7 @@
 /// <summary>
 /// Interest rate
 /// </summary>
-public class OKXInterestRate
+public record OKXInterestRate
 {
     /// <summary>
     /// Asset

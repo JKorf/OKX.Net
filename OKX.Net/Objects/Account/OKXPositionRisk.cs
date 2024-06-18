@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Position risk info
 /// </summary>
-public class OKXPositionRisk
+public record OKXPositionRisk
 {
     /// <summary>
     /// Adjusted equity
@@ -36,7 +36,7 @@ public class OKXPositionRisk
 /// <summary>
 /// Balance info
 /// </summary>
-public class OKXAccountPositionRiskBalanceData
+public record OKXAccountPositionRiskBalanceData
 {
     /// <summary>
     /// Asset
@@ -60,7 +60,7 @@ public class OKXAccountPositionRiskBalanceData
 /// <summary>
 /// Position info
 /// </summary>
-public class OKXAccountPositionRiskPositionData
+public record OKXAccountPositionRiskPositionData
 {
     /// <summary>
     /// Asset

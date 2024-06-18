@@ -3,7 +3,7 @@
 /// <summary>
 /// Index info
 /// </summary>
-public class OKXIndexComponents
+public record OKXIndexComponents
 {
     /// <summary>
     /// Last price
@@ -33,7 +33,7 @@ public class OKXIndexComponents
 /// <summary>
 /// Index component
 /// </summary>
-public class OKXIndexComponent
+public record OKXIndexComponent
 {
     /// <summary>
     /// Symbol

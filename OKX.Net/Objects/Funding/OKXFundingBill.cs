@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Funding bill
 /// </summary>
-public class OKXFundingBill
+public record OKXFundingBill
 {
     /// <summary>
     /// Bill id

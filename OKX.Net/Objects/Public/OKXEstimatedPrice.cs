@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Estimated price
 /// </summary>
-public class OKXEstimatedPrice
+public record OKXEstimatedPrice
 {
     /// <summary>
     /// Symbol

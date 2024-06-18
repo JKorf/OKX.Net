@@ -3,7 +3,7 @@
 /// <summary>
 /// Cancel request
 /// </summary>
-public class OKXOrderCancelRequest
+public record OKXOrderCancelRequest
 {
     /// <summary>
     /// Symbol

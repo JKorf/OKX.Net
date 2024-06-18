@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Trade;
 /// <summary>
 /// Close position response
 /// </summary>
-public class OKXClosePositionResponse
+public record OKXClosePositionResponse
 {
     /// <summary>
     /// Symbol

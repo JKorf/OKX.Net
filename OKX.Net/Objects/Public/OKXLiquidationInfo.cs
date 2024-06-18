@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Liquidation info
 /// </summary>
-public class OKXLiquidationInfo
+public record OKXLiquidationInfo
 {
     /// <summary>
     /// Symbol
@@ -42,7 +42,7 @@ public class OKXLiquidationInfo
 /// <summary>
 /// Liquidation info details
 /// </summary>
-public class OKXPublicLiquidationInfoDetail
+public record OKXPublicLiquidationInfoDetail
 {
     /// <summary>
     /// Order side

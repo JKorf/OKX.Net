@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Market;
 /// Oracle
 /// </summary>
 [JsonConverter(typeof(TypedDataConverter<OKXOracle>))]
-public class OKXOracle
+public record OKXOracle
 {
     /// <summary>
     /// Messages

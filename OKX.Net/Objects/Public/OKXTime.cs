@@ -3,7 +3,7 @@
 /// <summary>
 /// Server time
 /// </summary>
-public class OKXTime
+public record OKXTime
 {
     /// <summary>
     /// System time

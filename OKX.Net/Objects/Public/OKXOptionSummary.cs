@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Option summary
 /// </summary>
-public class OKXOptionSummary
+public record OKXOptionSummary
 {
     /// <summary>
     /// Symbol

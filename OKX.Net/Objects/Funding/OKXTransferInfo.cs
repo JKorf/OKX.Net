@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Transfer info
 /// </summary>
-public class OKXTransferInfo
+public record OKXTransferInfo
 {
     /// <summary>
     /// Asset

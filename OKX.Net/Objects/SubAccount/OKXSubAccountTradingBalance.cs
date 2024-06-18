@@ -3,7 +3,7 @@
 /// <summary>
 /// Sub account trading balance
 /// </summary>
-public class OKXSubAccountTradingBalance
+public record OKXSubAccountTradingBalance
 {
     /// <summary>
     /// Adjusted equity
@@ -69,7 +69,7 @@ public class OKXSubAccountTradingBalance
 /// <summary>
 /// Balance details
 /// </summary>
-public class OKXSubAccountTradingBalanceDetail
+public record OKXSubAccountTradingBalanceDetail
 {
     /// <summary>
     /// Available balance

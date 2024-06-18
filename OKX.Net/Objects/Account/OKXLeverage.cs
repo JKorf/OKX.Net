@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Leverage info
 /// </summary>
-public class OKXLeverage
+public record OKXLeverage
 {
     /// <summary>
     /// Symbol

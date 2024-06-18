@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Insurance fund
 /// </summary>
-public class OKXInsuranceFund
+public record OKXInsuranceFund
 {
     /// <summary>
     /// Total
@@ -30,7 +30,7 @@ public class OKXInsuranceFund
 /// <summary>
 /// Fund details
 /// </summary>
-public class OKXInsuranceFundDetail
+public record OKXInsuranceFundDetail
 {
     /// <summary>
     /// Amount

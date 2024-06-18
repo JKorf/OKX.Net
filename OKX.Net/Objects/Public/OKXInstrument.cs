@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Instrument
 /// </summary>
-public class OKXInstrument
+public record OKXInstrument
 {
     /// <summary>
     /// Instrument type

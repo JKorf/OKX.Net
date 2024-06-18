@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Account mode
 /// </summary>
-public class OKXAccountMode
+public record OKXAccountMode
 {
     /// <summary>
     /// Account mode

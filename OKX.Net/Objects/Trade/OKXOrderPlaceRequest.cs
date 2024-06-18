@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Trade;
 /// <summary>
 /// Order place request
 /// </summary>
-public class OKXOrderPlaceRequest
+public record OKXOrderPlaceRequest
 {
     /// <summary>
     /// Symbol

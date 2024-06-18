@@ -3,7 +3,7 @@
 /// <summary>
 /// Rest API response
 /// </summary>
-public class OKXRestApiResponse
+public record OKXRestApiResponse
 {
     /// <summary>
     /// Error code
@@ -22,7 +22,7 @@ public class OKXRestApiResponse
 /// Rest API response
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class OKXRestApiResponse<T> : OKXRestApiResponse
+public record OKXRestApiResponse<T> : OKXRestApiResponse
 {
     /// <summary>
     /// Response data

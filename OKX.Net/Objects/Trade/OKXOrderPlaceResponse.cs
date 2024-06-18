@@ -3,7 +3,7 @@
 /// <summary>
 /// Order placement response
 /// </summary>
-public class OKXOrderPlaceResponse
+public record OKXOrderPlaceResponse
 {
     /// <summary>
     /// Order id

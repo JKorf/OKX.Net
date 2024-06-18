@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Deposit history
 /// </summary>
-public class OKXDepositHistory
+public record OKXDepositHistory
 {
     /// <summary>
     /// Asset

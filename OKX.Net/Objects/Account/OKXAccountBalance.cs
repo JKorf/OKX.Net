@@ -3,7 +3,7 @@
 /// <summary>
 /// Account balance
 /// </summary>
-public class OKXAccountBalance
+public record OKXAccountBalance
 {
     /// <summary>
     /// Update time
@@ -69,7 +69,7 @@ public class OKXAccountBalance
 /// <summary>
 /// Balance details
 /// </summary>
-public class OKXAccountBalanceDetail
+public record OKXAccountBalanceDetail
 {
     /// <summary>
     /// Asset

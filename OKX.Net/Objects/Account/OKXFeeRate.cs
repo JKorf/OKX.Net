@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Fee rate
 /// </summary>
-public class OKXFeeRate
+public record OKXFeeRate
 {
     /// <summary>
     /// Category

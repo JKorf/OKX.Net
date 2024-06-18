@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Position and balance update
 /// </summary>
-public class OKXPositionAndBalanceUpdate
+public record OKXPositionAndBalanceUpdate
 {
     /// <summary>
     /// Trigger event type
@@ -36,7 +36,7 @@ public class OKXPositionAndBalanceUpdate
 /// <summary>
 /// Balance info
 /// </summary>
-public class OKXBalanceUpdate
+public record OKXBalanceUpdate
 {
     /// <summary>
     /// Asset
@@ -61,7 +61,7 @@ public class OKXBalanceUpdate
 /// <summary>
 /// Position info
 /// </summary>
-public class OKXAccountPositionUpdate
+public record OKXAccountPositionUpdate
 {
     /// <summary>
     /// Asset

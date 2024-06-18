@@ -3,7 +3,7 @@
 /// <summary>
 /// Withdrawal response
 /// </summary>
-public class OKXWithdrawalResponse
+public record OKXWithdrawalResponse
 {
     /// <summary>
     /// Asset

@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.SubAccount;
 /// <summary>
 /// Subaccount bill
 /// </summary>
-public class OKXSubAccountBill
+public record OKXSubAccountBill
 {
     /// <summary>
     /// Bill id

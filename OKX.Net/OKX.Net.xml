@@ -4880,9 +4880,6 @@
             false represents that it is uncompleted, true represents that it is completed.
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.Market.OKXCandlestick.Equals(System.Object)">
-            <inheritdoc />
-        </member>
         <member name="T:OKX.Net.Objects.Market.OKXIndexComponents">
             <summary>
             Index info

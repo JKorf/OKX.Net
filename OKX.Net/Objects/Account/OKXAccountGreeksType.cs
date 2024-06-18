@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Greeks type
 /// </summary>
-public class OKXAccountGreeksType
+public record OKXAccountGreeksType
 {
     /// <summary>
     /// Greeks type

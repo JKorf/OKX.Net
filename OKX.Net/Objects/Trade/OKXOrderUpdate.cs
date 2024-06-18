@@ -3,7 +3,7 @@
 /// <summary>
 /// Order info update
 /// </summary>
-public class OKXOrderUpdate : OKXOrder
+public record OKXOrderUpdate : OKXOrder
 {
     /// <summary>
     /// The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)

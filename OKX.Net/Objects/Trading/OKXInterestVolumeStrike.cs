@@ -4,7 +4,7 @@
 /// Interest volume strike
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXInterestVolumeStrike
+public record OKXInterestVolumeStrike
 {
     /// <summary>
     /// Timestamp

@@ -4,7 +4,7 @@
 /// Put/Call ratio
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXPutCallRatio
+public record OKXPutCallRatio
 {
     /// <summary>
     /// Timestamp

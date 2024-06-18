@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Market;
 /// <summary>
 /// Block ticker
 /// </summary>
-public class OKXBlockTicker
+public record OKXBlockTicker
 {
     /// <summary>
     /// Instrument type

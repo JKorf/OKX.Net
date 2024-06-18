@@ -3,7 +3,7 @@
 /// <summary>
 /// 24 hour volume
 /// </summary>
-public class OKX24HourVolume
+public record OKX24HourVolume
 {
     /// <summary>
     /// Usd volume

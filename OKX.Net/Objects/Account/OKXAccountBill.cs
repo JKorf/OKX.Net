@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Account bill info
 /// </summary>
-public class OKXAccountBill
+public record OKXAccountBill
 {
     /// <summary>
     /// Asset

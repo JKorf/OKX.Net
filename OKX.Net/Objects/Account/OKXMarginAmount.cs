@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Margin amount
 /// </summary>
-public class OKXMarginAmount
+public record OKXMarginAmount
 {
     /// <summary>
     /// Symbol

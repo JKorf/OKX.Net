@@ -3,7 +3,7 @@
 /// <summary>
 /// Subaccount api key info
 /// </summary>
-public class OKXSubAccountApiKey
+public record OKXSubAccountApiKey
 {
     /// <summary>
     /// Subaccount name

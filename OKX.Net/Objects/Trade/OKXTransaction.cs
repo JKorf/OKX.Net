@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Trade;
 /// <summary>
 /// Transaction info
 /// </summary>
-public class OKXTransaction
+public record OKXTransaction
 {
     /// <summary>
     /// Instrument type

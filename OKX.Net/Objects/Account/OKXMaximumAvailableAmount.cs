@@ -3,7 +3,7 @@
 /// <summary>
 /// Available amount
 /// </summary>
-public class OKXMaximumAvailableAmount
+public record OKXMaximumAvailableAmount
 {
     /// <summary>
     /// Symbol

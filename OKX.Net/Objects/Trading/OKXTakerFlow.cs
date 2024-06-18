@@ -4,7 +4,7 @@
 /// Take flow
 /// </summary>
 [JsonConverter(typeof(ArrayConverter))]
-public class OKXTakerFlow
+public record OKXTakerFlow
 {
     /// <summary>
     /// Timestamp

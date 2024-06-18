@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Funding;
 /// <summary>
 /// Saving action info
 /// </summary>
-public class OKXSavingActionResponse
+public record OKXSavingActionResponse
 {
     /// <summary>
     /// Asset

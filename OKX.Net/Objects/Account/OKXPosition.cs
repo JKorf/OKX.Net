@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Position info
 /// </summary>
-public class OKXPosition
+public record OKXPosition
 {
     /// <summary>
     /// Create time
@@ -347,7 +347,7 @@ public class OKXPosition
 /// <summary>
 /// Position close order info
 /// </summary>
-public class OKXPositionCloseOrder
+public record OKXPositionCloseOrder
 {
     /// <summary>
     /// Algo id

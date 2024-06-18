@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Interest accrued
 /// </summary>
-public class OKXInterestAccrued
+public record OKXInterestAccrued
 {
     /// <summary>
     /// Symbol

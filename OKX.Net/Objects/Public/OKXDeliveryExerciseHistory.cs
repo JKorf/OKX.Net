@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Delivery exercise history
 /// </summary>
-public class OKXDeliveryExerciseHistory
+public record OKXDeliveryExerciseHistory
 {
     /// <summary>
     /// Timestamp
@@ -24,7 +24,7 @@ public class OKXDeliveryExerciseHistory
 /// <summary>
 /// Delivery exercise history details
 /// </summary>
-public class OKXPublicDeliveryExerciseHistoryDetail
+public record OKXPublicDeliveryExerciseHistoryDetail
 {
     /// <summary>
     /// Type

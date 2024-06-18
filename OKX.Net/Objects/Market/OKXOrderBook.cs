@@ -3,7 +3,7 @@
 /// <summary>
 /// Order book
 /// </summary>
-public class OKXOrderBook
+public record OKXOrderBook
 {
     /// <summary>
     /// Symbol

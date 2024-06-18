@@ -3,7 +3,7 @@
 /// <summary>
 /// Discount info
 /// </summary>
-public class OKXDiscountInfo
+public record OKXDiscountInfo
 {
     /// <summary>
     /// Asset
@@ -33,7 +33,7 @@ public class OKXDiscountInfo
 /// <summary>
 /// Discount details
 /// </summary>
-public class OKXPublicDiscountInfoDetail
+public record OKXPublicDiscountInfoDetail
 {
     /// <summary>
     /// Discount rate

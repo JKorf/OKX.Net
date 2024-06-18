@@ -3,7 +3,7 @@
 /// <summary>
 /// Index ticker
 /// </summary>
-public class OKXIndexTicker
+public record OKXIndexTicker
 {
     /// <summary>
     /// Symbol
