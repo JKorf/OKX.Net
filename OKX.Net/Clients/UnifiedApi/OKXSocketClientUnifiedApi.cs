@@ -72,7 +72,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     }
 
     /// <inheritdoc />
-    protected override Query GetAuthenticationRequest()
+    protected override Query GetAuthenticationRequest(SocketConnection connection)
     {
         var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider!;
         var timestamp = (DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow) / 1000).Value.ToString(CultureInfo.InvariantCulture);
