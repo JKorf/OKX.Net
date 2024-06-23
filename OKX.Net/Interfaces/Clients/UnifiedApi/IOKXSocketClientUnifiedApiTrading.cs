@@ -91,6 +91,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="selfTradePreventionId">Self trade prevention id</param>
     /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
     /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
         OKXOrderSide side,
@@ -107,15 +108,17 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? asset = null,
         OKXQuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
-        bool? reduceOnly = null);
+        bool? reduceOnly = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Place orders in a batch. Maximum 20 orders can be placed per request
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-multiple-orders" /></para>
     /// </summary>
     /// <param name="orders">The orders to place</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders);
+    Task<CallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel an incomplete order
@@ -124,16 +127,18 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="symbol">The symbol</param>
     /// <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
     /// <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null);
+    Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled per request.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-multiple-orders" /></para>
     /// </summary>
     /// <param name="ordersToCancel">Orders to cancel</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel);
+    Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default);
 
     /// <summary>
     /// Amend an incomplete order.
@@ -145,6 +150,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="requestId">Request id</param>
     /// <param name="newQuantity">New quantity</param>
     /// <param name="newPrice">New price</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderAmendResponse>> AmendOrderAsync(
         string symbol,
@@ -152,13 +158,15 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? clientOrderId = null,
         string? requestId = null,
         decimal? newQuantity = null,
-        decimal? newPrice = null);
+        decimal? newPrice = null, 
+        CancellationToken ct = default);
 
     /// <summary>
     /// Amend incomplete orders in batches. Maximum 20 orders can be amended per request.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /></para>
     /// </summary>
     /// <param name="ordersToCancel">Orders to cancel</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel);
+    Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel, CancellationToken ct = default);
 }
