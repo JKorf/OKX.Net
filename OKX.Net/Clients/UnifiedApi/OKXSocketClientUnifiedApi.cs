@@ -47,6 +47,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
 
         RegisterPeriodicQuery("Ping", TimeSpan.FromSeconds(20), x => new OKXPingQuery(), null);
+
+        SetDedicatedConnection(GetUri("/ws/v5/private"), true);        
     }
     #endregion
 
