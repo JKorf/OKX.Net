@@ -110,20 +110,20 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         return Task.FromResult(new CallResult<string?>(address));
     }
 
-    internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight)
+    internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight, CancellationToken ct = default)
     {
         var query = new OKXIdQuery<T>(operation, new object[] { parameters }, authenticated, weight);
-        var result = await QueryAsync(url, query).ConfigureAwait(false);
+        var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<T>(result.Error!);
 
         return result.As(result.Data.Data.First());
     }
 
-    internal async Task<CallResult<IEnumerable<T>>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight)
+    internal async Task<CallResult<IEnumerable<T>>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
     {
         var query = new OKXIdQuery<T>(operation, data, authenticated, weight);
-        var result = await QueryAsync(url, query).ConfigureAwait(false);
+        var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<IEnumerable<T>>(result.Error!);
 
