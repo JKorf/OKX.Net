@@ -60,19 +60,19 @@ public record OKXTicker
     /// Open price
     /// </summary>
     [JsonProperty("open24h")]
-    public decimal OpenPrice { get; set; }
+    public decimal? OpenPrice { get; set; }
 
     /// <summary>
     /// High price
     /// </summary>
     [JsonProperty("high24h")]
-    public decimal HighPrice { get; set; }
+    public decimal? HighPrice { get; set; }
 
     /// <summary>
     /// Low price
     /// </summary>
     [JsonProperty("low24h")]
-    public decimal LowPrice { get; set; }
+    public decimal? LowPrice { get; set; }
 
     /// <summary>
     /// Quote Volume
@@ -90,13 +90,13 @@ public record OKXTicker
     /// Open price UTC 0
     /// </summary>
     [JsonProperty("sodUtc0")]
-    public decimal OpenPriceUtc0 { get; set; }
+    public decimal? OpenPriceUtc0 { get; set; }
 
     /// <summary>
     /// Open price UTC 8
     /// </summary>
     [JsonProperty("sodUtc8")]
-    public decimal OpenPriceUtc8 { get; set; }
+    public decimal? OpenPriceUtc8 { get; set; }
 
     /// <summary>
     /// Timestamp
