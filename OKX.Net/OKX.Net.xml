@@ -7769,6 +7769,21 @@
             Urls to the API documentation
             </summary>
         </member>
+        <member name="P:OKX.Net.OKXExchange.RateLimiter">
+            <summary>
+            Rate limiter configuration for the OKX API
+            </summary>
+        </member>
+        <member name="T:OKX.Net.OKXRateLimiters">
+            <summary>
+            Rate limiter configuration for the GateIo API
+            </summary>
+        </member>
+        <member name="E:OKX.Net.OKXRateLimiters.RateLimitTriggered">
+            <summary>
+            Event for when a rate limit is triggered
+            </summary>
+        </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
             <inheritdoc />
         </member>

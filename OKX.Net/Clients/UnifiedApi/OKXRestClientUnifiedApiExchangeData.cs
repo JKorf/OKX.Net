@@ -11,9 +11,9 @@ namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExchangeData
 {
     private readonly OKXRestClientUnifiedApi _baseClient;
+    private static readonly RequestDefinitionCache _definitions = new RequestDefinitionCache();
 
     #region Market Data
-    private const string Endpoints_V5_Market_Tickers = "api/v5/market/tickers";
     private const string Endpoints_V5_Market_Ticker = "api/v5/market/ticker";
     private const string Endpoints_V5_Market_IndexTickers = "api/v5/market/index-tickers";
     private const string Endpoints_V5_Market_Books = "api/v5/market/books";
@@ -73,18 +73,21 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection()
         {
             { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTicker>>>(_baseClient.GetUri(Endpoints_V5_Market_Tickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXTicker>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXTicker>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/tickers", OKXExchange.RateLimiter.Public, 1);
+        return await _baseClient.SendAsync<IEnumerable<OKXTicker>>(request, parameters, ct).ConfigureAwait(false);
 
-        return result.As(result.Data.Data!);
+        //var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTicker>>>(_baseClient.GetUri(Endpoints_V5_Market_Tickers), HttpMethod.Get, ct, parameters).ConfigureAwait(false);
+        //if (!result.Success) return result.AsError<IEnumerable<OKXTicker>>(result.Error!);
+        //if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXTicker>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        //return result.As(result.Data.Data!);
     }
 
     /// <inheritdoc />
