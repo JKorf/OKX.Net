@@ -24,7 +24,7 @@ public record OKXLeverage
     /// Position side
     /// </summary>
     [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    public OKXPositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Leverage
