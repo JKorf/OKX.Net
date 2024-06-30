@@ -1,0 +1,16 @@
+GET
+/api/v5/asset/bills
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "billId": "12344",
+        "ccy": "BTC",
+        "clientId": "",
+        "balChg": "2",
+        "bal": "12",
+        "type": "1",
+        "ts": "1597026383085"
+    }]
+}

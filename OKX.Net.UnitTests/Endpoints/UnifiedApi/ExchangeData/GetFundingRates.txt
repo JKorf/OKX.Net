@@ -1,0 +1,24 @@
+GET
+/api/v5/public/funding-rate
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "fundingRate": "0.0000792386885340",
+            "fundingTime": "1703088000000",
+            "instId": "BTC-USDT-SWAP",
+            "instType": "SWAP",
+            "method": "next_period",
+            "maxFundingRate": "0.00375",
+            "minFundingRate": "-0.00375",
+            "nextFundingRate": "0.0002061194322149",
+            "nextFundingTime": "1703116800000",
+            "premium": "0.0001233824646391",
+            "settFundingRate": "0.0001418433662153",
+            "settState": "settled",
+            "ts": "1703070685309"
+        }
+    ],
+    "msg": ""
+}

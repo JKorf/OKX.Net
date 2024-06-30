@@ -1,0 +1,14 @@
+POST
+/api/v5/asset/withdrawal
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "amt": "0.1",
+        "wdId": "67485",
+        "ccy": "BTC",
+        "clientId": "",
+        "chain": "BTC-Bitcoin"
+    }]
+}

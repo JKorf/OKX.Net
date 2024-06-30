@@ -1,0 +1,29 @@
+GET
+/api/v5/account/interest-accrued
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "ccy": "USDT",
+            "instId": "",
+            "interest": "0.0003960833333334",
+            "interestRate": "0.0000040833333333",
+            "liab": "97",
+            "mgnMode": "",
+            "ts": "1637312400000",
+            "type": "1"
+        },
+        {
+            "ccy": "USDT",
+            "instId": "",
+            "interest": "0.0004083333333334",
+            "interestRate": "0.0000040833333333",
+            "liab": "100",
+            "mgnMode": "",
+            "ts": "1637049600000",
+            "type": "1"
+        }
+    ],
+    "msg": ""
+}

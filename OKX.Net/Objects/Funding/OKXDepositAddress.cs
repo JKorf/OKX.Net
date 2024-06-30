@@ -61,4 +61,10 @@ public record OKXDepositAddress
     /// </summary>
     [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
     public OKXAccount? Account { get; set; }
+
+    /// <summary>
+    /// Verified name for recipient
+    /// </summary>
+    [JsonProperty("verifiedName")]
+    public string RecepientName { get; set; } = string.Empty;
 }

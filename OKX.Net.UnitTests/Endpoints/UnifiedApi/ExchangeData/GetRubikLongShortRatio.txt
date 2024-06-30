@@ -1,0 +1,13 @@
+GET
+/api/v5/rubik/stat/contracts/long-short-account-ratio
+false
+{
+    "code": "0",
+    "data": [
+        [
+            "1630502100000",
+            "1.25"
+        ]
+    ],
+    "msg": ""
+}

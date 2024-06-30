@@ -1,0 +1,15 @@
+POST
+/api/v5/finance/savings/purchase-redempt
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "ccy":"BTC",
+            "amt":"1",
+            "side":"purchase",
+            "rate": "0.01"
+        }
+    ]
+}

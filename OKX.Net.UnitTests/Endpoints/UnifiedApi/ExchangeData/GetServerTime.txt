@@ -1,0 +1,12 @@
+GET
+/api/v5/public/time
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+    {
+        "ts":"1597026383085"
+    }
+  ]
+}

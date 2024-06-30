@@ -133,4 +133,70 @@ public record OKXAccountBill
     /// </summary>
     [JsonProperty("type")]
     public string? Type { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Client order id
+    /// </summary>
+    [JsonProperty("clOrdId")]
+    public string? ClientOrderId { get; set; }
+
+    /// <summary>
+    /// Forward price when filled, only for Options
+    /// </summary>
+    [JsonProperty("fillFwdPx")]
+    public decimal? FillForwardPrice { get; set; }
+
+    /// <summary>
+    /// Index price at time of fill, only for Options
+    /// </summary>
+    [JsonProperty("fillIdxPx")]
+    public decimal? FillIndexPrice { get; set; }
+
+    /// <summary>
+    /// Mark price at time of fill, only for Options
+    /// </summary>
+    [JsonProperty("fillMarkPx")]
+    public decimal? FillMarkPrice { get; set; }
+
+    /// <summary>
+    /// Mark volatility when filled, only for Options
+    /// </summary>
+    [JsonProperty("fillMarkVol")]
+    public decimal? FillMarkVolatility { get; set; }
+
+    /// <summary>
+    /// Implied volatility when filled, only for Options
+    /// </summary>
+    [JsonProperty("fillPxVol")]
+    public decimal? FillImpliedVolatility { get; set; }
+
+    /// <summary>
+    /// Options price when filled, in the unit of USD
+    /// </summary>
+    [JsonProperty("fillPxUsd")]
+    public decimal? FillOptionPriceUsd { get; set; }
+
+    /// <summary>
+    /// Interest
+    /// </summary>
+    [JsonProperty("interest")]
+    public decimal? Interest { get; set; }
+
+    /// <summary>
+    /// Tag
+    /// </summary>
+    [JsonProperty("tag")]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Last trade id
+    /// </summary>
+    [JsonProperty("tradeId")]
+    public string? TradeId { get; set; }
+
+    /// <summary>
+    /// Last fill time
+    /// </summary>
+    [JsonProperty("fillTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? FillTime { get; set; }
 }

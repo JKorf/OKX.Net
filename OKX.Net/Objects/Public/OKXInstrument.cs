@@ -151,6 +151,16 @@ public record OKXInstrument
     [JsonProperty("maxMktSz")]
     public decimal? MaxMarketQuantity { get; set; }
     /// <summary>
+    /// The maximum USD order value for limit orders
+    /// </summary>
+    [JsonProperty("maxLmtAmt")]
+    public decimal? MaxLimitValue { get; set; }
+    /// <summary>
+    /// The maximum USD order value for market orders
+    /// </summary>
+    [JsonProperty("maxMktAmt")]
+    public decimal? MaxMarketValue { get; set; }
+    /// <summary>
     /// The maximum order quantity of the contract or spot twap order.
     /// </summary>
     [JsonProperty("maxTwapSz")]

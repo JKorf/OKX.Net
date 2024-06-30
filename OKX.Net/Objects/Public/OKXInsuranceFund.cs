@@ -21,6 +21,12 @@ public record OKXInsuranceFund
     public string InstrumentFamily { get; set; } = string.Empty;
 
     /// <summary>
+    /// Instrument type
+    /// </summary>
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public OKXInstrumentType InstrumentType { get; set; }
+
+    /// <summary>
     /// Details
     /// </summary>
     [JsonProperty("details")]
@@ -36,13 +42,29 @@ public record OKXInsuranceFundDetail
     /// Amount
     /// </summary>
     [JsonProperty("amt")]
-    public decimal Amount { get; set; }
+    public decimal? Amount { get; set; }
 
     /// <summary>
     /// Balance
     /// </summary>
     [JsonProperty("balance")]
     public decimal Balance { get; set; }
+
+    /// <summary>
+    /// Maximum insurance fund balance in the past eight hours. Only applicable when type is adl
+    /// </summary>
+    [JsonProperty("maxBal")]
+    public decimal? MaxBalance { get; set; }
+    /// <summary>
+    /// Timestamp when insurance fund balance reached maximum in the past eight hours. Only applicable when type is adl
+    /// </summary>
+    [JsonProperty("maxBalTs"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? MaxBalanceTime { get; set; }
+    /// <summary>
+    /// Real-time insurance fund decline rate (compare balance and maxBal). Only applicable when type is adl
+    /// </summary>
+    [JsonProperty("decRate")]
+    public decimal? DeclineRate { get; set; }
 
     /// <summary>
     /// Asset
@@ -55,6 +77,12 @@ public record OKXInsuranceFundDetail
     /// </summary>
     [JsonProperty("type"), JsonConverter(typeof(InsuranceTypeConverter))]
     public OKXInsuranceType Type { get; set; }
+
+    /// <summary>
+    /// Auto deleverage type
+    /// </summary>
+    [JsonProperty("adlType")]
+    public string? AdlType { get; set; }
 
     /// <summary>
     /// Timestamp

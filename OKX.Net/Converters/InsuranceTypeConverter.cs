@@ -13,5 +13,7 @@ internal class InsuranceTypeConverter : BaseConverter<OKXInsuranceType>
         new KeyValuePair<OKXInsuranceType, string>(OKXInsuranceType.LiquidationBalanceDeposit, "liquidation_balance_deposit"),
         new KeyValuePair<OKXInsuranceType, string>(OKXInsuranceType.BankruptcyLoss, "bankruptcy_loss"),
         new KeyValuePair<OKXInsuranceType, string>(OKXInsuranceType.PlatformRevenue, "platform_revenue"),
+        new KeyValuePair<OKXInsuranceType, string>(OKXInsuranceType.RegularUpdate, "regular_update"),
+        new KeyValuePair<OKXInsuranceType, string>(OKXInsuranceType.AutoDeleverage, "adl"),
     };
 }

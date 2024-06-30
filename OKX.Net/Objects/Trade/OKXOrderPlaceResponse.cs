@@ -27,11 +27,16 @@ public record OKXOrderPlaceResponse
     /// Code
     /// </summary>
     [JsonProperty("sCode")]
-    public string Code { get; set; } = string.Empty;
+    public int Code { get; set; }
 
     /// <summary>
     /// Message
     /// </summary>
     [JsonProperty("sMsg")]
     public string Message { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Whether order placement was successful
+    /// </summary>
+    public bool Success => Code == 0;
 }

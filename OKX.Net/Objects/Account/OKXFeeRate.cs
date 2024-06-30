@@ -79,4 +79,31 @@ public record OKXFeeRate
     /// </summary>
     [JsonProperty("exercise")]
     public decimal? Exercise { get; set; }
+    /// <summary>
+    /// Fiat fees
+    /// </summary>
+    [JsonProperty("fiat")]
+    public IEnumerable<OKXFiatFee> Fiat { get; set; } = Array.Empty<OKXFiatFee>();
+}
+
+/// <summary>
+/// Fiat fee rate
+/// </summary>
+public record OKXFiatFee
+{
+    /// <summary>
+    /// Asset
+    /// </summary>
+    [JsonProperty("ccy")]
+    public string Asset { get; set; } = string.Empty;
+    /// <summary>
+    /// Taker fee
+    /// </summary>
+    [JsonProperty("taker")]
+    public decimal TakerFeeRate { get; set; }
+    /// <summary>
+    /// Maker fee
+    /// </summary>
+    [JsonProperty("maker")]
+    public decimal MakerFeeRate { get; set; }
 }

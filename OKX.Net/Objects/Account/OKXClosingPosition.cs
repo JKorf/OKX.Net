@@ -121,4 +121,28 @@ public record OKXClosingPosition
     /// </summary>
     [JsonProperty("pnlRatio")]
     public decimal? PnlRatio { get; set; }
+
+    /// <summary>
+    /// Realized profit and loss
+    /// </summary>
+    [JsonProperty("realizedPnl")]
+    public decimal? RealizedPnl { get; set; }
+
+    /// <summary>
+    /// Accumulated fee
+    /// </summary>
+    [JsonProperty("fee")]
+    public decimal? Fee { get; set; }
+
+    /// <summary>
+    /// Funding fee
+    /// </summary>
+    [JsonProperty("fundingFee")]
+    public decimal? FundingFee { get; set; }
+
+    /// <summary>
+    /// Accumulated liquidation penalty. It is negative when there is a value.
+    /// </summary>
+    [JsonProperty("liqPenalty")]
+    public decimal? LiquidationPenalty { get; set; }
 }

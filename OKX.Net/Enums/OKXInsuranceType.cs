@@ -7,4 +7,6 @@ public enum OKXInsuranceType
     LiquidationBalanceDeposit,
     BankruptcyLoss,
     PlatformRevenue,
+    AutoDeleverage,
+    RegularUpdate
 }

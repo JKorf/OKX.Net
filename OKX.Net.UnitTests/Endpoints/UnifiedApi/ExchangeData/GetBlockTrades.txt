@@ -1,0 +1,21 @@
+GET
+/api/v5/public/block-trades
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "fillVol": "5",
+            "fwdPx": "26857.86591585",
+            "idxPx": "26889.7",
+            "instId": "BTC-USD-231013-22000-P",
+            "markPx": "0.0000000000000001",
+            "px": "0.0026",
+            "side": "buy",
+            "sz": "1",
+            "tradeId": "632960608383700997",
+            "ts": "1697181568974"
+        }
+    ]
+}

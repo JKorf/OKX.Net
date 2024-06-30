@@ -37,4 +37,10 @@ public record OKXFundingRateHistory
     /// </summary>
     [JsonProperty("realizedRate")]
     public decimal RealizedRate { get; set; }
+
+    /// <summary>
+    /// Funding rate mechanism
+    /// </summary>
+    [JsonProperty("method")]
+    public string Method { get; set; } = string.Empty;
 }

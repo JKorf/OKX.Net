@@ -51,6 +51,12 @@ public record OKXAccountConfiguration
     public string LevelTemporary { get; set; } = string.Empty;
 
     /// <summary>
+    /// Account self trade prevention mode
+    /// </summary>
+    [JsonProperty("acctStpMode"), JsonConverter(typeof(EnumConverter))]
+    public SelfTradePreventionMode StpMode { get; set; }
+
+    /// <summary>
     /// Contract isolated margin trading mode
     /// </summary>
     [JsonProperty("ctIsoMode"), JsonConverter(typeof(MarginTransferModeConverter))]
@@ -87,6 +93,13 @@ public record OKXAccountConfiguration
     [JsonProperty("roleType")]
     [JsonConverter(typeof(EnumConverter))]
     public OKXAccountRoleType RoleType { get; set; }
+
+    /// <summary>
+    /// Spot account role
+    /// </summary>
+    [JsonProperty("spotRoleType")]
+    [JsonConverter(typeof(EnumConverter))]
+    public OKXAccountRoleType SpotRoleType { get; set; }
 
     /// <summary>
     /// Optional trading activation status

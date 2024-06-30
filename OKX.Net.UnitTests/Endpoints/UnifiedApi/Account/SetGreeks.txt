@@ -1,0 +1,10 @@
+POST
+/api/v5/account/set-greeks
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "greeksType": "PA"
+    }]
+}

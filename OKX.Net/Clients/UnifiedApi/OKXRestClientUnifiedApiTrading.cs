@@ -7,30 +7,8 @@ using OKX.Net.Objects.Trade;
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 {
-    private const string _bodyParameterKey = "<BODY>";
-
+    private static readonly RequestDefinitionCache _definitions = new RequestDefinitionCache();
     private readonly OKXRestClientUnifiedApi _baseClient;
-
-    #region Trade Endpoints
-    private const string Endpoints_V5_Trade_Order = "api/v5/trade/order";
-    private const string Endpoints_V5_Trade_BatchOrders = "api/v5/trade/batch-orders";
-    private const string Endpoints_V5_Trade_CancelOrder = "api/v5/trade/cancel-order";
-    private const string Endpoints_V5_Trade_CancelBatchOrders = "api/v5/trade/cancel-batch-orders";
-    private const string Endpoints_V5_Trade_AmendOrder = "api/v5/trade/amend-order";
-    private const string Endpoints_V5_Trade_AmendBatchOrders = "api/v5/trade/amend-batch-orders";
-    private const string Endpoints_V5_Trade_ClosePosition = "api/v5/trade/close-position";
-    private const string Endpoints_V5_Trade_OrdersPending = "api/v5/trade/orders-pending";
-    private const string Endpoints_V5_Trade_OrdersHistory = "api/v5/trade/orders-history";
-    private const string Endpoints_V5_Trade_OrdersHistoryArchive = "api/v5/trade/orders-history-archive";
-    private const string Endpoints_V5_Trade_Fills = "api/v5/trade/fills";
-    private const string Endpoints_V5_Trade_FillsHistory = "api/v5/trade/fills-history";
-    private const string Endpoints_V5_Trade_OrderAlgo = "api/v5/trade/order-algo";
-    private const string Endpoints_V5_Trade_CancelAlgos = "api/v5/trade/cancel-algos";
-    private const string Endpoints_V5_Trade_CancelAdvanceAlgos = "api/v5/trade/cancel-advance-algos";
-    private const string Endpoints_V5_Trade_OrdersAlgoPending = "api/v5/trade/orders-algo-pending";
-    private const string Endpoints_V5_Trade_OrdersAlgoHistory = "api/v5/trade/orders-algo-history";
-
-    #endregion
 
     internal OKXRestClientUnifiedApiTrading(OKXRestClientUnifiedApi baseClient)
     {
@@ -65,7 +43,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     {
         clientOrderId = clientOrderId ?? ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
 
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"tdMode", JsonConvert.SerializeObject(tradeMode ?? OKXTradeMode.Cash, new TradeModeConverter(false)) },
             {"side", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
@@ -92,27 +70,27 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXOrderPlaceResponse>(result.Error!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order", OKXExchange.RateLimiter.Public, 1, true);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        if (!result)
+            return result.As<OKXOrderPlaceResponse>(default);
+
+        var detailed = result.Data.Data?.FirstOrDefault();
         if (result.Data.ErrorCode > 0)
         {
-            var detailed = result.Data.Data.FirstOrDefault();
             if (detailed != null)
-            {
-                return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(Convert.ToInt32(detailed.Code), detailed.Message, null));
-            }
+                return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(detailed.Code, detailed.Message, null));
 
             return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        var orderResult = result.Data.Data.FirstOrDefault();
         _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
         {
-            Id = orderResult.OrderId.ToString(),
+            Id = detailed!.OrderId.ToString(),
             SourceObject = result.Data
         });
 
-        return result.As(orderResult);
+        return result.As<OKXOrderPlaceResponse>(detailed);
     }
 
     /// <inheritdoc />
@@ -125,34 +103,30 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             order.ClientOrderId = clientOrderId;
         }
 
-        var parameters = new Dictionary<string, object>
-        {
-            { _bodyParameterKey, orders },
-        };
+        var parameters = new ParameterCollection();
+        parameters.SetBody(orders);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_BatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(result.Error!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/batch-orders", OKXExchange.RateLimiter.Public, 1, true);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        if (!result)
+            return result.As<IEnumerable<OKXOrderPlaceResponse>>(default);
+
         if (result.Data.ErrorCode > 0)
         {
-            var detailed = result.Data.Data.FirstOrDefault(x => x.Code != "0");
+            var detailed = result.Data.Data.FirstOrDefault(x => !x.Success);
             if (detailed != null)
-            {
-                return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(Convert.ToInt32(detailed.Code), detailed.Message, null));
-            }
+                return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(detailed.Code, detailed.Message, null));
 
             return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        foreach (var order in result.Data.Data!)
+        foreach (var order in result.Data.Data.Where(o => o.Success))
         {
-            if (order.OrderId.HasValue)
+            _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
             {
-                _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
-                {
-                    Id = order.OrderId.ToString(),
-                    SourceObject = result.Data
-                });
-            }
+                Id = order.OrderId.ToString(),
+                SourceObject = result.Data
+            });
         }
 
         return result.As(result.Data.Data!);
@@ -161,51 +135,45 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
         };
         parameters.AddOptionalParameter("ordId", orderId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_CancelOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXOrderCancelResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXOrderCancelResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-order", OKXExchange.RateLimiter.Public, 1, true);
+        var result = await _baseClient.SendGetSingleAsync<OKXOrderCancelResponse>(request, parameters, ct).ConfigureAwait(false);
 
-        var orderResult = result.Data.Data.FirstOrDefault();
         _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
         {
-            Id = orderResult.OrderId.ToString(),
+            Id = result.Data.OrderId.ToString(),
             SourceObject = result.Data
         });
 
-        return result.As(orderResult);
+        return result;
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
-            { _bodyParameterKey, orders },
-        };
+        var parameters = new ParameterCollection();
+        parameters.SetBody(orders);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_CancelBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrderCancelResponse>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrderCancelResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.Public, 1, true);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXOrderCancelResponse>>(request, parameters, ct).ConfigureAwait(false);
+        if (!result)
+            return result;
 
-
-        foreach (var order in result.Data.Data!)
+        foreach (var order in result.Data.Where(r => r.Success))
         {
-            if (order.OrderId.HasValue)
+            _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
             {
-                _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
-                {
-                    Id = order.OrderId.ToString(),
-                    SourceObject = result.Data
-                });
-            }
+                Id = order.OrderId.ToString(),
+                SourceObject = result.Data
+            });
         }
 
-        return result.As(result.Data.Data!);
+        return result;
     }
 
     /// <inheritdoc />
@@ -226,7 +194,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         OXKTriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             { "instId", symbol },
         };
@@ -245,25 +213,18 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("newTpTriggerPxType", EnumConverter.GetString(newTakeProfitPriceTriggerType));
         parameters.AddOptionalParameter("newSlTriggerPxType", EnumConverter.GetString(newStopLossPriceTriggerType));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderAmendResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_AmendOrder), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXOrderAmendResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXOrderAmendResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-order", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<OKXOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
-            { _bodyParameterKey, orders },
-        };
+        var parameters = new ParameterCollection();
+        parameters.SetBody(orders);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrderAmendResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_AmendBatchOrders), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrderAmendResponse>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrderAmendResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-batch-orders", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXOrderAmendResponse>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -278,7 +239,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     {
         clientOrderId = clientOrderId ?? ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
 
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
             {"tag", _baseClient._ref },
@@ -289,11 +250,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("autoCxl", autoCancel);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXClosePositionResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_ClosePosition), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXClosePositionResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXClosePositionResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/close-position", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXClosePositionResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -303,17 +261,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? clientOrderId = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
         };
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_Order), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXOrder>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXOrder>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/order", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXOrder>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -332,7 +287,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
@@ -349,11 +304,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (state.HasValue)
             parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new OrderStateConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrdersPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrder>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-pending", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -375,7 +327,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false))}
         };
@@ -396,11 +348,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (category.HasValue)
             parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrdersHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrder>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -422,7 +371,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false))}
         };
@@ -444,11 +393,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (category.HasValue)
             parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrdersHistoryArchive), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXOrder>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history-archive", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -468,7 +414,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         parameters.AddOptionalParameter("instId", symbol);
@@ -481,11 +427,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransaction>>>(_baseClient.GetUri(Endpoints_V5_Trade_Fills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXTransaction>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXTransaction>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXTransaction>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -505,7 +448,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
@@ -517,11 +460,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransaction>>>(_baseClient.GetUri(Endpoints_V5_Trade_FillsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXTransaction>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXTransaction>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXTransaction>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -608,49 +548,41 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("timeInterval", timeInterval?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("closeFraction", closeFraction?.ToString(CultureInfo.InvariantCulture));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrderAlgo), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAlgoOrderResponse>(result.Error!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.Public, 1, true);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        if (!result)
+            return result.As<OKXAlgoOrderResponse>(default);
 
+        var detailed = result.Data.Data?.FirstOrDefault();
         if (result.Data.ErrorCode > 0)
         {
-            var detailed = result.Data.Data.FirstOrDefault();
             if (detailed != null)
-            {
-                return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(Convert.ToInt32(detailed.Code), detailed.Message, null));
-            }
+                return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(detailed.Code, detailed.Message, null));
 
             return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        return result.As(result.Data.Data.FirstOrDefault());
+        return result.As<OKXAlgoOrderResponse>(detailed);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
-            {_bodyParameterKey, orders },
-        };
+        var parameters = new ParameterCollection();
+        parameters.SetBody(orders);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_CancelAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAlgoOrderResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-algos", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> CancelAdvanceAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
-            {_bodyParameterKey, orders },
-        };
+        var parameters = new ParameterCollection();
+        parameters.SetBody(orders);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(_baseClient.GetUri(Endpoints_V5_Trade_CancelAdvanceAlgos), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAlgoOrderResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-advance-algos", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -667,7 +599,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"ordType",   JsonConvert.SerializeObject(algoOrderType, new AlgoOrderTypeConverter(false))}
         };
@@ -680,11 +612,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrdersAlgoPending), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXAlgoOrder>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAlgoOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-pending", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -702,7 +631,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"ordType",   JsonConvert.SerializeObject(algoOrderType, new AlgoOrderTypeConverter(false))}
         };
@@ -718,11 +647,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrder>>>(_baseClient.GetUri(Endpoints_V5_Trade_OrdersAlgoHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXAlgoOrder>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAlgoOrder>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -735,11 +661,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptional("algoId", algoId);
         parameters.AddOptional("algoClOrdId", clientAlgoId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrder>>>(_baseClient.GetUri("api/v5/trade/order-algo"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAlgoOrder>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrder>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAlgoOrder>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -777,10 +700,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("newTpTriggerPxType", newTakeProfitPriceTriggerType);
         parameters.AddOptionalEnum("newSlTriggerPxType", newStopLossPriceTriggerType);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderAmendResponse>>>(_baseClient.GetUri("api/v5/trade/amend-algos"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAlgoOrderAmendResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAlgoOrderAmendResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-algos", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 }

@@ -5,49 +5,13 @@ using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Funding;
+using System.Security.Cryptography;
 
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 {
+    private static readonly RequestDefinitionCache _definitions = new RequestDefinitionCache();
     private readonly OKXRestClientUnifiedApi _baseClient;
-
-    #region Account Endpoints
-    private const string Endpoints_V5_Account_Balance = "api/v5/account/balance";
-    private const string Endpoints_V5_Account_Positions = "api/v5/account/positions";
-    private const string Endpoints_V5_Account_PositionsHistory = "api/v5/account/positions-history";
-    private const string Endpoints_V5_Account_PositionRisk = "api/v5/account/account-position-risk";
-    private const string Endpoints_V5_Account_Bills = "api/v5/account/bills";
-    private const string Endpoints_V5_Account_BillsArchive = "api/v5/account/bills-archive";
-    private const string Endpoints_V5_Account_Config = "api/v5/account/config";
-    private const string Endpoints_V5_Account_SetPositionMode = "api/v5/account/set-position-mode";
-    private const string Endpoints_V5_Account_SetLeverage = "api/v5/account/set-leverage";
-    private const string Endpoints_V5_Account_MaxSize = "api/v5/account/max-size";
-    private const string Endpoints_V5_Account_MaxAvailSize = "api/v5/account/max-avail-size";
-    private const string Endpoints_V5_Account_PositionMarginBalance = "api/v5/account/position/margin-balance";
-    private const string Endpoints_V5_Account_LeverageInfo = "api/v5/account/leverage-info";
-    private const string Endpoints_V5_Account_MaxLoan = "api/v5/account/max-loan";
-    private const string Endpoints_V5_Account_TradeFee = "api/v5/account/trade-fee";
-    private const string Endpoints_V5_Account_InterestAccrued = "api/v5/account/interest-accrued";
-    private const string Endpoints_V5_Account_InterestRate = "api/v5/account/interest-rate";
-    private const string Endpoints_V5_Account_SetGreeks = "api/v5/account/set-greeks";
-    private const string Endpoints_V5_Account_MaxWithdrawal = "api/v5/account/max-withdrawal";
-    #endregion
-
-    #region Funding Endpoints
-    private const string Endpoints_V5_Asset_Currencies = "api/v5/asset/currencies";
-    private const string Endpoints_V5_Asset_Balances = "api/v5/asset/balances";
-    private const string Endpoints_V5_Asset_Transfer = "api/v5/asset/transfer";
-    private const string Endpoints_V5_Asset_Bills = "api/v5/asset/bills";
-    private const string Endpoints_V5_Asset_DepositLightning = "api/v5/asset/deposit-lightning";
-    private const string Endpoints_V5_Asset_DepositAddress = "api/v5/asset/deposit-address";
-    private const string Endpoints_V5_Asset_DepositHistory = "api/v5/asset/deposit-history";
-    private const string Endpoints_V5_Asset_Withdrawal = "api/v5/asset/withdrawal";
-    private const string Endpoints_V5_Asset_WithdrawalLightning = "api/v5/asset/withdrawal-lightning";
-    private const string Endpoints_V5_Asset_WithdrawalCancel = "api/v5/asset/cancel-withdrawal";
-    private const string Endpoints_V5_Asset_WithdrawalHistory = "api/v5/asset/withdrawal-history";
-    private const string Endpoints_V5_Asset_SavingBalance = "api/v5/finance/savings/balance";
-    private const string Endpoints_V5_Asset_SavingPurchaseRedempt = "api/v5/finance/savings/purchase-redempt";
-    #endregion
 
     internal OKXRestClientUnifiedApiAccount(OKXRestClientUnifiedApi baseClient)
     {
@@ -57,14 +21,11 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public async Task<WebCallResult<OKXAccountBalance>> GetAccountBalanceAsync(string? asset = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountBalance>>>(_baseClient.GetUri(Endpoints_V5_Account_Balance), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountBalance>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountBalance>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/balance", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountBalance>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -74,17 +35,14 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? positionId = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("posId", positionId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXPosition>>>(_baseClient.GetUri(Endpoints_V5_Account_Positions), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXPosition>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXPosition>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/positions", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXPosition>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -99,7 +57,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         int limit = 100,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         parameters.AddOptionalParameter("instId", symbol);
@@ -112,25 +70,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXClosingPosition>>>(_baseClient.GetUri(Endpoints_V5_Account_PositionsHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXClosingPosition>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXClosingPosition>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/positions-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXClosingPosition>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetAccountPositionRiskAsync(OKXInstrumentType? instrumentType = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         if (instrumentType.HasValue)
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXPositionRisk>>>(_baseClient.GetUri(Endpoints_V5_Account_PositionRisk), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXPositionRisk>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXPositionRisk>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/account-position-risk", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXPositionRisk>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -151,7 +103,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
@@ -170,11 +122,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (billSubType.HasValue)
             parameters.AddOptionalParameter("subType", JsonConvert.SerializeObject(billSubType, new AccountBillSubTypeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountBill>>>(_baseClient.GetUri(Endpoints_V5_Account_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXAccountBill>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAccountBill>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/bills", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXAccountBill>>(request, parameters, ct).ConfigureAwait(false);
     }
     
     /// <inheritdoc />
@@ -195,7 +144,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
@@ -214,35 +163,26 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (billSubType.HasValue)
             parameters.AddOptionalParameter("subType", JsonConvert.SerializeObject(billSubType, new AccountBillSubTypeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountBill>>>(_baseClient.GetUri(Endpoints_V5_Account_BillsArchive), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXAccountBill>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAccountBill>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/bills-archive", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXAccountBill>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAccountConfiguration>> GetAccountConfigurationAsync(CancellationToken ct = default)
     {
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountConfiguration>>>(_baseClient.GetUri(Endpoints_V5_Account_Config), HttpMethod.Get, ct, null, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountConfiguration>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountConfiguration>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/config", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountConfiguration>(request, null, ct).ConfigureAwait(false);
     }
         
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAccountPositionMode>> SetAccountPositionModeAsync(OKXPositionMode positionMode, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"posMode", JsonConvert.SerializeObject(positionMode, new PositionModeConverter(false)) },
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountPositionMode>>>(_baseClient.GetUri(Endpoints_V5_Account_SetPositionMode), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountPositionMode>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountPositionMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-position-mode", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountPositionMode>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -251,16 +191,13 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXMarginMode marginMode,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbols },
             {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXLeverage>>>(_baseClient.GetUri(Endpoints_V5_Account_LeverageInfo), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXLeverage>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXLeverage>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/leverage-info", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXLeverage>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -278,7 +215,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (string.IsNullOrEmpty(asset) && string.IsNullOrEmpty(symbol))
             throw new ArgumentException("Either instId or ccy is required; if both are passed, instId will be used by default.");
 
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"lever", leverage.ToString() },
             {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
         };
@@ -287,11 +224,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (positionSide.HasValue)
             parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXLeverage>>>(_baseClient.GetUri(Endpoints_V5_Account_SetLeverage), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXLeverage>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXLeverage>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-leverage", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXLeverage>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -303,7 +237,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         int? leverage = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
         };
@@ -311,11 +245,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMaximumAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_MaxSize), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXMaximumAmount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXMaximumAmount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-size", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXMaximumAmount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -326,18 +257,15 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         bool? reduceOnly = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
         };
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMaximumAvailableAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_MaxAvailSize), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXMaximumAvailableAmount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXMaximumAvailableAmount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-avail-size", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXMaximumAvailableAmount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -350,7 +278,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         bool? auto = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", symbol },
             {"posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)) },
             {"type", JsonConvert.SerializeObject(marginAddReduce, new MarginAddReduceConverter(false)) },
@@ -360,11 +288,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("auto", auto);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMarginAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_PositionMarginBalance), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXMarginAmount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXMarginAmount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/position/margin-balance", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXMarginAmount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -374,17 +299,14 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? marginAsset = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instId", instrumentId },
             {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
         };
         parameters.AddOptionalParameter("mgnCcy", marginAsset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXMaximumLoanAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_MaxLoan), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXMaximumLoanAmount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXMaximumLoanAmount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-loan", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXMaximumLoanAmount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -395,18 +317,15 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
         };
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFeeRate>>>(_baseClient.GetUri(Endpoints_V5_Account_TradeFee), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXFeeRate>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXFeeRate>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/trade-fee", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXFeeRate>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -422,7 +341,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
@@ -432,11 +351,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (marginMode.HasValue)
             parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInterestAccrued>>>(_baseClient.GetUri(Endpoints_V5_Account_InterestAccrued), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXInterestAccrued>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXInterestAccrued>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/interest-accrued", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXInterestAccrued>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -444,28 +360,22 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? asset = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInterestRate>>>(_baseClient.GetUri(Endpoints_V5_Account_InterestRate), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXInterestRate>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXInterestRate>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/interest-rate", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXInterestRate>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAccountGreeksType>> SetGreeksAsync(OKXGreeksType greeksType, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             {"greeksType", JsonConvert.SerializeObject(greeksType, new GreeksTypeConverter(false)) },
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountGreeksType>>>(_baseClient.GetUri(Endpoints_V5_Account_SetGreeks), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountGreeksType>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountGreeksType>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-greeks", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountGreeksType>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -473,40 +383,31 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? asset = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalAmount>>>(_baseClient.GetUri(Endpoints_V5_Account_MaxWithdrawal), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXWithdrawalAmount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXWithdrawalAmount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-withdrawal", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXWithdrawalAmount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(string? asset = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAsset>>>(_baseClient.GetUri(Endpoints_V5_Asset_Currencies), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXAsset>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXAsset>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/currencies", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXAsset>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXFundingBalance>>> GetFundingBalanceAsync(string? asset = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFundingBalance>>>(_baseClient.GetUri(Endpoints_V5_Asset_Balances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXFundingBalance>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXFundingBalance>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/balances", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXFundingBalance>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -524,7 +425,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         bool? ignorePositionRisk = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
             { "type", JsonConvert.SerializeObject(type, new TransferTypeConverter(false)) },
@@ -535,11 +436,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("instId", fromSymbol);
         parameters.AddOptionalParameter("toInstId", toSymbol);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransferResponse>>>(_baseClient.GetUri(Endpoints_V5_Asset_Transfer), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXTransferResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXTransferResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/transfer", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXTransferResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -555,7 +453,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
         if (type.HasValue)
             parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new FundingBillTypeConverter(false)));
@@ -564,11 +462,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clientId", clientId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXFundingBill>>>(_baseClient.GetUri(Endpoints_V5_Asset_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXFundingBill>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXFundingBill>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/bills", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXFundingBill>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -578,7 +473,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXLightningDepositAccount? account = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection 
         {
             { "ccy", asset },
             { "amt", amount.ToString(CultureInfo.InvariantCulture) },
@@ -586,23 +481,18 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (account.HasValue)
             parameters.AddOptionalParameter("to", JsonConvert.SerializeObject(account, new LightningDepositAccountConverter(false)));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXLightningDeposit>>>(_baseClient.GetUri(Endpoints_V5_Asset_DepositLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXLightningDeposit>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXLightningDeposit>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/deposit-lightning", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXLightningDeposit>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXDepositAddress>>> GetDepositAddressAsync(string? asset = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDepositAddress>>>(_baseClient.GetUri(Endpoints_V5_Asset_DepositAddress), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXDepositAddress>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXDepositAddress>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/deposit-address", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXDepositAddress>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -621,7 +511,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
         parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
@@ -632,11 +522,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("fromWdId", fromWithdrawalId);
         parameters.AddOptionalParameter("type", EnumConverter.GetString(type));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDepositHistory>>>(_baseClient.GetUri(Endpoints_V5_Asset_DepositHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXDepositHistory>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXDepositHistory>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/deposit-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXDepositHistory>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -651,7 +538,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? clientId = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
             { "dest", JsonConvert.SerializeObject(destination, new WithdrawalDestinationConverter(false)) },
@@ -662,11 +549,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("areaCode", areaCode);
         parameters.AddOptionalParameter("clientId", clientId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalResponse>>>(_baseClient.GetUri(Endpoints_V5_Asset_Withdrawal), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXWithdrawalResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXWithdrawalResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/withdrawal", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXWithdrawalResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -676,7 +560,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? memo = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection 
         {
             { "ccy", asset },
             { "invoice", invoice },
@@ -684,25 +568,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (!string.IsNullOrEmpty(memo))
             parameters.AddOptionalParameter("memo", memo);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXLightningWithdrawal>>>(_baseClient.GetUri(Endpoints_V5_Asset_WithdrawalLightning), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXLightningWithdrawal>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXLightningWithdrawal>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/withdrawal-lightning", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXLightningWithdrawal>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXWithdrawalId>> CancelWithdrawalAsync(string withdrawalId, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             { "wdId",withdrawalId},
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalId>>>(_baseClient.GetUri(Endpoints_V5_Asset_WithdrawalCancel), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXWithdrawalId>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXWithdrawalId>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/cancel-withdrawal", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXWithdrawalId>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -720,7 +598,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("txId", transactionId);
         parameters.AddOptionalParameter("state", EnumConverter.GetString(state));
@@ -730,24 +608,18 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("wdId", withdrawalId);
         parameters.AddOptionalParameter("clientId", clientId);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXWithdrawalHistory>>>(_baseClient.GetUri(Endpoints_V5_Asset_WithdrawalHistory), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXWithdrawalHistory>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXWithdrawalHistory>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/withdrawal-history", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXWithdrawalHistory>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXSavingBalance>>> GetSavingBalancesAsync(string? asset = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSavingBalance>>>(_baseClient.GetUri(Endpoints_V5_Asset_SavingBalance), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXSavingBalance>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSavingBalance>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/finance/savings/balance", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXSavingBalance>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -758,31 +630,25 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         decimal? rate = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object> {
+        var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
             { "side", JsonConvert.SerializeObject(side, new SavingActionSideConverter(false)) },
         };
         parameters.AddOptionalParameter("rate", rate?.ToString(CultureInfo.InvariantCulture));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSavingActionResponse>>>(_baseClient.GetUri(Endpoints_V5_Asset_SavingPurchaseRedempt), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXSavingActionResponse>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXSavingActionResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/finance/savings/purchase-redempt", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXSavingActionResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>();
+       var parameters = new ParameterCollection();
         parameters.AddParameter("ccy", assets);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXDustConvertResult>>>(_baseClient.GetUri("api/v5/asset/convert-dust-assets"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXDustConvertResult>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXDustConvertResult>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/convert-dust-assets", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXDustConvertResult>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -792,11 +658,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddEnum("type", instumentType);
         parameters.AddEnum("isoMode", isolatedMarginMode);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountIsolatedMarginMode>>>(_baseClient.GetUri("api/v5/account/set-isolated-mode"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountIsolatedMarginMode>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountIsolatedMarginMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-isolated-mode", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountIsolatedMarginMode>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -807,11 +670,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptional("clientId", clientTransferId);
         parameters.AddOptionalEnum("type", type);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXTransferInfo>>>(_baseClient.GetUri("api/v5/asset/transfer-state"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXTransferInfo>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXTransferInfo>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/transfer-state", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXTransferInfo>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -820,26 +680,20 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection();
         parameters.AddEnum("acctLv", mode);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAccountMode>>>(_baseClient.GetUri("api/v5/account/set-account-level"), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAccountMode>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAccountMode>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-account-level", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAccountMode>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>()
+        var parameters = new ParameterCollection ()
         {
             { "uid", userId }
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXInviteeDetails>>>(_baseClient.GetUri("api/v5/affiliate/invitee/detail"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXInviteeDetails>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXInviteeDetails>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/affiliate/invitee/detail", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXInviteeDetails>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -847,10 +701,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("ccy", asset);
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXAssetValuation>>>(_baseClient.GetUri("api/v5/asset/asset-valuation"), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXAssetValuation>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXAssetValuation>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/asset-valuation", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXAssetValuation>(request, parameters, ct).ConfigureAwait(false);
     }
 }

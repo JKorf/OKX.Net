@@ -20,4 +20,9 @@
     <ProjectReference Include="..\OKX.Net\OKX.Net.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\UnifiedApi\SubAccounts\" />
+    <Folder Include="Endpoints\UnifiedApi\Trading\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,14 @@
+GET
+/api/v5/market/platform-24-volume
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+     {
+         "volCny": "230900886396766",
+         "volUsd": "34462818865189",
+         "ts": "1657856040389"
+     }
+  ]
+}

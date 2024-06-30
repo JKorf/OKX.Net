@@ -1,0 +1,42 @@
+GET
+/api/v5/market/index-components
+false
+{
+    "code": "0",
+    "msg": "",
+    "data": {
+        "components": [
+            {
+                "symbol": "BTC/USDT",
+                "symPx": "52733.2",
+                "wgt": "0.250",
+                "cnvPx": "52733.2",
+                "exch": "OKX"
+            },
+            {
+                "symbol": "BTC/USDT",
+                "symPx": "52739.87000000",
+                "wgt": "0.250",
+                "cnvPx": "52739.87000000",
+                "exch": "Binance"
+            },
+            {
+                "symbol": "BTC/USDT",
+                "symPx": "52729.1",
+                "wgt": "0.250",
+                "cnvPx": "52729.1",
+                "exch": "Huobi"
+            },
+            {
+                "symbol": "BTC/USDT",
+                "symPx": "52739.47929397",
+                "wgt": "0.250",
+                "cnvPx": "52739.47929397",
+                "exch": "Poloniex"
+            }
+        ],
+        "last": "52735.4123234925",
+        "index": "BTC-USDT",
+        "ts": "1630985335599"
+    }
+}

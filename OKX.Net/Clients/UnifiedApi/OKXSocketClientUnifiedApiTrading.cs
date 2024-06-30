@@ -65,8 +65,8 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
 
         var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderPlaceResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (!result.Data.Success)
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }
@@ -95,8 +95,8 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
         var result = await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "cancel-order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderCancelResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (!result.Data.Success)
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }

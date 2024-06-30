@@ -30,6 +30,12 @@ public record OKXAccountBalance
     public decimal? AdjustedEquity { get; set; }
 
     /// <summary>
+    /// Frozen borrow quantity
+    /// </summary>
+    [JsonProperty("borrowFroz")]
+    public decimal? BorrowFrozen { get; set; }
+
+    /// <summary>
     /// Order frozen
     /// </summary>
     [JsonProperty("ordFroz")]
@@ -58,6 +64,12 @@ public record OKXAccountBalance
     /// </summary>
     [JsonProperty("notionalUsd")]
     public decimal? NotionalUsd { get; set; }
+
+    /// <summary>
+    /// Cross-margin info of unrealized profit and loss at the account level in USD
+    /// </summary>
+    [JsonProperty("upl")]
+    public decimal? UnrealizedPnl { get; set; }
 
     /// <summary>
     /// Details
@@ -130,6 +142,30 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonProperty("ordFrozen")]
     public decimal? OrderFrozen { get; set; }
+
+    /// <summary>
+    /// Frozen borrow quantity
+    /// </summary>
+    [JsonProperty("borrowFroz")]
+    public decimal? BorrowFrozen { get; set; }
+
+    /// <summary>
+    /// Initial margin requirement
+    /// </summary>
+    [JsonProperty("imr")]
+    public decimal? InitialMarginRequirement { get; set; }
+
+    /// <summary>
+    /// Maintenance margin requirement
+    /// </summary>
+    [JsonProperty("mmr")]
+    public decimal? MaintenanceMarginRequirement { get; set; }
+
+    /// <summary>
+    /// Trial fund balance
+    /// </summary>
+    [JsonProperty("rewardBal")]
+    public decimal? RewardBalance { get; set; }
 
     /// <summary>
     /// Liabilities
@@ -220,6 +256,24 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonProperty("spotInUseAmt")]
     public decimal? SpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// User-defined spot risk offset amount
+    /// </summary>
+    [JsonProperty("clSpotInUseAmt")]
+    public decimal? ClSpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Max possible spot risk offset amount
+    /// </summary>
+    [JsonProperty("maxSpotInUseAmt")]
+    public decimal? MaxSpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Spot isolated balance
+    /// </summary>
+    [JsonProperty("spotIsoBal")]
+    public decimal? SpotIsolatedBalance { get; set; }
 
     /// <summary>
     /// Price index usd of the asset

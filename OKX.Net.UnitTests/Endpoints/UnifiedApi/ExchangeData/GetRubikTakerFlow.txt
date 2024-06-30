@@ -1,0 +1,16 @@
+GET
+/api/v5/rubik/stat/option/taker-block-volume
+false
+{
+    "code": "0",
+    "data": [
+        "1630512000000",
+        "8.55",
+        "67.3",
+        "16.05",
+        "16.3",
+        "126.4",
+        "40.7"
+    ],
+    "msg": ""
+}

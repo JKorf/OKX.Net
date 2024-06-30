@@ -1,0 +1,25 @@
+GET
+/api/v5/public/funding-rate-history
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "fundingRate": "0.0000746604960499",
+            "fundingTime": "1703059200000",
+            "instId": "BTC-USD-SWAP",
+            "instType": "SWAP",
+            "method": "next_period",
+            "realizedRate": "0.0000746572360545"
+        },
+        {
+            "fundingRate": "0.000227985782722",
+            "fundingTime": "1703030400000",
+            "instId": "BTC-USD-SWAP",
+            "instType": "SWAP",
+            "method": "next_period",
+            "realizedRate": "0.0002279755647389"
+        }
+  ]
+}

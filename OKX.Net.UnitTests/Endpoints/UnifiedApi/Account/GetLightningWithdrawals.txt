@@ -1,0 +1,11 @@
+GET
+/api/v5/asset/withdrawal-lightning
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "wdId": "121212",
+        "cTime": "1597026383085"
+    }]
+}

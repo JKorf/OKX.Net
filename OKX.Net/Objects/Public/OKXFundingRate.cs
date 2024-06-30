@@ -1,5 +1,6 @@
 ﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
+using System.Net.NetworkInformation;
 
 namespace OKX.Net.Objects.Public;
 
@@ -39,8 +40,47 @@ public record OKXFundingRate
     public DateTime NextFundingTime { get; set; }
 
     /// <summary>
+    /// Timestamp
+    /// </summary>
+    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime Timestamp { get; set; }
+
+    /// <summary>
     /// Next funding rate
     /// </summary>
     [JsonProperty("nextFundingRate")]
     public decimal? NextFundingRate { get; set; }
+
+    /// <summary>
+    /// Method
+    /// </summary>
+    [JsonProperty("method")]
+    public string Method { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Settlement state
+    /// </summary>
+    [JsonProperty("settState")]
+    public string SettleState { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Max funding rate
+    /// </summary>
+    [JsonProperty("maxFundingRate")]
+    public decimal? MaxFundingRate { get; set; }
+    /// <summary>
+    /// Min funding rate
+    /// </summary>
+    [JsonProperty("minFundingRate")]
+    public decimal? MinFundingRate { get; set; }
+    /// <summary>
+    /// Premium between the mid price of perps market and the index price
+    /// </summary>
+    [JsonProperty("premium")]
+    public decimal? Premium { get; set; }
+    /// <summary>
+    /// If settState = processing, it is the funding rate that is being used for current settlement cycle. If settState = settled, it is the funding rate that is being used for previous settlement cycle
+    /// </summary>
+    [JsonProperty("settFundingRate")]
+    public decimal? SettFundingRate { get; set; }
 }

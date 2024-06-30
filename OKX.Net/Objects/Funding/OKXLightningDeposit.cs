@@ -16,4 +16,10 @@ public record OKXLightningDeposit
     /// </summary>
     [JsonProperty("invoice")]
     public string Invoice { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Verified name for recipient
+    /// </summary>
+    [JsonProperty("verifiedName")]
+    public string RecepientName { get; set; } = string.Empty;
 }

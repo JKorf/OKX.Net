@@ -1,0 +1,35 @@
+GET
+/api/v5/asset/currencies
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+        "canDep": true,
+        "canInternal": true,
+        "canWd": true,
+        "ccy": "BTC",
+        "chain": "BTC-Bitcoin",
+        "depQuotaFixed": "",
+        "depQuoteDailyLayer2": "",
+        "logoLink": "https://static.coinall.ltd/cdn/oksupport/asset/currency/icon/btc.png",
+        "mainNet": true,
+        "maxFee": "0.0004",
+        "maxFeeForCtAddr": "0.0004",
+        "maxWd": "500",
+        "minDep": "0.00005",
+        "minDepArrivalConfirm": "1",
+        "minFee": "0.0002",
+        "minFeeForCtAddr": "0.0002",
+        "minWd": "0.001",
+        "minWdUnlockConfirm": "3",
+        "name": "Bitcoin",
+        "needTag": false,
+        "usedDepQuotaFixed": "",
+        "usedWdQuota": "0",
+        "wdQuota": "200",
+        "wdTickSz": "8"
+    }
+  ]
+}

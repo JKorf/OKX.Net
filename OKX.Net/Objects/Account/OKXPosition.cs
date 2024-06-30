@@ -251,24 +251,24 @@ public record OKXPosition
     public decimal? MarkPrice { get; set; }
 
     /// <summary>
-    /// Base asset amount already borrowed
+    /// DEPRECATED Base asset amount already borrowed
     /// </summary>
     [JsonProperty("baseBorrowed")]
     public decimal? BaseBorrowed { get; set; }
 
     /// <summary>
-    /// Base Interest, undeducted interest that has been incurred
+    /// DEPRECATED Base Interest, undeducted interest that has been incurred
     /// </summary>
     [JsonProperty("baseInterest")]
     public decimal? BaseInterest { get; set; }
 
     /// <summary>
-    /// Quote asset amount already borrowed
+    /// DEPRECATED Quote asset amount already borrowed
     /// </summary>
     [JsonProperty("quoteBorrowed")]
     public decimal? QuoteBorrowed { get; set; }
     /// <summary>
-    /// Quote Interest, undeducted interest that has been incurred
+    /// DEPRECATED Quote Interest, undeducted interest that has been incurred
     /// </summary>
     [JsonProperty("quoteInterest")]
     public decimal? QuoteInterest { get; set; }
@@ -303,12 +303,12 @@ public record OKXPosition
     [JsonProperty("uplRatioLastPx")]
     public decimal? UnrealizedPnlRatio { get; set; }
     /// <summary>
-    /// Base balance (Margin only)
+    /// DEPRECATED Base balance (Margin only)
     /// </summary>
     [JsonProperty("baseBal")]
     public decimal? BaseBalance { get; set; }
     /// <summary>
-    /// Quote balance (Margin only)
+    /// DEPRECATED Quote balance (Margin only)
     /// </summary>
     [JsonProperty("quoteBal")]
     public decimal? QuoteBalance { get; set; }
@@ -337,6 +337,23 @@ public record OKXPosition
     /// </summary>
     [JsonProperty("pnl")]
     public decimal? Pnl { get; set; }
+    /// <summary>
+    /// The amount of close orders of isolated margin liability.
+    /// </summary>
+    [JsonProperty("pendingCloseOrdLiabVal")]
+    public decimal? PendingCloseOrderLiability { get; set; }
+
+    /// <summary>
+    /// User-defined spot risk offset amount
+    /// </summary>
+    [JsonProperty("clSpotInUseAmt")]
+    public decimal? ClSpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Max possible spot risk offset amount
+    /// </summary>
+    [JsonProperty("maxSpotInUseAmt")]
+    public decimal? MaxSpotInUseAmount { get; set; }
     /// <summary>
     /// Close position algo orders attached to the position
     /// </summary>

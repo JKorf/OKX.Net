@@ -1,0 +1,14 @@
+GET
+/api/v5/public/underlying
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        [
+            "LTC-USDT",
+            "BTC-USDT",
+            "ETC-USDT"
+        ]
+    ]
+}

@@ -7,16 +7,8 @@ using OKX.Net.Objects.SubAccount;
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubAccounts
 {
+    private static readonly RequestDefinitionCache _definitions = new RequestDefinitionCache();
     private readonly OKXRestClientUnifiedApi _baseClient;
-
-    #region Sub-Account Endpoints
-    private const string Endpoints_V5_SubAccount_List = "api/v5/users/subaccount/list";
-    private const string Endpoints_V5_SubAccount_ResetApiKey = "api/v5/users/subaccount/modify-apikey";
-    private const string Endpoints_V5_SubAccount_TradingBalances = "api/v5/account/subaccount/balances";
-    private const string Endpoints_V5_SubAccount_FundingBalances = "api/v5/asset/subaccount/balances";
-    private const string Endpoints_V5_SubAccount_Bills = "api/v5/asset/subaccount/bills";
-    private const string Endpoints_V5_SubAccount_Transfer = "api/v5/asset/subaccount/transfer";
-    #endregion
 
     internal OKXRestClientUnifiedApiSubAccounts(OKXRestClientUnifiedApi baseClient)
     {
@@ -35,18 +27,15 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("enable", enable);
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccount>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_List), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXSubAccount>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSubAccount>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/users/subaccount/list", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXSubAccount>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -59,7 +48,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         string? ipAddresses = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             { "subAcct", subAccountName },
             { "apiKey", apiKey}
@@ -73,11 +62,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         if (permissions.Count > 0)
             parameters.AddOptionalParameter("perm", string.Join(",", permissions));
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountApiKey>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_ResetApiKey), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXSubAccountApiKey>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXSubAccountApiKey>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/users/subaccount/modify-apikey", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXSubAccountApiKey>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -85,16 +71,13 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         string subAccountName,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"subAcct", subAccountName },
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountTradingBalance>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_TradingBalances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXSubAccountTradingBalance>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXSubAccountTradingBalance>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/subaccount/balances", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXSubAccountTradingBalance>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -103,18 +86,15 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         string? asset = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"subAcct", subAccountName },
         };
 
         parameters.AddOptionalParameter("ccy", asset);
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountFundingBalance>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_FundingBalances), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSubAccountFundingBalance>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/balances", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXSubAccountFundingBalance>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -130,7 +110,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new Dictionary<string, object>();
+        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new SubAccountTransferTypeConverter(false)));
@@ -138,12 +118,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
-
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountBill>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_Bills), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<IEnumerable<OKXSubAccountBill>>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<IEnumerable<OKXSubAccountBill>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data!);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/bills", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendAsync<IEnumerable<OKXSubAccountBill>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -156,7 +132,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         string toSubAccountName,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
+        var parameters = new ParameterCollection
         {
             {"ccy", asset },
             {"amt", amount.ToString(CultureInfo.InvariantCulture) },
@@ -166,10 +142,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
             {"toSubAccount", toSubAccountName },
         };
 
-        var result = await _baseClient.ExecuteAsync<OKXRestApiResponse<IEnumerable<OKXSubAccountTransfer>>>(_baseClient.GetUri(Endpoints_V5_SubAccount_Transfer), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<OKXSubAccountTransfer>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<OKXSubAccountTransfer>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As(result.Data.Data.FirstOrDefault());
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/subaccount/transfer", OKXExchange.RateLimiter.Public, 1, true);
+        return await _baseClient.SendGetSingleAsync<OKXSubAccountTransfer>(request, parameters, ct).ConfigureAwait(false);
     }
 }

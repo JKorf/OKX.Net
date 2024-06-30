@@ -1,0 +1,23 @@
+GET
+/api/v5/asset/deposit-history
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+        "actualDepBlkConfirm": "2",
+        "amt": "1",
+        "areaCodeFrom": "",
+        "ccy": "USDT",
+        "chain": "USDT-TRC20",
+        "depId": "88****33",
+        "from": "",
+        "fromWdId": "",
+        "state": "2",
+        "to": "TN4hGjVXMzy*********9b4N1aGizqs",
+        "ts": "1674038705000",
+        "txId": "fee235b3e812********857d36bb0426917f0df1802"
+    }
+  ]
+}
