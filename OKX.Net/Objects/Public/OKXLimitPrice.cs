@@ -37,4 +37,10 @@ public record OKXLimitPrice
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Whether price limit is enabled
+    /// </summary>
+    [JsonProperty("enabled")]
+    public bool IsEnabled { get; set; }
 }

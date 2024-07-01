@@ -1,0 +1,32 @@
+> { "op": "subscribe", "args": [{ "channel": "opt-summary", "instFamily": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "opt-summary", "instFamily": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "opt-summary",
+    "instFamily": "ETH-USDT"
+  },
+  "data": [
+    {
+      "instType": "OPTION",
+      "instId": "BTC-USD-200103-5500-C",
+      "uly": "BTC-USD",
+      "delta": "0.7494223636",
+      "gamma": "-0.6765419039",
+      "theta": "-0.0000809873",
+      "vega": "0.0000077307",
+      "deltaBS": "0.7494223636",
+      "gammaBS": "-0.6765419039",
+      "thetaBS": "-0.0000809873",
+      "vegaBS": "0.0000077307",
+      "realVol": "0",
+      "bidVol": "",
+      "askVol": "1.5625",
+      "markVol": "0.9987",
+      "volLv": "0",
+      "lever": "4.0342",
+      "fwdPx": "39016.8143629068452065",
+      "ts": "1597026383085"
+    }
+  ]
+}

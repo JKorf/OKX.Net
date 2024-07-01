@@ -1,0 +1,17 @@
+> { "op": "subscribe", "args": [{ "channel": "mark-price", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "mark-price", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "mark-price",
+    "instId": "ETH-USDT"
+  },
+  "data": [
+    {
+      "instType": "FUTURES",
+      "instId": "LTC-USD-190628",
+      "markPx": "0.1",
+      "ts": "1597026383085"
+    }
+  ]
+}

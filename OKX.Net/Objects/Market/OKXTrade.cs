@@ -43,4 +43,10 @@ public record OKXTrade
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Number of trades if it is an aggregated trade
+    /// </summary>
+    [JsonProperty("count")]
+    public int? TradeCount { get; set; }
 }

@@ -31,6 +31,11 @@ public record OKXPositionAndBalanceUpdate
     /// </summary>
     [JsonProperty("posData")]
     public IEnumerable<OKXAccountPositionUpdate> PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
+    /// <summary>
+    /// Trades data
+    /// </summary>
+    [JsonProperty("trades")]
+    public IEnumerable<OKXTradeReference> TradeData { get; set; } = Array.Empty<OKXTradeReference>();
 }
 
 /// <summary>
@@ -129,4 +134,21 @@ public record OKXAccountPositionUpdate
     [JsonProperty("uTime")]
     [JsonConverter(typeof(DateTimeConverter))]
     public DateTime? UpdateTime { get; set; }
+}
+
+/// <summary>
+/// Trade reference
+/// </summary>
+public record OKXTradeReference
+{
+    /// <summary>
+    /// Symbol name
+    /// </summary>
+    [JsonProperty("instId")]
+    public string Symbol { get; set; } = string.Empty;
+    /// <summary>
+    /// Trade id
+    /// </summary>
+    [JsonProperty("tradeId")]
+    public string TradeId { get; set; } = string.Empty;
 }

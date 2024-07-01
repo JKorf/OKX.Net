@@ -488,7 +488,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToMarkPriceUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Public.OKXMarkPrice}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToMarkPriceKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXCandlestick}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToMarkPriceKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{OKX.Net.Objects.Market.OKXMiniKline}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToPriceLimitUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Public.OKXLimitPrice}},System.Threading.CancellationToken)">
@@ -503,7 +503,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToFundingRateUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Public.OKXFundingRate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToIndexKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXCandlestick}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToIndexKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{OKX.Net.Objects.Market.OKXMiniKline}}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData.SubscribeToIndexTickerUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXIndexTicker}},System.Threading.CancellationToken)">
@@ -2370,7 +2370,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData.SubscribeToIndexKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXCandlestick}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData.SubscribeToIndexKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{OKX.Net.Objects.Market.OKXMiniKline}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to the candlesticks data of the index updates. Data will be pushed every 500 ms.
             <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-candlesticks-channel" /></para>
@@ -2422,7 +2422,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData.SubscribeToMarkPriceKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Market.OKXCandlestick}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData.SubscribeToMarkPriceKlineUpdatesAsync(System.String,OKX.Net.Enums.OKXPeriod,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{System.Collections.Generic.IEnumerable{OKX.Net.Objects.Market.OKXMiniKline}}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to the candlesticks data updates of the mark price. Data will be pushed every 500 ms.
             <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-candlesticks-channel" /></para>
@@ -4075,6 +4075,11 @@
             Position data
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate.TradeData">
+            <summary>
+            Trades data
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXBalanceUpdate">
             <summary>
             Balance info
@@ -4153,6 +4158,21 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionUpdate.UpdateTime">
             <summary>
             Update time
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXTradeReference">
+            <summary>
+            Trade reference
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXTradeReference.Symbol">
+            <summary>
+            Symbol name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXTradeReference.TradeId">
+            <summary>
+            Trade id
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountPositionMode">
@@ -5281,6 +5301,42 @@
             Timestamp
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Market.OKXMiniKline">
+            <summary>
+            Candlestick/Kline data
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.OpenPrice">
+            <summary>
+            Open price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.HighPrice">
+            <summary>
+            Highest price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.LowPrice">
+            <summary>
+            Lowest price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.ClosePrice">
+            <summary>
+            Close price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXMiniKline.Confirm">
+            <summary>
+            The state of candlesticks.
+            false represents that it is uncompleted, true represents that it is completed.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Market.OKXOracle">
             <summary>
             Oracle
@@ -5494,6 +5550,11 @@
         <member name="P:OKX.Net.Objects.Market.OKXTrade.Time">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Market.OKXTrade.TradeCount">
+            <summary>
+            Number of trades if it is an aggregated trade
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.OKXApiAddresses">
@@ -6156,6 +6217,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXLimitPrice.Time">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXLimitPrice.IsEnabled">
+            <summary>
+            Whether price limit is enabled
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXLiquidationInfo">

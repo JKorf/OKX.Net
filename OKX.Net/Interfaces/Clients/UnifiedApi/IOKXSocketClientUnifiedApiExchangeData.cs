@@ -43,7 +43,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to index tickers data updates
@@ -95,7 +95,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to detailed pricing information updates of all OPTION contracts. Data will be pushed at once.
