@@ -6578,6 +6578,11 @@
             Id
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccount.FrozenFunctions">
+            <summary>
+            Frozen functions
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.SubAccount.OKXSubAccountApiKey">
             <summary>
             Subaccount api key info
@@ -6683,171 +6688,6 @@
             Name
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance">
-            <summary>
-            Sub account trading balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.AdjustedEquity">
-            <summary>
-            Adjusted equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.InitialMarginRequirement">
-            <summary>
-            Initial margin requirement
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.IsolatedMarginEquity">
-            <summary>
-            Isolated margin equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.MarginRatio">
-            <summary>
-            Margin ratio
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.MaintenanceMarginRequirement">
-            <summary>
-            Maintenance margin requirement
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.NotionalUsd">
-            <summary>
-            Notional usd
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.OrderFrozen">
-            <summary>
-            Order frozen
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.TotalEquity">
-            <summary>
-            Total equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.UpdateTime">
-            <summary>
-            Update time
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalance.Details">
-            <summary>
-            Balance details
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail">
-            <summary>
-            Balance details
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.AvailableBalance">
-            <summary>
-            Available balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.AvailableEquity">
-            <summary>
-            Available equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.CashBalance">
-            <summary>
-            Cash balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Asset">
-            <summary>
-            Asset
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.CrossLiabilities">
-            <summary>
-            Cross liabilities
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.DiscountEquity">
-            <summary>
-            Discount equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Equity">
-            <summary>
-            Equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.UsdEquity">
-            <summary>
-            Usd equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.FrozenBalance">
-            <summary>
-            Frozen balance
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Interest">
-            <summary>
-            Interest
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.IsolatedMarginEquity">
-            <summary>
-            Isolated margin equity
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.IsolatedLiabilities">
-            <summary>
-            Isolated liabilities
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Liabilities">
-            <summary>
-            Liabilities
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.MaximumLoan">
-            <summary>
-            Maximum loan
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.MarginRatio">
-            <summary>
-            Margin ratio
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Leverage">
-            <summary>
-            Leverage
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.OrderFrozen">
-            <summary>
-            Order frozen
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.Twap">
-            <summary>
-            Twap
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.UpdateTime">
-            <summary>
-            Update time
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.UnrealizedProfitAndLoss">
-            <summary>
-            Unrealized profit and loss
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.SubAccount.OKXSubAccountTradingBalanceDetail.UnrealizedProfitAndLossLiabilities">
-            <summary>
-            Unrealized profit and loss liabilities
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.SubAccount.OKXSubAccountTransfer">
             <summary>
             Sub account transfer
@@ -6931,6 +6771,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.CreateTime">
             <summary>
             Create time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.UpdateTime">
+            <summary>
+            Update time
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TriggerTime">
@@ -7523,6 +7368,26 @@
             Quick Margin type
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.IsTakeProfitLimit">
+            <summary>
+            Is take profit limit order or not
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.PriceType">
+            <summary>
+            Price type for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.PriceUsd">
+            <summary>
+            Usd price for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.ImpliedVolatility">
+            <summary>
+            Implied volatiltiy for options
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderAmendRequest">
             <summary>
             Order amend request
@@ -7588,9 +7453,19 @@
             Code
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendResponse.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendResponse.Message">
             <summary>
             Message
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendResponse.Success">
+            <summary>
+            Whether order edit was successful
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderCancelRequest">
@@ -7636,6 +7511,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelResponse.Message">
             <summary>
             Message
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelResponse.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelResponse.Success">
@@ -7736,6 +7616,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceResponse.Message">
             <summary>
             Message
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceResponse.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceResponse.Success">
@@ -7888,6 +7773,36 @@
         <member name="P:OKX.Net.Objects.Trade.OKXTransaction.Time">
             <summary>
             Data time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillImpliedVolatility">
+            <summary>
+            Implied volitality for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillUsdPrice">
+            <summary>
+            Usd fill price for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillMarkVolatility">
+            <summary>
+            Mark volatility when filled for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillForwardPrice">
+            <summary>
+            Forward price when filled for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.FillMarkPrice">
+            <summary>
+            Mark price when filled
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.TransactionType">
+            <summary>
+            Transaction type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trading.OKXInterestVolume">

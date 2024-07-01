@@ -128,8 +128,8 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("newPx", newPrice?.ToString(CultureInfo.InvariantCulture));
 
         var result = await _client.QueryInternalAsync<OKXOrderAmendResponse>(_client.GetUri("/ws/v5/private"), "amend-order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderAmendResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (result.Data.Success)
+            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }

@@ -61,4 +61,10 @@ public record OKXSubAccount
     /// </summary>
     [JsonProperty("uid")]
     public string Uid { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Frozen functions
+    /// </summary>
+    [JsonProperty("frozenFunc")]
+    public IEnumerable<string> FrozenFunctions { get; set; } = Array.Empty<string>();
 }

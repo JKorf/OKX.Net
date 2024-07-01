@@ -282,4 +282,28 @@ public record OKXOrder
     [JsonConverter(typeof(EnumConverter))]
     public OKXQuickMarginType? QuickMarginType { get; set; }
 
+    /// <summary>
+    /// Is take profit limit order or not
+    /// </summary>
+    [JsonProperty("isTpLimit")]
+    public bool? IsTakeProfitLimit { get; set; }
+
+    /// <summary>
+    /// Price type for options
+    /// </summary>
+    [JsonProperty("pxType")]
+    public string? PriceType { get; set; }
+
+    /// <summary>
+    /// Usd price for options
+    /// </summary>
+    [JsonProperty("pxUsd")]
+    public decimal? PriceUsd { get; set; }
+
+    /// <summary>
+    /// Implied volatiltiy for options
+    /// </summary>
+    [JsonProperty("pxVol")]
+    public decimal? ImpliedVolatility { get; set; }
+
 }

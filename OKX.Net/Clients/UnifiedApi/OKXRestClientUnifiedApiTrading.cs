@@ -214,7 +214,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("newSlTriggerPxType", EnumConverter.GetString(newStopLossPriceTriggerType));
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-order", OKXExchange.RateLimiter.Public, 1, true);
-        return await _baseClient.SendAsync<OKXOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

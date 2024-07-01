@@ -1,6 +1,7 @@
 ﻿using OKX.Net.Converters;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
+using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.SubAccount;
 
@@ -67,7 +68,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXSubAccountTradingBalance>> GetSubAccountTradingBalancesAsync(
+    public virtual async Task<WebCallResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(
         string subAccountName,
         CancellationToken ct = default)
     {
@@ -77,7 +78,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         };
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/subaccount/balances", OKXExchange.RateLimiter.Public, 1, true);
-        return await _baseClient.SendGetSingleAsync<OKXSubAccountTradingBalance>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXAccountBalance>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

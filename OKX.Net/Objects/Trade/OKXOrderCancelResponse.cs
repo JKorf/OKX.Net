@@ -30,6 +30,12 @@ public record OKXOrderCancelResponse
     public string Message { get; set; } = string.Empty;
 
     /// <summary>
+    /// Timestamp
+    /// </summary>
+    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? Timestamp { get; set; }
+
+    /// <summary>
     /// Whether order cancellation was successful
     /// </summary>
     public bool Success => Code == 0;

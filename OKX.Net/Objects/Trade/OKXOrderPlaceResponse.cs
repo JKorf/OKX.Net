@@ -36,6 +36,12 @@ public record OKXOrderPlaceResponse
     public string Message { get; set; } = string.Empty;
 
     /// <summary>
+    /// Timestamp
+    /// </summary>
+    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? Timestamp { get; set; }
+
+    /// <summary>
     /// Whether order placement was successful
     /// </summary>
     public bool Success => Code == 0;

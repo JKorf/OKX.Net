@@ -9,7 +9,7 @@ internal class SubAccountTransferTypeConverter : BaseConverter<OKXSubAccountTran
 
     protected override List<KeyValuePair<OKXSubAccountTransferType, string>> Mapping => new List<KeyValuePair<OKXSubAccountTransferType, string>>
     {
-        new KeyValuePair<OKXSubAccountTransferType, string>(OKXSubAccountTransferType.FromMasterAccountToSubAccout, "0s"),
+        new KeyValuePair<OKXSubAccountTransferType, string>(OKXSubAccountTransferType.FromMasterAccountToSubAccout, "0"),
         new KeyValuePair<OKXSubAccountTransferType, string>(OKXSubAccountTransferType.FromSubAccountToMasterAccout, "1"),
     };
 }

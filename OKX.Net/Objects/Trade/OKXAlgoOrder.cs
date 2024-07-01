@@ -15,6 +15,12 @@ public record OKXAlgoOrder
     public DateTime CreateTime { get; set; }
 
     /// <summary>
+    /// Update time
+    /// </summary>
+    [JsonProperty("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? UpdateTime { get; set; }
+
+    /// <summary>
     /// Trigger time
     /// </summary>
     [JsonProperty("triggerTime"), JsonConverter(typeof(DateTimeConverter))]

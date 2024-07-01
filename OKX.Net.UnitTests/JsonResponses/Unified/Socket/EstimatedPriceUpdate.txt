@@ -1,6 +1,0 @@
-{
-      "instType": "FUTURES",
-      "instId": "BTC-USD-170310",
-      "settlePx": "200",
-      "ts": "1597026383085"
-    }

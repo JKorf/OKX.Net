@@ -1,4 +1,5 @@
 ﻿using OKX.Net.Enums;
+using OKX.Net.Objects.Account;
 using OKX.Net.Objects.SubAccount;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -53,7 +54,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountTradingBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
+    Task<WebCallResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only

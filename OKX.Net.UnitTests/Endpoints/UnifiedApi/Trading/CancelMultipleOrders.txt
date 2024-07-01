@@ -1,0 +1,25 @@
+POST
+/api/v5/trade/cancel-batch-orders
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "clOrdId":"oktswap6",
+            "ordId":"12345689",
+            "ts":"1695190491421",
+            "sCode":"0",
+            "sMsg":""
+        },
+        {
+            "clOrdId":"oktswap7",
+            "ordId":"12344",
+            "ts":"1695190491421",
+            "sCode":"0",
+            "sMsg":""
+        }
+    ],
+    "inTime": "1695190491421339",
+    "outTime": "1695190491423240"
+}

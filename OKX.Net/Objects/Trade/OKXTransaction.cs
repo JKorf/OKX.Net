@@ -115,4 +115,40 @@ public record OKXTransaction
     /// </summary>
     [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Implied volitality for options
+    /// </summary>
+    [JsonProperty("fillPxVol")]
+    public decimal? FillImpliedVolatility { get; set; }
+
+    /// <summary>
+    /// Usd fill price for options
+    /// </summary>
+    [JsonProperty("fillPxUsd")]
+    public decimal? FillUsdPrice { get; set; }
+
+    /// <summary>
+    /// Mark volatility when filled for options
+    /// </summary>
+    [JsonProperty("fillMarkVol")]
+    public decimal? FillMarkVolatility { get; set; }
+
+    /// <summary>
+    /// Forward price when filled for options
+    /// </summary>
+    [JsonProperty("fillFwdPx")]
+    public decimal? FillForwardPrice { get; set; }
+
+    /// <summary>
+    /// Mark price when filled
+    /// </summary>
+    [JsonProperty("fillMarkPx")]
+    public decimal? FillMarkPrice { get; set; }
+
+    /// <summary>
+    /// Transaction type
+    /// </summary>
+    [JsonProperty("subType")]
+    public string TransactionType { get; set; } = string.Empty;
 }

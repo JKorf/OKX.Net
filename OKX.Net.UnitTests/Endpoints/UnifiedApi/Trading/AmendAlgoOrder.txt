@@ -1,0 +1,16 @@
+POST
+/api/v5/trade/amend-algos
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "algoClOrdId":"algo_01",
+            "algoId":"2510789768709120",
+            "reqId":"po103ux",
+            "sCode":"0",
+            "sMsg":""
+        }
+    ]
+}
