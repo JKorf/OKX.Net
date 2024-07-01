@@ -29,12 +29,12 @@ public record OKXUnitConvert
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(ConvertTypeConverter))]
-    public OKXConvertType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public ConvertType Type { get; set; }
 
     /// <summary>
     /// Unit
     /// </summary>
-    [JsonProperty("unit"), JsonConverter(typeof(ConvertUnitConverter))]
-    public OKXConvertUnit Unit { get; set; }
+    [JsonProperty("unit"), JsonConverter(typeof(EnumConverter))]
+    public ConvertUnit Unit { get; set; }
 }

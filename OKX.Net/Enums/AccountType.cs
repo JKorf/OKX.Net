@@ -1,21 +1,20 @@
-﻿namespace OKX.Net.Enums;
+﻿using CryptoExchange.Net.Attributes;
+
+namespace OKX.Net.Enums;
 
 /// <summary>
 /// Account type
 /// </summary>
-public enum OKXAccount
+public enum AccountType
 {
-    //Spot,
-    //Futures,
-    //Margin,
     /// <summary>
     /// Funding account
     /// </summary>
+    [Map("6")]
     Funding,
-    //Swap,
-    //Option,
     /// <summary>
     /// Trading account
     /// </summary>
+    [Map("18")]
     Trading,
 }

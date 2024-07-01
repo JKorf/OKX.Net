@@ -77,14 +77,14 @@ public record OKXAccountBill
     /// <summary>
     /// From account
     /// </summary>
-    [JsonProperty("from"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? FromAccount { get; set; }
+    [JsonProperty("from"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? FromAccount { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? ToAccount { get; set; }
+    [JsonProperty("to"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? ToAccount { get; set; }
 
     /// <summary>
     /// Notes
@@ -119,8 +119,8 @@ public record OKXAccountBill
     /// <summary>
     /// Sub type
     /// </summary>
-    [JsonProperty("subType")]
-    public string? SubType { get; set; } = string.Empty;
+    [JsonProperty("subType"), JsonConverter(typeof(EnumConverter))]
+    public AccountBillSubType? SubType { get; set; }
 
     /// <summary>
     /// Price

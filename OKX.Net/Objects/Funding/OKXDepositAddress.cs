@@ -59,8 +59,8 @@ public record OKXDepositAddress
     /// <summary>
     /// Account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? Account { get; set; }
+    [JsonProperty("to"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? Account { get; set; }
 
     /// <summary>
     /// Verified name for recipient

@@ -89,8 +89,8 @@ public record OKXAlgoOrder
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonProperty("ordType"), JsonConverter(typeof(AlgoOrderTypeConverter))]
-    public OKXAlgoOrderType OrderType { get; set; }
+    [JsonProperty("ordType"), JsonConverter(typeof(EnumConverter))]
+    public AlgoOrderType OrderType { get; set; }
 
     /// <summary>
     /// Quantity
@@ -191,14 +191,14 @@ public record OKXAlgoOrder
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(AlgoOrderStateConverter))]
-    public OKXAlgoOrderState State { get; set; }
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    public AlgoOrderState State { get; set; }
 
     /// <summary>
     /// Actual side
     /// </summary>
-    [JsonProperty("actualSide"), JsonConverter(typeof(AlgoActualSideConverter))]
-    public OKXAlgoActualSide? ActualSide { get; set; }
+    [JsonProperty("actualSide"), JsonConverter(typeof(EnumConverter))]
+    public AlgoActualSide? ActualSide { get; set; }
 
     /// <summary>
     /// Fraction of position to be closed when the algo order is triggered

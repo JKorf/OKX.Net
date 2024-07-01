@@ -46,7 +46,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumWithdrawalsAsync(), "GetMaximumWithdrawals");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAssetsAsync(), "GetAssets");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBalanceAsync(), "GetFundingBalance");
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.TransferAsync("ETH", 1, Enums.OKXTransferType.MasterAccountToSubAccount, Enums.OKXAccount.Funding, Enums.OKXAccount.Funding), "Transfer", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.TransferAsync("ETH", 1, Enums.OKXTransferType.MasterAccountToSubAccount, Enums.AccountType.Funding, Enums.AccountType.Funding), "Transfer", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync("ETH"), "GetFundingBillDetails");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetLightningDepositsAsync("ETH", 1), "GetLightningDeposits");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetDepositAddressAsync("ETH"), "GetDepositAddress");
@@ -60,7 +60,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.ConvertDustAsync(new[] { "ETH" }), "ConvertDust", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetIsolatedMarginModeAsync(Enums.OKXInstrumentType.Any, Enums.OKXIsolatedMarginMode.Automatic), "SetIsolatedMarginMode", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetTransferAsync("123"), "GetTransfer", useSingleArrayItem: true, ignoreProperties: new List<string> { "instId", "toInstId" });
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountModeAsync(Enums.OKXAccountLevel.Simple), "SetAccountMode", skipResponseValidation: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountModeAsync(Enums.AccountLevel.Simple), "SetAccountMode", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAffiliateInviteeDetailsAsync("123"), "GetAffiliateInviteeDetails", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAssetValuationAsync("123"), "GetAssetValuation", useSingleArrayItem: true, ignoreProperties: new List<string> { "classic" });
         }
@@ -107,7 +107,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetVIPInterestRatesAsync(), "GetVIPInterestRates");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetUnderlyingAsync(Enums.OKXInstrumentType.Futures), "GetUnderlying");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetInsuranceFundAsync(Enums.OKXInstrumentType.Futures), "GetInsuranceFund", useSingleArrayItem: true);
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.UnitConvertAsync(Enums.OKXConvertType.ContractToCurrency, "123", 123), "UnitConvert", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.UnitConvertAsync(Enums.ConvertType.ContractToCurrency, "123", 123), "UnitConvert", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikSupportCoinAsync(), "GetRubikSupportCoin");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikTakerVolumeAsync("ETH", Enums.OKXInstrumentType.Contracts), "GetRubikTakerVolume");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikMarginLendingRatioAsync("ETH"), "GetRubikMarginLendingRatio");
@@ -135,7 +135,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.GetSubAccountTradingBalancesAsync("123"), "GetSubAccountTradingBalances", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.GetSubAccountFundingBalancesAsync("123"), "GetSubAccountFundingBalances");
             await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.GetSubAccountBillsAsync("123"), "GetSubAccountBills");
-            await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.TransferBetweenSubAccountsAsync("ETH", 12m, Enums.OKXAccount.Funding, Enums.OKXAccount.Funding, "123", "456"), "TransferBetweenSubAccounts");
+            await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.TransferBetweenSubAccountsAsync("ETH", 12m, Enums.AccountType.Funding, Enums.AccountType.Funding, "123", "456"), "TransferBetweenSubAccounts");
         }
 
         [Test]
@@ -161,11 +161,11 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetOrderArchiveAsync(Enums.OKXInstrumentType.Contracts), "GetOrderArchive", ignoreProperties: new List<string> { "attachAlgoOrds", "linkedAlgoOrd" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetUserTradesAsync(Enums.OKXInstrumentType.Contracts), "GetUserTrades", ignoreProperties: new List<string> { "feeRate" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetUserTradesArchiveAsync(Enums.OKXInstrumentType.Contracts), "GetUserTradesArchive", ignoreProperties: new List<string> { "feeRate" });
-            await tester.ValidateAsync(client => client.UnifiedApi.Trading.PlaceAlgoOrderAsync("ETH-USDT", Enums.OKXTradeMode.Isolated, Enums.OKXOrderSide.Buy, Enums.OKXAlgoOrderType.Conditional), "PlaceAlgoOrder", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Trading.PlaceAlgoOrderAsync("ETH-USDT", Enums.OKXTradeMode.Isolated, Enums.OKXOrderSide.Buy, Enums.AlgoOrderType.Conditional), "PlaceAlgoOrder", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.CancelAlgoOrderAsync(new[] { new OKXAlgoOrderRequest() } ), "CancelAlgoOrder");
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.CancelAdvanceAlgoOrderAsync(new[] { new OKXAlgoOrderRequest() } ), "CancelAdvanceAlgoOrder");
-            await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderListAsync(Enums.OKXAlgoOrderType.OCO), "GetAlgoOrderList", ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
-            await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(Enums.OKXAlgoOrderType.OCO), "GetAlgoOrderHistory", ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
+            await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderListAsync(Enums.AlgoOrderType.OCO), "GetAlgoOrderList", ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
+            await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(Enums.AlgoOrderType.OCO), "GetAlgoOrderHistory", ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderAsync("123"), "GetAlgoOrder", useSingleArrayItem: true, ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.AmendAlgoOrderAsync("123", "123"), "AmendAlgoOrder", useSingleArrayItem: true);
 

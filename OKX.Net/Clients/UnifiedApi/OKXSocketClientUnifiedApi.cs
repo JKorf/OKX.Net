@@ -30,8 +30,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
 
-    internal readonly string _ref = "078ee129065aBCDE";
-    private bool _demoTrading;
+    internal readonly string _ref;
+    private readonly bool _demoTrading;
 
     #region ctor
 
@@ -82,8 +82,8 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         var request = new OKXSocketAuthRequest
         {
             Op = "login",
-            Args = new List<OKXSocketAuthArgs>
-            {
+            Args =
+            [
                 new OKXSocketAuthArgs
                 {
                     ApiKey = okxAuthProvider.ApiKey,
@@ -91,7 +91,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
                     Timestamp = timestamp,
                     Sign = signature,
                 }
-            }
+            ]
         };
         return new OKXQuery(request, false);
     }
@@ -130,7 +130,7 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
         return result.As(result.Data.Data);
     }
 
-    internal string GetUri(string path) => BaseAddress.Trim(new[] { '/' }) + path;
+    internal string GetUri(string path) => BaseAddress.Trim(['/']) + path;
 
     /// <inheritdoc />
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)

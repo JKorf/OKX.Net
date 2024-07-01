@@ -490,5 +490,5 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="quantity">Quantity to buy or sell</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType type, string symbol, decimal quantity, OKXConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(ConvertType type, string symbol, decimal quantity, ConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
 }

@@ -29,14 +29,14 @@ public record OKXTransferResponse
     /// <summary>
     /// From account
     /// </summary>
-    [JsonProperty("from"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? From { get; set; }
+    [JsonProperty("from"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? From { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? To { get; set; }
+    [JsonProperty("to"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? To { get; set; }
 
     /// <summary>
     /// Client id

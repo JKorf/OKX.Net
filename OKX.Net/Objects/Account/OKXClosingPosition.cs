@@ -29,8 +29,8 @@ public record OKXClosingPosition
     /// <summary>
     /// Closing type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(ClosingPositionTypeConverter))]
-    public OKXClosingPositionType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public ClosingPositionType Type { get; set; }
 
     /// <summary>
     /// Timestamp

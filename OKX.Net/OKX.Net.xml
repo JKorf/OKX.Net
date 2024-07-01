@@ -89,9 +89,6 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetTimeOffset">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.WriteParamBody(CryptoExchange.Net.Interfaces.IRequest,System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
-            <inheritdoc />
-        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Collections.Generic.IEnumerable{System.String}}},CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
@@ -101,16 +98,16 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountPositionsAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountPositionHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXClosingPositionType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountPositionHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ClosingPositionType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountPositionRiskAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetBillHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXContractType},System.Nullable{OKX.Net.Enums.OKXAccountBillType},System.Nullable{OKX.Net.Enums.OKXAccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetBillHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ContractType},System.Nullable{OKX.Net.Enums.AccountBillType},System.Nullable{OKX.Net.Enums.AccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetBillArchiveAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXContractType},System.Nullable{OKX.Net.Enums.OKXAccountBillType},System.Nullable{OKX.Net.Enums.OKXAccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetBillArchiveAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ContractType},System.Nullable{OKX.Net.Enums.AccountBillType},System.Nullable{OKX.Net.Enums.AccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
@@ -158,7 +155,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFundingBalanceAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.TransferAsync(System.String,System.Decimal,OKX.Net.Enums.OKXTransferType,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.TransferAsync(System.String,System.Decimal,OKX.Net.Enums.OKXTransferType,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFundingBillDetailsAsync(System.String,System.Nullable{OKX.Net.Enums.OKXFundingBillType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
@@ -200,7 +197,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXTransferType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.OKXAccountLevel,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.AccountLevel,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAffiliateInviteeDetailsAsync(System.String,System.Threading.CancellationToken)">
@@ -305,7 +302,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetInsuranceFundAsync(OKX.Net.Enums.OKXInstrumentType,OKX.Net.Enums.OKXInsuranceType,System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.UnitConvertAsync(OKX.Net.Enums.OKXConvertType,System.String,System.Decimal,System.Nullable{OKX.Net.Enums.OKXConvertUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.UnitConvertAsync(OKX.Net.Enums.ConvertType,System.String,System.Decimal,System.Nullable{OKX.Net.Enums.ConvertUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetRubikSupportCoinAsync(System.Threading.CancellationToken)">
@@ -353,7 +350,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.GetSubAccountBillsAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.OKXSubAccountTransferType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXOrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXTradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OXKTriggerPriceType},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.OKXSelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
@@ -395,7 +392,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetUserTradesArchiveAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Nullable{System.Int64},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.Nullable{OKX.Net.Enums.OKXAlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXAlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
@@ -404,10 +401,10 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAdvanceAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.AlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.AlgoOrderType,System.Nullable{OKX.Net.Enums.AlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
@@ -455,10 +452,10 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToBalanceAndPositionUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXDepositHistory}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXDepositUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXWithdrawalHistory}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXWithdrawalUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiExchangeData">
@@ -548,39 +545,39 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.SubscribeToAdvanceAlgoOrderUpdatesAsync(OKX.Net.Enums.OKXInstrumentType,System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:OKX.Net.Enums.OKXAccount">
-            <summary>
-            Account type
-            </summary>
-        </member>
-        <member name="F:OKX.Net.Enums.OKXAccount.Funding">
-            <summary>
-            Funding account
-            </summary>
-        </member>
-        <member name="F:OKX.Net.Enums.OKXAccount.Trading">
-            <summary>
-            Trading account
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Enums.OKXAccountRoleType">
+        <member name="T:OKX.Net.Enums.AccountRoleType">
             <summary>
             Role type
             </summary>
         </member>
-        <member name="F:OKX.Net.Enums.OKXAccountRoleType.GeneralUser">
+        <member name="F:OKX.Net.Enums.AccountRoleType.GeneralUser">
             <summary>
             Normal user
             </summary>
         </member>
-        <member name="F:OKX.Net.Enums.OKXAccountRoleType.LeadingTrader">
+        <member name="F:OKX.Net.Enums.AccountRoleType.LeadingTrader">
             <summary>
             Leading trader
             </summary>
         </member>
-        <member name="F:OKX.Net.Enums.OKXAccountRoleType.CopyTrader">
+        <member name="F:OKX.Net.Enums.AccountRoleType.CopyTrader">
             <summary>
             Copy trader
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.AccountType">
+            <summary>
+            Account type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountType.Funding">
+            <summary>
+            Funding account
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountType.Trading">
+            <summary>
+            Trading account
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OKXDepositType">
@@ -979,7 +976,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetAccountPositionHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXClosingPositionType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetAccountPositionHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ClosingPositionType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <summary>
             Retrieve the updated position data for the last 3 months. Return in reverse chronological order using utime.
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history" /></para>
@@ -1015,7 +1012,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetBillArchiveAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXContractType},System.Nullable{OKX.Net.Enums.OKXAccountBillType},System.Nullable{OKX.Net.Enums.OKXAccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetBillArchiveAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ContractType},System.Nullable{OKX.Net.Enums.AccountBillType},System.Nullable{OKX.Net.Enums.AccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-3-months" /></para>
@@ -1034,7 +1031,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetBillHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.OKXContractType},System.Nullable{OKX.Net.Enums.OKXAccountBillType},System.Nullable{OKX.Net.Enums.OKXAccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetBillHistoryAsync(System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{OKX.Net.Enums.OKXMarginMode},System.Nullable{OKX.Net.Enums.ContractType},System.Nullable{OKX.Net.Enums.AccountBillType},System.Nullable{OKX.Net.Enums.AccountBillSubType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Retrieve the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-7-days" /></para>
@@ -1301,7 +1298,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.TransferAsync(System.String,System.Decimal,OKX.Net.Enums.OKXTransferType,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.TransferAsync(System.String,System.Decimal,OKX.Net.Enums.OKXTransferType,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-funds-transfer" /></para>
@@ -1366,7 +1363,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.OKXAccountLevel,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.AccountLevel,System.Threading.CancellationToken)">
             <summary>
             Set the account mode
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-account-mode" /></para>
@@ -1859,7 +1856,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.UnitConvertAsync(OKX.Net.Enums.OKXConvertType,System.String,System.Decimal,System.Nullable{OKX.Net.Enums.OKXConvertUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.UnitConvertAsync(OKX.Net.Enums.ConvertType,System.String,System.Decimal,System.Nullable{OKX.Net.Enums.ConvertUnit},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <summary>
             Convert units
             <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-unit-convert" /></para>
@@ -1938,7 +1935,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.OKXAccount,OKX.Net.Enums.OKXAccount,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             applies to master accounts only
             <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-master-accounts-manage-the-transfers-between-sub-accounts" /></para>
@@ -2040,7 +2037,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{OKX.Net.Enums.OKXAlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderHistoryAsync(OKX.Net.Enums.AlgoOrderType,System.Nullable{OKX.Net.Enums.AlgoOrderState},System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <summary>
             Retrieve a list of untriggered Algo orders under the current account.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-history" /></para>
@@ -2056,7 +2053,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.OKXAlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderListAsync(OKX.Net.Enums.AlgoOrderType,System.String,System.Nullable{OKX.Net.Enums.OKXInstrumentType},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <summary>
             Retrieve a list of untriggered Algo orders under the current account.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /></para>
@@ -2175,7 +2172,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.OKXAlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.Nullable{OKX.Net.Enums.OKXAlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXAlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.OKXTradeMode,OKX.Net.Enums.OKXOrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXPositionSide},System.Nullable{OKX.Net.Enums.OKXQuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.OKXPriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.OKXQuickMarginType},System.String,System.Threading.CancellationToken)">
             <summary>
             The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /></para>
@@ -2324,7 +2321,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXDepositHistory}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToDepositUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXDepositUpdate}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to deposit updates
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-deposit-info-channel" /></para>
@@ -2333,7 +2330,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXWithdrawalHistory}},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount.SubscribeToWithdrawalUpdatesAsync(System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Funding.OKXWithdrawalUpdate}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to withdrawal updates
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-withdrawal-info-channel" /></para>
@@ -4674,6 +4671,86 @@
             Internal transfer initiator's withdrawal ID
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Funding.OKXDepositUpdate">
+            <summary>
+            Deposit update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Network">
+            <summary>
+            Network
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.From">
+            <summary>
+            From
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.To">
+            <summary>
+            To
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.TransactionId">
+            <summary>
+            Transaction id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.PushTime">
+            <summary>
+            Push time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.DepositId">
+            <summary>
+            Deposit id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.State">
+            <summary>
+            Deposit state
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Confirmations">
+            <summary>
+            Actual amount of blockchain confirm in a single deposit
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.AreaCodeFrom">
+            <summary>
+            If from is a phone number, this parameter return area code of the phone number
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.FromWithdrawalId">
+            <summary>
+            Internal transfer initiator's withdrawal ID
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.SubAccount">
+            <summary>
+            Sub account name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositUpdate.Uid">
+            <summary>
+            User Identifier of the message producer
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXFundingBalance">
             <summary>
             Funding balance
@@ -5032,6 +5109,116 @@
         <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalResponse.ClientId">
             <summary>
             Client id
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Funding.OKXWithdrawalUpdate">
+            <summary>
+            Withdrawal update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Time">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.WithdrawalId">
+            <summary>
+            Withdrawal id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.State">
+            <summary>
+            State
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Asset">
+            <summary>
+            Asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Network">
+            <summary>
+            Network
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.TransactionId">
+            <summary>
+            Transaction id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.From">
+            <summary>
+            From
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.To">
+            <summary>
+            To
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.ClientId">
+            <summary>
+            Client id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.AreaCodeFrom">
+            <summary>
+            Area code for the phone number
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.AreaCodeTo">
+            <summary>
+            Area code for the phone number
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.SubAccount">
+            <summary>
+            Sub account name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Uid">
+            <summary>
+            User Identifier of the message producer
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.FeeAsset">
+            <summary>
+            Fee asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Memo">
+            <summary>
+            Withdrawal memo
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.PaymentId">
+            <summary>
+            Payment id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.Tag">
+            <summary>
+            Tag
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.IsNonTradableAsset">
+            <summary>
+            Whether it is a non-tradable asset or not
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXWithdrawalUpdate.PushTime">
+            <summary>
+            Push time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Market.OKX24HourVolume">
@@ -7179,6 +7366,11 @@
             Algo Order count, only applicable to iceberg order or twap order
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.PushTime">
+            <summary>
+            Push time
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXClosePositionResponse">
             <summary>
             Close position response
@@ -7452,6 +7644,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.ImpliedVolatility">
             <summary>
             Implied volatiltiy for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.LastPrice">
+            <summary>
+            Last price
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderAmendRequest">
@@ -7744,6 +7941,31 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.RequestId">
             <summary>
             Client Request ID as assigned by the client for order amendment
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.LastTradeImpliedVolatility">
+            <summary>
+            Implied volitality for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.LastTradeUsdPrice">
+            <summary>
+            Usd fill price for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.LastTradeMarkVolatility">
+            <summary>
+            Mark volatility when filled for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.LastTradeForwardPrice">
+            <summary>
+            Forward price when filled for options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderUpdate.LastTradeMarkPrice">
+            <summary>
+            Mark price when filled
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXTransaction">

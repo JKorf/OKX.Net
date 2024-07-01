@@ -29,8 +29,8 @@ public record OKXPublicDeliveryExerciseHistoryDetail
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(DeliveryExerciseHistoryTypeConverter))]
-    public OKXDeliveryExerciseHistoryType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public DeliveryExerciseHistoryType Type { get; set; }
 
     /// <summary>
     /// Symbol

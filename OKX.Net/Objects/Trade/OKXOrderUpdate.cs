@@ -60,4 +60,34 @@ public record OKXOrderUpdate : OKXOrder
     /// </summary>
     [JsonProperty("reqId")]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Implied volitality for options
+    /// </summary>
+    [JsonProperty("fillPxVol")]
+    public decimal? LastTradeImpliedVolatility { get; set; }
+
+    /// <summary>
+    /// Usd fill price for options
+    /// </summary>
+    [JsonProperty("fillPxUsd")]
+    public decimal? LastTradeUsdPrice { get; set; }
+
+    /// <summary>
+    /// Mark volatility when filled for options
+    /// </summary>
+    [JsonProperty("fillMarkVol")]
+    public decimal? LastTradeMarkVolatility { get; set; }
+
+    /// <summary>
+    /// Forward price when filled for options
+    /// </summary>
+    [JsonProperty("fillFwdPx")]
+    public decimal? LastTradeForwardPrice { get; set; }
+
+    /// <summary>
+    /// Mark price when filled
+    /// </summary>
+    [JsonProperty("fillMarkPx")]
+    public decimal? LastTradeMarkPrice { get; set; }
 }

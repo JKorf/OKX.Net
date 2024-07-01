@@ -125,8 +125,8 @@ public record OKXInstrument
     /// <summary>
     /// Contract type
     /// </summary>
-    [JsonProperty("ctType"), JsonConverter(typeof(ContractTypeConverter))]
-    public OKXContractType? ContractType { get; set; }
+    [JsonProperty("ctType"), JsonConverter(typeof(EnumConverter))]
+    public ContractType? ContractType { get; set; }
 
     /// <summary>
     /// Alias

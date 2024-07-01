@@ -3,9 +3,7 @@ using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
-using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Funding;
-using System.Security.Cryptography;
 
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
@@ -50,7 +48,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXInstrumentType? instrumentType = null,
         string? symbol = null,
         OKXMarginMode? marginMode = null,
-        OKXClosingPositionType? type = null,
+        ClosingPositionType? type = null,
         string? positionId = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
@@ -63,8 +61,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("instId", symbol);
         if (marginMode != null)
             parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
-        if (type != null)
-            parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ClosingPositionTypeConverter(false)));
+        parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("posId", positionId);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
@@ -90,9 +87,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXInstrumentType? instrumentType = null,
         string? asset = null,
         OKXMarginMode? marginMode = null,
-        OKXContractType? contractType = null,
-        OKXAccountBillType? billType = null,
-        OKXAccountBillSubType? billSubType = null,
+        ContractType? contractType = null,
+        AccountBillType? billType = null,
+        AccountBillSubType? billSubType = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -115,12 +112,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         if (marginMode.HasValue)
             parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
-        if (contractType.HasValue)
-            parameters.AddOptionalParameter("ctType", JsonConvert.SerializeObject(contractType, new ContractTypeConverter(false)));
-        if (billType.HasValue)
-            parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(billType, new AccountBillTypeConverter(false)));
-        if (billSubType.HasValue)
-            parameters.AddOptionalParameter("subType", JsonConvert.SerializeObject(billSubType, new AccountBillSubTypeConverter(false)));
+        parameters.AddOptionalEnum("ctType", contractType);
+        parameters.AddOptionalEnum("type", billType);
+        parameters.AddOptionalEnum("subType", billSubType);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/bills", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXAccountBill>>(request, parameters, ct).ConfigureAwait(false);
@@ -131,9 +125,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         OKXInstrumentType? instrumentType = null,
         string? asset = null,
         OKXMarginMode? marginMode = null,
-        OKXContractType? contractType = null,
-        OKXAccountBillType? billType = null,
-        OKXAccountBillSubType? billSubType = null,
+        ContractType? contractType = null,
+        AccountBillType? billType = null,
+        AccountBillSubType? billSubType = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -156,12 +150,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
         if (marginMode.HasValue)
             parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
-        if (contractType.HasValue)
-            parameters.AddOptionalParameter("ctType", JsonConvert.SerializeObject(contractType, new ContractTypeConverter(false)));
-        if (billType.HasValue)
-            parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(billType, new AccountBillTypeConverter(false)));
-        if (billSubType.HasValue)
-            parameters.AddOptionalParameter("subType", JsonConvert.SerializeObject(billSubType, new AccountBillSubTypeConverter(false)));
+
+        parameters.AddOptionalEnum("ctType", contractType);
+        parameters.AddOptionalEnum("type", billType);
+        parameters.AddOptionalEnum("subType", billSubType);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/bills-archive", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXAccountBill>>(request, parameters, ct).ConfigureAwait(false);
@@ -415,8 +407,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string asset,
         decimal amount,
         OKXTransferType type,
-        OKXAccount fromAccount,
-        OKXAccount toAccount,
+        AccountType fromAccount,
+        AccountType toAccount,
         string? subAccountName = null,
         string? fromSymbol = null,
         string? toSymbol = null,
@@ -429,9 +421,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
             { "type", JsonConvert.SerializeObject(type, new TransferTypeConverter(false)) },
-            { "from", JsonConvert.SerializeObject(fromAccount, new AccountConverter(false)) },
-            { "to", JsonConvert.SerializeObject(toAccount, new AccountConverter(false)) },
         };
+        parameters.AddEnum("from", fromAccount);
+        parameters.AddEnum("to", toAccount);
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("instId", fromSymbol);
         parameters.AddOptionalParameter("toInstId", toSymbol);
@@ -675,7 +667,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAccountMode>> SetAccountModeAsync(OKXAccountLevel mode, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAccountMode>> SetAccountModeAsync(AccountLevel mode, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("acctLv", mode);

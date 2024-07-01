@@ -74,7 +74,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         if (!result)
             return result.As<OKXOrderBook>(default);
 
-        if (result.Data.Count() == 0)
+        if (!result.Data.Any())
             return result.AsError<OKXOrderBook>(new OKXRestApiError(null, "No data", null));
 
         var orderbook = result.Data.FirstOrDefault();
@@ -565,16 +565,16 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(
-        OKXConvertType type,
+        ConvertType type,
         string symbol,
         decimal quantity,
-        OKXConvertUnit? unit = null,
+        ConvertUnit? unit = null,
         decimal? price = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new ConvertTypeConverter(false)));
-        if (unit != null) parameters.AddOptionalParameter("unit", JsonConvert.SerializeObject(type, new ConvertUnitConverter(false)));
+        parameters.AddOptionalEnum("type", type);
+        parameters.AddOptionalEnum("unit", unit);
         if (!string.IsNullOrEmpty(symbol)) parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("sz", quantity.ToString(CultureInfo.InvariantCulture));

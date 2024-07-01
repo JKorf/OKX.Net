@@ -306,4 +306,10 @@ public record OKXOrder
     [JsonProperty("pxVol")]
     public decimal? ImpliedVolatility { get; set; }
 
+    /// <summary>
+    /// Last price
+    /// </summary>
+    [JsonProperty("lastPx")]
+    public decimal? LastPrice { get; set; }
+
 }

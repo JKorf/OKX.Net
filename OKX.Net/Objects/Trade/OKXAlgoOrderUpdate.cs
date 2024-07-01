@@ -34,4 +34,11 @@ public record OKXAlgoOrderUpdate : OKXAlgoOrder
     /// </summary>
     [JsonProperty("count")]
     public int? AlgoOrderCount { get; set; }
+
+    /// <summary>
+    /// Push time
+    /// </summary>
+    [JsonProperty("pTime")]
+    [JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? PushTime { get; set; }
 }

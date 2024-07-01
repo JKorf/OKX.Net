@@ -14,7 +14,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     #region Internal Fields
     private static TimeSyncState _timeSyncState = new("Unified Api");
 
-    internal readonly string _ref = "078ee129065aBCDE";
+    internal readonly string _ref;
 
     public event Action<OrderId>? OnOrderPlaced;
     public event Action<OrderId>? OnOrderCanceled;
@@ -99,23 +99,6 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         return result.As<T>(result.Data.Data);
     }
 
-    internal async Task<WebCallResult<T>> ExecuteAsync<T>(Uri uri, HttpMethod method, CancellationToken ct, Dictionary<string, object>? parameters = null, bool signed = false, HttpMethodParameterPosition? parameterPosition = null) where T : class
-    {
-        var result = await SendRequestAsync<T>(uri, method, ct, parameters, signed, parameterPosition: parameterPosition, requestWeight: 0).ConfigureAwait(false);
-        if (!result) return result.AsError<T>(result.Error!);
-
-        return result.As(result.Data);
-    }
-
-    internal Uri GetUri(string endpoint, string param = "")
-    {
-        var x = endpoint.IndexOf('<');
-        var y = endpoint.IndexOf('>');
-        if (x > -1 && y > -1) endpoint = endpoint.Replace(endpoint.Substring(x, y - x + 1), param);
-
-        return new Uri($"{BaseAddress.TrimEnd('/')}/{endpoint}");
-    }
-
     /// <inheritdoc />
     protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
         => ExchangeData.GetServerTimeAsync();
@@ -127,32 +110,6 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     /// <inheritdoc />
     public override TimeSpan? GetTimeOffset()
         => _timeSyncState.TimeOffset;
-
-    /// <inheritdoc />
-    protected override void WriteParamBody(IRequest request, IDictionary<string, object> parameters, string contentType)
-    {
-        if (RequestBodyFormat == RequestBodyFormat.Json)
-        {
-            if (parameters.Count == 1 && parameters.Keys.First() == "<BODY>")
-            {
-                // Write the parameters as json in the body
-                var stringData = JsonConvert.SerializeObject(parameters["<BODY>"]);
-                request.SetContent(stringData, contentType);
-            }
-            else
-            {
-                // Write the parameters as json in the body
-                var stringData = JsonConvert.SerializeObject(parameters);
-                request.SetContent(stringData, contentType);
-            }
-        }
-        else if (RequestBodyFormat == RequestBodyFormat.FormData)
-        {
-            // Write the parameters as form data in the body
-            var stringData = parameters.ToFormData();
-            request.SetContent(stringData, contentType);
-        }
-    }
 
     /// <inheritdoc />
     protected override Error ParseErrorResponse(int httpStatusCode, IEnumerable<KeyValuePair<string, IEnumerable<string>>> responseHeaders, IMessageAccessor accessor)

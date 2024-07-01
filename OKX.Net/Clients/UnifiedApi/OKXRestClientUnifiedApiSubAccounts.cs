@@ -2,7 +2,6 @@
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
-using OKX.Net.Objects.Core;
 using OKX.Net.Objects.SubAccount;
 
 namespace OKX.Net.Clients.UnifiedApi;
@@ -127,8 +126,8 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
     public virtual async Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(
         string asset,
         decimal amount,
-        OKXAccount fromAccount,
-        OKXAccount toAccount,
+        AccountType fromAccount,
+        AccountType toAccount,
         string fromSubAccountName,
         string toSubAccountName,
         CancellationToken ct = default)
@@ -137,11 +136,11 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         {
             {"ccy", asset },
             {"amt", amount.ToString(CultureInfo.InvariantCulture) },
-            {"from", JsonConvert.SerializeObject(fromAccount, new AccountConverter(false)) },
-            {"to", JsonConvert.SerializeObject(toAccount, new AccountConverter(false)) },
             {"fromSubAccount", fromSubAccountName },
             {"toSubAccount", toSubAccountName },
         };
+        parameters.AddEnum("from", fromAccount);
+        parameters.AddEnum("to", toAccount);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/subaccount/transfer", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendGetSingleAsync<OKXSubAccountTransfer>(request, parameters, ct).ConfigureAwait(false);

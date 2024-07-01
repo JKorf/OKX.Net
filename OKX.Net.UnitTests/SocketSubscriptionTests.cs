@@ -7,6 +7,7 @@ using OKX.Net.Objects.Funding;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.System;
+using OKX.Net.Objects.Trade;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -50,8 +51,23 @@ namespace OKX.Net.UnitTests
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:8443", "data", stjCompare: false);
             await tester.ValidateAsync<OKXAccountBalance>((client, handler) => client.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(null, true, handler), "Balance", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXPositionAndBalanceUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToBalanceAndPositionUpdatesAsync(handler), "BalanceAndPosition", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXDepositHistory>((client, handler) => client.UnifiedApi.Account.SubscribeToDepositUpdatesAsync(handler), "Deposit", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXWithdrawalHistory>((client, handler) => client.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler), "Withdrawal", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXDepositUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToDepositUpdatesAsync(handler), "Deposit", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXWithdrawalUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler), "Withdrawal", useFirstUpdateItem: true, ignoreProperties: new List<string> { "addrEx" });
+        }
+
+        [Test]
+        public async Task ValidateTradingSubscriptions()
+        {
+            var client = new OKXSocketClient(opts =>
+            {
+                opts.ApiCredentials = new OKXApiCredentials("123", "456", "789");
+            });
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data", stjCompare: false);
+            await tester.ValidateAsync<IEnumerable<OKXPosition>>((client, handler) => client.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, true, handler), "Position");
+            await tester.ValidateAsync<OKXPosition>((client, handler) => client.UnifiedApi.Trading.SubscribeToLiquidationWarningUpdatesAsync(Enums.OKXInstrumentType.Futures, null, handler), "LiquidationWarning", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "Order", useFirstUpdateItem: true, ignoreProperties: new List<string> { "msg", "code", "attachAlgoOrds" });
+            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAlgoOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "AlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd" });
+            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAdvanceAlgoOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "AdvancedAlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd", "reduceOnly" });
         }
     }
 }

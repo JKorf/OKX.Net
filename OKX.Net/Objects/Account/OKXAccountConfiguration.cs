@@ -17,8 +17,8 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Account level
     /// </summary>
-    [JsonProperty("acctLv"), JsonConverter(typeof(AccountLevelConverter))]
-    public OKXAccountLevel AccountLevel { get; set; }
+    [JsonProperty("acctLv"), JsonConverter(typeof(EnumConverter))]
+    public AccountLevel AccountLevel { get; set; }
 
     /// <summary>
     /// Position mode
@@ -92,14 +92,14 @@ public record OKXAccountConfiguration
     /// </summary>
     [JsonProperty("roleType")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXAccountRoleType RoleType { get; set; }
+    public AccountRoleType RoleType { get; set; }
 
     /// <summary>
     /// Spot account role
     /// </summary>
     [JsonProperty("spotRoleType")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXAccountRoleType SpotRoleType { get; set; }
+    public AccountRoleType SpotRoleType { get; set; }
 
     /// <summary>
     /// Optional trading activation status

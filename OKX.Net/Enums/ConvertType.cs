@@ -3,14 +3,10 @@
 namespace OKX.Net.Enums;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-public enum OKXAccountLevel
+public enum ConvertType
 {
     [Map("1")]
-    Simple,
+    CurrencyToContract,
     [Map("2")]
-    SingleCurrencyMargin,
-    [Map("3")]
-    MultiCurrencyMargin,
-    [Map("4")]
-    PortfolioMargin,
+    ContractToCurrency,
 }

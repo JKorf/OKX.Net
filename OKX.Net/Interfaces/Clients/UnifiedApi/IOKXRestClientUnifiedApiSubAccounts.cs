@@ -82,5 +82,5 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="toSubAccountName">Sub-account name of the account that transfers funds in.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, OKXAccount fromAccount, OKXAccount toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
+    Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
 }

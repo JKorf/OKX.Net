@@ -5,7 +5,7 @@ namespace OKX.Net.Enums;
 /// <summary>
 /// Role type
 /// </summary>
-public enum OKXAccountRoleType
+public enum AccountRoleType
 {
     /// <summary>
     /// Normal user
