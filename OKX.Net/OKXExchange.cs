@@ -49,11 +49,11 @@ namespace OKX.Net
 
         private void Initialize()
         {
-            Public = new RateLimitGate("Public");
-            Public.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            EndpointGate = new RateLimitGate("Endpoint Gate");
+            EndpointGate.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
         }
 
 
-        internal IRateLimitGate Public { get; private set; }
+        internal IRateLimitGate EndpointGate { get; private set; }
     }
 }
