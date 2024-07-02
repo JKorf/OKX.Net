@@ -1,0 +1,16 @@
+GET
+/api/v5/public/convert-contract-coin
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "instId": "BTC-USD-SWAP",
+            "px": "35000",
+            "sz": "311",
+            "type": "1",
+            "unit": "coin"
+        }
+    ],
+    "msg": ""
+}

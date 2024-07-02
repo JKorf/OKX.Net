@@ -1,0 +1,19 @@
+GET
+/api/v5/rubik/stat/option/open-interest-volume-ratio
+false
+{
+    "code": "0",
+    "data": [
+        [
+            "1630512000000",
+            "2.7261",
+            "2.3447"
+        ],
+        [
+            "1630425600000",
+            "2.8101",
+            "2.3438"
+        ]
+    ],
+    "msg": ""
+}

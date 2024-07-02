@@ -1,16 +1,10 @@
-﻿using Newtonsoft.Json;
-using NUnit.Framework;
-using System.Reflection;
-using CryptoExchange.Net.Objects;
-using System.Diagnostics;
-using CryptoExchange.Net.Sockets;
+﻿using NUnit.Framework;
 using OKX.Net.Clients;
 using OKX.Net.Objects.Core;
-using OKX.Net.Interfaces.Clients.UnifiedApi;
-using CryptoExchange.Net.Objects.Sockets;
 using NUnit.Framework.Legacy;
 using CryptoExchange.Net.Clients;
 using OKX.Net.Objects;
+using System.Text.Json;
 
 namespace OKX.Net.UnitTests
 {
@@ -29,10 +23,10 @@ namespace OKX.Net.UnitTests
                 ErrorMessage = "Error occured"
             };
 
-            TestHelpers.SetResponse((OKXRestClient)client, JsonConvert.SerializeObject(resultObj));
+            TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj));
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -49,7 +43,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, "", System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -68,10 +62,10 @@ namespace OKX.Net.UnitTests
                 ErrorMessage = "Error occured"
             };
 
-            TestHelpers.SetResponse((OKXRestClient)client, JsonConvert.SerializeObject(resultObj), System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj), System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);

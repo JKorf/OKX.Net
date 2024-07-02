@@ -1,0 +1,34 @@
+GET
+/api/v5/public/delivery-exercise-history
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "ts":"1597026383085",
+            "details":[
+                {
+                    "type":"delivery",
+                    "instId":"BTC-USD-190927",
+                    "px":"0.016"
+                }
+            ]
+        },
+        {
+            "ts":"1597026383085",
+            "details":[
+                {
+                    "instId":"BTC-USD-200529-6000-C",
+                    "type":"exercised",
+                    "px":"0.016"
+                },
+                {
+                    "instId":"BTC-USD-200529-8000-C",
+                    "type":"exercised",
+                    "px":"0.016"
+                }
+            ]
+        }
+    ]
+}

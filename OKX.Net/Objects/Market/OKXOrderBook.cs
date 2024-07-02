@@ -13,42 +13,42 @@ public record OKXOrderBook
     /// <summary>
     /// List of asks
     /// </summary>
-    [JsonProperty("asks")]
+    [JsonPropertyName("asks")]
     public IEnumerable<OKXOrderBookRow> Asks { get; set; } = new List<OKXOrderBookRow>();
 
     /// <summary>
     /// List of bids
     /// </summary>
-    [JsonProperty("bids")]
+    [JsonPropertyName("bids")]
     public IEnumerable<OKXOrderBookRow> Bids { get; set; } = new List<OKXOrderBookRow>();
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Action
     /// </summary>
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public string Action { get; set; } = string.Empty;
 
     /// <summary>
     /// Checksum
     /// </summary>
-    [JsonProperty("checksum")]
+    [JsonPropertyName("checksum")]
     public long? Checksum { get; set; }
 
     /// <summary>
     /// Update sequence id
     /// </summary>
-    [JsonProperty("seqId")]
+    [JsonPropertyName("seqId")]
     public long? SequenceId { get; set; }
 
     /// <summary>
     /// Previous sequence id
     /// </summary>
-    [JsonProperty("prevSeqId")]
+    [JsonPropertyName("prevSeqId")]
     public long? PreviousSequenceId { get; set; }
 }

@@ -1,0 +1,29 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "liquidation-warning", "instType": "FUTURES" }]}
+< { "event": "subscribe", "arg": { "channel": "liquidation-warning", "instType": "FUTURES" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "liquidation-warning",
+        "instType": "FUTURES"
+    },
+    "data":[
+        {
+            "cTime":"1619507758793",
+            "ccy":"ETH",
+            "instId":"ETH-USD-210430",
+            "instType":"FUTURES",
+            "lever":"10",
+            "markPx":"2353.849",
+            "mgnMode":"isolated",
+            "mgnRatio":"11.731726509588816",
+            "pTime":"1619507761462",
+            "pos":"1",
+            "posCcy":"",
+            "posId":"307173036051017730",
+            "posSide":"long",
+            "uTime":"1619507761462"
+        }
+    ]
+}

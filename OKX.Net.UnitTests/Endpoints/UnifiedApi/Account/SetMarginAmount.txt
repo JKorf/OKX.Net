@@ -1,0 +1,15 @@
+POST
+/api/v5/account/position/margin-balance
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+            "amt": "0.3",
+            "ccy": "BTC",
+            "instId": "BTC-USDT",
+            "leverage": "",
+            "posSide": "net",
+            "type": "add"
+        }]
+}

@@ -1,0 +1,24 @@
+GET
+/api/v5/asset/withdrawal-history
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "chain": "ETH-Ethereum",
+      "fee": "0.007",
+      "ccy": "ETH",
+      "clientId": "",
+      "amt": "0.029809",
+      "txId": "0x35c******b360a174d",
+      "from": "156****359",
+      "areaCodeFrom": "86",
+      "to": "0xa30d1fab********7CF18C7B6C579",
+      "areaCodeTo": "",
+      "state": "2",
+      "ts": "1655251200000",
+      "wdId": "15447421"
+    }
+  ]
+}

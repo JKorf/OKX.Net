@@ -1,0 +1,12 @@
+POST
+/api/v5/asset/subaccount/transfer
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "transId":"12345"
+        }
+    ]
+}

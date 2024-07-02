@@ -1,0 +1,10 @@
+POST
+/api/v5/account/set-position-mode
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "posMode": "long_short_mode"
+    }]
+}

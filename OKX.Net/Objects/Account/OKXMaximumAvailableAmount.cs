@@ -8,18 +8,18 @@ public record OKXMaximumAvailableAmount
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Available buy
     /// </summary>
-    [JsonProperty("availBuy")]
+    [JsonPropertyName("availBuy")]
     public decimal? AvailableBuy { get; set; }
 
     /// <summary>
     /// Available sell
     /// </summary>
-    [JsonProperty("availSell")]
+    [JsonPropertyName("availSell")]
     public decimal? AvailableSell { get; set; }
 }

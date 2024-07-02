@@ -1,10 +1,10 @@
 ﻿namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketUpdate<T>
 {
-    [JsonProperty("arg")]
+    [JsonPropertyName("arg")]
     public OKXSocketArgs Arg { get; set; } = default!;
-    [JsonProperty("action")]
+    [JsonPropertyName("action")]
     public string? Action { get; set; } = string.Empty;
-    [JsonProperty("data")]
+    [JsonPropertyName("data")]
     public T Data { get; set; } = default!;
 }

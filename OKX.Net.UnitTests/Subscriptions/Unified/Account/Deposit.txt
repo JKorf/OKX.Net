@@ -1,0 +1,28 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "deposit-info" }]}
+< { "event": "subscribe", "arg": { "channel": "deposit-info" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "deposit-info",
+        "uid": "289320****60975104"
+    },
+    "data": [{
+        "actualDepBlkConfirm": "0",
+        "amt": "1",
+        "areaCodeFrom": "",
+        "ccy": "USDT",
+        "chain": "USDT-TRC20",
+        "depId": "88165462",
+        "from": "",
+        "fromWdId": "",
+        "pTime": "1674103661147",
+        "state": "0",
+        "subAcct": "test",
+        "to": "TEhFAqpuHa3LY*****8ByNoGnrmexeGMw",
+        "ts": "1674103661123",
+        "txId": "bc5376817*****************dbb0d729f6b",
+        "uid": "289320****60975104"
+    }]
+}

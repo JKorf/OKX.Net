@@ -8,24 +8,24 @@ public record OKXMaximumAmount
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Maximum buy
     /// </summary>
-    [JsonProperty("maxBuy")]
+    [JsonPropertyName("maxBuy")]
     public decimal? MaximumBuy { get; set; }
 
     /// <summary>
     /// Maximum sell
     /// </summary>
-    [JsonProperty("maxSell")]
+    [JsonPropertyName("maxSell")]
     public decimal? MaximumSell { get; set; }
 }

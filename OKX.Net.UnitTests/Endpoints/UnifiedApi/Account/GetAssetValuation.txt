@@ -1,0 +1,19 @@
+GET
+/api/v5/asset/asset-valuation
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "details": {
+                "classic": "124.6",
+                "earn": "1122.73",
+                "funding": "0.09",
+                "trading": "2544.28"
+            },
+            "totalBal": "3790.09",
+            "ts": "1637566660769"
+        }
+    ],
+    "msg": ""
+}

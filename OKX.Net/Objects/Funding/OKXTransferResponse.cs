@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
@@ -11,36 +10,36 @@ public record OKXTransferResponse
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Transfer id
     /// </summary>
-    [JsonProperty("transId")]
+    [JsonPropertyName("transId")]
     public long? TransferId { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
 
     /// <summary>
     /// From account
     /// </summary>
-    [JsonProperty("from"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? From { get; set; }
+    [JsonPropertyName("from"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? From { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(AccountConverter))]
-    public OKXAccount? To { get; set; }
+    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
+    public AccountType? To { get; set; }
 
     /// <summary>
     /// Client id
     /// </summary>
-    [JsonProperty("clientId")]
+    [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
 }

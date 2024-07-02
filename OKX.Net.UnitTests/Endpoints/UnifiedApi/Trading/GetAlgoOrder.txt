@@ -1,0 +1,62 @@
+GET
+/api/v5/trade/order-algo
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "activePx": "",
+            "actualPx": "",
+            "actualSide": "",
+            "actualSz": "",
+            "algoClOrdId": "",
+            "algoId": "681187161907138560",
+            "amendPxOnTriggerType": "",
+            "attachAlgoOrds": [],
+            "cTime": "1708679675244",
+            "uTime": "1708679675245",
+            "callbackRatio": "0.05",
+            "callbackSpread": "",
+            "ccy": "",
+            "clOrdId": "",
+            "closeFraction": "",
+            "failCode": "",
+            "instId": "BTC-USDT",
+            "instType": "SPOT",
+            "last": "50962.7",
+            "lever": "",
+            "linkedOrd": {
+                "ordId": ""
+            },
+            "moveTriggerPx": "53423.160",
+            "ordId": "",
+            "ordIdList": [],
+            "ordPx": "",
+            "ordType": "move_order_stop",
+            "posSide": "net",
+            "pxLimit": "",
+            "pxSpread": "",
+            "pxVar": "",
+            "quickMgnType": "",
+            "reduceOnly": "false",
+            "side": "buy",
+            "slOrdPx": "",
+            "slTriggerPx": "",
+            "slTriggerPxType": "",
+            "state": "live",
+            "sz": "10",
+            "szLimit": "",
+            "tag": "",
+            "tdMode": "cash",
+            "tgtCcy": "",
+            "timeInterval": "",
+            "tpOrdPx": "",
+            "tpTriggerPx": "",
+            "tpTriggerPxType": "",
+            "triggerPx": "",
+            "triggerPxType": "",
+            "triggerTime": ""
+        }
+    ],
+    "msg": ""
+}

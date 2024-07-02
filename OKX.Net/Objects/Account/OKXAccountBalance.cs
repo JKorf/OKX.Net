@@ -8,61 +8,73 @@ public record OKXAccountBalance
     /// <summary>
     /// Update time
     /// </summary>
-    [JsonProperty("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime UpdateTime { get; set; }
 
     /// <summary>
     /// Total equity
     /// </summary>
-    [JsonProperty("totalEq")]
+    [JsonPropertyName("totalEq")]
     public decimal TotalEquity { get; set; }
 
     /// <summary>
     /// Isolated margin equity
     /// </summary>
-    [JsonProperty("isoEq")]
+    [JsonPropertyName("isoEq")]
     public decimal? IsolatedMarginEquity { get; set; }
 
     /// <summary>
     /// Adjusted equity
     /// </summary>
-    [JsonProperty("adjEq")]
+    [JsonPropertyName("adjEq")]
     public decimal? AdjustedEquity { get; set; }
+
+    /// <summary>
+    /// Frozen borrow quantity
+    /// </summary>
+    [JsonPropertyName("borrowFroz")]
+    public decimal? BorrowFrozen { get; set; }
 
     /// <summary>
     /// Order frozen
     /// </summary>
-    [JsonProperty("ordFroz")]
+    [JsonPropertyName("ordFroz")]
     public decimal? OrderFrozen { get; set; }
 
     /// <summary>
     /// Initial margin requirement
     /// </summary>
-    [JsonProperty("imr")]
+    [JsonPropertyName("imr")]
     public decimal? InitialMarginRequirement { get; set; }
 
     /// <summary>
     /// Maintenance margin requirement
     /// </summary>
-    [JsonProperty("mmr")]
+    [JsonPropertyName("mmr")]
     public decimal? MaintenanceMarginRequirement { get; set; }
 
     /// <summary>
     /// Margin ratio
     /// </summary>
-    [JsonProperty("mgnRatio")]
+    [JsonPropertyName("mgnRatio")]
     public decimal? MarginRatio { get; set; }
 
     /// <summary>
     /// Notional usd
     /// </summary>
-    [JsonProperty("notionalUsd")]
+    [JsonPropertyName("notionalUsd")]
     public decimal? NotionalUsd { get; set; }
+
+    /// <summary>
+    /// Cross-margin info of unrealized profit and loss at the account level in USD
+    /// </summary>
+    [JsonPropertyName("upl")]
+    public decimal? UnrealizedPnl { get; set; }
 
     /// <summary>
     /// Details
     /// </summary>
-    [JsonProperty("details")]
+    [JsonPropertyName("details")]
     public IEnumerable<OKXAccountBalanceDetail> Details { get; set; } = Array.Empty<OKXAccountBalanceDetail>();
 }
 
@@ -74,156 +86,198 @@ public record OKXAccountBalanceDetail
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Update time
     /// </summary>
-    [JsonProperty("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime UpdateTime { get; set; }
 
     /// <summary>
     /// Equity
     /// </summary>
-    [JsonProperty("eq")]
+    [JsonPropertyName("eq")]
     public decimal? Equity { get; set; }
 
     /// <summary>
     /// Cash balance
     /// </summary>
-    [JsonProperty("cashBal")]
+    [JsonPropertyName("cashBal")]
     public decimal? CashBalance { get; set; }
 
     /// <summary>
     /// Isolated margin equity
     /// </summary>
-    [JsonProperty("isoEq")]
+    [JsonPropertyName("isoEq")]
     public decimal? IsolatedMarginEquity { get; set; }
 
     /// <summary>
     /// Available equity
     /// </summary>
-    [JsonProperty("availEq")]
+    [JsonPropertyName("availEq")]
     public decimal? AvailableEquity { get; set; }
 
     /// <summary>
     /// Discount equity
     /// </summary>
-    [JsonProperty("disEq")]
+    [JsonPropertyName("disEq")]
     public decimal? DiscountEquity { get; set; }
 
     /// <summary>
     /// Avilable balance
     /// </summary>
-    [JsonProperty("availBal")]
+    [JsonPropertyName("availBal")]
     public decimal? AvailableBalance { get; set; }
 
     /// <summary>
     /// Frozen balance
     /// </summary>
-    [JsonProperty("frozenBal")]
+    [JsonPropertyName("frozenBal")]
     public decimal? FrozenBalance { get; set; }
 
     /// <summary>
     /// Order frozen
     /// </summary>
-    [JsonProperty("ordFrozen")]
+    [JsonPropertyName("ordFrozen")]
     public decimal? OrderFrozen { get; set; }
+
+    /// <summary>
+    /// Frozen borrow quantity
+    /// </summary>
+    [JsonPropertyName("borrowFroz")]
+    public decimal? BorrowFrozen { get; set; }
+
+    /// <summary>
+    /// Initial margin requirement
+    /// </summary>
+    [JsonPropertyName("imr")]
+    public decimal? InitialMarginRequirement { get; set; }
+
+    /// <summary>
+    /// Maintenance margin requirement
+    /// </summary>
+    [JsonPropertyName("mmr")]
+    public decimal? MaintenanceMarginRequirement { get; set; }
+
+    /// <summary>
+    /// Trial fund balance
+    /// </summary>
+    [JsonPropertyName("rewardBal")]
+    public decimal? RewardBalance { get; set; }
 
     /// <summary>
     /// Liabilities
     /// </summary>
-    [JsonProperty("liab")]
+    [JsonPropertyName("liab")]
     public decimal? Liabilities { get; set; }
 
     /// <summary>
     /// Unrealized profit and loss
     /// </summary>
-    [JsonProperty("upl")]
+    [JsonPropertyName("upl")]
     public decimal? UnrealizedProfitAndLoss { get; set; }
 
     /// <summary>
     /// Unrealized profit and loss liabilities
     /// </summary>
-    [JsonProperty("uplLiab")]
+    [JsonPropertyName("uplLiab")]
     public decimal? UnrealizedProfitAndLossLiabilities { get; set; }
 
     /// <summary>
     /// Isolated unrealized profit and loss
     /// </summary>
-    [JsonProperty("isoUpl")]
+    [JsonPropertyName("isoUpl")]
     public decimal? IsolatedUnrealizedProfitAndLoss { get; set; }
 
     /// <summary>
     /// Cross liabilities
     /// </summary>
-    [JsonProperty("crossLiab")]
+    [JsonPropertyName("crossLiab")]
     public decimal? CrossLiabilities { get; set; }
 
     /// <summary>
     /// Isolated liabilities
     /// </summary>
-    [JsonProperty("isoLiab")]
+    [JsonPropertyName("isoLiab")]
     public decimal? IsolatedLiabilities { get; set; }
 
     /// <summary>
     /// Margin ratio
     /// </summary>
-    [JsonProperty("mgnRatio")]
+    [JsonPropertyName("mgnRatio")]
     public decimal? MarginRatio { get; set; }
 
     /// <summary>
     /// Interest
     /// </summary>
-    [JsonProperty("interest")]
+    [JsonPropertyName("interest")]
     public decimal? Interest { get; set; }
 
     /// <summary>
     /// Twap
     /// </summary>
-    [JsonProperty("twap")]
+    [JsonPropertyName("twap")]
     public decimal? Twap { get; set; }
 
     /// <summary>
     /// Maximum loan
     /// </summary>
-    [JsonProperty("maxLoan")]
+    [JsonPropertyName("maxLoan")]
     public decimal? MaximumLoan { get; set; }
 
     /// <summary>
     /// Usd equity
     /// </summary>
-    [JsonProperty("eqUsd")]
+    [JsonPropertyName("eqUsd")]
     public decimal? UsdEquity { get; set; }
 
     /// <summary>
     /// Leverage
     /// </summary>
-    [JsonProperty("notionalLever")]
+    [JsonPropertyName("notionalLever")]
     public decimal? Leverage { get; set; }
 
     /// <summary>
     /// Strategy equity
     /// </summary>
-    [JsonProperty("stgyEq")]
+    [JsonPropertyName("stgyEq")]
     public decimal? StrategyEquity { get; set; }
 
     /// <summary>
     /// Frozen balance
     /// </summary>
-    [JsonProperty("fixedBal")]
+    [JsonPropertyName("fixedBal")]
     public decimal? FixedBalance { get; set; }
 
     /// <summary>
     /// Spot in use amount
     /// </summary>
-    [JsonProperty("spotInUseAmt")]
+    [JsonPropertyName("spotInUseAmt")]
     public decimal? SpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// User-defined spot risk offset amount
+    /// </summary>
+    [JsonPropertyName("clSpotInUseAmt")]
+    public decimal? ClSpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Max possible spot risk offset amount
+    /// </summary>
+    [JsonPropertyName("maxSpotInUseAmt")]
+    public decimal? MaxSpotInUseAmount { get; set; }
+
+    /// <summary>
+    /// Spot isolated balance
+    /// </summary>
+    [JsonPropertyName("spotIsoBal")]
+    public decimal? SpotIsolatedBalance { get; set; }
 
     /// <summary>
     /// Price index usd of the asset
     /// </summary>
-    [JsonProperty("coinUsdPrice")]
+    [JsonPropertyName("coinUsdPrice")]
     public decimal? AssetUsdPrice { get; set; }
 }

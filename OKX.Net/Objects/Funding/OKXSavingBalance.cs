@@ -8,43 +8,43 @@ public record OKXSavingBalance
     /// <summary>
     /// Earnings
     /// </summary>
-    [JsonProperty("earnings")]
+    [JsonPropertyName("earnings")]
     public decimal? Earnings { get; set; }
 
     /// <summary>
     /// Redemption amount
     /// </summary>
-    [JsonProperty("redemptAmt")]
+    [JsonPropertyName("redemptAmt")]
     public decimal? RedemptingAmount { get; set; }
 
     /// <summary>
     /// Lending rate
     /// </summary>
-    [JsonProperty("rate")]
+    [JsonPropertyName("rate")]
     public decimal? LendingRate { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Loan amount
     /// </summary>
-    [JsonProperty("loanAmt")]
+    [JsonPropertyName("loanAmt")]
     public decimal? LoanAmount { get; set; }
 
     /// <summary>
     /// Pending amount
     /// </summary>
-    [JsonProperty("pendingAmt")]
+    [JsonPropertyName("pendingAmt")]
     public decimal? PendingAmount { get; set; }
 
 }

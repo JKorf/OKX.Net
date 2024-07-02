@@ -1,0 +1,90 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "positions", "instType": "FUTURES" }]}
+< { "event": "subscribe", "arg": { "channel": "positions", "instType": "FUTURES" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "positions",
+        "instType": "FUTURES"
+    },
+    "data":[
+    {
+      "adl":"1",
+      "availPos":"1",
+      "avgPx":"2566.31",
+      "cTime":"1619507758793",
+      "ccy":"ETH",
+      "deltaBS":"",
+      "deltaPA":"",
+      "gammaBS":"",
+      "gammaPA":"",
+      "imr":"",
+      "instId":"ETH-USD-210430",
+      "instType":"FUTURES",
+      "interest":"0",
+      "idxPx":"2566.13",
+      "last":"2566.22",
+      "lever":"10",
+      "liab":"",
+      "liabCcy":"",
+      "liqPx":"2352.8496681818233",
+      "markPx":"2353.849",
+      "margin":"0.0003896645377994",
+      "mgnMode":"isolated",
+      "mgnRatio":"11.731726509588816",
+      "mmr":"0.0000311811092368",
+      "notionalUsd":"2276.2546609009605",
+      "optVal":"",
+      "pTime":"1619507761462",
+      "pendingCloseOrdLiabVal":"0.1",
+      "pos":"1",
+      "baseBorrowed": "",
+      "baseInterest": "",
+      "quoteBorrowed": "",
+      "quoteInterest": "",
+      "posCcy":"",
+      "posId":"307173036051017730",
+      "posSide":"long",
+      "spotInUseAmt": "",
+      "clSpotInUseAmt": "",
+      "maxSpotInUseAmt": "",
+      "bizRefId": "",
+      "bizRefType": "",
+      "spotInUseCcy": "",
+      "thetaBS":"",
+      "thetaPA":"",
+      "tradeId":"109844",
+      "uTime":"1619507761462",
+      "upl":"-0.0000009932766034",
+      "uplLastPx":"-0.0000009932766034",
+      "uplRatio":"-0.0025490556801078",
+      "uplRatioLastPx":"-0.0025490556801078",
+      "vegaBS":"",
+      "vegaPA":"",
+      "realizedPnl":"0.001",
+      "pnl":"0.0011",
+      "fee":"-0.0001",
+      "fundingFee":"0",
+      "liqPenalty":"0",
+      "closeOrderAlgo":[
+          {
+              "algoId":"123",
+              "slTriggerPx":"123",
+              "slTriggerPxType":"mark",
+              "tpTriggerPx":"123",
+              "tpTriggerPxType":"mark",
+              "closeFraction":"0.6"
+          },
+          {
+              "algoId":"123",
+              "slTriggerPx":"123",
+              "slTriggerPxType":"mark",
+              "tpTriggerPx":"123",
+              "tpTriggerPxType":"mark",
+              "closeFraction":"0.4"
+          }
+      ]
+    }
+  ]
+}

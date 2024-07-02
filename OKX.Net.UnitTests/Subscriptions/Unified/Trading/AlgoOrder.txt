@@ -1,0 +1,57 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "orders-algo", "instType": "FUTURES" }]}
+< { "event": "subscribe", "arg": { "channel": "orders-algo", "instType": "FUTURES" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "orders-algo",
+        "instType": "FUTURES"
+    },
+    "data": [{
+        "actualPx": "0",
+        "actualSide": "",
+        "actualSz": "0",
+        "algoClOrdId": "",
+        "algoId": "581878926302093312",
+        "attachAlgoOrds": [],
+        "amendResult": "",
+        "cTime": "1685002746818",
+        "uTime": "1708679675245",
+        "ccy": "",
+        "clOrdId": "",
+        "closeFraction": "",
+        "failCode": "",
+        "instId": "BTC-USDC",
+        "instType": "SPOT",
+        "last": "26174.8",
+        "lever": "0",
+        "notionalUsd": "11.0",
+        "ordId": "",
+        "ordIdList": [],
+        "ordPx": "",
+        "ordType": "conditional",
+        "posSide": "",
+        "quickMgnType": "",
+        "reduceOnly": "false",
+        "reqId": "",
+        "side": "buy",
+        "slOrdPx": "",
+        "slTriggerPx": "",
+        "slTriggerPxType": "",
+        "state": "live",
+        "sz": "11",
+        "tag": "",
+        "tdMode": "cross",
+        "tgtCcy": "quote_ccy",
+        "tpOrdPx": "-1",
+        "tpTriggerPx": "1",
+        "tpTriggerPxType": "last",
+        "triggerPx": "",
+        "triggerTime": "",
+        "amendPxOnTriggerType": "0",
+        "linkedOrd":{
+                "ordId":"98192973880283"
+        }
+    }]
+}

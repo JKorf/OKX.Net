@@ -1,0 +1,13 @@
+GET
+/api/v5/account/max-size
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "ccy": "BTC",
+        "instId": "BTC-USDT",
+        "maxBuy": "0.0500695098559788",
+        "maxSell": "64.4798671570072269"
+  }]
+}

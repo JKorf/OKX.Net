@@ -1,0 +1,32 @@
+GET
+/api/v5/public/vip-interest-rate-loan-quota
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "ccy": "ENJ",
+            "levelList": [
+                {
+                    "level": "VIP5",
+                    "loanQuota": "100000.00000000"
+                },
+                {
+                    "level": "VIP6",
+                    "loanQuota": "110000.00000000"
+                },
+                {
+                    "level": "VIP7",
+                    "loanQuota": "120000.00000000"
+                },
+                {
+                    "level": "VIP8",
+                    "loanQuota": "130000.00000000"
+                }
+            ],
+            "quota": "10000.0000",
+            "rate": "0.00048000"
+        }
+    ],
+    "msg": ""
+}

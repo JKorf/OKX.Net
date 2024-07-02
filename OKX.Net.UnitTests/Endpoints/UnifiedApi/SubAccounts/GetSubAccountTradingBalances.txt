@@ -1,0 +1,80 @@
+GET
+/api/v5/account/subaccount/balances
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "adjEq": "10679688.0460531643092577",
+            "borrowFroz": "",
+            "details": [
+                {
+                    "availBal": "",
+                    "availEq": "9930359.9998",
+                    "cashBal": "9930359.9998",
+                    "ccy": "USDT",
+                    "crossLiab": "0",
+                    "disEq": "9439737.0772999514",
+                    "eq": "9930359.9998",
+                    "eqUsd": "9933041.196999946",
+                    "fixedBal": "0",
+                    "frozenBal": "0",
+                    "imr": "",
+                    "interest": "0",
+                    "isoEq": "0",
+                    "isoLiab": "0",
+                    "liab": "0",
+                    "maxLoan": "10000",
+                    "mgnRatio": "",
+                    "mmr": "",
+                    "notionalLever": "",
+                    "ordFrozen": "0",
+                    "twap": "0",
+                    "uTime": "1620722938250",
+                    "upl": "0",
+                    "uplLiab": "0",
+                    "borrowFroz": "",
+                    "spotIsoBal": "0"
+                },
+                {
+                    "availBal": "",
+                    "availEq": "33.6799714158199414",
+                    "cashBal": "33.2009985",
+                    "ccy": "BTC",
+                    "crossLiab": "0",
+                    "disEq": "1239950.9687532129092577",
+                    "eq": "33.771820625136023",
+                    "eqUsd": "1239950.9687532129092577",
+                    "fixedBal": "0",
+                    "frozenBal": "0.0918492093160816",
+                    "imr": "",
+                    "interest": "0",
+                    "isoEq": "0",
+                    "isoLiab": "0",
+                    "liab": "0",
+                    "maxLoan": "1453.92289531493594",
+                    "mgnRatio": "",
+                    "mmr": "",
+                    "notionalLever": "",
+                    "ordFrozen": "0",
+                    "twap": "0",
+                    "uTime": "1620722938250",
+                    "upl": "0.570822125136023",
+                    "uplLiab": "0",
+                    "borrowFroz": "",
+                    "spotIsoBal": "0"
+                }
+            ],
+            "imr": "3372.2942371050594217",
+            "isoEq": "0",
+            "mgnRatio": "70375.35408747017",
+            "mmr": "134.8917694842024",
+            "notionalUsd": "33722.9423710505978888",
+            "ordFroz": "0",
+            "totalEq": "11172992.1657531589092577",
+            "uTime": "1623392334718",
+            "upl": "-7.571730042000012"
+        }
+    ],
+    "msg": ""
+}

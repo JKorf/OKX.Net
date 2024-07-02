@@ -20,7 +20,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? algoId, Action<DataEvent<OKXAlgoOrderUpdate>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(InstrumentType instrumentType, string? symbol, string? algoId, Action<DataEvent<OKXAlgoOrderUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
@@ -32,7 +32,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<DataEvent<OKXAlgoOrderUpdate>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<DataEvent<OKXAlgoOrderUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to order information updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
@@ -44,7 +44,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<DataEvent<OKXOrderUpdate>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<DataEvent<OKXOrderUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
@@ -57,7 +57,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(OKXInstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<DataEvent<IEnumerable<OKXPosition>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<DataEvent<IEnumerable<OKXPosition>>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// This push channel is only used as a risk warning, and is not recommended as a risk judgment for strategic trading. In the case that the market is volatile, there may be the possibility that the position has been liquidated at the same time that this message is pushed. The warning is sent when a position is at risk of liquidation for isolated margin positions.The warning is sent when all the positions are at risk of liquidation for cross margin positions.
@@ -68,7 +68,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToLiquidationWarningUpdatesAsync(OKXInstrumentType instrumentType,
+    Task<CallResult<UpdateSubscription>> SubscribeToLiquidationWarningUpdatesAsync(InstrumentType instrumentType,
         string? instrumentFamily,
         Action<DataEvent<OKXPosition>> onData,
         CancellationToken ct = default);
@@ -94,19 +94,19 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
-        OKXOrderSide side,
-        OKXOrderType type,
-        OKXTradeMode tradeMode,
+        OrderSide side,
+        OrderType type,
+        TradeMode tradeMode,
         decimal quantity,
         decimal? price = null,
-        OKXPositionSide? positionSide = null,
+        PositionSide? positionSide = null,
 
-        OKXQuickMarginType? quickMarginType = null,
+        QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
-        OKXSelfTradePreventionMode? selfTradePreventionMode = null,
+        SelfTradePreventionMode? selfTradePreventionMode = null,
 
         string? asset = null,
-        OKXQuantityAsset? quantityAsset = null,
+        QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
         CancellationToken ct = default);

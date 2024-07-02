@@ -1,0 +1,58 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "account" }]}
+< { "event": "subscribe", "arg": { "channel": "account" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "account"
+  },
+  "data": [{
+        "adjEq": "55444.12216906034",
+        "borrowFroz": "0",
+        "details": [{
+            "availBal": "4734.371190691436",
+            "availEq": "4734.371190691435",
+            "borrowFroz": "0",
+            "cashBal": "4750.426970691436",
+            "ccy": "USDT",
+            "coinUsdPrice": "0.99927",
+            "crossLiab": "0",
+            "disEq": "4889.379316336831",
+            "eq": "4892.951170691435",
+            "eqUsd": "4889.379316336831",
+            "fixedBal": "0",
+            "frozenBal": "158.57998",
+            "imr": "",
+            "interest": "0",
+            "isoEq": "0",
+            "isoLiab": "0",
+            "isoUpl": "0",
+            "liab": "0",
+            "maxLoan": "0",
+            "mgnRatio": "",
+            "mmr": "",
+            "notionalLever": "",
+            "ordFrozen": "0",
+            "rewardBal": "0",
+            "spotInUseAmt": "",
+            "clSpotInUseAmt": "",
+            "maxSpotInUseAmt": "",          
+            "spotIsoBal": "0",
+            "stgyEq": "150",
+            "twap": "0",
+            "uTime": "1705564213903",
+            "upl": "-7.475800000000003",
+            "uplLiab": "0"
+        }],
+        "imr": "8.5737166146",
+        "isoEq": "0",
+        "mgnRatio": "143705.65988369548",
+        "mmr": "0.342948664584",
+        "notionalUsd": "85.737166146",
+        "ordFroz": "0",
+        "totalEq": "55868.06403501676",
+        "uTime": "1705564223311",
+        "upl": "-7.470342666000003"
+    }]
+}

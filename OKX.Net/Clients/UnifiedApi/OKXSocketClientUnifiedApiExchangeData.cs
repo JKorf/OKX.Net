@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Objects.Sockets;
-using OKX.Net.Converters;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Market;
@@ -25,7 +24,7 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     #endregion
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(OKXInstrumentType instrumentType, Action<DataEvent<IEnumerable<OKXInstrument>>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<IEnumerable<OKXInstrument>>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXInstrument>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
@@ -87,10 +86,10 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
     {
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var subscription = new OKXSubscription<OKXCandlestick>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var jc = EnumConverter.GetString(klineInterval);
+        var subscription = new OKXSubscription<OKXKline>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -123,7 +122,7 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(OKXInstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(InstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXEstimatedPrice>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
@@ -155,17 +154,17 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default)
     {
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var subscription = new OKXSubscription<OKXCandlestick>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var jc = EnumConverter.GetString(klineInterval);
+        var subscription = new OKXSubscription<OKXMiniKline>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "mark-price-candle" + jc,
                     Symbol = symbol,
                 }
-            }, onData, null, false);
+            }, null, onData, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
@@ -186,9 +185,9 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OKXOrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
     {
-        var jc = JsonConvert.SerializeObject(orderBookType, new OrderBookTypeConverter(false));
+        var jc = EnumConverter.GetString(orderBookType);
         var subscription = new OKXBookSubscription(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
@@ -233,17 +232,17 @@ public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiE
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, OKXPeriod period, Action<DataEvent<OKXCandlestick>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default)
     {
-        var jc = JsonConvert.SerializeObject(period, new PeriodConverter(false));
-        var subscription = new OKXSubscription<OKXCandlestick>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var jc = EnumConverter.GetString(klineInterval);
+        var subscription = new OKXSubscription<OKXMiniKline>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "index-candle" + jc,
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, null, onData, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }

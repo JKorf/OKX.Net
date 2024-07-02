@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,24 +10,24 @@ public record OKXLeverage
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide? PositionSide { get; set; }
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Leverage
     /// </summary>
-    [JsonProperty("lever")]
+    [JsonPropertyName("lever")]
     public decimal? Leverage { get; set; }
 }

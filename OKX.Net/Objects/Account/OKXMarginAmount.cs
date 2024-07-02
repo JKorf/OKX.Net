@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,36 +10,36 @@ public record OKXMarginAmount
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide? PositionSide { get; set; }
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string? Asset { get; set; }
 
     /// <summary>
     /// Real leverage after the margin adjustment
     /// </summary>
-    [JsonProperty("leverage")]
+    [JsonPropertyName("leverage")]
     public string? Leverage { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Margin add reduce
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(MarginAddReduceConverter))]
-    public OKXMarginAddReduce? MarginAddReduce { get; set; }
+    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    public MarginAddReduce? MarginAddReduce { get; set; }
 }

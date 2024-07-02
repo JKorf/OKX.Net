@@ -8,72 +8,72 @@ public record OKXPositionTier
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument family
     /// </summary>
-    [JsonProperty("instFamily")]
+    [JsonPropertyName("instFamily")]
     public string InstrumentFamily { get; set; } = string.Empty;
 
     /// <summary>
     /// Underlying
     /// </summary>
-    [JsonProperty("uly")]
+    [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
     /// Tier
     /// </summary>
-    [JsonProperty("tier")]
+    [JsonPropertyName("tier")]
     public int Tier { get; set; }
 
     /// <summary>
     /// Minimum size
     /// </summary>
-    [JsonProperty("minSz")]
+    [JsonPropertyName("minSz")]
     public decimal? MinimumSize { get; set; }
 
     /// <summary>
     /// Maximum size
     /// </summary>
-    [JsonProperty("maxSz")]
+    [JsonPropertyName("maxSz")]
     public decimal? MaximumSize { get; set; }
 
     /// <summary>
     /// Maintenance margin requirement
     /// </summary>
-    [JsonProperty("mmr")]
+    [JsonPropertyName("mmr")]
     public decimal? MaintenanceMarginRequirement { get; set; }
 
     /// <summary>
     /// Initial margin requirement
     /// </summary>
-    [JsonProperty("imr")]
+    [JsonPropertyName("imr")]
     public decimal? InitialMarginRequirement { get; set; }
 
     /// <summary>
     /// Max leverage
     /// </summary>
-    [JsonProperty("maxLever")]
+    [JsonPropertyName("maxLever")]
     public decimal? MaximumLeverage { get; set; }
 
     /// <summary>
     /// Option margin coef
     /// </summary>
-    [JsonProperty("optMgnFactor")]
+    [JsonPropertyName("optMgnFactor")]
     public decimal? OptionMarginCoefficient { get; set; }
 
     /// <summary>
     /// Maximum quote loan
     /// </summary>
-    [JsonProperty("quoteMaxLoan")]
+    [JsonPropertyName("quoteMaxLoan")]
     public decimal? MaximumQuoteLoan { get; set; }
 
     /// <summary>
     /// Maximum base loan
     /// </summary>
-    [JsonProperty("baseMaxLoan")]
+    [JsonPropertyName("baseMaxLoan")]
     public decimal? MaximumBaseLoan { get; set; }
 }

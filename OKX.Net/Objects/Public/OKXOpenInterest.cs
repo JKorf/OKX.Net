@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -11,30 +10,30 @@ public record OKXOpenInterest
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Open interest
     /// </summary>
-    [JsonProperty("oi")]
+    [JsonPropertyName("oi")]
     public decimal? OpenInterest { get; set; }
 
     /// <summary>
     /// Open interest asset
     /// </summary>
-    [JsonProperty("oiCcy")]
+    [JsonPropertyName("oiCcy")]
     public decimal? OpenInterestAsset { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

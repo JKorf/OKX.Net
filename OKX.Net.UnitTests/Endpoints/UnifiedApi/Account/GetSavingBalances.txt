@@ -1,0 +1,18 @@
+GET
+/api/v5/finance/savings/balance
+true
+{
+    "code": "0",
+    "msg":"",
+    "data": [
+        {
+            "earnings": "0.0010737388791526",
+            "redemptAmt": "",
+            "rate": "0.0100000000000000",
+            "ccy": "USDT",
+            "amt": "11.0010737453457821",
+            "loanAmt": "11.0010630707982819",
+            "pendingAmt": "0.0000106745475002"
+        }
+    ]
+}

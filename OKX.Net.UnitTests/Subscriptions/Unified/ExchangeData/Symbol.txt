@@ -1,0 +1,43 @@
+> { "op": "subscribe", "args": [{ "channel": "instruments", "instType": "SPOT" }]}
+< { "event": "subscribe", "arg": { "channel": "instruments", "instType": "SPOT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "instruments",
+    "instType": "SPOT"
+  },
+  "data": [
+    {
+        "alias": "",
+        "baseCcy": "BTC",
+        "category": "1",
+        "ctMult": "",
+        "ctType": "",
+        "ctVal": "",
+        "ctValCcy": "",
+        "expTime": "",
+        "instFamily": "",
+        "instId": "BTC-USDT",
+        "instType": "SPOT",
+        "lever": "10",
+        "listTime": "1606468572000",
+        "lotSz": "0.00000001",
+        "maxIcebergSz": "9999999999.0000000000000000",
+        "maxLmtAmt": "1000000",
+        "maxLmtSz": "9999999999",
+        "maxMktAmt": "1000000",
+        "maxMktSz": "",
+        "maxStopSz": "",
+        "maxTriggerSz": "9999999999.0000000000000000",
+        "maxTwapSz": "9999999999.0000000000000000",
+        "minSz": "0.00001",
+        "optType": "",
+        "quoteCcy": "USDT",
+        "settleCcy": "",
+        "state": "live",
+        "stk": "",
+        "tickSz": "0.1",
+        "uly": ""
+    }
+  ]
+}

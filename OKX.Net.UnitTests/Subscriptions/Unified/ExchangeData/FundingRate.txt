@@ -1,0 +1,26 @@
+> { "op": "subscribe", "args": [{ "channel": "funding-rate", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "funding-rate", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "funding-rate",
+    "instId": "ETH-USDT"
+  },
+ "data":[
+      {
+         "fundingRate":"0.0001875391284828",
+         "fundingTime":"1700726400000",
+         "instId":"BTC-USD-SWAP",
+         "instType":"SWAP",
+         "method": "next_period",
+         "maxFundingRate":"0.00375",
+         "minFundingRate":"-0.00375",
+         "nextFundingRate":"0.0002608059239328",
+         "nextFundingTime":"1700755200000",
+         "premium": "0.0001233824646391",
+         "settFundingRate":"0.0001699799259033",
+         "settState":"settled",
+         "ts":"1700724675402"
+      }
+   ]
+}

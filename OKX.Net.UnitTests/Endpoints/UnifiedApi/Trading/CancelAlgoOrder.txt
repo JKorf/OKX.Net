@@ -1,0 +1,14 @@
+POST
+/api/v5/trade/cancel-algos
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "algoId":"1234",
+            "sCode":"0",
+            "sMsg":""
+        }
+    ]
+}

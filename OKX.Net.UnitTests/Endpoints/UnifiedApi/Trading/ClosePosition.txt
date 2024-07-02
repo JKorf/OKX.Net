@@ -1,0 +1,15 @@
+POST
+/api/v5/trade/close-position
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "clOrdId": "",
+            "instId": "BTC-USDT-SWAP",
+            "posSide": "long",
+            "tag": ""
+        }
+    ],
+    "msg": ""
+}

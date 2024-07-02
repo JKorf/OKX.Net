@@ -1,4 +1,5 @@
 ﻿using OKX.Net.Enums;
+using OKX.Net.Objects.Account;
 using OKX.Net.Objects.SubAccount;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -20,7 +21,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXSubAccountBill>>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, OKXSubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXSubAccountBill>>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get sub-account funding balance
@@ -53,7 +54,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountTradingBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
+    Task<WebCallResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
@@ -81,5 +82,5 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="toSubAccountName">Sub-account name of the account that transfers funds in.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, OKXAccount fromAccount, OKXAccount toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
+    Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
 }

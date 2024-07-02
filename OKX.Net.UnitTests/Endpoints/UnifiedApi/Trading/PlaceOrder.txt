@@ -1,0 +1,19 @@
+POST
+/api/v5/trade/order
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "clOrdId": "oktswap6",
+      "ordId": "312269865356374016",
+      "tag": "",
+      "ts":"1695190491421",
+      "sCode": "0",
+      "sMsg": ""
+    }
+  ],
+  "inTime": "1695190491421339",
+  "outTime": "1695190491423240"
+}

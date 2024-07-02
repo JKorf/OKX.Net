@@ -36,7 +36,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(Action<DataEvent<OKXDepositHistory>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(Action<DataEvent<OKXDepositUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to withdrawal updates
@@ -45,5 +45,5 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalHistory>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default);
 }

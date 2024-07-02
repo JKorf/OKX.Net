@@ -1,0 +1,32 @@
+GET
+/api/v5/account/config
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "acctLv": "3",
+            "acctStpMode": "cancel_maker",
+            "autoLoan": true,
+            "ctIsoMode": "automatic",
+            "greeksType": "PA",
+            "level": "Lv1",
+            "levelTmp": "",
+            "mgnIsoMode": "automatic",
+            "posMode": "net_mode",
+            "spotOffsetType": "",
+            "uid": "44705892343619584",
+            "label": "V5 Test",
+            "roleType": "0",
+            "traderInsts": [],
+            "spotRoleType": "0",
+            "spotTraderInsts": [],
+            "opAuth": "0",
+            "kycLv": "3",
+            "ip": "120.255.24.182,49.245.196.13",
+            "perm": "read_only,withdraw,trade",
+            "mainUid": "444810535339712570"
+        }
+    ],
+    "msg": ""
+}

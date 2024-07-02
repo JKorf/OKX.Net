@@ -1,0 +1,33 @@
+GET
+/api/v5/account/positions-history
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "cTime": "1654177169995",
+            "ccy": "BTC",
+            "closeAvgPx": "29786.5999999789081085",
+            "closeTotalPos": "1",
+            "instId": "BTC-USD-SWAP",
+            "instType": "SWAP",
+            "lever": "10.0",
+            "mgnMode": "cross",
+            "openAvgPx": "29783.8999999995535393",
+            "openMaxPos": "1",
+            "realizedPnl": "0.001",
+            "fee": "-0.0001",
+            "fundingFee": "0",
+            "liqPenalty": "0",
+            "pnl": "0.0011",
+            "pnlRatio": "0.000906447858888",
+            "posId": "452587086133239818",
+            "direction": "long",
+            "triggerPx": "",
+            "type": "1",
+            "uTime": "1654177174419",
+            "uly": "BTC-USD"
+        }
+    ],
+    "msg": ""
+}

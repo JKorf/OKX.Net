@@ -1,0 +1,15 @@
+GET
+/api/v5/public/mark-price
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+    {
+        "instType":"SWAP",
+        "instId":"BTC-USDT-SWAP",
+        "markPx":"200",
+        "ts":"1597026383085"
+    }
+  ]
+}

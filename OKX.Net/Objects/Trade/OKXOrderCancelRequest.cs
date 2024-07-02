@@ -8,18 +8,18 @@ public record OKXOrderCancelRequest
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("ordId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("clOrdId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ClientOrderId { get; set; }
 }

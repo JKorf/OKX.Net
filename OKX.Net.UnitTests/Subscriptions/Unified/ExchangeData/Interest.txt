@@ -1,0 +1,18 @@
+> { "op": "subscribe", "args": [{ "channel": "open-interest", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "open-interest", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "open-interest",
+    "instId": "ETH-USDT"
+  },
+  "data": [
+    {
+      "instType": "SWAP",
+      "instId": "LTC-USD-SWAP",
+      "oi": "5000",
+      "oiCcy": "555.55",
+      "ts": "1597026383085"
+    }
+  ]
+}

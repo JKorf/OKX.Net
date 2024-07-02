@@ -1,0 +1,41 @@
+GET
+/api/v5/account/account-position-risk
+true
+{
+    "code":"0",
+    "data":[
+        {
+            "adjEq":"174238.6793649711331679",
+            "balData":[
+                {
+                    "ccy":"BTC",
+                    "disEq":"78846.7803721021362242",
+                    "eq":"1.3863533369419636"
+                },
+                {
+                    "ccy":"USDT",
+                    "disEq":"73417.2495112863300127",
+                    "eq":"73323.395564963177146"
+                }
+            ],
+            "posData":[
+                {
+                    "baseBal": "0.4",
+                    "ccy": "",
+                    "instId": "BTC-USDT",
+                    "instType": "MARGIN",
+                    "mgnMode": "isolated",
+                    "notionalCcy": "0",
+                    "notionalUsd": "0",
+                    "pos": "0",
+                    "posCcy": "",
+                    "posId": "310388685292318723",
+                    "posSide": "net",
+                    "quoteBal": "0"
+                }
+            ],
+            "ts":"1620282889345"
+        }
+    ],
+    "msg":""
+}

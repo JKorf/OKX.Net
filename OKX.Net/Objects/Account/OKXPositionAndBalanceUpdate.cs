@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,26 +10,31 @@ public record OKXPositionAndBalanceUpdate
     /// <summary>
     /// Trigger event type
     /// </summary>
-    [JsonProperty("eventType")]
+    [JsonPropertyName("eventType")]
     public string EventType { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("pTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("pTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Balance data
     /// </summary>
-    [JsonProperty("balData")]
+    [JsonPropertyName("balData")]
     public IEnumerable<OKXBalanceUpdate> BalanceData { get; set; } = Array.Empty<OKXBalanceUpdate>();
 
     /// <summary>
     /// Position data
     /// </summary>
-    [JsonProperty("posData")]
+    [JsonPropertyName("posData")]
     public IEnumerable<OKXAccountPositionUpdate> PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
+    /// <summary>
+    /// Trades data
+    /// </summary>
+    [JsonPropertyName("trades")]
+    public IEnumerable<OKXTradeReference> TradeData { get; set; } = Array.Empty<OKXTradeReference>();
 }
 
 /// <summary>
@@ -41,19 +45,19 @@ public record OKXBalanceUpdate
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Cash balance
     /// </summary>
-    [JsonProperty("cashBal")]
+    [JsonPropertyName("cashBal")]
     public decimal? CashBalance { get; set; }
 
     /// <summary>
     /// Update time
     /// </summary>
-    [JsonProperty("uTime")]
+    [JsonPropertyName("uTime")]
     [JsonConverter(typeof(DateTimeConverter))]
     public DateTime? UpdateTime { get; set; }
 }
@@ -66,67 +70,84 @@ public record OKXAccountPositionUpdate
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Position quantity
     /// </summary>
-    [JsonProperty("pos")]
+    [JsonPropertyName("pos")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Average open price
     /// </summary>
-    [JsonProperty("avgPx")]
+    [JsonPropertyName("avgPx")]
     public decimal? AverageOpenPrice { get; set; }
 
     /// <summary>
     /// Position asset
     /// </summary>
-    [JsonProperty("posCcy")]
+    [JsonPropertyName("posCcy")]
     public string PositionAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Last trade ID
     /// </summary>
-    [JsonProperty("tradeId")]
+    [JsonPropertyName("tradeId")]
     public string? TradeId { get; set; }
 
     /// <summary>
     /// Position id
     /// </summary>
-    [JsonProperty("posId")]
+    [JsonPropertyName("posId")]
     public long PositionId { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Update time
     /// </summary>
-    [JsonProperty("uTime")]
+    [JsonPropertyName("uTime")]
     [JsonConverter(typeof(DateTimeConverter))]
     public DateTime? UpdateTime { get; set; }
+}
+
+/// <summary>
+/// Trade reference
+/// </summary>
+public record OKXTradeReference
+{
+    /// <summary>
+    /// Symbol name
+    /// </summary>
+    [JsonPropertyName("instId")]
+    public string Symbol { get; set; } = string.Empty;
+    /// <summary>
+    /// Trade id
+    /// </summary>
+    [JsonPropertyName("tradeId")]
+    public string TradeId { get; set; } = string.Empty;
 }

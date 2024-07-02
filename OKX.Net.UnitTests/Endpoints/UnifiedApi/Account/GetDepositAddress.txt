@@ -1,0 +1,36 @@
+GET
+/api/v5/asset/deposit-address
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "chain": "BTC-Bitcoin",
+            "ctAddr": "",
+            "ccy": "BTC",
+            "to": "6",
+            "addr": "39XNxK1Ryqgg3Bsyn6HzoqV4Xji25pNkv6",
+            "verifiedName":"John Corner",
+            "selected": true
+        },
+        {
+            "chain": "BTC-OKC",
+            "ctAddr": "",
+            "ccy": "BTC",
+            "to": "6",
+            "addr": "0x66d0edc2e63b6b992381ee668fbcb01f20ae0428",
+            "verifiedName":"John Corner",
+            "selected": true
+        },
+        {
+            "chain": "BTC-ERC20",
+            "ctAddr": "5807cf",
+            "ccy": "BTC",
+            "to": "6",
+            "addr": "0x66d0edc2e63b6b992381ee668fbcb01f20ae0428",
+            "verifiedName":"John Corner",
+            "selected": true
+        }
+    ],
+    "msg": ""
+}

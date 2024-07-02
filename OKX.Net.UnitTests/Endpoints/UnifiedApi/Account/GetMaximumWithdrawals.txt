@@ -1,0 +1,22 @@
+GET
+/api/v5/account/max-withdrawal
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+            "ccy": "BTC",
+            "maxWd": "124",
+            "maxWdEx": "125",
+            "spotOffsetMaxWd": "",
+            "spotOffsetMaxWdEx": ""
+        },
+        {
+            "ccy": "ETH",
+            "maxWd": "10",
+            "maxWdEx": "12",
+            "spotOffsetMaxWd": "",
+            "spotOffsetMaxWdEx": ""
+        }
+    ]
+}

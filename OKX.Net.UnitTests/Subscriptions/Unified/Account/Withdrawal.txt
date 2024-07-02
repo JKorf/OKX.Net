@@ -1,0 +1,35 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "withdrawal-info" }]}
+< { "event": "subscribe", "arg": { "channel": "withdrawal-info" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "withdrawal-info",
+        "uid": "289320*****0975104"
+    },
+    "data": [{
+        "addrEx": null,
+        "amt": "2",
+        "areaCodeFrom": "",
+        "areaCodeTo": "",
+        "ccy": "USDT",
+        "chain": "USDT-TRC20",
+        "clientId": "",
+        "fee": "0.8",
+        "feeCcy": "USDT",
+        "from": "",
+        "memo": "",
+        "nonTradableAsset": false,
+        "pTime": "1674103268578",
+        "pmtId": "",
+        "state": "0",
+        "subAcct": "test",
+        "tag": "",
+        "to": "TN8CKTQMnpWfT******8KipbJ24ErguhF",
+        "ts": "1674103268472",
+        "txId": "",
+        "uid": "289333*****1101696",
+        "wdId": "63754560"
+    }]
+}

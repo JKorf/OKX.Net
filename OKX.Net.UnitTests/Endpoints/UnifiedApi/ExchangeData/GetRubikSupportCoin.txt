@@ -1,0 +1,20 @@
+GET
+/api/v5/rubik/stat/trading-data/support-coin
+false
+{
+    "code": "0",
+    "data": {
+        "contract": [
+            "ADA",
+            "BTC"
+        ],
+        "option": [
+            "BTC"
+        ],
+        "spot": [
+            "ADA",
+            "BTC"
+        ]
+    },
+    "msg": ""
+}

@@ -8,25 +8,25 @@ public record OKXVipInterestRate
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Quota
     /// </summary>
-    [JsonProperty("quota")]
+    [JsonPropertyName("quota")]
     public decimal? Quota { get; set; }
 
     /// <summary>
     /// Rate
     /// </summary>
-    [JsonProperty("rate")]
+    [JsonPropertyName("rate")]
     public decimal? Rate { get; set; }
 
     /// <summary>
     /// Level list
     /// </summary>
-    [JsonProperty("levelList")]
+    [JsonPropertyName("levelList")]
     public IEnumerable<OKXVipInterestRateLevel> LevelList { get; set; } = Array.Empty<OKXVipInterestRateLevel>();
 }
 
@@ -38,12 +38,12 @@ public record OKXVipInterestRateLevel
     /// <summary>
     /// Level
     /// </summary>
-    [JsonProperty("level")]
+    [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;
 
     /// <summary>
     /// Loan quota
     /// </summary>
-    [JsonProperty("loanQuota")]
+    [JsonPropertyName("loanQuota")]
     public decimal? LoanQuota { get; set; }
 }
