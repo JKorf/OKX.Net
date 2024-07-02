@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Add the IOKXClient and IOKXSocketClient to the sevice collection so they can be injected
+        /// Add the IOKXRestClient and IOKXSocketClient to the sevice collection so they can be injected
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>

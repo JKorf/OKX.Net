@@ -45,7 +45,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetAccountPositionHistoryAsync(
         InstrumentType? instrumentType = null,
         string? symbol = null,
-        OKXMarginMode? marginMode = null,
+        MarginMode? marginMode = null,
         ClosingPositionType? type = null,
         string? positionId = null,
         DateTime? endTime = null,
