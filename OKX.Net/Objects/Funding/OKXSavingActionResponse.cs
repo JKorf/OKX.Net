@@ -10,24 +10,24 @@ public record OKXSavingActionResponse
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Rate
     /// </summary>
-    [JsonProperty("rate")]
+    [JsonPropertyName("rate")]
     public decimal? PurchaseRate { get; set; }
 
     /// <summary>
     /// Side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public SavingActionSide Side { get; set; }
 }

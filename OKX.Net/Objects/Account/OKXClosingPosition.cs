@@ -10,138 +10,138 @@ public record OKXClosingPosition
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Closing type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
     public ClosingPositionType Type { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("cTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime CreateTime { get; set; }
 
     /// <summary>
     /// Last update time
     /// </summary>
-    [JsonProperty("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime UpdateTime { get; set; }
 
     /// <summary>
     /// Average open price
     /// </summary>
-    [JsonProperty("openAvgPx")]
+    [JsonPropertyName("openAvgPx")]
     public decimal? OpenAveragePrice { get; set; }
 
     /// <summary>
     /// Average closing price
     /// </summary>
-    [JsonProperty("closeAvgPx")]
+    [JsonPropertyName("closeAvgPx")]
     public decimal? CloseAveragePrice { get; set; }
 
     /// <summary>
     /// Position id
     /// </summary>
-    [JsonProperty("posId")]
+    [JsonPropertyName("posId")]
     public long? PositionId { get; set; }
 
     /// <summary>
     /// Max open position
     /// </summary>
-    [JsonProperty("openMaxPos")]
+    [JsonPropertyName("openMaxPos")]
     public decimal? OpenMaxPos { get; set; }
 
     /// <summary>
     /// Total close position
     /// </summary>
-    [JsonProperty("closeTotalPos")]
+    [JsonPropertyName("closeTotalPos")]
     public decimal? CloseTotalPos { get; set; }
 
     /// <summary>
     /// Profit and loss
     /// </summary>
-    [JsonProperty("pnl")]
+    [JsonPropertyName("pnl")]
     public decimal? ProfitAndLoss { get; set; }
 
     /// <summary>
     /// Leverage
     /// </summary>
-    [JsonProperty("lever")]
+    [JsonPropertyName("lever")]
     public decimal? Leverage { get; set; }
 
     /// <summary>
     /// Direction
     /// </summary>
-    [JsonProperty("direction"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("direction"), JsonConverter(typeof(EnumConverter))]
     public PositionSide Direction { get; set; }
 
     /// <summary>
     /// Trigger price
     /// </summary>
-    [JsonProperty("triggerPx")]
+    [JsonPropertyName("triggerPx")]
     public decimal? TriggerMarkPrice { get; set; }
 
     /// <summary>
     /// Liquidation price
     /// </summary>
-    [JsonProperty("liqPx")]
+    [JsonPropertyName("liqPx")]
     public decimal? LiquidationPrice { get; set; }
 
     /// <summary>
     /// Underlying
     /// </summary>
-    [JsonProperty("uly")]
+    [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string? Asset { get; set; }
 
     /// <summary>
     /// Profit and loss ratio
     /// </summary>
-    [JsonProperty("pnlRatio")]
+    [JsonPropertyName("pnlRatio")]
     public decimal? PnlRatio { get; set; }
 
     /// <summary>
     /// Realized profit and loss
     /// </summary>
-    [JsonProperty("realizedPnl")]
+    [JsonPropertyName("realizedPnl")]
     public decimal? RealizedPnl { get; set; }
 
     /// <summary>
     /// Accumulated fee
     /// </summary>
-    [JsonProperty("fee")]
+    [JsonPropertyName("fee")]
     public decimal? Fee { get; set; }
 
     /// <summary>
     /// Funding fee
     /// </summary>
-    [JsonProperty("fundingFee")]
+    [JsonPropertyName("fundingFee")]
     public decimal? FundingFee { get; set; }
 
     /// <summary>
     /// Accumulated liquidation penalty. It is negative when there is a value.
     /// </summary>
-    [JsonProperty("liqPenalty")]
+    [JsonPropertyName("liqPenalty")]
     public decimal? LiquidationPenalty { get; set; }
 }

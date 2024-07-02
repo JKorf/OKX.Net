@@ -31,7 +31,7 @@
         }],
         "trades": [{
             "instId": "BTC-USD-191018",
-            "tradeId": "2",
+            "tradeId": "2"
         }]
     }]
 }

@@ -10,60 +10,60 @@ public record OKXDepositAddress
     /// <summary>
     /// Address
     /// </summary>
-    [JsonProperty("addr")]
+    [JsonPropertyName("addr")]
     public string Address { get; set; } = string.Empty;
 
     /// <summary>
     /// Tag
     /// </summary>
-    [JsonProperty("tag")]
+    [JsonPropertyName("tag")]
     public string? Tag { get; set; } = string.Empty;
 
     /// <summary>
     /// Memo
     /// </summary>
-    [JsonProperty("memo")]
+    [JsonPropertyName("memo")]
     public string? Memo { get; set; }
 
     /// <summary>
     /// Payment id
     /// </summary>
-    [JsonProperty("pmtId")]
+    [JsonPropertyName("pmtId")]
     public string DepositPaymentId { get; set; } = string.Empty;
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Network
     /// </summary>
-    [JsonProperty("chain")]
+    [JsonPropertyName("chain")]
     public string Network { get; set; } = string.Empty;
 
     /// <summary>
     /// Selected
     /// </summary>
-    [JsonProperty("selected")]
+    [JsonPropertyName("selected")]
     public bool Selected { get; set; }
 
     /// <summary>
     /// Contract address
     /// </summary>
-    [JsonProperty("ctAddr")]
+    [JsonPropertyName("ctAddr")]
     public string ContractAddr { get; set; } = string.Empty;
 
     /// <summary>
     /// Account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
     public AccountType? Account { get; set; }
 
     /// <summary>
     /// Verified name for recipient
     /// </summary>
-    [JsonProperty("verifiedName")]
+    [JsonPropertyName("verifiedName")]
     public string RecepientName { get; set; } = string.Empty;
 }

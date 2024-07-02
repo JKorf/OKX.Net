@@ -10,24 +10,24 @@ public record OKXMarkPrice
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Mark price
     /// </summary>
-    [JsonProperty("markPx")]
+    [JsonPropertyName("markPx")]
     public decimal? MarkPrice { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

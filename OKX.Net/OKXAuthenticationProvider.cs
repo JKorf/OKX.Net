@@ -9,7 +9,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
     public string ApiKey => _credentials.Key!.GetString();
     public string Passphrase => _credentials.PassPhrase.GetString();
 
-    private static IMessageSerializer _serializer = new JsonNetMessageSerializer();
+    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
 
     public OKXAuthenticationProvider(OKXApiCredentials credentials) : base(credentials)
     {

@@ -8,42 +8,42 @@ public record OKXOrderAmendRequest
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("ordId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Request id
     /// </summary>
-    [JsonProperty("reqId")]
+    [JsonPropertyName("reqId")]
     public string RequestId { get; set; } = string.Empty;
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Cancel on fail
     /// </summary>
-    [JsonProperty("cxlOnFail", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("cxlOnFail"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public bool? CancelOnFail { get; set; }
 
     /// <summary>
     /// New quantity
     /// </summary>
-    [JsonProperty("newSz", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+    [JsonPropertyName("newSz"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
     public decimal? NewQuantity { get; set; }
 
     /// <summary>
     /// New price
     /// </summary>
-    [JsonProperty("newPx", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(DecimalStringWriterConverter))]
+    [JsonPropertyName("newPx"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
     public decimal? NewPrice { get; set; }
 }

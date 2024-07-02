@@ -236,7 +236,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="memo">Lightning withdrawal memo</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXLightningWithdrawal>> GetLightningWithdrawalsAsync(string asset, string invoice, string? memo = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXLightningWithdrawal>> GetLightningWithdrawalAsync(string asset, string invoice, string? memo = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get maximum buy/sell amount or open amount

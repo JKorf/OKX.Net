@@ -10,60 +10,60 @@ public record OKXBlockTrade
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Trade id
     /// </summary>
-    [JsonProperty("tradeId")]
+    [JsonPropertyName("tradeId")]
     public long TradeId { get; set; }
 
     /// <summary>
     /// Price
     /// </summary>
-    [JsonProperty("px")]
+    [JsonPropertyName("px")]
     public decimal Price { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonPropertyName("sz")]
     public decimal Quantity { get; set; }
 
     /// <summary>
     /// Implied volatility (Options only)
     /// </summary>
-    [JsonProperty("fillVol")]
+    [JsonPropertyName("fillVol")]
     public decimal ImpliedVolatility { get; set; }
 
     /// <summary>
     /// Index price (Options only)
     /// </summary>
-    [JsonProperty("idxPx")]
+    [JsonPropertyName("idxPx")]
     public decimal? IndexPrice { get; set; }
 
     /// <summary>
     /// Forward price (Options only)
     /// </summary>
-    [JsonProperty("fwdPx")]
+    [JsonPropertyName("fwdPx")]
     public decimal? ForwardPrice { get; set; }
 
     /// <summary>
     /// Mark price
     /// </summary>
-    [JsonProperty("markPx")]
+    [JsonPropertyName("markPx")]
     public decimal? MarkPrice { get; set; }
 
     /// <summary>
     /// Side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public OrderSide Side { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

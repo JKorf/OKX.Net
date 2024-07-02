@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Interfaces.CommonClients;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -47,6 +48,12 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             };
         }
     }
+
+    /// <inheritdoc />
+    protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor();
+
+    /// <inheritdoc />
+    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
 
     /// <inheritdoc />
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)

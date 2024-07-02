@@ -553,7 +553,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXLightningWithdrawal>> GetLightningWithdrawalsAsync(
+    public virtual async Task<WebCallResult<OKXLightningWithdrawal>> GetLightningWithdrawalAsync(
         string asset,
         string invoice,
         string? memo = null,

@@ -8,17 +8,17 @@ public record OKXAssetValuation
     /// <summary>
     /// Valuation details
     /// </summary>
-    [JsonProperty("details")]
+    [JsonPropertyName("details")]
     public OKXAssetValuationDetails Valuations { get; set; } = null!;
     /// <summary>
     /// Total balance
     /// </summary>
-    [JsonProperty("totalBal")]
+    [JsonPropertyName("totalBal")]
     public decimal TotalBalance { get; set; }
     /// <summary>
     /// Data timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Timestamp { get; set; }
 }
 
@@ -30,16 +30,16 @@ public record OKXAssetValuationDetails
     /// <summary>
     /// Earn balance
     /// </summary>
-    [JsonProperty("earn")]
+    [JsonPropertyName("earn")]
     public decimal Earn { get; set; }
     /// <summary>
     /// Funding balance
     /// </summary>
-    [JsonProperty("funding")]
+    [JsonPropertyName("funding")]
     public decimal Funding { get; set; }
     /// <summary>
     /// Trading balance
     /// </summary>
-    [JsonProperty("trading")]
+    [JsonPropertyName("trading")]
     public decimal Trading { get; set; }
 }

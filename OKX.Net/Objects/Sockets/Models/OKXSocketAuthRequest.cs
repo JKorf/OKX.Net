@@ -1,20 +1,20 @@
 ﻿namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketAuthRequest
 {
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public string Op { get; set; } = string.Empty;
-    [JsonProperty("args")]
+    [JsonPropertyName("args")]
     public List<OKXSocketAuthArgs> Args { get; set; } = new List<OKXSocketAuthArgs>();
 }
 
 internal class OKXSocketAuthArgs
 {
-    [JsonProperty("apiKey")]
+    [JsonPropertyName("apiKey")]
     public string ApiKey { get; set; } = string.Empty;
-    [JsonProperty("passphrase")]
+    [JsonPropertyName("passphrase")]
     public string Passphrase { get; set; } = string.Empty;
-    [JsonProperty("timestamp")]
+    [JsonPropertyName("timestamp")]
     public string Timestamp { get; set; } = string.Empty;
-    [JsonProperty("sign")]
+    [JsonPropertyName("sign")]
     public string Sign { get; set; } = string.Empty;
 }

@@ -10,36 +10,36 @@ public record OKXMaximumLoanAmount
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
     /// Margin asset
     /// </summary>
-    [JsonProperty("mgnCcy")]
+    [JsonPropertyName("mgnCcy")]
     public string MarginAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Maximum loan
     /// </summary>
-    [JsonProperty("maxLoan")]
+    [JsonPropertyName("maxLoan")]
     public decimal? MaximumLoan { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public OrderSide? OrderSide { get; set; }
 }

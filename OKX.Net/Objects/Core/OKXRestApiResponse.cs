@@ -8,13 +8,13 @@ public record OKXRestApiResponse
     /// <summary>
     /// Error code
     /// </summary>
-    [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("code"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public int ErrorCode { get; set; }
 
     /// <summary>
     /// Error message
     /// </summary>
-    [JsonProperty("msg", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("msg"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ErrorMessage { get; set; }
 }
 
@@ -27,6 +27,6 @@ public record OKXRestApiResponse<T> : OKXRestApiResponse
     /// <summary>
     /// Response data
     /// </summary>
-    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("data"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public T? Data { get; set; }
 }

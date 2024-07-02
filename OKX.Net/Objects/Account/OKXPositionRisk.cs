@@ -10,25 +10,25 @@ public record OKXPositionRisk
     /// <summary>
     /// Adjusted equity
     /// </summary>
-    [JsonProperty("adjEq")]
+    [JsonPropertyName("adjEq")]
     public decimal? AdjustedEquity { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Balance data
     /// </summary>
-    [JsonProperty("balData")]
+    [JsonPropertyName("balData")]
     public IEnumerable<OKXAccountPositionRiskBalanceData> BalanceData { get; set; } = Array.Empty<OKXAccountPositionRiskBalanceData>();
 
     /// <summary>
     /// Position data
     /// </summary>
-    [JsonProperty("posData")]
+    [JsonPropertyName("posData")]
     public IEnumerable<OKXAccountPositionRiskPositionData> PositionData { get; set; } = Array.Empty<OKXAccountPositionRiskPositionData>();
 }
 
@@ -40,19 +40,19 @@ public record OKXAccountPositionRiskBalanceData
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Discount equity
     /// </summary>
-    [JsonProperty("disEq")]
+    [JsonPropertyName("disEq")]
     public decimal? DiscountEquity { get; set; }
 
     /// <summary>
     /// Equity
     /// </summary>
-    [JsonProperty("eq")]
+    [JsonPropertyName("eq")]
     public decimal? Equity { get; set; }
 }
 
@@ -64,72 +64,72 @@ public record OKXAccountPositionRiskPositionData
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Notional currency
     /// </summary>
-    [JsonProperty("notionalCcy")]
+    [JsonPropertyName("notionalCcy")]
     public decimal? NotionalCcy { get; set; }
 
     /// <summary>
     /// Notional usd
     /// </summary>
-    [JsonProperty("notionalUsd")]
+    [JsonPropertyName("notionalUsd")]
     public decimal? NotionalUsd { get; set; }
 
     /// <summary>
     /// Position quantity
     /// </summary>
-    [JsonProperty("pos")]
+    [JsonPropertyName("pos")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Position asset
     /// </summary>
-    [JsonProperty("posCcy")]
+    [JsonPropertyName("posCcy")]
     public string PositionAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Position id
     /// </summary>
-    [JsonProperty("posId")]
+    [JsonPropertyName("posId")]
     public long PositionId { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Base asset balance
     /// </summary>
-    [JsonProperty("baseBal")]
+    [JsonPropertyName("baseBal")]
     public decimal? BaseBalance { get; set; }
 
     /// <summary>
     /// Quote asset balance
     /// </summary>
-    [JsonProperty("quoteBal")]
+    [JsonPropertyName("quoteBal")]
     public decimal? QuoteBalance { get; set; }
 }

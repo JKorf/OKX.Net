@@ -10,36 +10,36 @@ public record OKXFundingRateHistory
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Funding time
     /// </summary>
-    [JsonProperty("fundingTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("fundingTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime FundingTime { get; set; }
 
     /// <summary>
     /// Funding rate
     /// </summary>
-    [JsonProperty("fundingRate")]
+    [JsonPropertyName("fundingRate")]
     public decimal FundingRate { get; set; }
 
     /// <summary>
     /// Realized rate
     /// </summary>
-    [JsonProperty("realizedRate")]
+    [JsonPropertyName("realizedRate")]
     public decimal RealizedRate { get; set; }
 
     /// <summary>
     /// Funding rate mechanism
     /// </summary>
-    [JsonProperty("method")]
+    [JsonPropertyName("method")]
     public string Method { get; set; } = string.Empty;
 }

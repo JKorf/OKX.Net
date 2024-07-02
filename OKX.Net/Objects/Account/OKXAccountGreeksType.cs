@@ -10,6 +10,6 @@ public record OKXAccountGreeksType
     /// <summary>
     /// Greeks type
     /// </summary>
-    [JsonProperty("greeksType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("greeksType"), JsonConverter(typeof(EnumConverter))]
     public GreeksType GreeksType { get; set; }
 }

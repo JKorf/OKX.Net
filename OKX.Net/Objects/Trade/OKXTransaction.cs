@@ -10,144 +10,144 @@ public record OKXTransaction
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Trade id
     /// </summary>
-    [JsonProperty("tradeId")]
+    [JsonPropertyName("tradeId")]
     public long? TradeId { get; set; }
 
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId")]
+    [JsonPropertyName("ordId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Bill id
     /// </summary>
-    [JsonProperty("billId")]
+    [JsonPropertyName("billId")]
     public long? BillId { get; set; }
 
     /// <summary>
     /// Tag
     /// </summary>
-    [JsonProperty("tag")]
+    [JsonPropertyName("tag")]
     public string Tag { get; set; } = string.Empty;
 
     /// <summary>
     /// Fill price
     /// </summary>
-    [JsonProperty("fillPx")]
+    [JsonPropertyName("fillPx")]
     public decimal? FillPrice { get; set; }
 
     /// <summary>
     /// Fill quantity
     /// </summary>
-    [JsonProperty("fillSz")]
+    [JsonPropertyName("fillSz")]
     public decimal? QuantityFilled { get; set; }
 
     /// <summary>
     /// Index price at the moment of trade execution
     /// </summary>
-    [JsonProperty("fillIdxPx")]
+    [JsonPropertyName("fillIdxPx")]
     public decimal? FillIndexPrice { get; set; }
 
     /// <summary>
     /// Last filled profit and loss, applicable to orders which have a trade and aim to close position
     /// </summary>
-    [JsonProperty("fillPnl")]
+    [JsonPropertyName("fillPnl")]
     public decimal? FillProfitAndLoss { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Order flow type
     /// </summary>
-    [JsonProperty("execType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("execType"), JsonConverter(typeof(EnumConverter))]
     public OrderFlowType OrderFlowType { get; set; }
 
     /// <summary>
     /// Fee asset
     /// </summary>
-    [JsonProperty("feeCcy")]
+    [JsonPropertyName("feeCcy")]
     public string FeeAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Fee
     /// </summary>
-    [JsonProperty("fee")]
+    [JsonPropertyName("fee")]
     public decimal? Fee { get; set; }
 
     /// <summary>
     /// Trade time
     /// </summary>
-    [JsonProperty("fillTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("fillTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime FillTime { get; set; }
 
     /// <summary>
     /// Data time
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Implied volitality for options
     /// </summary>
-    [JsonProperty("fillPxVol")]
+    [JsonPropertyName("fillPxVol")]
     public decimal? FillImpliedVolatility { get; set; }
 
     /// <summary>
     /// Usd fill price for options
     /// </summary>
-    [JsonProperty("fillPxUsd")]
+    [JsonPropertyName("fillPxUsd")]
     public decimal? FillUsdPrice { get; set; }
 
     /// <summary>
     /// Mark volatility when filled for options
     /// </summary>
-    [JsonProperty("fillMarkVol")]
+    [JsonPropertyName("fillMarkVol")]
     public decimal? FillMarkVolatility { get; set; }
 
     /// <summary>
     /// Forward price when filled for options
     /// </summary>
-    [JsonProperty("fillFwdPx")]
+    [JsonPropertyName("fillFwdPx")]
     public decimal? FillForwardPrice { get; set; }
 
     /// <summary>
     /// Mark price when filled
     /// </summary>
-    [JsonProperty("fillMarkPx")]
+    [JsonPropertyName("fillMarkPx")]
     public decimal? FillMarkPrice { get; set; }
 
     /// <summary>
     /// Transaction type
     /// </summary>
-    [JsonProperty("subType")]
+    [JsonPropertyName("subType")]
     public string TransactionType { get; set; } = string.Empty;
 }

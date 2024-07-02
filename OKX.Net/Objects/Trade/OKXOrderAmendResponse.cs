@@ -8,37 +8,37 @@ public record OKXOrderAmendResponse
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId")]
+    [JsonPropertyName("ordId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Request id
     /// </summary>
-    [JsonProperty("reqId")]
+    [JsonPropertyName("reqId")]
     public string RequestId { get; set; } = string.Empty;
 
     /// <summary>
     /// Code
     /// </summary>
-    [JsonProperty("sCode")]
+    [JsonPropertyName("sCode")]
     public int Code { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? Timestamp { get; set; }
 
     /// <summary>
     /// Message
     /// </summary>
-    [JsonProperty("sMsg")]
+    [JsonPropertyName("sMsg")]
     public string Message { get; set; } = string.Empty;
 
     /// <summary>

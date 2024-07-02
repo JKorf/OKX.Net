@@ -10,72 +10,72 @@ public record OKXDepositHistory
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Network
     /// </summary>
-    [JsonProperty("chain")]
+    [JsonPropertyName("chain")]
     public string Network { get; set; } = string.Empty;
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
 
     /// <summary>
     /// From
     /// </summary>
-    [JsonProperty("from")]
+    [JsonPropertyName("from")]
     public string From { get; set; } = string.Empty;
 
     /// <summary>
     /// To
     /// </summary>
-    [JsonProperty("to")]
+    [JsonPropertyName("to")]
     public string To { get; set; } = string.Empty;
 
     /// <summary>
     /// Transaction id
     /// </summary>
-    [JsonProperty("txId")]
+    [JsonPropertyName("txId")]
     public string TransactionId { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Deposit id
     /// </summary>
-    [JsonProperty("depId")]
+    [JsonPropertyName("depId")]
     public string DepositId { get; set; } = string.Empty;
 
     /// <summary>
     /// Deposit state
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
     public DepositState State { get; set; }
 
     /// <summary>
     /// Actual amount of blockchain confirm in a single deposit
     /// </summary>
-    [JsonProperty("actualDepBlkConfirm")]
+    [JsonPropertyName("actualDepBlkConfirm")]
     public int? Confirmations { get; set; }
 
     /// <summary>
     /// If from is a phone number, this parameter return area code of the phone number
     /// </summary>
-    [JsonProperty("areaCodeFrom")]
+    [JsonPropertyName("areaCodeFrom")]
     public string? AreaCodeFrom { get; set; } = string.Empty;
 
     /// <summary>
     /// Internal transfer initiator's withdrawal ID
     /// </summary>
-    [JsonProperty("fromWdId")]
+    [JsonPropertyName("fromWdId")]
     public string? FromWithdrawalId { get; set; } = string.Empty;
 }

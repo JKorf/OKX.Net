@@ -10,192 +10,192 @@ public record OKXAccountBill
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Data timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType? InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
     /// Bill id
     /// </summary>
-    [JsonProperty("billId")]
+    [JsonPropertyName("billId")]
     public long? BillId { get; set; }
 
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId")]
+    [JsonPropertyName("ordId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Balance
     /// </summary>
-    [JsonProperty("bal")]
+    [JsonPropertyName("bal")]
     public decimal? Balance { get; set; }
 
     /// <summary>
     /// Balance change
     /// </summary>
-    [JsonProperty("balChg")]
+    [JsonPropertyName("balChg")]
     public decimal? BalanceChange { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonPropertyName("sz")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Fee
     /// </summary>
-    [JsonProperty("fee")]
+    [JsonPropertyName("fee")]
     public decimal? Fee { get; set; }
 
     /// <summary>
     /// From account
     /// </summary>
-    [JsonProperty("from"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("from"), JsonConverter(typeof(EnumConverter))]
     public AccountType? FromAccount { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonProperty("to"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
     public AccountType? ToAccount { get; set; }
 
     /// <summary>
     /// Notes
     /// </summary>
-    [JsonProperty("notes")]
+    [JsonPropertyName("notes")]
     public string? Notes { get; set; }
 
     /// <summary>
     /// Marker or take
     /// </summary>
-    [JsonProperty("execType")]
+    [JsonPropertyName("execType")]
     public string? ExecutionType { get; set; }
 
     /// <summary>
     /// Profit and loss
     /// </summary>
-    [JsonProperty("pnl")]
+    [JsonPropertyName("pnl")]
     public decimal? ProfitAndLoss { get; set; }
 
     /// <summary>
     /// Position balance
     /// </summary>
-    [JsonProperty("posBal")]
+    [JsonPropertyName("posBal")]
     public decimal? PositionBalance { get; set; }
 
     /// <summary>
     /// Position balance change
     /// </summary>
-    [JsonProperty("posBalChg")]
+    [JsonPropertyName("posBalChg")]
     public decimal? PositionBalanceChange { get; set; }
 
     /// <summary>
     /// Sub type
     /// </summary>
-    [JsonProperty("subType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("subType"), JsonConverter(typeof(EnumConverter))]
     public AccountBillSubType? SubType { get; set; }
 
     /// <summary>
     /// Price
     /// </summary>
-    [JsonProperty("px")]
+    [JsonPropertyName("px")]
     public decimal? Price { get; set; }
 
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public string? Type { get; set; } = string.Empty;
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Forward price when filled, only for Options
     /// </summary>
-    [JsonProperty("fillFwdPx")]
+    [JsonPropertyName("fillFwdPx")]
     public decimal? FillForwardPrice { get; set; }
 
     /// <summary>
     /// Index price at time of fill, only for Options
     /// </summary>
-    [JsonProperty("fillIdxPx")]
+    [JsonPropertyName("fillIdxPx")]
     public decimal? FillIndexPrice { get; set; }
 
     /// <summary>
     /// Mark price at time of fill, only for Options
     /// </summary>
-    [JsonProperty("fillMarkPx")]
+    [JsonPropertyName("fillMarkPx")]
     public decimal? FillMarkPrice { get; set; }
 
     /// <summary>
     /// Mark volatility when filled, only for Options
     /// </summary>
-    [JsonProperty("fillMarkVol")]
+    [JsonPropertyName("fillMarkVol")]
     public decimal? FillMarkVolatility { get; set; }
 
     /// <summary>
     /// Implied volatility when filled, only for Options
     /// </summary>
-    [JsonProperty("fillPxVol")]
+    [JsonPropertyName("fillPxVol")]
     public decimal? FillImpliedVolatility { get; set; }
 
     /// <summary>
     /// Options price when filled, in the unit of USD
     /// </summary>
-    [JsonProperty("fillPxUsd")]
+    [JsonPropertyName("fillPxUsd")]
     public decimal? FillOptionPriceUsd { get; set; }
 
     /// <summary>
     /// Interest
     /// </summary>
-    [JsonProperty("interest")]
+    [JsonPropertyName("interest")]
     public decimal? Interest { get; set; }
 
     /// <summary>
     /// Tag
     /// </summary>
-    [JsonProperty("tag")]
+    [JsonPropertyName("tag")]
     public string? Tag { get; set; }
 
     /// <summary>
     /// Last trade id
     /// </summary>
-    [JsonProperty("tradeId")]
+    [JsonPropertyName("tradeId")]
     public string? TradeId { get; set; }
 
     /// <summary>
     /// Last fill time
     /// </summary>
-    [JsonProperty("fillTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("fillTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? FillTime { get; set; }
 }

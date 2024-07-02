@@ -8,37 +8,37 @@ public record OKXOrderPlaceResponse
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId")]
+    [JsonPropertyName("ordId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Tag
     /// </summary>
-    [JsonProperty("tag")]
+    [JsonPropertyName("tag")]
     public string Tag { get; set; } = string.Empty;
 
     /// <summary>
     /// Code
     /// </summary>
-    [JsonProperty("sCode")]
+    [JsonPropertyName("sCode")]
     public int Code { get; set; }
 
     /// <summary>
     /// Message
     /// </summary>
-    [JsonProperty("sMsg")]
+    [JsonPropertyName("sMsg")]
     public string Message { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? Timestamp { get; set; }
 
     /// <summary>

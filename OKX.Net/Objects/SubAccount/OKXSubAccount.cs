@@ -10,60 +10,60 @@ public record OKXSubAccount
     /// <summary>
     /// Enabled
     /// </summary>
-    [JsonProperty("enable")]
+    [JsonPropertyName("enable")]
     public bool Enable { get; set; }
 
     /// <summary>
     /// Google auth enabled
     /// </summary>
-    [JsonProperty("gAuth")]
+    [JsonPropertyName("gAuth")]
     public bool GoogleAuth { get; set; }
 
     /// <summary>
     /// Subaccount name
     /// </summary>
-    [JsonProperty("subAcct")]
+    [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
     /// Label
     /// </summary>
-    [JsonProperty("label")]
+    [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
     /// Mobile
     /// </summary>
-    [JsonProperty("mobile")]
+    [JsonPropertyName("mobile")]
     public string Mobile { get; set; } = string.Empty;
 
     /// <summary>
     /// Can transfer out
     /// </summary>
-    [JsonProperty("canTransOut")]
+    [JsonPropertyName("canTransOut")]
     public bool CanTransOut { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
     public SubAccountType Type { get; set; }
 
     /// <summary>
     /// Id
     /// </summary>
-    [JsonProperty("uid")]
+    [JsonPropertyName("uid")]
     public string Uid { get; set; } = string.Empty;
 
     /// <summary>
     /// Frozen functions
     /// </summary>
-    [JsonProperty("frozenFunc")]
+    [JsonPropertyName("frozenFunc")]
     public IEnumerable<string> FrozenFunctions { get; set; } = Array.Empty<string>();
 }

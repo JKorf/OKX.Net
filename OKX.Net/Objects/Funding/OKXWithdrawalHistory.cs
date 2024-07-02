@@ -10,78 +10,78 @@ public record OKXWithdrawalHistory
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Withdrawal id
     /// </summary>
-    [JsonProperty("wdId")]
+    [JsonPropertyName("wdId")]
     public long WithdrawalId { get; set; }
 
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
     public WithdrawalState State { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Network
     /// </summary>
-    [JsonProperty("chain")]
+    [JsonPropertyName("chain")]
     public string Network { get; set; } = string.Empty;
 
     /// <summary>
     /// Transaction id
     /// </summary>
-    [JsonProperty("txId")]
+    [JsonPropertyName("txId")]
     public string TransactionId { get; set; } = string.Empty;
 
     /// <summary>
     /// From
     /// </summary>
-    [JsonProperty("from")]
+    [JsonPropertyName("from")]
     public string From { get; set; } = string.Empty;
 
     /// <summary>
     /// To
     /// </summary>
-    [JsonProperty("to")]
+    [JsonPropertyName("to")]
     public string To { get; set; } = string.Empty;
 
     /// <summary>
     /// Fee
     /// </summary>
-    [JsonProperty("fee")]
+    [JsonPropertyName("fee")]
     public decimal Fee { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
 
     /// <summary>
     /// Client id
     /// </summary>
-    [JsonProperty("clientId")]
+    [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
 
     /// <summary>
     /// Area code for the phone number
     /// </summary>
-    [JsonProperty("areaCodeFrom")]
+    [JsonPropertyName("areaCodeFrom")]
     public string? AreaCodeFrom { get; set; }
 
     /// <summary>
     /// Area code for the phone number
     /// </summary>
-    [JsonProperty("areaCodeTo")]
+    [JsonPropertyName("areaCodeTo")]
     public string? AreaCodeTo { get; set; }
 }

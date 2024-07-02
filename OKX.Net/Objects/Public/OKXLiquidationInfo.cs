@@ -10,31 +10,31 @@ public record OKXLiquidationInfo
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Total loss
     /// </summary>
-    [JsonProperty("totalLoss")]
+    [JsonPropertyName("totalLoss")]
     public decimal? TotalLoss { get; set; }
 
     /// <summary>
     /// Underlying
     /// </summary>
-    [JsonProperty("uly")]
+    [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
     /// Details
     /// </summary>
-    [JsonProperty("details")]
+    [JsonPropertyName("details")]
     public IEnumerable<OKXPublicLiquidationInfoDetail> Details { get; set; } = Array.Empty<OKXPublicLiquidationInfoDetail>();
 }
 
@@ -46,42 +46,42 @@ public record OKXPublicLiquidationInfoDetail
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Bankruptcy price
     /// </summary>
-    [JsonProperty("bkPx")]
+    [JsonPropertyName("bkPx")]
     public decimal? BankruptcyPrice { get; set; }
 
     /// <summary>
     /// Number of liquidations
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonPropertyName("sz")]
     public decimal? NumberOfLiquidations { get; set; }
 
     /// <summary>
     /// Number of losses
     /// </summary>
-    [JsonProperty("bkLoss")]
+    [JsonPropertyName("bkLoss")]
     public decimal? NumberOfLosses { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

@@ -53,7 +53,7 @@ true
             "triggerPxType": "last",
             "triggerTime": "0",
             "linkedOrd":{
-                "ordId":"98192973880283",
+                "ordId":"98192973880283"
             }
         }
     ],

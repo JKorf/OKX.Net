@@ -10,287 +10,287 @@ public record OKXAlgoOrder
     /// <summary>
     /// Create time
     /// </summary>
-    [JsonProperty("cTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime CreateTime { get; set; }
 
     /// <summary>
     /// Update time
     /// </summary>
-    [JsonProperty("uTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("uTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? UpdateTime { get; set; }
 
     /// <summary>
     /// Trigger time
     /// </summary>
-    [JsonProperty("triggerTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("triggerTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? TriggerTime { get; set; }
 
     /// <summary>
     /// Algo order id
     /// </summary>
-    [JsonProperty("algoId")]
+    [JsonPropertyName("algoId")]
     public string? AlgoId { get; set; }
 
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("ordId")]
+    [JsonPropertyName("ordId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Order id list
     /// </summary>
-    [JsonProperty("ordIdList")]
+    [JsonPropertyName("ordIdList")]
     public IEnumerable<long>? OrderIdList { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonProperty("tdMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tdMode"), JsonConverter(typeof(EnumConverter))]
     public TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonProperty("ordType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("ordType"), JsonConverter(typeof(EnumConverter))]
     public AlgoOrderType OrderType { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonPropertyName("sz")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Actual price
     /// </summary>
-    [JsonProperty("actualPx")]
+    [JsonPropertyName("actualPx")]
     public decimal? ActualOrderPrice { get; set; }
 
     /// <summary>
     /// Actual quantity
     /// </summary>
-    [JsonProperty("actualSz")]
+    [JsonPropertyName("actualSz")]
     public decimal? ActualOrderQuantity { get; set; }
 
     /// <summary>
     /// Order price
     /// </summary>
-    [JsonProperty("ordPx")]
+    [JsonPropertyName("ordPx")]
     public decimal? OrderPrice { get; set; }
 
     /// <summary>
     /// Price limit
     /// </summary>
-    [JsonProperty("pxLimit")]
+    [JsonPropertyName("pxLimit")]
     public decimal? PriceLimit { get; set; }
 
     /// <summary>
     /// Price ratio
     /// </summary>
-    [JsonProperty("pxSpread")]
+    [JsonPropertyName("pxSpread")]
     public decimal? PriceRatio { get; set; }
 
     /// <summary>
     /// Price variance
     /// </summary>
-    [JsonProperty("pxVar")]
+    [JsonPropertyName("pxVar")]
     public decimal? PriceVariance { get; set; }
 
     /// <summary>
     /// Stop loss order price
     /// </summary>
-    [JsonProperty("slOrdPx")]
+    [JsonPropertyName("slOrdPx")]
     public decimal? StopLossOrderPrice { get; set; }
 
     /// <summary>
     /// Stop loss trigger price
     /// </summary>
-    [JsonProperty("slTriggerPx")]
+    [JsonPropertyName("slTriggerPx")]
     public decimal? StopLossTriggerPrice { get; set; }
 
     /// <summary>
     /// Take profit order price
     /// </summary>
-    [JsonProperty("tpOrdPx")]
+    [JsonPropertyName("tpOrdPx")]
     public decimal? TakeProfitOrderPrice { get; set; }
 
     /// <summary>
     /// Take profit trigger price
     /// </summary>
-    [JsonProperty("tpTriggerPx")]
+    [JsonPropertyName("tpTriggerPx")]
     public decimal? TakeProfitTriggerPrice { get; set; }
 
     /// <summary>
     /// Trigger rpice
     /// </summary>
-    [JsonProperty("triggerPx")]
+    [JsonPropertyName("triggerPx")]
     public decimal? TriggerPrice { get; set; }
 
     /// <summary>
     /// Leverage
     /// </summary>
-    [JsonProperty("lever")]
+    [JsonPropertyName("lever")]
     public decimal? Leverage { get; set; }
 
     /// <summary>
     /// Average quantity
     /// </summary>
-    [JsonProperty("szLimit")]
+    [JsonPropertyName("szLimit")]
     public decimal? AverageQuantity { get; set; }
 
     /// <summary>
     /// Time interval
     /// </summary>
-    [JsonProperty("timeInterval")]
+    [JsonPropertyName("timeInterval")]
     public long? TimeInterval { get; set; }
 
     /// <summary>
     /// Quantity type
     /// </summary>
-    [JsonProperty("tgtCcy"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tgtCcy"), JsonConverter(typeof(EnumConverter))]
     public QuantityAsset? QuantityType { get; set; }
 
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
     public AlgoOrderState State { get; set; }
 
     /// <summary>
     /// Actual side
     /// </summary>
-    [JsonProperty("actualSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("actualSide"), JsonConverter(typeof(EnumConverter))]
     public AlgoActualSide? ActualSide { get; set; }
 
     /// <summary>
     /// Fraction of position to be closed when the algo order is triggered
     /// </summary>
-    [JsonProperty("closeFraction")]
+    [JsonPropertyName("closeFraction")]
     public decimal? CloseFraction { get; set; }
 
     /// <summary>
     /// Take profit trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
-    [JsonProperty("tpTriggerPxType")]
+    [JsonPropertyName("tpTriggerPxType")]
     public TriggerPriceType? TakeProfitTriggerPriceType { get; set; }
 
     /// <summary>
     /// Stop loss trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
-    [JsonProperty("slTriggerPxType")]
+    [JsonPropertyName("slTriggerPxType")]
     public TriggerPriceType? StopLossTriggerPriceType { get; set; }
 
     /// <summary>
     /// Trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
-    [JsonProperty("triggerPxType")]
+    [JsonPropertyName("triggerPxType")]
     public TriggerPriceType? TriggerPriceType { get; set; }
 
     /// <summary>
     /// Tag
     /// </summary>
-    [JsonProperty("tag")]
+    [JsonPropertyName("tag")]
     public string? Tag { get; set; }
 
     /// <summary>
     /// Callback price ratio
     /// </summary>
-    [JsonProperty("callbackRatio")]
+    [JsonPropertyName("callbackRatio")]
     public decimal? CallbackRatio { get; set; }
 
     /// <summary>
     /// Callback price variance
     /// </summary>
-    [JsonProperty("callbackSpread")]
+    [JsonPropertyName("callbackSpread")]
     public decimal? CallbackSpread { get; set; }
 
     /// <summary>
     /// Active price
     /// </summary>
-    [JsonProperty("activePx")]
+    [JsonPropertyName("activePx")]
     public decimal? ActivePrice { get; set; }
 
     /// <summary>
     /// Trigger price
     /// </summary>
-    [JsonProperty("moveTriggerPx")]
+    [JsonPropertyName("moveTriggerPx")]
     public decimal? MoveTriggerPrice { get; set; }
 
     /// <summary>
     /// Reduce only
     /// </summary>
-    [JsonProperty("reduceOnly")]
+    [JsonPropertyName("reduceOnly")]
     public bool ReduceOnly { get; set; }
 
     /// <summary>
     /// Last filled price while placing
     /// </summary>
-    [JsonProperty("last")]
+    [JsonPropertyName("last")]
     public decimal? LastPrice { get; set; }
 
     /// <summary>
     /// Failure code of the trigger order
     /// </summary>
-    [JsonProperty("failCode")]
+    [JsonPropertyName("failCode")]
     public string? FailCode { get; set; }
 
     /// <summary>
     /// Client algo order id
     /// </summary>
-    [JsonProperty("algoClOrdId")]
+    [JsonPropertyName("algoClOrdId")]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>
     /// Quick Margin type
     /// </summary>
-    [JsonProperty("quickMgnType")]
+    [JsonPropertyName("quickMgnType")]
     [JsonConverter(typeof(EnumConverter))]
     public QuickMarginType? QuickMarginType { get; set; }
 
     /// <summary>
     /// Whether to enable Cost-price SL. Only applicable to SL order of split TPs. false: disable, the default value, true: Enable “Cost-price SL”
     /// </summary>
-    [JsonProperty("amendPxOnTriggerType")]
+    [JsonPropertyName("amendPxOnTriggerType")]
     [JsonConverter(typeof(BoolConverter))]
     public bool CostPriceSlEnabled { get; set; }
 }

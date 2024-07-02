@@ -10,30 +10,30 @@ public record OKXBlockTicker
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Quote Volume
     /// </summary>
-    [JsonProperty("vol24h")]
+    [JsonPropertyName("vol24h")]
     public decimal Volume { get; set; }
 
     /// <summary>
     /// Base Volume
     /// </summary>
-    [JsonProperty("volCcy24h")]
+    [JsonPropertyName("volCcy24h")]
     public decimal BaseVolume { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

@@ -8,31 +8,31 @@ public record OKXAlgoOrderResponse
     /// <summary>
     /// Algo order id
     /// </summary>
-    [JsonProperty("algoId")]
+    [JsonPropertyName("algoId")]
     public string? AlgoOrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("clOrdId")]
+    [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Algo client order id
     /// </summary>
-    [JsonProperty("algoClOrdId")]
+    [JsonPropertyName("algoClOrdId")]
     public string? AgloClientOrderId { get; set; }
 
     /// <summary>
     /// Code
     /// </summary>
-    [JsonProperty("sCode")]
+    [JsonPropertyName("sCode")]
     public int Code { get; set; }
 
     /// <summary>
     /// Message
     /// </summary>
-    [JsonProperty("sMsg")]
+    [JsonPropertyName("sMsg")]
     public string Message { get; set; } = string.Empty;
 
     /// <summary>

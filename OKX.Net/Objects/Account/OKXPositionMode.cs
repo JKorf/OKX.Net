@@ -10,6 +10,6 @@ public record OKXAccountPositionMode
     /// <summary>
     /// Position mode
     /// </summary>
-    [JsonProperty("posMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posMode"), JsonConverter(typeof(EnumConverter))]
     public PositionMode PositionMode { get; set; }
 }

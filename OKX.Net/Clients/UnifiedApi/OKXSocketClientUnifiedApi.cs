@@ -53,6 +53,11 @@ public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifie
     #endregion
 
     /// <inheritdoc />
+    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
+    /// <inheritdoc />
+    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+
+    /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
 
     /// <inheritdoc />
