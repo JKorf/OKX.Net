@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -17,8 +16,8 @@ public record OKXClosePositionResponse
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Client order id

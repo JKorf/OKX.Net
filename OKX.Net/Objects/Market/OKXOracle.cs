@@ -1,10 +1,8 @@
-﻿
-namespace OKX.Net.Objects.Market;
+﻿namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Oracle
 /// </summary>
-//[JsonConverter(typeof(TypedDataConverter<OKXOracle>))]
 public record OKXOracle
 {
     /// <summary>
@@ -28,7 +26,6 @@ public record OKXOracle
     /// <summary>
     /// Prices
     /// </summary>
-    //[TypedData]
     [JsonProperty("prices")]
     public Dictionary<string, decimal> Prices { get; set; } = new Dictionary<string, decimal>();
 }

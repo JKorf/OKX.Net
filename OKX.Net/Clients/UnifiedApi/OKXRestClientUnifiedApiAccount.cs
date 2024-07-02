@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
@@ -28,14 +27,13 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXPosition>>> GetAccountPositionsAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         string? positionId = null,
         CancellationToken ct = default)
     {
        var parameters = new ParameterCollection();
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("posId", positionId);
 
@@ -45,7 +43,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetAccountPositionHistoryAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         OKXMarginMode? marginMode = null,
         ClosingPositionType? type = null,
@@ -56,11 +54,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         CancellationToken ct = default)
     {
        var parameters = new ParameterCollection();
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
-        parameters.AddOptionalParameter("instId", symbol);
-        if (marginMode != null)
-            parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
+        parameters.AddOptionalEnum("mgmMode", marginMode);
         parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("posId", positionId);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
@@ -72,21 +67,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetAccountPositionRiskAsync(OKXInstrumentType? instrumentType = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetAccountPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default)
     {
        var parameters = new ParameterCollection();
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
-
+        parameters.AddOptionalEnum("instType", instrumentType);
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/account-position-risk", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXPositionRisk>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? asset = null,
-        OKXMarginMode? marginMode = null,
+        MarginMode? marginMode = null,
         ContractType? contractType = null,
         AccountBillType? billType = null,
         AccountBillSubType? billSubType = null,
@@ -108,10 +101,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
 
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
-        if (marginMode.HasValue)
-            parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
+        parameters.AddOptionalEnum("mgnMode", marginMode);
         parameters.AddOptionalEnum("ctType", contractType);
         parameters.AddOptionalEnum("type", billType);
         parameters.AddOptionalEnum("subType", billSubType);
@@ -122,9 +113,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? asset = null,
-        OKXMarginMode? marginMode = null,
+        MarginMode? marginMode = null,
         ContractType? contractType = null,
         AccountBillType? billType = null,
         AccountBillSubType? billSubType = null,
@@ -146,11 +137,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
 
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
-        if (marginMode.HasValue)
-            parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
-
+        parameters.AddOptionalEnum("instType", instrumentType);
+        parameters.AddOptionalEnum("mgnMode", marginMode);
         parameters.AddOptionalEnum("ctType", contractType);
         parameters.AddOptionalEnum("type", billType);
         parameters.AddOptionalEnum("subType", billSubType);
@@ -167,11 +155,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
         
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAccountPositionMode>> SetAccountPositionModeAsync(OKXPositionMode positionMode, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAccountPositionMode>> SetAccountPositionModeAsync(PositionMode positionMode, CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection {
-            {"posMode", JsonConvert.SerializeObject(positionMode, new PositionModeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("posMode", positionMode);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-position-mode", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendGetSingleAsync<OKXAccountPositionMode>(request, parameters, ct).ConfigureAwait(false);
@@ -180,13 +167,13 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> GetAccountLeverageAsync(
         string symbols,
-        OKXMarginMode marginMode,
+        MarginMode marginMode,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
-            {"instId", symbols },
-            {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
+            {"instId", symbols }
         };
+        parameters.AddEnum("mgmMode", marginMode);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/leverage-info", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXLeverage>>(request, parameters, ct).ConfigureAwait(false);
@@ -195,10 +182,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(
         int leverage,
-        OKXMarginMode marginMode,
+        MarginMode marginMode,
         string? asset = null,
         string? symbol = null,
-        OKXPositionSide? positionSide = null,
+        PositionSide? positionSide = null,
         CancellationToken ct = default)
     {
         if (leverage < 1)
@@ -208,13 +195,12 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             throw new ArgumentException("Either instId or ccy is required; if both are passed, instId will be used by default.");
 
         var parameters = new ParameterCollection {
-            {"lever", leverage.ToString() },
-            {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
+            {"lever", leverage.ToString() }
         };
+        parameters.AddEnum("mgmMode", marginMode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("instId", symbol);
-        if (positionSide.HasValue)
-            parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
+        parameters.AddOptionalEnum("posSide", positionSide);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-leverage", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXLeverage>>(request, parameters, ct).ConfigureAwait(false);
@@ -223,16 +209,16 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(
         string symbol,
-        OKXTradeMode tradeMode,
+        TradeMode tradeMode,
         string? asset = null,
         decimal? price = null,
         int? leverage = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
-            {"instId", symbol },
-            {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
+            {"instId", symbol }
         };
+        parameters.AddEnum("tdMode", tradeMode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
@@ -244,15 +230,15 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumAvailableAmount>>> GetMaximumAvailableAmountAsync(
         string symbol,
-        OKXTradeMode tradeMode,
+        TradeMode tradeMode,
         string? asset = null,
         bool? reduceOnly = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
         };
+        parameters.AddEnum("tdMode", tradeMode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
 
@@ -263,8 +249,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(
         string symbol,
-        OKXPositionSide positionSide,
-        OKXMarginAddReduce marginAddReduce,
+        PositionSide positionSide,
+        MarginAddReduce marginAddReduce,
         decimal amount,
         string? asset = null,
         bool? auto = null,
@@ -272,11 +258,11 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     {
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)) },
-            {"type", JsonConvert.SerializeObject(marginAddReduce, new MarginAddReduceConverter(false)) },
             {"amt", amount.ToString(CultureInfo.InvariantCulture) },
         };
 
+        parameters.AddEnum("posSide", positionSide);
+        parameters.AddEnum("type", marginAddReduce);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("auto", auto);
 
@@ -287,14 +273,14 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(
         string instrumentId,
-        OKXMarginMode marginMode,
+        MarginMode marginMode,
         string? marginAsset = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
-            {"instId", instrumentId },
-            {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
+            {"instId", instrumentId }
         };
+        parameters.AddEnum("mgmMode", marginMode);
         parameters.AddOptionalParameter("mgnCcy", marginAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-loan", OKXExchange.RateLimiter.Public, 1, true);
@@ -303,15 +289,14 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection {
-            {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
@@ -324,7 +309,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXInterestAccrued>>> GetInterestAccruedAsync(
         string? symbol = null,
         string? asset = null,
-        OKXMarginMode? marginMode = null,
+        MarginMode? marginMode = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -339,9 +324,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
-
-        if (marginMode.HasValue)
-            parameters.AddOptionalParameter("mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)));
+        parameters.AddOptionalEnum("mgmMode", marginMode);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/interest-accrued", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXInterestAccrued>>(request, parameters, ct).ConfigureAwait(false);
@@ -360,12 +343,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAccountGreeksType>> SetGreeksAsync(OKXGreeksType greeksType, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAccountGreeksType>> SetGreeksAsync(GreeksType greeksType, CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection {
-            {"greeksType", JsonConvert.SerializeObject(greeksType, new GreeksTypeConverter(false)) },
-        };
-
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("greeksType", greeksType);
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-greeks", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendGetSingleAsync<OKXAccountGreeksType>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -406,7 +387,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<OKXTransferResponse>> TransferAsync(
         string asset,
         decimal amount,
-        OKXTransferType type,
+        TransferType type,
         AccountType fromAccount,
         AccountType toAccount,
         string? subAccountName = null,
@@ -420,9 +401,9 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
-            { "type", JsonConvert.SerializeObject(type, new TransferTypeConverter(false)) },
         };
         parameters.AddEnum("from", fromAccount);
+        parameters.AddEnum("type", type);
         parameters.AddEnum("to", toAccount);
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("instId", fromSymbol);
@@ -435,7 +416,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXFundingBill>>> GetFundingBillDetailsAsync(
         string? asset = null,
-        OKXFundingBillType? type = null,
+        FundingBillType? type = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -447,8 +428,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
        var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("ccy", asset);
-        if (type.HasValue)
-            parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new FundingBillTypeConverter(false)));
+        parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
@@ -462,7 +442,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXLightningDeposit>>> GetLightningDepositsAsync(
         string asset,
         decimal amount,
-        OKXLightningDepositAccount? account = null,
+        LightningDepositAccount? account = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection 
@@ -470,8 +450,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             { "ccy", asset },
             { "amt", amount.ToString(CultureInfo.InvariantCulture) },
         };
-        if (account.HasValue)
-            parameters.AddOptionalParameter("to", JsonConvert.SerializeObject(account, new LightningDepositAccountConverter(false)));
+        parameters.AddOptionalEnum("to", account);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/deposit-lightning", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXLightningDeposit>>(request, parameters, ct).ConfigureAwait(false);
@@ -491,13 +470,13 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXDepositHistory>>> GetDepositHistoryAsync(
         string? asset = null,
         string? transactionId = null,
-        OKXDepositState? state = null,
+        DepositState? state = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
         string? depositId = null,
         string? fromWithdrawalId = null,
-        OKXDepositType? type = null,
+        DepositType? type = null,
         CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -522,7 +501,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(
         string asset,
         decimal amount,
-        OKXWithdrawalDestination destination,
+        WithdrawalDestination destination,
         string toAddress,
         decimal fee,
         string? network = null,
@@ -533,10 +512,10 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
-            { "dest", JsonConvert.SerializeObject(destination, new WithdrawalDestinationConverter(false)) },
             { "toAddr",toAddress},
             { "fee",fee.ToString(CultureInfo.InvariantCulture)},
         };
+        parameters.AddEnum("dest", destination);
         parameters.AddOptionalParameter("chain", network);
         parameters.AddOptionalParameter("areaCode", areaCode);
         parameters.AddOptionalParameter("clientId", clientId);
@@ -579,7 +558,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(
         string? asset = null,
         string? transactionId = null,
-        OKXWithdrawalState? state = null,
+        WithdrawalState? state = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -618,15 +597,16 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<OKXSavingActionResponse>> SavingPurchaseRedemptionAsync(
         string asset,
         decimal amount,
-        OKXSavingActionSide side,
+        SavingActionSide side,
         decimal? rate = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy",asset},
             { "amt",amount.ToString(CultureInfo.InvariantCulture)},
-            { "side", JsonConvert.SerializeObject(side, new SavingActionSideConverter(false)) },
         };
+
+        parameters.AddEnum("side", side);
         parameters.AddOptionalParameter("rate", rate?.ToString(CultureInfo.InvariantCulture));
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/finance/savings/purchase-redempt", OKXExchange.RateLimiter.Public, 1, true);
@@ -644,7 +624,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(OKXInstrumentType instumentType, OKXIsolatedMarginMode isolatedMarginMode, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(InstrumentType instumentType, IsolatedMarginMode isolatedMarginMode, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("type", instumentType);
@@ -655,7 +635,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, OKXTransferType? type = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, TransferType? type = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptional("transId", transferId);

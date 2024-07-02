@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -17,8 +16,8 @@ public record OKXLiquidationInfo
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Total loss
@@ -47,14 +46,14 @@ public record OKXPublicLiquidationInfoDetail
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(OrderSideConverter))]
-    public OKXOrderSide OrderSide { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Bankruptcy price

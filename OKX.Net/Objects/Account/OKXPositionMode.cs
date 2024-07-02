@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,6 +10,6 @@ public record OKXAccountPositionMode
     /// <summary>
     /// Position mode
     /// </summary>
-    [JsonProperty("posMode"), JsonConverter(typeof(PositionModeConverter))]
-    public OKXPositionMode PositionMode { get; set; }
+    [JsonProperty("posMode"), JsonConverter(typeof(EnumConverter))]
+    public PositionMode PositionMode { get; set; }
 }

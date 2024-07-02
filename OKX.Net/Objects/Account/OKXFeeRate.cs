@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,8 +10,8 @@ public record OKXFeeRate
     /// <summary>
     /// Category
     /// </summary>
-    [JsonProperty("category"), JsonConverter(typeof(FeeRateCategoryConverter))]
-    public OKXFeeRateCategory? Category { get; set; }
+    [JsonProperty("category"), JsonConverter(typeof(EnumConverter))]
+    public FeeRateCategory? Category { get; set; }
 
     /// <summary>
     /// Timestamp
@@ -65,8 +64,8 @@ public record OKXFeeRate
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Delivery

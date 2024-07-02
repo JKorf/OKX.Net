@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -59,44 +58,44 @@ public record OKXOrder
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position type
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide? PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonProperty("ordType"), JsonConverter(typeof(OrderTypeConverter))]
-    public OKXOrderType OrderType { get; set; }
+    [JsonProperty("ordType"), JsonConverter(typeof(EnumConverter))]
+    public OrderType OrderType { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(OrderSideConverter))]
-    public OKXOrderSide OrderSide { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonProperty("tdMode"), JsonConverter(typeof(TradeModeConverter))]
-    public OKXTradeMode TradeMode { get; set; }
+    [JsonProperty("tdMode"), JsonConverter(typeof(EnumConverter))]
+    public TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order state
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(OrderStateConverter))]
-    public OKXOrderState OrderState { get; set; }
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    public OrderStatus OrderState { get; set; }
 
     /// <summary>
     /// Quantity type
     /// </summary>
     [JsonProperty("tgtCcy"), JsonConverter(typeof(EnumConverter))]
-    public OKXQuantityAsset? QuantityType { get; set; }
+    public QuantityAsset? QuantityType { get; set; }
 
     /// <summary>
     /// Average price
@@ -223,14 +222,14 @@ public record OKXOrder
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
     [JsonProperty("tpTriggerPxType")]
-    public OXKTriggerPriceType? TakeProfitTriggerPriceType { get; set; }
+    public TriggerPriceType? TakeProfitTriggerPriceType { get; set; }
 
     /// <summary>
     /// Stop loss trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
     [JsonProperty("slTriggerPxType")]
-    public OXKTriggerPriceType? StopLossTriggerPriceType { get; set; }
+    public TriggerPriceType? StopLossTriggerPriceType { get; set; }
 
     /// <summary>
     /// Self trade prevention ID
@@ -243,7 +242,7 @@ public record OKXOrder
     /// </summary>
     [JsonProperty("stpMode")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXSelfTradePreventionMode? SelfTradePreventionMode { get; set; }
+    public SelfTradePreventionMode? SelfTradePreventionMode { get; set; }
 
     /// <summary>
     /// Order source
@@ -280,7 +279,7 @@ public record OKXOrder
     /// </summary>
     [JsonProperty("quickMgnType")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXQuickMarginType? QuickMarginType { get; set; }
+    public QuickMarginType? QuickMarginType { get; set; }
 
     /// <summary>
     /// Is take profit limit order or not

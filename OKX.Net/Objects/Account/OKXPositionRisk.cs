@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -77,14 +76,14 @@ public record OKXAccountPositionRiskPositionData
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Notional currency
@@ -119,8 +118,8 @@ public record OKXAccountPositionRiskPositionData
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Base asset balance

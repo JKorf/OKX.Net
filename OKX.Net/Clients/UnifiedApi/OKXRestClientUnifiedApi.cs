@@ -147,8 +147,8 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
         var orderResult = await Trading.PlaceOrderAsync(
             symbol,
-            side == CommonOrderSide.Buy ? Enums.OKXOrderSide.Buy : Enums.OKXOrderSide.Sell,
-            type == CommonOrderType.Limit ? Enums.OKXOrderType.LimitOrder : Enums.OKXOrderType.MarketOrder,
+            side == CommonOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
+            type == CommonOrderType.Limit ? Enums.OrderType.Limit : Enums.OrderType.Market,
             quantity,
             price,
             clientOrderId: clientOrderId,
@@ -171,7 +171,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Symbol>>> IBaseRestClient.GetSymbolsAsync(CancellationToken ct)
     {
-        var symbols = await ExchangeData.GetSymbolsAsync(Enums.OKXInstrumentType.Spot, ct: ct).ConfigureAwait(false);
+        var symbols = await ExchangeData.GetSymbolsAsync(Enums.InstrumentType.Spot, ct: ct).ConfigureAwait(false);
         if (!symbols)
             return symbols.As<IEnumerable<Symbol>>(default);
 
@@ -208,7 +208,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
     async Task<WebCallResult<IEnumerable<Ticker>>> IBaseRestClient.GetTickersAsync(CancellationToken ct)
     {
-        var tickers = await ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot, ct: ct).ConfigureAwait(false);
+        var tickers = await ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot, ct: ct).ConfigureAwait(false);
         if (!tickers)
             return tickers.As<IEnumerable<Ticker>>(default);
 
@@ -230,9 +230,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetKlinesAsync), nameof(symbol));
 
         var seconds = (int)timespan.TotalSeconds;
-        var period = (Enums.OKXPeriod)seconds;
+        var period = (Enums.KlineInterval)seconds;
 
-        if (!Enum.IsDefined(typeof(Enums.OKXPeriod), seconds))
+        if (!Enum.IsDefined(typeof(Enums.KlineInterval), seconds))
             throw new ArgumentException("Unsupported timespan for OKX Klines, check supported intervals using OKX.Net.Enums.OKXPeriod");
 
         var tickers = await ExchangeData.GetKlinesAsync(symbol, period, startTime, endTime, ct: ct).ConfigureAwait(false);
@@ -322,12 +322,12 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             QuantityFilled = orderResult.Data.QuantityFilled,
             Timestamp = orderResult.Data.CreateTime,
             Symbol = orderResult.Data.Symbol,
-            Status = orderResult.Data.OrderState == Enums.OKXOrderState.Canceled ? CommonOrderStatus.Canceled :
-                     orderResult.Data.OrderState == Enums.OKXOrderState.Filled ? CommonOrderStatus.Filled :
+            Status = orderResult.Data.OrderState == Enums.OrderStatus.Canceled ? CommonOrderStatus.Canceled :
+                     orderResult.Data.OrderState == Enums.OrderStatus.Filled ? CommonOrderStatus.Filled :
                      CommonOrderStatus.Filled,
-            Side = orderResult.Data.OrderSide == Enums.OKXOrderSide.Sell ? CommonOrderSide.Sell: CommonOrderSide.Buy,
-            Type = orderResult.Data.OrderType == Enums.OKXOrderType.LimitOrder ? CommonOrderType.Limit
-                 : orderResult.Data.OrderType == Enums.OKXOrderType.MarketOrder ? CommonOrderType.Market:
+            Side = orderResult.Data.OrderSide == Enums.OrderSide.Sell ? CommonOrderSide.Sell: CommonOrderSide.Buy,
+            Type = orderResult.Data.OrderType == Enums.OrderType.Limit ? CommonOrderType.Limit
+                 : orderResult.Data.OrderType == Enums.OrderType.Market ? CommonOrderType.Market:
                   CommonOrderType.Other,
             SourceObject = orderResult.Data
         });
@@ -341,7 +341,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (!long.TryParse(orderId, out var longId))
             throw new ArgumentException(nameof(orderId) + " is not a valid id for OKX " + nameof(ISpotClient.GetOrderAsync), nameof(orderId));
 
-        var tradesResult = await Trading.GetUserTradesAsync(Enums.OKXInstrumentType.Spot, orderId: longId, ct: ct).ConfigureAwait(false);
+        var tradesResult = await Trading.GetUserTradesAsync(Enums.InstrumentType.Spot, orderId: longId, ct: ct).ConfigureAwait(false);
         if (!tradesResult)
             return tradesResult.As<IEnumerable<UserTrade>>(default);
 
@@ -363,7 +363,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (symbol == null)
             throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetOpenOrdersAsync), nameof(symbol));
 
-        var ordersResult = await Trading.GetOrdersAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
+        var ordersResult = await Trading.GetOrdersAsync(Enums.InstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
         if (!ordersResult)
             return ordersResult.As<IEnumerable<Order>>(default);
 
@@ -375,12 +375,12 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             QuantityFilled = x.QuantityFilled,
             Timestamp = x.CreateTime,
             Symbol = x.Symbol,
-            Status = x.OrderState == Enums.OKXOrderState.Canceled ? CommonOrderStatus.Canceled :
-                     x.OrderState == Enums.OKXOrderState.Filled ? CommonOrderStatus.Filled :
+            Status = x.OrderState == Enums.OrderStatus.Canceled ? CommonOrderStatus.Canceled :
+                     x.OrderState == Enums.OrderStatus.Filled ? CommonOrderStatus.Filled :
                      CommonOrderStatus.Filled,
-            Side = x.OrderSide == Enums.OKXOrderSide.Sell ? CommonOrderSide.Sell : CommonOrderSide.Buy,
-            Type = x.OrderType == Enums.OKXOrderType.LimitOrder ? CommonOrderType.Limit
-                 : x.OrderType == Enums.OKXOrderType.MarketOrder ? CommonOrderType.Market :
+            Side = x.OrderSide == Enums.OrderSide.Sell ? CommonOrderSide.Sell : CommonOrderSide.Buy,
+            Type = x.OrderType == Enums.OrderType.Limit ? CommonOrderType.Limit
+                 : x.OrderType == Enums.OrderType.Market ? CommonOrderType.Market :
                   CommonOrderType.Other,
             SourceObject = x
         }));
@@ -391,7 +391,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         if (symbol == null)
             throw new ArgumentException(nameof(symbol) + " required for OKX " + nameof(ISpotClient.GetClosedOrdersAsync), nameof(symbol));
 
-        var ordersResult = await Trading.GetOrderHistoryAsync(Enums.OKXInstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
+        var ordersResult = await Trading.GetOrderHistoryAsync(Enums.InstrumentType.Spot, symbol, ct: ct).ConfigureAwait(false);
         if (!ordersResult)
             return ordersResult.As<IEnumerable<Order>>(default);
 
@@ -403,12 +403,12 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
             QuantityFilled = x.QuantityFilled,
             Timestamp = x.CreateTime,
             Symbol = x.Symbol,
-            Status = x.OrderState == Enums.OKXOrderState.Canceled ? CommonOrderStatus.Canceled :
-                     x.OrderState == Enums.OKXOrderState.Filled ? CommonOrderStatus.Filled :
+            Status = x.OrderState == Enums.OrderStatus.Canceled ? CommonOrderStatus.Canceled :
+                     x.OrderState == Enums.OrderStatus.Filled ? CommonOrderStatus.Filled :
                      CommonOrderStatus.Filled,
-            Side = x.OrderSide == Enums.OKXOrderSide.Sell ? CommonOrderSide.Sell : CommonOrderSide.Buy,
-            Type = x.OrderType == Enums.OKXOrderType.LimitOrder ? CommonOrderType.Limit
-                 : x.OrderType == Enums.OKXOrderType.MarketOrder ? CommonOrderType.Market :
+            Side = x.OrderSide == Enums.OrderSide.Sell ? CommonOrderSide.Sell : CommonOrderSide.Buy,
+            Type = x.OrderType == Enums.OrderType.Limit ? CommonOrderType.Limit
+                 : x.OrderType == Enums.OrderType.Market ? CommonOrderType.Market :
                   CommonOrderType.Other,
             SourceObject = x
         }));

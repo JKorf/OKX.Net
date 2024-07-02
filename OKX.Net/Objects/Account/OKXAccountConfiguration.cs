@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -23,20 +22,20 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Position mode
     /// </summary>
-    [JsonProperty("posMode"), JsonConverter(typeof(PositionModeConverter))]
-    public OKXPositionMode PositionMode { get; set; }
+    [JsonProperty("posMode"), JsonConverter(typeof(EnumConverter))]
+    public PositionMode PositionMode { get; set; }
 
     /// <summary>
     /// Auto loan
     /// </summary>
-    [JsonProperty("autoLoan"), JsonConverter(typeof(OKXBooleanConverter))]
+    [JsonProperty("autoLoan")]
     public bool AutoLoan { get; set; }
 
     /// <summary>
     /// Greeks type
     /// </summary>
-    [JsonProperty("greeksType"), JsonConverter(typeof(GreeksTypeConverter))]
-    public OKXGreeksType GreeksType { get; set; }
+    [JsonProperty("greeksType"), JsonConverter(typeof(EnumConverter))]
+    public GreeksType GreeksType { get; set; }
 
     /// <summary>
     /// Level
@@ -59,15 +58,15 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Contract isolated margin trading mode
     /// </summary>
-    [JsonProperty("ctIsoMode"), JsonConverter(typeof(MarginTransferModeConverter))]
-    public OKXMarginTransferMode ContractIsolatedMarginTradingMode { get; set; }
+    [JsonProperty("ctIsoMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginTransferMode ContractIsolatedMarginTradingMode { get; set; }
 
     /// <summary>
     /// Margin isolated trading mode
     /// </summary>
 
-    [JsonProperty("mgnIsoMode"), JsonConverter(typeof(MarginTransferModeConverter))]
-    public OKXMarginTransferMode MarginIsolatedMarginTradingMode { get; set; }
+    [JsonProperty("mgnIsoMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginTransferMode MarginIsolatedMarginTradingMode { get; set; }
 
     /// <summary>
     /// Liquidation gear
@@ -106,7 +105,7 @@ public record OKXAccountConfiguration
     /// </summary>
     [JsonProperty("opAuth")]
     [JsonConverter (typeof(EnumConverter))]
-    public OKXOptionalTradingStatus OpAuth { get; set; }
+    public OptionalTradingStatus OpAuth { get; set; }
 
     /// <summary>
     /// KYC level

@@ -23,7 +23,7 @@ public record OKXWithdrawalHistory
     /// State
     /// </summary>
     [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
-    public OKXWithdrawalState State { get; set; }
+    public WithdrawalState State { get; set; }
 
     /// <summary>
     /// Asset

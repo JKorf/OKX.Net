@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -17,26 +16,26 @@ public record OKXOrderPlaceRequest
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonProperty("tdMode"), JsonConverter(typeof(TradeModeConverter))]
-    public OKXTradeMode TradeMode { get; set; }
+    [JsonProperty("tdMode"), JsonConverter(typeof(EnumConverter))]
+    public TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(OrderSideConverter))]
-    public OKXOrderSide OrderSide { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonProperty("ordType"), JsonConverter(typeof(OrderTypeConverter))]
-    public OKXOrderType OrderType { get; set; }
+    [JsonProperty("ordType"), JsonConverter(typeof(EnumConverter))]
+    public OrderType OrderType { get; set; }
 
     /// <summary>
     /// Quantity
@@ -78,5 +77,5 @@ public record OKXOrderPlaceRequest
     /// Quantity type
     /// </summary>
     [JsonProperty("tgtCcy", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(EnumConverter))]
-    public OKXQuantityAsset? QuantityType { get; set; }
+    public QuantityAsset? QuantityType { get; set; }
 }

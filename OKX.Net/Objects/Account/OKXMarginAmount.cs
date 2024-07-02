@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -17,8 +16,8 @@ public record OKXMarginAmount
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide? PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Asset
@@ -41,6 +40,6 @@ public record OKXMarginAmount
     /// <summary>
     /// Margin add reduce
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(MarginAddReduceConverter))]
-    public OKXMarginAddReduce? MarginAddReduce { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public MarginAddReduce? MarginAddReduce { get; set; }
 }

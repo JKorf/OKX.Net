@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.System;
 
@@ -17,8 +16,8 @@ public record OKXStatus
     /// <summary>
     /// System maintenance status
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(MaintenanceStateConverter))]
-    public OKXMaintenanceState Status { get; set; }
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    public MaintenanceState Status { get; set; }
 
     /// <summary>
     /// Begin time of system maintenance
@@ -47,14 +46,14 @@ public record OKXStatus
     /// <summary>
     /// Service type, 0：WebSocket ; 1：Spot/Margin ; 2：Futures ; 3：Perpetual ; 4：Options ; 5：Trading service
     /// </summary>
-    [JsonProperty("serviceType"), JsonConverter(typeof(MaintenanceServiceConverter))]
-    public OKXMaintenanceService Product { get; set; }
+    [JsonProperty("serviceType"), JsonConverter(typeof(EnumConverter))]
+    public MaintenanceService Product { get; set; }
 
     /// <summary>
     /// Service type, 0：WebSocket ; 1：Spot/Margin ; 2：Futures ; 3：Perpetual ; 4：Options ; 5：Trading service
     /// </summary>
-    [JsonProperty("system"), JsonConverter(typeof(MaintenanceSystemConverter))]
-    public OKXMaintenanceSystem System { get; set; }
+    [JsonProperty("system"), JsonConverter(typeof(EnumConverter))]
+    public MaintenanceSystem System { get; set; }
 
     /// <summary>
     /// Rescheduled description，e.g. Rescheduled from 2021-01-26T16:30:00.000Z to 2021-01-28T16:30:00.000Z
@@ -66,7 +65,7 @@ public record OKXStatus
     /// Maintenance type
     /// </summary>
     [JsonProperty("maintType"), JsonConverter(typeof(EnumConverter))]
-    public OKXMaintenanceType MaintenanceType { get; set; }
+    public MaintenanceType MaintenanceType { get; set; }
 
     /// <summary>
     /// Environment. 1: Production Trading, 2: Demo Trading

@@ -59,7 +59,7 @@ public record OKXDepositHistory
     /// Deposit state
     /// </summary>
     [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
-    public OKXDepositState State { get; set; }
+    public DepositState State { get; set; }
 
     /// <summary>
     /// Actual amount of blockchain confirm in a single deposit

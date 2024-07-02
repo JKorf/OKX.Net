@@ -1,6 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
-using System.Net.NetworkInformation;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -18,8 +16,8 @@ public record OKXFundingRate
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Funding time

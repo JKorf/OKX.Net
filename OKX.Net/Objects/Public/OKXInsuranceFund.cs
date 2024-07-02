@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -24,7 +23,7 @@ public record OKXInsuranceFund
     /// Instrument type
     /// </summary>
     [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Details
@@ -75,8 +74,8 @@ public record OKXInsuranceFundDetail
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(InsuranceTypeConverter))]
-    public OKXInsuranceType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public InsuranceType Type { get; set; }
 
     /// <summary>
     /// Auto deleverage type

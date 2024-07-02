@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.SubAccount;
@@ -101,7 +100,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
     public virtual async Task<WebCallResult<IEnumerable<OKXSubAccountBill>>> GetSubAccountBillsAsync(
         string? subAccountName = null,
         string? asset = null,
-        OKXSubAccountTransferType? type = null,
+        SubAccountTransferType? type = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -113,7 +112,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("subAcct", subAccountName);
         parameters.AddOptionalParameter("ccy", asset);
-        parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new SubAccountTransferTypeConverter(false)));
+        parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));

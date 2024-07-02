@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Trade;
@@ -18,25 +17,25 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
         string symbol,
-        OKXOrderSide side,
-        OKXOrderType type,
+        OrderSide side,
+        OrderType type,
         decimal quantity,
         decimal? price = null,
-        OKXPositionSide? positionSide = null,
-        OKXTradeMode? tradeMode = null,
+        PositionSide? positionSide = null,
+        TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
         decimal? takeProfitOrderPrice = null,
         decimal? stopLossOrderPrice = null,
-        OXKTriggerPriceType? takeProfitTriggerPriceType = null,
-        OXKTriggerPriceType? stopLossTriggerPriceType = null,
-        OKXQuickMarginType? quickMarginType = null,
+        TriggerPriceType? takeProfitTriggerPriceType = null,
+        TriggerPriceType? stopLossTriggerPriceType = null,
+        QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
-        OKXSelfTradePreventionMode? selfTradePreventionMode = null,
+        SelfTradePreventionMode? selfTradePreventionMode = null,
 
         string? asset = null,
-        OKXQuantityAsset? quantityAsset = null,
+        QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
         CancellationToken ct = default)
@@ -45,13 +44,13 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"tdMode", JsonConvert.SerializeObject(tradeMode ?? OKXTradeMode.Cash, new TradeModeConverter(false)) },
-            {"side", JsonConvert.SerializeObject(side, new OrderSideConverter(false)) },
-            {"ordType", JsonConvert.SerializeObject(type, new OrderTypeConverter(false)) },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
             {"tag", _baseClient._ref },
             {"clOrdId",  clientOrderId },
         };
+        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
+        parameters.AddEnum("side", side);
+        parameters.AddEnum("ordType", type);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("ccy", asset);
 
@@ -67,8 +66,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
 
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
-        if (positionSide.HasValue)
-            parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
+        parameters.AddOptionalEnum("posSide", positionSide);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order", OKXExchange.RateLimiter.Public, 1, true);
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(request, parameters, ct).ConfigureAwait(false);
@@ -190,8 +188,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? newStopLossTriggerPrice = null,
         decimal? newTakeProfitOrderPrice = null,
         decimal? newStopLossOrderPrice = null,
-        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
-        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
+        TriggerPriceType? newTakeProfitPriceTriggerType = null,
+        TriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
@@ -230,8 +228,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(
         string symbol,
-        OKXMarginMode marginMode,
-        OKXPositionSide? positionSide = null,
+        MarginMode marginMode,
+        PositionSide? positionSide = null,
         string? asset = null,
         bool? autoCancel = null,
         string? clientOrderId = null,
@@ -241,12 +239,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"mgnMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
             {"tag", _baseClient._ref },
             {"clOrdId", clientOrderId }
         };
-        if (positionSide.HasValue)
-            parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
+        parameters.AddEnum("mgmMode", marginMode);
+        parameters.AddOptionalEnum("posSide", positionSide);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("autoCxl", autoCancel);
 
@@ -273,11 +270,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrdersAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         string? underlying = null,
-        OKXOrderType? orderType = null,
-        OKXOrderState? state = null,
+        OrderType? orderType = null,
+        OrderStatus? state = null,
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
@@ -295,14 +292,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
-
-        if (orderType.HasValue)
-            parameters.AddOptionalParameter("ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)));
-
-        if (state.HasValue)
-            parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new OrderStateConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
+        parameters.AddOptionalEnum("ordType", orderType);
+        parameters.AddOptionalEnum("state", state);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-pending", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
@@ -310,12 +302,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderHistoryAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
-        OKXOrderType? orderType = null,
-        OKXOrderState? state = null,
-        OKXOrderCategory? category = null,
+        OrderType? orderType = null,
+        OrderStatus? state = null,
+        OrderCategory? category = null,
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
@@ -327,10 +319,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new ParameterCollection
-        {
-            {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false))}
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
@@ -339,14 +329,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("after", fromId?.ToString());
         parameters.AddOptionalParameter("before", toId?.ToString());
 
-        if (orderType.HasValue)
-            parameters.AddOptionalParameter("ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)));
-
-        if (state.HasValue)
-            parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new OrderStateConverter(false)));
-
-        if (category.HasValue)
-            parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
+        parameters.AddOptionalEnum("ordType", orderType);
+        parameters.AddOptionalEnum("state", state);
+        parameters.AddOptionalEnum("category", category);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
@@ -354,12 +339,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderArchiveAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
-        OKXOrderType? orderType = null,
-        OKXOrderState? state = null,
-        OKXOrderCategory? category = null,
+        OrderType? orderType = null,
+        OrderStatus? state = null,
+        OrderCategory? category = null,
         DateTime? startTime = null,
         DateTime? endTime = null,
         int limit = 100,
@@ -371,10 +356,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new ParameterCollection
-        {
-            {"instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false))}
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
@@ -384,14 +367,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("after", fromId?.ToString());
         parameters.AddOptionalParameter("before", toId?.ToString());
 
-        if (orderType.HasValue)
-            parameters.AddOptionalParameter("ordType", JsonConvert.SerializeObject(orderType, new OrderTypeConverter(false)));
-
-        if (state.HasValue)
-            parameters.AddOptionalParameter("state", JsonConvert.SerializeObject(state, new OrderStateConverter(false)));
-
-        if (category.HasValue)
-            parameters.AddOptionalParameter("category", JsonConvert.SerializeObject(category, new OrderCategoryConverter(false)));
+        parameters.AddOptionalEnum("ordType", orderType);
+        parameters.AddOptionalEnum("state", state);
+        parameters.AddOptionalEnum("category", category);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history-archive", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
@@ -399,7 +377,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesAsync(
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         string? underlying = null,
         long? orderId = null,
@@ -415,8 +393,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             throw new ArgumentException("Limit can be between 1-100.");
 
         var parameters = new ParameterCollection();
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
@@ -433,7 +410,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesArchiveAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
         long? orderId = null,
@@ -449,7 +426,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             throw new ArgumentException("Limit can be between 1-100.");
 
         var parameters = new ParameterCollection();
-        parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
@@ -467,14 +444,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol,
-        OKXTradeMode tradeMode,
-        OKXOrderSide orderSide,
+        TradeMode tradeMode,
+        OrderSide orderSide,
         AlgoOrderType algoOrderType,
         decimal? quantity = null,
         string? asset = null,
         bool? reduceOnly = null,
-        OKXPositionSide? positionSide = null,
-        OKXQuantityAsset? quantityType = null,
+        PositionSide? positionSide = null,
+        QuantityAsset? quantityType = null,
 
         AlgoPriceType? tpTriggerPxType = null,
         decimal? tpTriggerPrice = null,
@@ -486,7 +463,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? triggerPrice = null,
         decimal? orderPrice = null,
 
-        OKXPriceVariance? pxVar = null,
+        PriceVariance? pxVar = null,
         decimal? priceRatio = null,
         decimal? sizeLimit = null,
         decimal? priceLimit = null,
@@ -499,7 +476,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         decimal? closeFraction = null,
         bool? cancelOnClose = null,
-        OKXQuickMarginType? quickMarginType = null,
+        QuickMarginType? quickMarginType = null,
         string? clientOrderId = null,
 
         CancellationToken ct = default)
@@ -507,18 +484,17 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         clientOrderId ??= ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"tdMode", JsonConvert.SerializeObject(tradeMode, new TradeModeConverter(false)) },
-            {"side", JsonConvert.SerializeObject(orderSide, new OrderSideConverter(false)) },
             {"tag", _baseClient._ref },
             {"clOrdId", clientOrderId }
         };
+        parameters.AddEnum("tdMode", tradeMode);
+        parameters.AddEnum("side", orderSide);
         parameters.AddEnum("ordType", algoOrderType);
         parameters.AddOptionalString("sz", quantity);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
 
-        if (positionSide.HasValue)
-            parameters.AddOptionalParameter("posSide", JsonConvert.SerializeObject(positionSide, new PositionSideConverter(false)));
+        parameters.AddOptionalEnum("posSide", positionSide);
         parameters.AddOptionalParameter("tgtCcy", EnumConverter.GetString(quantityType));
 
         parameters.AddOptionalEnum("tpTriggerPxType", tpTriggerPxType);
@@ -531,8 +507,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("triggerPx", triggerPrice?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("orderPx", orderPrice?.ToString(CultureInfo.InvariantCulture));
 
-        if (pxVar.HasValue)
-            parameters.AddOptionalParameter("pxVar", JsonConvert.SerializeObject(pxVar, new PriceVarianceConverter(false)));
+        parameters.AddOptionalEnum("pxVar", pxVar);
         parameters.AddOptionalParameter("pxSpread", priceRatio?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("szLimit", sizeLimit?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("pxLimit", priceLimit?.ToString(CultureInfo.InvariantCulture));
@@ -587,7 +562,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     public virtual async Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(
         AlgoOrderType algoOrderType,
         string? algoId = null,
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         DateTime? startTime = null,
         DateTime? endTime = null,
@@ -604,9 +579,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
-
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-pending", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
@@ -617,7 +590,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         AlgoOrderType algoOrderType,
         AlgoOrderState? algoOrderState = null,
         string? algoId = null,
-        OKXInstrumentType? instrumentType = null,
+        InstrumentType? instrumentType = null,
         string? symbol = null,
         DateTime? startTime = null,
         DateTime? endTime = null,
@@ -636,8 +609,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         parameters.AddOptionalEnum("state", algoOrderState);
-        if (instrumentType.HasValue)
-            parameters.AddOptionalParameter("instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)));
+        parameters.AddOptionalEnum("instType", instrumentType);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-history", OKXExchange.RateLimiter.Public, 1, true);
         return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
@@ -669,8 +641,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? newStopLossTriggerPrice = null,
         decimal? newTakeProfitOrderPrice = null,
         decimal? newStopLossOrderPrice = null,
-        OXKTriggerPriceType? newTakeProfitPriceTriggerType = null,
-        OXKTriggerPriceType? newStopLossPriceTriggerType = null,
+        TriggerPriceType? newTakeProfitPriceTriggerType = null,
+        TriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default)
     {
         if ((algoId == null) == (clientAlgoId == null))

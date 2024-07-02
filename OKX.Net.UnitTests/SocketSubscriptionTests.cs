@@ -24,20 +24,20 @@ namespace OKX.Net.UnitTests
                 opts.ApiCredentials = new OKXApiCredentials("123", "456", "789");
             });
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data", stjCompare: false);
-            await tester.ValidateAsync<IEnumerable<OKXInstrument>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync(Enums.OKXInstrumentType.Spot, handler), "Symbol");
+            await tester.ValidateAsync<IEnumerable<OKXInstrument>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync(Enums.InstrumentType.Spot, handler), "Symbol");
             await tester.ValidateAsync<OKXTicker>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", handler), "Ticker", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXOpenInterest>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToOpenInterestUpdatesAsync("ETH-USDT", handler), "Interest", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXCandlestick>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", Enums.OKXPeriod.OneDay, handler), "Klines", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXKline>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", Enums.KlineInterval.OneDay, handler), "Klines", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXTrade>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToTradeUpdatesAsync("ETH-USDT", handler), "Trades", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXEstimatedPrice>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToEstimatedPriceUpdatesAsync(Enums.OKXInstrumentType.Futures, "BTC-USD", null, handler), "EstimatedPrice", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXEstimatedPrice>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToEstimatedPriceUpdatesAsync(Enums.InstrumentType.Futures, "BTC-USD", null, handler), "EstimatedPrice", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXMarkPrice>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToMarkPriceUpdatesAsync("ETH-USDT", handler), "MarkPrice", useFirstUpdateItem: true);
-            await tester.ValidateAsync<IEnumerable<OKXMiniKline>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToMarkPriceKlineUpdatesAsync("ETH-USDT", Enums.OKXPeriod.OneDay, handler), "MarkPriceKlines");
+            await tester.ValidateAsync<IEnumerable<OKXMiniKline>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToMarkPriceKlineUpdatesAsync("ETH-USDT", Enums.KlineInterval.OneDay, handler), "MarkPriceKlines");
             await tester.ValidateAsync<OKXLimitPrice>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToPriceLimitUpdatesAsync("ETH-USDT", handler), "PriceLimit", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXOrderBook>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync("ETH-USDT", Enums.OKXOrderBookType.OrderBook, handler), "OrderBook", useFirstUpdateItem: true);
-            await tester.ValidateAsync<IEnumerable<OKXOptionSummary>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToOptionSummaryUpdatesAsync("ETH-USDT",  handler), "OptionSummary");
-            await tester.ValidateAsync<OKXFundingRate>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToFundingRateUpdatesAsync("ETH-USDT",  handler), "FundingRate", useFirstUpdateItem: true);
-            await tester.ValidateAsync<IEnumerable<OKXMiniKline>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToIndexKlineUpdatesAsync("ETH-USDT", Enums.OKXPeriod.OneDay,  handler), "IndexKlines");
-            await tester.ValidateAsync<OKXIndexTicker>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToIndexTickerUpdatesAsync("ETH-USDT",  handler), "IndexTicker", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXOrderBook>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync("ETH-USDT", Enums.OrderBookType.OrderBook, handler), "OrderBook", useFirstUpdateItem: true);
+            await tester.ValidateAsync<IEnumerable<OKXOptionSummary>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToOptionSummaryUpdatesAsync("ETH-USDT", handler), "OptionSummary");
+            await tester.ValidateAsync<OKXFundingRate>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToFundingRateUpdatesAsync("ETH-USDT", handler), "FundingRate", useFirstUpdateItem: true);
+            await tester.ValidateAsync<IEnumerable<OKXMiniKline>>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToIndexKlineUpdatesAsync("ETH-USDT", Enums.KlineInterval.OneDay, handler), "IndexKlines");
+            await tester.ValidateAsync<OKXIndexTicker>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToIndexTickerUpdatesAsync("ETH-USDT", handler), "IndexTicker", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXStatus>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSystemStatusUpdatesAsync(handler), "SystemStatus", useFirstUpdateItem: true);
         }
 
@@ -63,11 +63,11 @@ namespace OKX.Net.UnitTests
                 opts.ApiCredentials = new OKXApiCredentials("123", "456", "789");
             });
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data", stjCompare: false);
-            await tester.ValidateAsync<IEnumerable<OKXPosition>>((client, handler) => client.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, true, handler), "Position");
-            await tester.ValidateAsync<OKXPosition>((client, handler) => client.UnifiedApi.Trading.SubscribeToLiquidationWarningUpdatesAsync(Enums.OKXInstrumentType.Futures, null, handler), "LiquidationWarning", useFirstUpdateItem: true);
-            await tester.ValidateAsync<OKXOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "Order", useFirstUpdateItem: true, ignoreProperties: new List<string> { "msg", "code", "attachAlgoOrds" });
-            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAlgoOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "AlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd" });
-            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAdvanceAlgoOrderUpdatesAsync(Enums.OKXInstrumentType.Futures, null, null, handler), "AdvancedAlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd", "reduceOnly" });
+            await tester.ValidateAsync<IEnumerable<OKXPosition>>((client, handler) => client.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(Enums.InstrumentType.Futures, null, null, true, handler), "Position");
+            await tester.ValidateAsync<OKXPosition>((client, handler) => client.UnifiedApi.Trading.SubscribeToLiquidationWarningUpdatesAsync(Enums.InstrumentType.Futures, null, handler), "LiquidationWarning", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null, handler), "Order", useFirstUpdateItem: true, ignoreProperties: new List<string> { "msg", "code", "attachAlgoOrds" });
+            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAlgoOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null, handler), "AlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd" });
+            await tester.ValidateAsync<OKXAlgoOrderUpdate>((client, handler) => client.UnifiedApi.Trading.SubscribeToAdvanceAlgoOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null, handler), "AdvancedAlgoOrder", useFirstUpdateItem: true, ignoreProperties: new List<string> { "attachAlgoOrds", "linkedOrd", "reduceOnly" });
         }
     }
 }

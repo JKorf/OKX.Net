@@ -1,12 +1,10 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 using OKX.Net.ExtensionMethods;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.Trading;
-using System.Security.Cryptography;
 
 namespace OKX.Net.Clients.UnifiedApi;
 internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExchangeData
@@ -20,12 +18,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection()
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
@@ -83,7 +79,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetKlinesAsync(string symbol, OKXPeriod period, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 300)
@@ -92,14 +88,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         var parameters = new ParameterCollection
         {
             { "instId", symbol },
-            { "bar", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("bar", klineInterval);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/candles", OKXExchange.RateLimiter.Public, 1);
-        var result = await _baseClient.SendAsync<IEnumerable<OKXCandlestick>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -109,7 +105,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetKlineHistoryAsync(string symbol, OKXPeriod period, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetKlineHistoryAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -117,15 +113,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var parameters = new ParameterCollection
         {
-            { "instId", symbol },
-            { "bar", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
+            { "instId", symbol }
         };
+        parameters.AddEnum("bar", klineInterval);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/history-candles", OKXExchange.RateLimiter.Public, 1);
-        var result = await _baseClient.SendAsync<IEnumerable<OKXCandlestick>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -136,7 +132,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetIndexKlinesAsync(string symbol, OKXPeriod period, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetIndexKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -144,15 +140,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var parameters = new ParameterCollection
         {
-            { "instId", symbol },
-            { "bar", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
+            { "instId", symbol }
         };
+        parameters.AddEnum("bar", klineInterval);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
         
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/index-candles", OKXExchange.RateLimiter.Public, 1);
-        var result = await _baseClient.SendAsync<IEnumerable<OKXCandlestick>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -163,7 +159,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetMarkPriceKlinesAsync(string symbol, OKXPeriod period,
+    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetMarkPriceKlinesAsync(string symbol, KlineInterval klineInterval,
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
@@ -172,15 +168,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var parameters = new ParameterCollection
         {
-            { "instId", symbol },
-            { "bar", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
+            { "instId", symbol }
         };
+        parameters.AddEnum("bar", klineInterval);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/mark-price-candles", OKXExchange.RateLimiter.Public, 1);
-        var result = await _baseClient.SendAsync<IEnumerable<OKXCandlestick>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -207,7 +203,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTrade>>> GetTradeHistoryAsync(string symbol, OKXTradeHistoryPaginationType type = OKXTradeHistoryPaginationType.TradeId,
+    public virtual async Task<WebCallResult<IEnumerable<OKXTrade>>> GetTradeHistoryAsync(string symbol, TradeHistoryPaginationType type = TradeHistoryPaginationType.TradeId,
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
@@ -219,7 +215,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
             { "instId", symbol },
         };
 
-        parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new TradeHistoryPaginationTypeConverter(false)));
+        parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
@@ -255,12 +251,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
@@ -293,13 +287,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
-        
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
@@ -310,7 +301,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? underlying = null,
         DateTime? startTime = null,
         DateTime? endTime = null, 
@@ -318,16 +309,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Futures, OKXInstrumentType.Option))
+        if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option))
             throw new ArgumentException("Instrument Type can be only Futures or Option.");
 
         if (limit < 1 || limit > 100)
             throw new ArgumentException("Limit can be between 1-100.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) }
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
@@ -339,19 +328,16 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
+        if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
 
-        if (instrumentType == OKXInstrumentType.Swap && string.IsNullOrEmpty(underlying))
+        if (instrumentType == InstrumentType.Swap && string.IsNullOrEmpty(underlying))
             throw new ArgumentException("Underlying is required for Option.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
-
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
@@ -453,16 +439,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
+        if (instrumentType.IsNotIn(InstrumentType.Margin, InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Margin, Futures, Option or Swap.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
-
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
@@ -473,8 +456,8 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(
-        OKXInstrumentType instrumentType,
-        OKXMarginMode marginMode,
+        InstrumentType instrumentType,
+        MarginMode marginMode,
         string underlying,
         string? symbol = null,
         string? tier = null,
@@ -482,15 +465,12 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
+        if (instrumentType.IsNotIn(InstrumentType.Margin, InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Margin, Futures, Option or Swap.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-            { "tdMode", JsonConvert.SerializeObject(marginMode, new MarginModeConverter(false)) },
-        };
-
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
+        parameters.AddEnum("tdMode", marginMode);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("tier", tier);
@@ -516,23 +496,21 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(OKXInstrumentType instrumentType, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(InstrumentType instrumentType, CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Futures, OKXInstrumentType.Option, OKXInstrumentType.Swap))
+        if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/underlying", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendGetSingleAsync<IEnumerable<string>>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(
-        OKXInstrumentType instrumentType,
-        OKXInsuranceType type = OKXInsuranceType.All,
+        InstrumentType instrumentType,
+        InsuranceType type = InsuranceType.All,
         string? underlying = null,
         string? asset = null,
         DateTime? startTime = null,
@@ -541,17 +519,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         string? instrumentFamily = null,
         CancellationToken ct = default)
     {
-        if (instrumentType.IsNotIn(OKXInstrumentType.Margin, OKXInstrumentType.Swap, OKXInstrumentType.Futures, OKXInstrumentType.Option))
+        if (instrumentType.IsNotIn(InstrumentType.Margin, InstrumentType.Swap, InstrumentType.Futures, InstrumentType.Option))
             throw new ArgumentException("Instrument Type can be only Margin, Swap, Futures or Option.");
 
-        var parameters = new ParameterCollection
-        {
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-        };
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("instType", instrumentType);
 
-        if (type != OKXInsuranceType.All)
-            parameters.AddOptionalParameter("type", JsonConvert.SerializeObject(type, new InsuranceTypeConverter(false)));
-
+        if (type != InsuranceType.All)
+            parameters.AddEnum("type", type);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
@@ -593,17 +568,17 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetRubikTakerVolumeAsync(
         string asset,
-        OKXInstrumentType instrumentType,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        InstrumentType instrumentType,
+        KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
         DateTime? endTime = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
-            { "ccy", asset},
-            { "instType", JsonConvert.SerializeObject(instrumentType, new InstrumentTypeConverter(false)) },
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
+            { "ccy", asset}
         };
+        parameters.AddEnum("instType", instrumentType);
+        parameters.AddEnum("period", period);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
 
@@ -614,15 +589,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikMarginLendingRatioAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
         DateTime? endTime = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
 
@@ -633,15 +608,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikLongShortRatioAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
         DateTime? endTime = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
 
@@ -652,15 +627,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikContractSummaryAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
         DateTime? endTime = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
 
@@ -671,13 +646,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikOptionsSummaryAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendAsync<IEnumerable<OKXInterestVolume>>(request, parameters, ct).ConfigureAwait(false);
@@ -686,13 +661,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetRubikPutCallRatioAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-ratio", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendAsync<IEnumerable<OKXPutCallRatio>>(request, parameters, ct).ConfigureAwait(false);
@@ -701,13 +676,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetRubikInterestVolumeExpiryAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-expiry", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendAsync<IEnumerable<OKXInterestVolumeExpiry>>(request, parameters, ct).ConfigureAwait(false);
@@ -717,14 +692,14 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetRubikInterestVolumeStrikeAsync(
         string asset,
         string expiryTime,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
             { "expTime", expiryTime},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-strike", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendAsync<IEnumerable<OKXInterestVolumeStrike>>(request, parameters, ct).ConfigureAwait(false);
@@ -733,13 +708,13 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXTakerFlow>> GetRubikTakerFlowAsync(
         string asset,
-        OKXPeriod period = OKXPeriod.FiveMinutes,
+        KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             { "ccy", asset},
-            { "period", JsonConvert.SerializeObject(period, new PeriodConverter(false)) },
         };
+        parameters.AddEnum("period", period);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/taker-block-volume", OKXExchange.RateLimiter.Public, 1);
         return await _baseClient.SendAsync<OKXTakerFlow>(request, parameters, ct).ConfigureAwait(false);

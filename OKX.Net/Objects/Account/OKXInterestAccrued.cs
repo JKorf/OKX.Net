@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -23,8 +22,8 @@ public record OKXInterestAccrued
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Interest
@@ -55,5 +54,5 @@ public record OKXInterestAccrued
     /// </summary>
     [JsonProperty("type")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXLoanType Type { get; set; }
+    public LoanType Type { get; set; }
 }

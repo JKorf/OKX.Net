@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
@@ -49,7 +48,7 @@ public record OKXTransferInfo
     /// </summary>
     [JsonProperty("type")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXTransferType Type { get; set; }
+    public TransferType Type { get; set; }
 
     /// <summary>
     /// Name of the sub account
@@ -61,5 +60,5 @@ public record OKXTransferInfo
     /// Type of transfer
     /// </summary>
     [JsonProperty("state")]
-    public OKXTransferStatus Status { get; set; }
+    public TransferStatus Status { get; set; }
 }

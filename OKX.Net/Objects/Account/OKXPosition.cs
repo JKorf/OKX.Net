@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -59,20 +58,20 @@ public record OKXPosition
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Liabilities
@@ -380,7 +379,7 @@ public record OKXPositionCloseOrder
     /// Stop loss trigger price type
     /// </summary>
     [JsonProperty("slTriggerPxType"), JsonConverter(typeof(EnumConverter))]
-    public OXKTriggerPriceType StopLossTriggerType { get; set; }
+    public TriggerPriceType StopLossTriggerType { get; set; }
     /// <summary>
     /// Take profit trigger price
     /// </summary>
@@ -390,7 +389,7 @@ public record OKXPositionCloseOrder
     /// Take profit trigger price type
     /// </summary>
     [JsonProperty("tpTriggerPxType"), JsonConverter(typeof(EnumConverter))]
-    public OXKTriggerPriceType TakeProfitTriggerType { get; set; }
+    public TriggerPriceType TakeProfitTriggerType { get; set; }
     /// <summary>
     /// Fraction of position to be closed when the algo order is triggered.
     /// </summary>

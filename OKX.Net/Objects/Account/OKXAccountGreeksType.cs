@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,6 +10,6 @@ public record OKXAccountGreeksType
     /// <summary>
     /// Greeks type
     /// </summary>
-    [JsonProperty("greeksType"), JsonConverter(typeof(GreeksTypeConverter))]
-    public OKXGreeksType GreeksType { get; set; }
+    [JsonProperty("greeksType"), JsonConverter(typeof(EnumConverter))]
+    public GreeksType GreeksType { get; set; }
 }

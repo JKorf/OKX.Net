@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,8 +10,8 @@ public record OKXClosingPosition
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Symbol
@@ -23,8 +22,8 @@ public record OKXClosingPosition
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonProperty("mgnMode"), JsonConverter(typeof(MarginModeConverter))]
-    public OKXMarginMode MarginMode { get; set; }
+    [JsonProperty("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Closing type
@@ -89,8 +88,8 @@ public record OKXClosingPosition
     /// <summary>
     /// Direction
     /// </summary>
-    [JsonProperty("direction"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide Direction { get; set; }
+    [JsonProperty("direction"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide Direction { get; set; }
 
     /// <summary>
     /// Trigger price

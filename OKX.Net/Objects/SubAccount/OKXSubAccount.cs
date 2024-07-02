@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.SubAccount;
 
@@ -53,8 +52,8 @@ public record OKXSubAccount
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(SubAccountTypeConverter))]
-    public OKXSubAccountType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public SubAccountType Type { get; set; }
 
     /// <summary>
     /// Id

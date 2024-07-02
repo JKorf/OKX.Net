@@ -32,7 +32,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, JsonConvert.SerializeObject(resultObj));
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -49,7 +49,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, "", System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -71,7 +71,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, JsonConvert.SerializeObject(resultObj), System.Net.HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.OKXInstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);

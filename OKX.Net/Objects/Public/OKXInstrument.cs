@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -11,8 +10,8 @@ public record OKXInstrument
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Instrument ID, e.g. BTC-USD-SWAP
@@ -77,8 +76,8 @@ public record OKXInstrument
     /// <summary>
     /// Option type
     /// </summary>
-    [JsonProperty("optType"), JsonConverter(typeof(OptionTypeConverter))]
-    public OKXOptionType? OptionType { get; set; }
+    [JsonProperty("optType"), JsonConverter(typeof(EnumConverter))]
+    public OptionType? OptionType { get; set; }
 
     /// <summary>
     /// Strike price
@@ -131,14 +130,14 @@ public record OKXInstrument
     /// <summary>
     /// Alias
     /// </summary>
-    [JsonProperty("alias"), JsonConverter(typeof(InstrumentAliasConverter))]
-    public OKXInstrumentAlias? Alias { get; set; }
+    [JsonProperty("alias"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentAlias? Alias { get; set; }
 
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(InstrumentStateConverter))]
-    public OKXInstrumentState state { get; set; }
+    [JsonProperty("state"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentState state { get; set; }
 
     /// <summary>
     /// The maximum order quantity of the contract or spot limit order.

@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -65,26 +64,26 @@ public record OKXAlgoOrder
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonProperty("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonProperty("posSide"), JsonConverter(typeof(PositionSideConverter))]
-    public OKXPositionSide PositionSide { get; set; }
+    [JsonProperty("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(OrderSideConverter))]
-    public OKXOrderSide OrderSide { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonProperty("tdMode"), JsonConverter(typeof(TradeModeConverter))]
-    public OKXTradeMode TradeMode { get; set; }
+    [JsonProperty("tdMode"), JsonConverter(typeof(EnumConverter))]
+    public TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order type
@@ -186,7 +185,7 @@ public record OKXAlgoOrder
     /// Quantity type
     /// </summary>
     [JsonProperty("tgtCcy"), JsonConverter(typeof(EnumConverter))]
-    public OKXQuantityAsset? QuantityType { get; set; }
+    public QuantityAsset? QuantityType { get; set; }
 
     /// <summary>
     /// State
@@ -211,21 +210,21 @@ public record OKXAlgoOrder
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
     [JsonProperty("tpTriggerPxType")]
-    public OXKTriggerPriceType? TakeProfitTriggerPriceType { get; set; }
+    public TriggerPriceType? TakeProfitTriggerPriceType { get; set; }
 
     /// <summary>
     /// Stop loss trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
     [JsonProperty("slTriggerPxType")]
-    public OXKTriggerPriceType? StopLossTriggerPriceType { get; set; }
+    public TriggerPriceType? StopLossTriggerPriceType { get; set; }
 
     /// <summary>
     /// Trigger price type
     /// </summary>
     [JsonConverter(typeof(EnumConverter))]
     [JsonProperty("triggerPxType")]
-    public OXKTriggerPriceType? TriggerPriceType { get; set; }
+    public TriggerPriceType? TriggerPriceType { get; set; }
 
     /// <summary>
     /// Tag
@@ -286,7 +285,7 @@ public record OKXAlgoOrder
     /// </summary>
     [JsonProperty("quickMgnType")]
     [JsonConverter(typeof(EnumConverter))]
-    public OKXQuickMarginType? QuickMarginType { get; set; }
+    public QuickMarginType? QuickMarginType { get; set; }
 
     /// <summary>
     /// Whether to enable Cost-price SL. Only applicable to SL order of split TPs. false: disable, the default value, true: Enable “Cost-price SL”

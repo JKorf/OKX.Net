@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Market;
 
@@ -35,8 +34,8 @@ public record OKXTrade
     /// <summary>
     /// Side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(TradeSideConverter))]
-    public OKXTradeSide Side { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide Side { get; set; }
 
     /// <summary>
     /// Timestamp

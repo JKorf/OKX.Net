@@ -191,8 +191,8 @@ namespace OKX.Net.UnitTests
             if (type == typeof(IEnumerable<string>))
                 return new[] { "string" + i };
 
-            if (type == typeof(OKXInstrumentType))
-                return OKXInstrumentType.Futures;
+            if (type == typeof(InstrumentType))
+                return InstrumentType.Futures;
 
             if (type.IsEnum)
             {

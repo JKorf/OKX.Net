@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
@@ -29,6 +28,6 @@ public record OKXSavingActionResponse
     /// <summary>
     /// Side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(SavingActionSideConverter))]
-    public OKXSavingActionSide Side { get; set; }
+    [JsonProperty("side"), JsonConverter(typeof(EnumConverter))]
+    public SavingActionSide Side { get; set; }
 }

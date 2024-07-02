@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
@@ -35,8 +34,8 @@ public record OKXFundingBill
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(FundingBillTypeConverter))]
-    public OKXFundingBillType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public FundingBillType Type { get; set; }
 
     /// <summary>
     /// Timestamp

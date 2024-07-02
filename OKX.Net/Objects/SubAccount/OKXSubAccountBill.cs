@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.SubAccount;
 
@@ -23,8 +22,8 @@ public record OKXSubAccountBill
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(SubAccountTransferTypeConverter))]
-    public OKXSubAccountTransferType Type { get; set; }
+    [JsonProperty("type"), JsonConverter(typeof(EnumConverter))]
+    public SubAccountTransferType Type { get; set; }
 
     /// <summary>
     /// asset
