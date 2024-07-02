@@ -28,7 +28,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPosition>>> GetAccountPositionsAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXPosition>>> GetPositionsAsync(
         InstrumentType? instrumentType = null,
         string? symbol = null,
         string? positionId = null,
@@ -45,7 +45,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetAccountPositionHistoryAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetPositionHistoryAsync(
         InstrumentType? instrumentType = null,
         string? symbol = null,
         MarginMode? marginMode = null,
@@ -71,7 +71,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetAccountPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default)
     {
        var parameters = new ParameterCollection();
         parameters.AddOptionalEnum("instType", instrumentType);
@@ -163,7 +163,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
         
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAccountPositionMode>> SetAccountPositionModeAsync(PositionMode positionMode, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXAccountPositionMode>> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("posMode", positionMode);
@@ -174,7 +174,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> GetAccountLeverageAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(
         string symbols,
         MarginMode marginMode,
         CancellationToken ct = default)
@@ -190,7 +190,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> SetLeverageAsync(
         int leverage,
         MarginMode marginMode,
         string? asset = null,

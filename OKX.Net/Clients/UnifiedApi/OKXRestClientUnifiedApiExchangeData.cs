@@ -401,7 +401,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXLimitPrice>> GetLimitPriceAsync(string symbol, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXLimitPrice>> GetPriceLimitsAsync(string symbol, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
@@ -593,7 +593,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXSupportCoins>> GetRubikSupportCoinAsync(CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXSupportCoins>> GetTradeStatsSupportedAssetsAsync(CancellationToken ct = default)
     {
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/trading-data/support-coin", OKXExchange.RateLimiter.Public, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
@@ -601,7 +601,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetRubikTakerVolumeAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetTradeStatsTakerVolumeAsync(
         string asset,
         InstrumentType instrumentType,
         KlineInterval period = KlineInterval.FiveMinutes,
@@ -623,7 +623,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikMarginLendingRatioAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsMarginLendingRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -643,7 +643,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikLongShortRatioAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsLongShortRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -663,7 +663,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikContractSummaryAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsContractSummaryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -683,7 +683,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikOptionsSummaryAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsOptionsSummaryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -699,7 +699,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetRubikPutCallRatioAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetTradeStatsPutCallRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -715,7 +715,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetRubikInterestVolumeExpiryAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetTradeStatsInterestVolumeExpiryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -731,7 +731,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetRubikInterestVolumeStrikeAsync(
+    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetTradeStatsInterestVolumeStrikeAsync(
         string asset,
         string expiryTime,
         KlineInterval period = KlineInterval.FiveMinutes,
@@ -749,7 +749,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXTakerFlow>> GetRubikTakerFlowAsync(
+    public virtual async Task<WebCallResult<OKXTakerFlow>> GetTradeStatsTakerFlowAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)

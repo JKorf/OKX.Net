@@ -209,7 +209,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXLimitPrice>> GetLimitPriceAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<OKXLimitPrice>> GetPriceLimitsAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the candlestick charts of mark price. This endpoint can retrieve the latest 1,440 data entries. Charts are returned in groups based on the requested bar.
@@ -321,7 +321,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikContractSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsContractSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the volume and open interest for each upcoming expiration. You can use this to see which expirations are currently the most popular to trade.
@@ -331,7 +331,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetRubikInterestVolumeExpiryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetTradeStatsInterestVolumeExpiryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This shows what option strikes are the most popular for each expiration.
@@ -342,7 +342,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetRubikInterestVolumeStrikeAsync(string asset, string expiryTime, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetTradeStatsInterestVolumeStrikeAsync(string asset, string expiryTime, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This is the ratio of users with net long vs short positions. It includes data from futures and perpetual swaps.
@@ -354,7 +354,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikLongShortRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsLongShortRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This indicator shows the ratio of cumulative data value between currency pair leverage quote currency and underlying asset over a given period of time.
@@ -366,7 +366,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikMarginLendingRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsMarginLendingRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the sum of all open positions and how much total trading volume has taken place.
@@ -376,7 +376,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikOptionsSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsOptionsSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the relative buy/sell volume for calls and puts. It shows whether traders are bullish or bearish on price and volatility.
@@ -386,7 +386,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetRubikPutCallRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetTradeStatsPutCallRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// Get the currency supported by the transaction big data interface
@@ -394,7 +394,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSupportCoins>> GetRubikSupportCoinAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXSupportCoins>> GetTradeStatsSupportedAssetsAsync(CancellationToken ct = default);
 
     /// <summary>
     /// This shows the relative buy/sell volume for calls and puts. It shows whether traders are bullish or bearish on price and volatility.
@@ -404,7 +404,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTakerFlow>> GetRubikTakerFlowAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<OKXTakerFlow>> GetTradeStatsTakerFlowAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This is the taker volume for both buyers and sellers. This shows the influx and exit of funds in and out of {coin}.
@@ -417,7 +417,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetRubikTakerVolumeAsync(string asset, InstrumentType instrumentType, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetTradeStatsTakerVolumeAsync(string asset, InstrumentType instrumentType, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve API server time.

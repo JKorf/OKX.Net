@@ -26,15 +26,15 @@ namespace OKX.Net.UnitTests
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Account", "https://www.okx.com", IsAuthenticated, "data", stjCompare: false);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountBalanceAsync(), "GetAccountBalance", useSingleArrayItem: true);
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountPositionsAsync(), "GetAccountPositions");
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountPositionHistoryAsync(), "GetAccountPositionHistory");
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountPositionRiskAsync(), "GetAccountPositionRisk");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetPositionsAsync(), "GetAccountPositions");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetPositionHistoryAsync(), "GetAccountPositionHistory");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetPositionRiskAsync(), "GetAccountPositionRisk");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetBillHistoryAsync(), "GetBillHistory");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetBillArchiveAsync(), "GetBillArchive");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountConfigurationAsync(), "GetAccountConfiguration", useSingleArrayItem: true, ignoreProperties: new List<string> { "traderInsts", "spotTraderInsts" });
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountPositionModeAsync(Enums.PositionMode.NetMode), "SetAccountPositionMode", useSingleArrayItem: true);
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountLeverageAsync("123", Enums.MarginMode.Isolated), "GetAccountLeverage");
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountLeverageAsync(1, Enums.MarginMode.Isolated, "ETH"), "SetAccountLeverage");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetPositionModeAsync(Enums.PositionMode.NetMode), "SetAccountPositionMode", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetLeverageAsync("123", Enums.MarginMode.Isolated), "GetAccountLeverage");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetLeverageAsync(1, Enums.MarginMode.Isolated, "ETH"), "SetAccountLeverage");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumAmountAsync("123", Enums.TradeMode.Cash), "GetMaximumAmount");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumAvailableAmountAsync("123", Enums.TradeMode.Cash), "GetMaximumAvailableAmount");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetMarginAmountAsync("123", Enums.PositionSide.Net, Enums.MarginAddReduce.Add, 1), "SetMarginAmount");
@@ -96,7 +96,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetOpenInterestsAsync(Enums.InstrumentType.Futures), "GetOpenInterests");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetFundingRatesAsync("ETH-USDT"), "GetFundingRates");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync("ETH-USDT"), "GetFundingRateHistory");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetLimitPriceAsync("ETH-USDT"), "GetLimitPrice");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetPriceLimitsAsync("ETH-USDT"), "GetLimitPrice");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetOptionMarketDataAsync("ETH-USDT"), "GetOptionMarketData");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetEstimatedPriceAsync("ETH-USDT"), "GetEstimatedPrice");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetDiscountInfoAsync(), "GetDiscountInfo");
@@ -108,16 +108,16 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetUnderlyingAsync(Enums.InstrumentType.Futures), "GetUnderlying");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetInsuranceFundAsync(Enums.InstrumentType.Futures), "GetInsuranceFund", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.UnitConvertAsync(Enums.ConvertType.ContractToCurrency, "123", 123), "UnitConvert", useSingleArrayItem: true);
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikSupportCoinAsync(), "GetRubikSupportCoin");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikTakerVolumeAsync("ETH", Enums.InstrumentType.Contracts), "GetRubikTakerVolume");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikMarginLendingRatioAsync("ETH"), "GetRubikMarginLendingRatio");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikLongShortRatioAsync("ETH"), "GetRubikLongShortRatio");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikContractSummaryAsync("ETH"), "GetRubikContractSummary");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikOptionsSummaryAsync("ETH"), "GetRubikOptionsSummary");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikPutCallRatioAsync("ETH"), "GetRubikPutCallRatio");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikInterestVolumeExpiryAsync("ETH"), "GetRubikInterestVolumeExpiry");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikInterestVolumeStrikeAsync("ETH", "20210623"), "GetRubikInterestVolumeStrike");
-            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetRubikTakerFlowAsync("ETH"), "GetRubikTakerFlow");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsSupportedAssetsAsync(), "GetRubikSupportCoin");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerVolumeAsync("ETH", Enums.InstrumentType.Contracts), "GetRubikTakerVolume");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsMarginLendingRatioAsync("ETH"), "GetRubikMarginLendingRatio");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsLongShortRatioAsync("ETH"), "GetRubikLongShortRatio");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsContractSummaryAsync("ETH"), "GetRubikContractSummary");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsOptionsSummaryAsync("ETH"), "GetRubikOptionsSummary");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsPutCallRatioAsync("ETH"), "GetRubikPutCallRatio");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeExpiryAsync("ETH"), "GetRubikInterestVolumeExpiry");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeStrikeAsync("ETH", "20210623"), "GetRubikInterestVolumeStrike");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerFlowAsync("ETH"), "GetRubikTakerFlow");
         }
 
         [Test]

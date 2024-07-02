@@ -46,7 +46,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXLeverage>>> GetAccountLeverageAsync(string symbols, MarginMode marginMode, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(string symbols, MarginMode marginMode, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the updated position data for the last 3 months. Return in reverse chronological order using utime.
@@ -62,7 +62,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="limit">Number of results per request. The maximum is 100. The default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetAccountPositionHistoryAsync(InstrumentType? instrumentType = null, string? symbol = null, MarginMode? marginMode = null, ClosingPositionType? type = null, string? positionId = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXClosingPosition>>> GetPositionHistoryAsync(InstrumentType? instrumentType = null, string? symbol = null, MarginMode? marginMode = null, ClosingPositionType? type = null, string? positionId = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get account and position risk
@@ -71,7 +71,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetAccountPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPositionRisk>>> GetPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default);
 
 
     /// <summary>
@@ -83,7 +83,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionId">Position ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXPosition>>> GetAccountPositionsAsync(InstrumentType? instrumentType = null, string? symbol = null, string? positionId = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPosition>>> GetPositionsAsync(InstrumentType? instrumentType = null, string? symbol = null, string? positionId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
@@ -337,7 +337,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionSide">Position Side</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXLeverage>>> SetAccountLeverageAsync(int leverage, MarginMode marginMode, string? asset = null, string? symbol = null, PositionSide? positionSide = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXLeverage>>> SetLeverageAsync(int leverage, MarginMode marginMode, string? asset = null, string? symbol = null, PositionSide? positionSide = null, CancellationToken ct = default);
 
     /// <summary>
     /// FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.
@@ -346,7 +346,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionMode"></param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountPositionMode>> SetAccountPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
+    Task<WebCallResult<OKXAccountPositionMode>> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
 
     /// <summary>
     /// Set the display type of Greeks.
