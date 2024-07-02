@@ -121,6 +121,35 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.0.0 - 02 Jul 2024
+    * Updated CryptoExchange.Net to V7.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/7.8.0
+    * Added client side rate limiting
+    * Added Trading.CancelAllAfterAsync endpoint
+    * Updated json serializer from Newtonsoft.Json to System.Text.Json
+    * Updated request sending to new CryptoExchange.Net implementation
+    * Updated all enum conversions to use new EnumConverter
+    * Updated websocket kline subscriptions models to IEnumerable
+    * Updated AccountBillSubType enum values
+    * Updated AccountBillType enum values
+    * Updated FundingBillType enum values
+    * Updated InstrumentAlias enum values
+    * Updated various response models
+    * Updated response checking from every endpoint to central method
+    * Renamed all enums, OKX prefix removed. For example OKXOrderSide is now OrderSide
+    * Renamed OrderType.MarketOrder to OrderType.Market
+    * Renamed OrderType.LimitOrder to OrderType.Limit
+    * Renamed Candlestick references to Kline
+    * Renamed OKXPeriod to KlineInterval
+    * Renamed Account.GetAccountPositionsAsync to GetPositionsAsync
+    * Renamed Account.GetAccountPositionHistoryAsync to GetPositionHistoryAsync
+    * Renamed Account.GetAccountPositionRiskAsync to GetPositionRiskAsync
+    * Renamed Account.SetAccountPositionModeAsync to SetPositionModeAsync
+    * Renamed Account.GetAccountLeverageAsync to GetLeverageAsync
+    * Renamed Account.SetAccountLeverageAsync to SetLeverageAsync
+    * Renamed Account.GetLightningWithdrawalsAsync to GetLightningWithdrawalAsync
+    * Renamed ExchangeData.GetRubik* to GetTradeStats*
+    * Cleanup unnused types
+
 * Version 1.11.1 - 25 Jun 2024
     * Updated CryptoExchange.Net to 7.7.2, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/7.7.2
     * Fixed deserialization issue in OkxTicker
