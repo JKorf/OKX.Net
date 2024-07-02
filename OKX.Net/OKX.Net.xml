@@ -368,6 +368,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAllAfterAsync(System.TimeSpan,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderCancelRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1992,6 +1995,16 @@
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /></para>
             </summary>
             <param name="orders">Orders</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.CancelAllAfterAsync(System.TimeSpan,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancel all pending orders after a certain time. Recalling this endpoint resets the timeout. Sending TimeSpan.Zero disables the countdown
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-all-after" /></para>
+            </summary>
+            <param name="timeout">Timeout, between 10 and 120 seconds. TimeSpan.Zero disables timeout</param>
+            <param name="tag">Only cancel orders with this Tag</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -7361,6 +7374,26 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrderUpdate.PushTime">
             <summary>
             Push time
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse">
+            <summary>
+            Cancel all after response
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse.TriggerTime">
+            <summary>
+            Trigger time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse.Tag">
+            <summary>
+            Tag
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXClosePositionResponse">

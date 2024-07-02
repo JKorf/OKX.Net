@@ -8,8 +8,6 @@ using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.System;
 using OKX.Net.Objects.Trade;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OKX.Net.UnitTests
 {

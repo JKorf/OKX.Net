@@ -156,6 +156,18 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXCancelAllAfterResponse>> CancelAllAfterAsync(TimeSpan timeout, string? tag = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("timeOut", (int)timeout.TotalSeconds);
+        parameters.AddOptional("tag", tag);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-all-after", OKXExchange.RateLimiter.Public, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXCancelAllAfterResponse>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();

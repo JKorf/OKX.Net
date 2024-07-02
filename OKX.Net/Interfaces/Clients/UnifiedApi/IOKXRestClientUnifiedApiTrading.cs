@@ -73,6 +73,16 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<OKXAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default);
 
     /// <summary>
+    /// Cancel all pending orders after a certain time. Recalling this endpoint resets the timeout. Sending TimeSpan.Zero disables the countdown
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-all-after" /></para>
+    /// </summary>
+    /// <param name="timeout">Timeout, between 10 and 120 seconds. TimeSpan.Zero disables timeout</param>
+    /// <param name="tag">Only cancel orders with this Tag</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXCancelAllAfterResponse>> CancelAllAfterAsync(TimeSpan timeout, string? tag = null, CancellationToken ct = default);
+
+    /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled at a time. Request parameters should be passed in the form of an array.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-multiple-orders" /></para>
     /// </summary>

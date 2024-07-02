@@ -1,14 +1,9 @@
-﻿using CryptoExchange.Net.Authentication;
-using CryptoExchange.Net.Objects;
+﻿using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Testing;
 using NUnit.Framework;
 using OKX.Net.Clients;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Trade;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OKX.Net.UnitTests
 {
@@ -168,6 +163,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(Enums.AlgoOrderType.OCO), "GetAlgoOrderHistory", ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.GetAlgoOrderAsync("123"), "GetAlgoOrder", useSingleArrayItem: true, ignoreProperties: new List<string> { "amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd" });
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.AmendAlgoOrderAsync("123", "123"), "AmendAlgoOrder", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Trading.CancelAllAfterAsync(TimeSpan.Zero), "CancelAllAfter", useSingleArrayItem: true);
 
         }
 
