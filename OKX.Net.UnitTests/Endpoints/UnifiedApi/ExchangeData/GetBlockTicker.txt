@@ -1,0 +1,16 @@
+GET
+/api/v5/market/block-ticker
+false
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+     {
+        "instType":"SWAP",
+        "instId":"LTC-USD-SWAP",
+        "volCcy24h":"2222",
+        "vol24h":"2222",
+        "ts":"1597026383085"
+     }
+  ]
+}

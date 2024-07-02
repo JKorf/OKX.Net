@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -11,19 +10,25 @@ public record OKXInsuranceFund
     /// <summary>
     /// Total
     /// </summary>
-    [JsonProperty("total")]
+    [JsonPropertyName("total")]
     public decimal Total { get; set; }
 
     /// <summary>
     /// Instrument family
     /// </summary>
-    [JsonProperty("instFamily")]
+    [JsonPropertyName("instFamily")]
     public string InstrumentFamily { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Instrument type
+    /// </summary>
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Details
     /// </summary>
-    [JsonProperty("details")]
+    [JsonPropertyName("details")]
     public IEnumerable<OKXInsuranceFundDetail> Details { get; set; } = Array.Empty<OKXInsuranceFundDetail>();
 }
 
@@ -35,30 +40,52 @@ public record OKXInsuranceFundDetail
     /// <summary>
     /// Amount
     /// </summary>
-    [JsonProperty("amt")]
-    public decimal Amount { get; set; }
+    [JsonPropertyName("amt")]
+    public decimal? Amount { get; set; }
 
     /// <summary>
     /// Balance
     /// </summary>
-    [JsonProperty("balance")]
+    [JsonPropertyName("balance")]
     public decimal Balance { get; set; }
+
+    /// <summary>
+    /// Maximum insurance fund balance in the past eight hours. Only applicable when type is adl
+    /// </summary>
+    [JsonPropertyName("maxBal")]
+    public decimal? MaxBalance { get; set; }
+    /// <summary>
+    /// Timestamp when insurance fund balance reached maximum in the past eight hours. Only applicable when type is adl
+    /// </summary>
+    [JsonPropertyName("maxBalTs"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? MaxBalanceTime { get; set; }
+    /// <summary>
+    /// Real-time insurance fund decline rate (compare balance and maxBal). Only applicable when type is adl
+    /// </summary>
+    [JsonPropertyName("decRate")]
+    public decimal? DeclineRate { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(InsuranceTypeConverter))]
-    public OKXInsuranceType Type { get; set; }
+    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    public InsuranceType Type { get; set; }
+
+    /// <summary>
+    /// Auto deleverage type
+    /// </summary>
+    [JsonPropertyName("adlType")]
+    public string? AdlType { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Timestamp { get; set; }
 }

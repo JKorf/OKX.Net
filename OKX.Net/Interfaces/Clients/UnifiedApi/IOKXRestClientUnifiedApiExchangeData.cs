@@ -40,7 +40,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get block trades
@@ -51,7 +51,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTrade>>> GetBlockTradesAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetBlockTradesAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the estimated delivery price, which will only have a return value one hour before the delivery/exercise.
@@ -65,7 +65,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(OKXInstrumentType instrumentType, string? underlying = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(InstrumentType instrumentType, string? underlying = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve discount rate level and interest-free quota.
@@ -126,7 +126,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetIndexKlinesAsync(string symbol, OKXPeriod period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXKline>>> GetIndexKlinesAsync(string symbol, KlineInterval period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve index tickers.
@@ -148,7 +148,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get insurance fund
@@ -166,7 +166,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(OKXInstrumentType instrumentType, OKXInsuranceType type = OKXInsuranceType.All, string? underlying = null, string? asset = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXInsuranceFund>> GetInsuranceFundAsync(InstrumentType instrumentType, InsuranceType type = InsuranceType.All, string? underlying = null, string? asset = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get margin interest rate
@@ -187,7 +187,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetKlineHistoryAsync(string symbol, OKXPeriod period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXKline>>> GetKlineHistoryAsync(string symbol, KlineInterval period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the candlestick charts. This endpoint can retrieve the latest 1,440 data entries. Charts are returned in groups based on the requested bar.
@@ -200,7 +200,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="limit">Number of results per request. The maximum is 300; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetKlinesAsync(string symbol, OKXPeriod period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXKline>>> GetKlinesAsync(string symbol, KlineInterval period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the highest buy limit and lowest sell limit of the instrument.
@@ -209,7 +209,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXLimitPrice>> GetLimitPriceAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<OKXLimitPrice>> GetPriceLimitsAsync(string symbol, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the candlestick charts of mark price. This endpoint can retrieve the latest 1,440 data entries. Charts are returned in groups based on the requested bar.
@@ -222,7 +222,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXCandlestick>>> GetMarkPriceKlinesAsync(string symbol, OKXPeriod period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXKline>>> GetMarkPriceKlinesAsync(string symbol, KlineInterval period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve mark price.
@@ -235,7 +235,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the total open interest for contracts on OKX.
@@ -247,7 +247,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(OKXInstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve option market data.
@@ -292,8 +292,8 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(
-        OKXInstrumentType instrumentType,
-        OKXMarginMode marginMode,
+        InstrumentType instrumentType,
+        MarginMode marginMode,
         string underlying,
         string? symbol = null,
         string? tier = null,
@@ -321,7 +321,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikContractSummaryAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsContractSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the volume and open interest for each upcoming expiration. You can use this to see which expirations are currently the most popular to trade.
@@ -331,7 +331,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetRubikInterestVolumeExpiryAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetTradeStatsInterestVolumeExpiryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This shows what option strikes are the most popular for each expiration.
@@ -342,7 +342,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetRubikInterestVolumeStrikeAsync(string asset, string expiryTime, OKXPeriod period = OKXPeriod.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetTradeStatsInterestVolumeStrikeAsync(string asset, string expiryTime, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This is the ratio of users with net long vs short positions. It includes data from futures and perpetual swaps.
@@ -354,7 +354,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikLongShortRatioAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsLongShortRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This indicator shows the ratio of cumulative data value between currency pair leverage quote currency and underlying asset over a given period of time.
@@ -366,7 +366,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXRatio>>> GetRubikMarginLendingRatioAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsMarginLendingRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the sum of all open positions and how much total trading volume has taken place.
@@ -376,7 +376,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetRubikOptionsSummaryAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsOptionsSummaryAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This shows the relative buy/sell volume for calls and puts. It shows whether traders are bullish or bearish on price and volatility.
@@ -386,7 +386,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetRubikPutCallRatioAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetTradeStatsPutCallRatioAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// Get the currency supported by the transaction big data interface
@@ -394,7 +394,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSupportCoins>> GetRubikSupportCoinAsync(CancellationToken ct = default);
+    Task<WebCallResult<OKXSupportCoins>> GetTradeStatsSupportedAssetsAsync(CancellationToken ct = default);
 
     /// <summary>
     /// This shows the relative buy/sell volume for calls and puts. It shows whether traders are bullish or bearish on price and volatility.
@@ -404,7 +404,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">period, the default is 8H. e.g. [8H/1D]</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTakerFlow>> GetRubikTakerFlowAsync(string asset, OKXPeriod period = OKXPeriod.FiveMinutes, CancellationToken ct = default);
+    Task<WebCallResult<OKXTakerFlow>> GetTradeStatsTakerFlowAsync(string asset, KlineInterval period = KlineInterval.FiveMinutes, CancellationToken ct = default);
 
     /// <summary>
     /// This is the taker volume for both buyers and sellers. This shows the influx and exit of funds in and out of {coin}.
@@ -417,7 +417,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetRubikTakerVolumeAsync(string asset, OKXInstrumentType instrumentType, OKXPeriod period = OKXPeriod.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetTradeStatsTakerVolumeAsync(string asset, InstrumentType instrumentType, KlineInterval period = KlineInterval.FiveMinutes, DateTime? startTime = null, DateTime? endTime = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve API server time.
@@ -445,7 +445,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(OKXInstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get trades history
@@ -460,7 +460,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXTrade>>> GetTradeHistoryAsync(string symbol, OKXTradeHistoryPaginationType type = OKXTradeHistoryPaginationType.TradeId, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXTrade>>> GetTradeHistoryAsync(string symbol, TradeHistoryPaginationType type = TradeHistoryPaginationType.TradeId, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get Underlying
@@ -469,7 +469,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(OKXInstrumentType instrumentType, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(InstrumentType instrumentType, CancellationToken ct = default);
 
     /// <summary>
     /// Get interest rate and loan quota for VIP loans
@@ -490,5 +490,5 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="quantity">Quantity to buy or sell</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(OKXConvertType type, string symbol, decimal quantity, OKXConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(ConvertType type, string symbol, decimal quantity, ConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
 }

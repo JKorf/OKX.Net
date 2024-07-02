@@ -1,0 +1,27 @@
+GET
+/api/v5/public/insurance-fund
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "details": [
+                {
+                    "adlType": "",
+                    "amt": "",
+                    "balance": "1343.1308",
+                    "ccy": "ETH",
+                    "decRate": "",
+                    "maxBal": "",
+                    "maxBalTs": "",
+                    "ts": "1704883083000",
+                    "type": "regular_update"
+                }
+            ],
+            "instFamily": "ETH-USD",
+            "instType": "OPTION",
+            "total": "1369179138.7489"
+        }
+    ],
+    "msg": ""
+}

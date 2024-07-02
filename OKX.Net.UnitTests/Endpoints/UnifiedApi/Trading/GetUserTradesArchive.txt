@@ -1,0 +1,36 @@
+GET
+/api/v5/trade/fills-history
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "side": "buy",
+            "fillSz": "0.00192834",
+            "fillPx": "51858",
+            "fillPxVol": "",
+            "fillFwdPx": "",
+            "fee": "-0.00000192834",
+            "fillPnl": "0",
+            "ordId": "680800019749904384",
+            "feeRate": "-0.001",
+            "instType": "SPOT",
+            "fillPxUsd": "",
+            "instId": "BTC-USDT",
+            "clOrdId": "",
+            "posSide": "net",
+            "billId": "680800019754098688",
+            "subType": "1",
+            "fillMarkVol": "",
+            "tag": "",
+            "fillTime": "1708587373361",
+            "execType": "T",
+            "fillIdxPx": "",
+            "tradeId": "744876980",
+            "fillMarkPx": "",
+            "feeCcy": "BTC",
+            "ts": "1708587373362"
+        }
+    ],
+    "msg": ""
+}

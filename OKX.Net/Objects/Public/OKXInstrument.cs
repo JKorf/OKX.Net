@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
@@ -11,163 +10,173 @@ public record OKXInstrument
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Instrument ID, e.g. BTC-USD-SWAP
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Instrument family, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
-    [JsonProperty("instFamily")]
+    [JsonPropertyName("instFamily")]
     public string InstrumentFamily { get; set; } = string.Empty;
 
     /// <summary>
     /// Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
-    [JsonProperty("uly")]
+    [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
     /// Category
     /// </summary>
-    [JsonProperty("category")]
+    [JsonPropertyName("category")]
     public string Category { get; set; } = string.Empty;
 
     /// <summary>
     /// Base asset
     /// </summary>
-    [JsonProperty("baseCcy")]
+    [JsonPropertyName("baseCcy")]
     public string BaseAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Quote asset
     /// </summary>
-    [JsonProperty("quoteCcy")]
+    [JsonPropertyName("quoteCcy")]
     public string QuoteAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// settlement asset
     /// </summary>
-    [JsonProperty("settleCcy")]
+    [JsonPropertyName("settleCcy")]
     public string SettlementAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Contract value
     /// </summary>
-    [JsonProperty("ctVal")]
+    [JsonPropertyName("ctVal")]
     public decimal? ContractValue { get; set; }
 
     /// <summary>
     /// Contract multiplier
     /// </summary>
-    [JsonProperty("ctMult")]
+    [JsonPropertyName("ctMult")]
     public decimal? ContractMultiplier { get; set; }
 
     /// <summary>
     /// Contract value asset
     /// </summary>
-    [JsonProperty("ctValCcy")]
+    [JsonPropertyName("ctValCcy")]
     public string ContractValueAsset { get; set; } = string.Empty;
 
     /// <summary>
     /// Option type
     /// </summary>
-    [JsonProperty("optType"), JsonConverter(typeof(OptionTypeConverter))]
-    public OKXOptionType? OptionType { get; set; }
+    [JsonPropertyName("optType"), JsonConverter(typeof(EnumConverter))]
+    public OptionType? OptionType { get; set; }
 
     /// <summary>
     /// Strike price
     /// </summary>
-    [JsonProperty("stk")]
+    [JsonPropertyName("stk")]
     public decimal? StrikePrice { get; set; }
 
     /// <summary>
     /// Listing time
     /// </summary>
-    [JsonProperty("listTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("listTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? ListingTime { get; set; }
 
     /// <summary>
     /// Expiry time
     /// </summary>
-    [JsonProperty("expTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("expTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? ExpiryTime { get; set; }
 
     /// <summary>
     /// Maximum leverage
     /// </summary>
-    [JsonProperty("lever")]
+    [JsonPropertyName("lever")]
     public int? MaximumLeverage { get; set; }
 
     /// <summary>
     /// Tick size
     /// </summary>
-    [JsonProperty("tickSz")]
+    [JsonPropertyName("tickSz")]
     public decimal TickSize { get; set; }
 
     /// <summary>
     /// Lot size
     /// </summary>
-    [JsonProperty("lotSz")]
+    [JsonPropertyName("lotSz")]
     public decimal LotSize { get; set; }
 
     /// <summary>
     /// Minimum order size
     /// </summary>
-    [JsonProperty("minSz")]
+    [JsonPropertyName("minSz")]
     public decimal MinimumOrderSize { get; set; }
 
     /// <summary>
     /// Contract type
     /// </summary>
-    [JsonProperty("ctType"), JsonConverter(typeof(ContractTypeConverter))]
-    public OKXContractType? ContractType { get; set; }
+    [JsonPropertyName("ctType"), JsonConverter(typeof(EnumConverter))]
+    public ContractType? ContractType { get; set; }
 
     /// <summary>
     /// Alias
     /// </summary>
-    [JsonProperty("alias"), JsonConverter(typeof(InstrumentAliasConverter))]
-    public OKXInstrumentAlias? Alias { get; set; }
+    [JsonPropertyName("alias"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentAlias? Alias { get; set; }
 
     /// <summary>
     /// State
     /// </summary>
-    [JsonProperty("state"), JsonConverter(typeof(InstrumentStateConverter))]
-    public OKXInstrumentState state { get; set; }
+    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentState state { get; set; }
 
     /// <summary>
     /// The maximum order quantity of the contract or spot limit order.
     /// </summary>
-    [JsonProperty("maxLmtSz")]
+    [JsonPropertyName("maxLmtSz")]
     public decimal? MaxLimitQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot market order.
     /// </summary>
-    [JsonProperty("maxMktSz")]
+    [JsonPropertyName("maxMktSz")]
     public decimal? MaxMarketQuantity { get; set; }
+    /// <summary>
+    /// The maximum USD order value for limit orders
+    /// </summary>
+    [JsonPropertyName("maxLmtAmt")]
+    public decimal? MaxLimitValue { get; set; }
+    /// <summary>
+    /// The maximum USD order value for market orders
+    /// </summary>
+    [JsonPropertyName("maxMktAmt")]
+    public decimal? MaxMarketValue { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot twap order.
     /// </summary>
-    [JsonProperty("maxTwapSz")]
+    [JsonPropertyName("maxTwapSz")]
     public decimal? MaxTwapQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot iceBerg order.
     /// </summary>
-    [JsonProperty("maxIcebergSz")]
+    [JsonPropertyName("maxIcebergSz")]
     public decimal? MaxIcebergQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot trigger order.
     /// </summary>
-    [JsonProperty("maxTriggerSz")]
+    [JsonPropertyName("maxTriggerSz")]
     public decimal? MaxTriggerQuantity { get; set; }
     /// <summary>
     /// The maximum order quantity of the contract or spot stop market order.
     /// </summary>
-    [JsonProperty("maxStopSz")]
+    [JsonPropertyName("maxStopSz")]
     public decimal? MaxStopQuantity { get; set; }
 }

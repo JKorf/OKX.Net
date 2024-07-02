@@ -8,12 +8,12 @@ public record OKXLightningWithdrawal
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("cTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Withdrawal id
     /// </summary>
-    [JsonProperty("wdId")]
+    [JsonPropertyName("wdId")]
     public string WithdrawalId { get; set; } = string.Empty;
 }

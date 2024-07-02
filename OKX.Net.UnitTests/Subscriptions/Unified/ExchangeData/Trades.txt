@@ -1,0 +1,20 @@
+> { "op": "subscribe", "args": [{ "channel": "trades", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "trades", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "trades",
+    "instId": "ETH-USDT"
+  },
+  "data": [
+    {
+      "instId": "BTC-USDT",
+      "tradeId": "130639474",
+      "px": "42219.9",
+      "sz": "0.12060306",
+      "side": "buy",
+      "ts": "1630048897897",
+      "count": "3"
+    }
+  ]
+}

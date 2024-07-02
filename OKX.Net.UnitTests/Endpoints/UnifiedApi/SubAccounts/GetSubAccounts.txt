@@ -1,0 +1,22 @@
+GET
+/api/v5/users/subaccount/list
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "canTransOut": false,
+            "enable": true,
+            "frozenFunc": [
+            ],
+            "gAuth": false,
+            "label": "D456DDDLx",
+            "mobile": "",
+            "subAcct": "D456DDDL",
+            "ts": "1659334756000",
+            "type": "1",
+            "uid": "3400***********7413"
+        }
+    ]
+}

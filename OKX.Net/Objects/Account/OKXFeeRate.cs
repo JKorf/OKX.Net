@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
@@ -11,72 +10,99 @@ public record OKXFeeRate
     /// <summary>
     /// Category
     /// </summary>
-    [JsonProperty("category"), JsonConverter(typeof(FeeRateCategoryConverter))]
-    public OKXFeeRateCategory? Category { get; set; }
+    [JsonPropertyName("category"), JsonConverter(typeof(EnumConverter))]
+    public FeeRateCategory? Category { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Level
     /// </summary>
-    [JsonProperty("level")]
+    [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;
 
     /// <summary>
     /// Maker
     /// </summary>
-    [JsonProperty("maker")]
+    [JsonPropertyName("maker")]
     public decimal? Maker { get; set; }
 
     /// <summary>
     /// Maker fee rate of USDT-margined contracts
     /// </summary>
-    [JsonProperty("makerU")]
+    [JsonPropertyName("makerU")]
     public decimal? MakerUsdtMarginContracts { get; set; }
 
     /// <summary>
     /// Taker fee rate of USDT-margined contracts
     /// </summary>
-    [JsonProperty("takerU")]
+    [JsonPropertyName("takerU")]
     public decimal? TakerUsdtMarginContracts { get; set; }
 
     /// <summary>
     /// Maker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
     /// </summary>
-    [JsonProperty("makerUSDC")]
+    [JsonPropertyName("makerUSDC")]
     public decimal? MakerFeeUsdc { get; set; }
 
     /// <summary>
     /// Taker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
     /// </summary>
-    [JsonProperty("takerUSDC")]
+    [JsonPropertyName("takerUSDC")]
     public decimal? TakerFeeUsdc { get; set; }
 
     /// <summary>
     /// Taker
     /// </summary>
-    [JsonProperty("taker")]
+    [JsonPropertyName("taker")]
     public decimal? Taker { get; set; }
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonProperty("instType"), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType InstrumentType { get; set; }
+    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Delivery
     /// </summary>
-    [JsonProperty("delivery")]
+    [JsonPropertyName("delivery")]
     public decimal? Delivery { get; set; }
 
     /// <summary>
     /// Exercise
     /// </summary>
-    [JsonProperty("exercise")]
+    [JsonPropertyName("exercise")]
     public decimal? Exercise { get; set; }
+    /// <summary>
+    /// Fiat fees
+    /// </summary>
+    [JsonPropertyName("fiat")]
+    public IEnumerable<OKXFiatFee> Fiat { get; set; } = Array.Empty<OKXFiatFee>();
+}
+
+/// <summary>
+/// Fiat fee rate
+/// </summary>
+public record OKXFiatFee
+{
+    /// <summary>
+    /// Asset
+    /// </summary>
+    [JsonPropertyName("ccy")]
+    public string Asset { get; set; } = string.Empty;
+    /// <summary>
+    /// Taker fee
+    /// </summary>
+    [JsonPropertyName("taker")]
+    public decimal TakerFeeRate { get; set; }
+    /// <summary>
+    /// Maker fee
+    /// </summary>
+    [JsonPropertyName("maker")]
+    public decimal MakerFeeRate { get; set; }
 }

@@ -1,0 +1,25 @@
+GET
+/api/v5/account/max-loan
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "instId": "BTC-USDT",
+      "mgnMode": "isolated",
+      "mgnCcy": "",
+      "maxLoan": "0.1",
+      "ccy": "BTC",
+      "side": "sell"
+    },
+    {
+      "instId": "BTC-USDT",
+      "mgnMode": "isolated",
+      "mgnCcy": "",
+      "maxLoan": "0.2",
+      "ccy": "USDT",
+      "side": "buy"
+    }
+  ]
+}

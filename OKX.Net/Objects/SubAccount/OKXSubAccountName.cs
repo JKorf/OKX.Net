@@ -8,6 +8,6 @@ public record OKXSubAccountName
     /// <summary>
     /// Name
     /// </summary>
-    [JsonProperty("subAcct")]
+    [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 }

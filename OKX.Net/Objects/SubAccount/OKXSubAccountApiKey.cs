@@ -8,47 +8,47 @@ public record OKXSubAccountApiKey
     /// <summary>
     /// Subaccount name
     /// </summary>
-    [JsonProperty("subAcct")]
+    [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
     /// Label
     /// </summary>
-    [JsonProperty("label")]
+    [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
     /// Key
     /// </summary>
-    [JsonProperty("apiKey")]
+    [JsonPropertyName("apiKey")]
     public string apiKey { get; set; } = string.Empty;
 
     /*
-    [JsonProperty("secretKey")]
+    [JsonPropertyName("secretKey")]
     public string secretKey { get; set; }
 
-    [JsonProperty("Passphrase")]
+    [JsonPropertyName("Passphrase")]
     public string Passphrase { get; set; }
 
-    [JsonProperty("perm"), JsonConverter(typeof(ApiPermissionConverter))]
+    [JsonPropertyName("perm"), JsonConverter(typeof(ApiPermissionConverter))]
     public OkexApiPermission Permission { get; set; }
     */
 
     /// <summary>
     /// Permissions
     /// </summary>
-    [JsonProperty("perm")]
+    [JsonPropertyName("perm")]
     public string Permissions { get; set; } = string.Empty;
 
     /// <summary>
     /// IP addresses
     /// </summary>
-    [JsonProperty("ip")]
+    [JsonPropertyName("ip")]
     public string IpAddresses { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 }

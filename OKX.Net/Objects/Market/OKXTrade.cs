@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Market;
 
@@ -11,36 +10,42 @@ public record OKXTrade
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("instId")]
+    [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Trade id
     /// </summary>
-    [JsonProperty("tradeId")]
+    [JsonPropertyName("tradeId")]
     public long TradeId { get; set; }
 
     /// <summary>
     /// Price
     /// </summary>
-    [JsonProperty("px")]
+    [JsonPropertyName("px")]
     public decimal Price { get; set; }
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("sz")]
+    [JsonPropertyName("sz")]
     public decimal Quantity { get; set; }
 
     /// <summary>
     /// Side
     /// </summary>
-    [JsonProperty("side"), JsonConverter(typeof(TradeSideConverter))]
-    public OKXTradeSide Side { get; set; }
+    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    public OrderSide Side { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Number of trades if it is an aggregated trade
+    /// </summary>
+    [JsonPropertyName("count")]
+    public int? TradeCount { get; set; }
 }

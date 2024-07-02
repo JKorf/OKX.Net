@@ -1,23 +1,23 @@
 ﻿namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketResponse
 {
-    [JsonProperty("op")]
+    [JsonPropertyName("op")]
     public string Op { get; set; } = string.Empty;
-    [JsonProperty("arg")]
+    [JsonPropertyName("arg")]
     public OKXSocketArgs Arg { get; set; } = null!;
-    [JsonProperty("connId")]
+    [JsonPropertyName("connId")]
     public string ConnectionId { get; set; } = string.Empty;
 
-    [JsonProperty("event")]
+    [JsonPropertyName("event")]
     public string? Event { get; set; }
-    [JsonProperty("msg")]
+    [JsonPropertyName("msg")]
     public string? Message { get; set; }
-    [JsonProperty("code")]
+    [JsonPropertyName("code")]
     public int? Code { get; set; }
 }
 
 internal class OKXSocketResponse<T> : OKXSocketResponse
 {
-    [JsonProperty("data")]
+    [JsonPropertyName("data")]
     public T Data { get; set; } = default!;
 }

@@ -1,0 +1,58 @@
+GET
+/api/v5/account/balance
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "adjEq": "55415.624719833286",
+            "borrowFroz": "0",
+            "details": [
+                {
+                    "availBal": "4834.317093622894",
+                    "availEq": "4834.3170936228935",
+                    "borrowFroz": "0",
+                    "cashBal": "4850.435693622894",
+                    "ccy": "USDT",
+                    "crossLiab": "0",
+                    "disEq": "4991.542013297616",
+                    "eq": "4992.890093622894",
+                    "eqUsd": "4991.542013297616",
+                    "fixedBal": "0",
+                    "frozenBal": "158.573",
+                    "imr": "",
+                    "interest": "0",
+                    "isoEq": "0",
+                    "isoLiab": "0",
+                    "isoUpl": "0",
+                    "liab": "0",
+                    "maxLoan": "0",
+                    "mgnRatio": "",
+                    "mmr": "",
+                    "notionalLever": "",
+                    "ordFrozen": "0",
+                    "rewardBal": "0",
+                    "spotInUseAmt": "",
+                    "clSpotInUseAmt": "",
+                    "maxSpotInUseAmt": "",
+                    "spotIsoBal": "0",
+                    "stgyEq": "150",
+                    "twap": "0",
+                    "uTime": "1705449605015",
+                    "upl": "-7.545600000000006",
+                    "uplLiab": "0"
+                }
+            ],
+            "imr": "8.57068529",
+            "isoEq": "0",
+            "mgnRatio": "143682.59776662575",
+            "mmr": "0.3428274116",
+            "notionalUsd": "85.7068529",
+            "ordFroz": "0",
+            "totalEq": "55837.43556134779",
+            "uTime": "1705474164160",
+            "upl": "-7.543562688000006"
+        }
+    ],
+    "msg": ""
+}

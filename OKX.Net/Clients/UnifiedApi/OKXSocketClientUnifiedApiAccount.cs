@@ -59,10 +59,10 @@ public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccoun
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(
-        Action<DataEvent<OKXDepositHistory>> onData,
+        Action<DataEvent<OKXDepositUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXDepositHistory>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXDepositUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -74,9 +74,9 @@ public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccoun
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalHistory>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXWithdrawalHistory>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXWithdrawalUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {

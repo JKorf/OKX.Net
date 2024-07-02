@@ -1,0 +1,17 @@
+GET
+/api/v5/asset/subaccount/bills
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [
+      {
+        "amt": "1.1",
+        "billId": "89887685",
+        "ccy": "USDT", 
+        "subAcct": "hahatest1",
+        "ts": "1712560959000",
+        "type": "0"
+      }
+    ]
+}

@@ -1,0 +1,16 @@
+> { "op": "subscribe", "args": [{ "channel": "price-limit", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "price-limit", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "price-limit",
+    "instId": "ETH-USDT"
+  },
+  "data": [{
+        "instId": "LTC-USD-190628",
+        "buyLmt": "200",
+        "sellLmt": "300",
+        "ts": "1597026383085",
+        "enabled": true
+    }]
+}

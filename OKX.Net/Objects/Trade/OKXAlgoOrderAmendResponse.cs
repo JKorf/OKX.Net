@@ -8,30 +8,30 @@ public record OKXAlgoOrderAmendResponse
     /// <summary>
     /// Order id
     /// </summary>
-    [JsonProperty("algoId")]
+    [JsonPropertyName("algoId")]
     public long? OrderId { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
-    [JsonProperty("algoClOrdId")]
+    [JsonPropertyName("algoClOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Request id
     /// </summary>
-    [JsonProperty("reqId")]
+    [JsonPropertyName("reqId")]
     public string RequestId { get; set; } = string.Empty;
 
     /// <summary>
     /// Code
     /// </summary>
-    [JsonProperty("sCode")]
+    [JsonPropertyName("sCode")]
     public string Code { get; set; } = string.Empty;
 
     /// <summary>
     /// Message
     /// </summary>
-    [JsonProperty("sMsg")]
+    [JsonPropertyName("sMsg")]
     public string Message { get; set; } = string.Empty;
 }

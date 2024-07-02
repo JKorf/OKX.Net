@@ -8,6 +8,6 @@ public record OKXSubAccountTransfer
     /// <summary>
     /// Transfer id
     /// </summary>
-    [JsonProperty("transId")]
+    [JsonPropertyName("transId")]
     public long? TransferId { get; set; }
 }

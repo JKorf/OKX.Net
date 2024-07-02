@@ -7,8 +7,9 @@ namespace OKX.Net;
 internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredentials>
 {
     public string ApiKey => _credentials.Key!.GetString();
-
     public string Passphrase => _credentials.PassPhrase.GetString();
+
+    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
 
     public OKXAuthenticationProvider(OKXApiCredentials credentials) : base(credentials)
     {
@@ -39,12 +40,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
         var signtext = time + method.Method.ToUpper() + uri.PathAndQuery.Trim('?');
 
         if (method == HttpMethod.Post)
-        {
-            if (bodyParameters.Count == 1 && bodyParameters.Keys.First() == "<BODY>")
-                signtext += JsonConvert.SerializeObject(bodyParameters["<BODY>"]);
-            else
-                signtext += JsonConvert.SerializeObject(bodyParameters);
-        }
+            signtext += GetSerializedBody(_serializer, bodyParameters);
 
         // Compute Signature
         var signature = SignHMACSHA256(signtext, SignOutputType.Base64);

@@ -1,0 +1,21 @@
+> { "op": "subscribe", "args": [{ "channel": "index-tickers", "instId": "ETH-USDT" }]}
+< { "event": "subscribe", "arg": { "channel": "index-tickers", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "index-tickers",
+    "instId": "ETH-USDT"
+  },
+  "data": [
+    {
+      "instId": "BTC-USDT",
+      "idxPx": "0.1",
+      "high24h": "0.5",
+      "low24h": "0.1",
+      "open24h": "0.1",
+      "sodUtc0": "0.1",
+      "sodUtc8": "0.1",
+      "ts": "1597026383085"
+    }
+  ]
+}

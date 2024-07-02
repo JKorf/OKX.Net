@@ -1,0 +1,12 @@
+POST
+/api/v5/account/set-account-level
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "isoMode": "automatic"
+        }
+    ],
+    "msg": ""
+}

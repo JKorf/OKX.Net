@@ -1,0 +1,14 @@
+GET
+/api/v5/asset/subaccount/balances
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+            "availBal": "37.11827078",
+            "bal": "37.11827078",
+            "ccy": "ETH",
+            "frozenBal": "0"
+        }
+    ]
+}

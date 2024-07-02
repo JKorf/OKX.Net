@@ -1,0 +1,14 @@
+GET
+/api/v5/rubik/stat/contracts/open-interest-volume
+false
+{
+    "code": "0",
+    "data": [
+        [
+            "1630502400000",
+            "1713028741.6898",
+            "39800873.554"
+        ]
+    ],
+    "msg": ""
+}

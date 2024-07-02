@@ -1,23 +1,22 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketArgs
 {
-    [JsonProperty("channel")]
+    [JsonPropertyName("channel")]
     public string Channel { get; set; } = string.Empty;
-    [JsonProperty("instType", DefaultValueHandling = DefaultValueHandling.Ignore), JsonConverter(typeof(InstrumentTypeConverter))]
-    public OKXInstrumentType? InstrumentType { get; set; }
-    [JsonProperty("instFamily", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("instType"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    public InstrumentType? InstrumentType { get; set; }
+    [JsonPropertyName("instFamily"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? InstrumentFamily { get; set; }
-    [JsonProperty("instId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonPropertyName("instId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Symbol { get; set; }
-    [JsonProperty("ccy", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("ccy"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Asset { get; set; }
 
-    [JsonProperty("algoId", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("algoId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? AlgoId { get; set; }
 
-    [JsonProperty("extraParams", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("extraParams"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ExtraParams { get; set; }
 }

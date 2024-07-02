@@ -8,18 +8,18 @@ public record OKXSupportCoins
     /// <summary>
     /// Contracts
     /// </summary>
-    [JsonProperty("contract")]
+    [JsonPropertyName("contract")]
     public IEnumerable<string> Contract { get; set; } = Array.Empty<string>();
 
     /// <summary>
     /// Options
     /// </summary>
-    [JsonProperty("option")]
+    [JsonPropertyName("option")]
     public IEnumerable<string> Option { get; set; } = Array.Empty<string>();
 
     /// <summary>
     /// Spot
     /// </summary>
-    [JsonProperty("spot")]
+    [JsonPropertyName("spot")]
     public IEnumerable<string> Spot { get; set; } = Array.Empty<string>();
 }

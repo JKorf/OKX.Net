@@ -1,0 +1,36 @@
+GET
+/api/v5/public/discount-rate-interest-free-quota
+false
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+            "amt": "1",
+            "ccy": "LTC",
+            "discountInfo": [
+                {
+                    "discountRate": "0.95",
+                    "maxAmt": "2000000",
+                    "minAmt": "0"
+                },
+                {
+                    "discountRate": "0.85",
+                    "maxAmt": "4000000",
+                    "minAmt": "2000000"
+                },
+                {
+                    "discountRate": "0.5",
+                    "maxAmt": "8000000",
+                    "minAmt": "4000000"
+                },
+                {
+                    "discountRate": "0",
+                    "maxAmt": "",
+                    "minAmt": "8000000"
+                }
+            ],
+            "discountLv": "2"
+        }
+  ]
+}

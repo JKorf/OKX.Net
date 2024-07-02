@@ -1,0 +1,14 @@
+POST
+/api/v5/trade/cancel-all-after
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "triggerTime":"1587971460",
+            "tag":"",
+            "ts":"1587971400"
+        }
+    ]
+}

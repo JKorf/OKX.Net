@@ -1,0 +1,19 @@
+GET
+/api/v5/market/index-tickers
+false
+{
+    "code": "0",
+    "msg": "",
+    "data": [
+        {
+            "instId": "BTC-USDT",
+            "idxPx": "43350",
+            "high24h": "43649.7",
+            "sodUtc0": "43444.1",
+            "open24h": "43640.8",
+            "low24h": "43261.9",
+            "sodUtc8": "43328.7",
+            "ts": "1649419644492"
+        }
+    ]
+}

@@ -8,24 +8,24 @@ public record OKXSubAccountFundingBalance
     /// <summary>
     /// Available balance
     /// </summary>
-    [JsonProperty("availBal")]
+    [JsonPropertyName("availBal")]
     public decimal? AvailableBalance { get; set; }
 
     /// <summary>
     /// Balance
     /// </summary>
-    [JsonProperty("bal")]
+    [JsonPropertyName("bal")]
     public decimal? Balance { get; set; }
 
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Frozen balance
     /// </summary>
-    [JsonProperty("frozenBal")]
+    [JsonPropertyName("frozenBal")]
     public decimal? FrozenBalance { get; set; }
 }

@@ -1,0 +1,25 @@
+GET
+/api/v5/market/trades
+false
+{
+    "code": "0",
+    "msg": "",
+    "data": [
+        {
+            "instId": "BTC-USDT",
+            "side": "sell",
+            "sz": "0.00001",
+            "px": "29963.2",
+            "tradeId": "242720720",
+            "ts": "1654161646974"
+        },
+        {
+            "instId": "BTC-USDT",
+            "side": "sell",
+            "sz": "0.00001",
+            "px": "29964.1",
+            "tradeId": "242720719",
+            "ts": "1654161641568"
+        }
+    ]
+}

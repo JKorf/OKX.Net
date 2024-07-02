@@ -1,0 +1,64 @@
+GET
+/api/v5/trade/order
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "accFillSz": "0.00192834",
+            "algoClOrdId": "",
+            "algoId": "",
+            "attachAlgoClOrdId": "",
+            "attachAlgoOrds": [],
+            "avgPx": "51858",
+            "cTime": "1708587373361",
+            "cancelSource": "",
+            "cancelSourceReason": "",
+            "category": "normal",
+            "ccy": "",
+            "clOrdId": "",
+            "fee": "-0.00000192834",
+            "feeCcy": "BTC",
+            "fillPx": "51858",
+            "fillSz": "0.00192834",
+            "fillTime": "1708587373361",
+            "instId": "BTC-USDT",
+            "instType": "SPOT",
+            "isTpLimit": "false",
+            "lever": "",
+            "linkedAlgoOrd": {
+                "algoId": ""
+            },
+            "ordId": "680800019749904384",
+            "ordType": "market",
+            "pnl": "0",
+            "posSide": "net",
+            "px": "",
+            "pxType": "",
+            "pxUsd": "",
+            "pxVol": "",
+            "quickMgnType": "",
+            "rebate": "0",
+            "rebateCcy": "USDT",
+            "reduceOnly": "false",
+            "side": "buy",
+            "slOrdPx": "",
+            "slTriggerPx": "",
+            "slTriggerPxType": "",
+            "source": "",
+            "state": "filled",
+            "stpId": "",
+            "stpMode": "",
+            "sz": "100",
+            "tag": "",
+            "tdMode": "cash",
+            "tgtCcy": "quote_ccy",
+            "tpOrdPx": "",
+            "tpTriggerPx": "",
+            "tpTriggerPxType": "",
+            "tradeId": "744876980",
+            "uTime": "1708587373362"
+        }
+    ],
+    "msg": ""
+}

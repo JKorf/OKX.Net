@@ -1,0 +1,17 @@
+POST
+/api/v5/asset/transfer
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "transId": "754147",
+      "ccy": "USDT",
+      "clientId": "",
+      "from": "6",
+      "amt": "0.1",
+      "to": "18"
+    }
+  ]
+}

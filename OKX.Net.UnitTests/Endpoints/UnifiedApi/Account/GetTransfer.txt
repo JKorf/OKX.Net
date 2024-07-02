@@ -1,0 +1,22 @@
+GET
+/api/v5/asset/transfer-state
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "amt": "1.5",
+            "ccy": "USDT",
+            "clientId": "",
+            "from": "18",
+            "instId": "",
+            "state": "success",
+            "subAcct": "test",
+            "to": "6",
+            "toInstId": "",
+            "transId": "1",
+            "type": "1"
+        }
+    ],
+    "msg": ""
+}

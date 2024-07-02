@@ -1,0 +1,15 @@
+POST
+/api/v5/account/set-leverage
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "lever": "30",
+      "mgnMode": "isolated",
+      "instId": "BTC-USDT-SWAP",
+      "posSide": "long"
+    }
+  ]
+}

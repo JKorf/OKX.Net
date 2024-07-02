@@ -1,5 +1,4 @@
-﻿using OKX.Net.Converters;
-using OKX.Net.Enums;
+﻿using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.SubAccount;
 
@@ -11,36 +10,36 @@ public record OKXSubAccountBill
     /// <summary>
     /// Bill id
     /// </summary>
-    [JsonProperty("billId")]
+    [JsonPropertyName("billId")]
     public long BillId { get; set; }
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Type
     /// </summary>
-    [JsonProperty("type"), JsonConverter(typeof(SubAccountTransferTypeConverter))]
-    public OKXSubAccountTransferType Type { get; set; }
+    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    public SubAccountTransferType Type { get; set; }
 
     /// <summary>
     /// asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Subaccount name
     /// </summary>
-    [JsonProperty("subAcct")]
+    [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 }

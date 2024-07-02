@@ -1,0 +1,47 @@
+GET
+/api/v5/public/interest-rate-loan-quota
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "basic": [
+                {
+                    "ccy": "USDT",
+                    "quota": "500000",
+                    "rate": "0.00043728"
+                },
+                {
+                    "ccy": "BTC",
+                    "quota": "10",
+                    "rate": "0.00019992"
+                }
+            ],
+            "vip": [
+                {
+                    "irDiscount": "",
+                    "loanQuotaCoef": "6",
+                    "level": "VIP1"
+                },
+                {
+                    "irDiscount": "",
+                    "loanQuotaCoef": "7",
+                    "level": "VIP2"
+                }
+            ],
+            "regular": [
+                {
+                    "irDiscount": "",
+                    "loanQuotaCoef": "1",
+                    "level": "Lv1"
+                },
+                {
+                    "irDiscount": "",
+                    "loanQuotaCoef": "2",
+                    "level": "Lv2"
+                }
+            ]
+        }
+    ],
+    "msg": ""
+}

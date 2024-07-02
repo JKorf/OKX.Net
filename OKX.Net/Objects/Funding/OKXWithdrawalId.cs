@@ -8,6 +8,6 @@ public record OKXWithdrawalId
     /// <summary>
     /// Withdrawal id
     /// </summary>
-    [JsonProperty("wdId")]
+    [JsonPropertyName("wdId")]
     public string WithdrawalId { get; set; } = string.Empty;
 }

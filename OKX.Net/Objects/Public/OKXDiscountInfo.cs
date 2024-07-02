@@ -8,25 +8,25 @@ public record OKXDiscountInfo
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Quantity
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
     /// Discount level
     /// </summary>
-    [JsonProperty("discountLv")]
+    [JsonPropertyName("discountLv")]
     public int DiscountLevel { get; set; }
 
     /// <summary>
     /// Discount info
     /// </summary>
-    [JsonProperty("discountInfo")]
+    [JsonPropertyName("discountInfo")]
     public IEnumerable<OKXPublicDiscountInfoDetail> Details { get; set; } = Array.Empty<OKXPublicDiscountInfoDetail>();
 }
 
@@ -38,18 +38,18 @@ public record OKXPublicDiscountInfoDetail
     /// <summary>
     /// Discount rate
     /// </summary>
-    [JsonProperty("discountRate")]
+    [JsonPropertyName("discountRate")]
     public decimal? DiscountRate { get; set; }
 
     /// <summary>
     /// Max amount
     /// </summary>
-    [JsonProperty("maxAmt")]
+    [JsonPropertyName("maxAmt")]
     public decimal? MaximumAmount { get; set; }
 
     /// <summary>
     /// Min amount
     /// </summary>
-    [JsonProperty("minAmt")]
+    [JsonPropertyName("minAmt")]
     public decimal? MinimumAmount { get; set; }
 }

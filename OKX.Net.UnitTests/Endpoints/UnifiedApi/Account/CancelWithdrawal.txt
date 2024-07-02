@@ -1,0 +1,12 @@
+POST
+/api/v5/asset/cancel-withdrawal
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "wdId": "1123456"   
+    }
+  ]
+}

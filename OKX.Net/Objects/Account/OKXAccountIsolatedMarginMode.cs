@@ -10,6 +10,6 @@ public record OKXAccountIsolatedMarginMode
     /// <summary>
     /// Isolated margin mode
     /// </summary>
-    [JsonProperty("isoMode"), JsonConverter(typeof(EnumConverter))]
-    public OKXIsolatedMarginMode PositionMode { get; set; }
+    [JsonPropertyName("isoMode"), JsonConverter(typeof(EnumConverter))]
+    public IsolatedMarginMode PositionMode { get; set; }
 }

@@ -1,0 +1,41 @@
+GET
+/api/v5/account/bills-archive
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+        "bal": "8694.2179403378290202",
+        "balChg": "0.0219338232210000",
+        "billId": "623950854533513219",
+        "ccy": "USDT",
+        "clOrdId": "",
+        "execType": "T",
+        "fee": "-0.000021955779",
+        "fillFwdPx": "",
+        "fillIdxPx": "27104.1",
+        "fillMarkPx": "",
+        "fillMarkVol": "",
+        "fillPxUsd": "",
+        "fillPxVol": "",
+        "fillTime": "1695033476166",
+        "from": "",
+        "instId": "BTC-USDT",
+        "instType": "SPOT",
+        "interest": "0",
+        "mgnMode": "isolated",
+        "notes": "",
+        "ordId": "623950854525124608",
+        "pnl": "0",
+        "posBal": "0",
+        "posBalChg": "0",
+        "px": "27105.9",
+        "subType": "1",
+        "sz": "0.021955779",
+        "tag": "",
+        "to": "",
+        "tradeId": "586760148",
+        "ts": "1695033476167",
+        "type": "2"
+    }]
+} 

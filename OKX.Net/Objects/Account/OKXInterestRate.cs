@@ -8,12 +8,12 @@ public record OKXInterestRate
     /// <summary>
     /// Asset
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
     /// Interest rate
     /// </summary>
-    [JsonProperty("interestRate")]
+    [JsonPropertyName("interestRate")]
     public decimal? InterestRate { get; set; }
 }

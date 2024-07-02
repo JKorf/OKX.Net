@@ -1,0 +1,23 @@
+GET
+/api/v5/affiliate/invitee/detail
+true
+{
+    "msg": "",
+    "code": "0",
+    "data": [
+        {
+            "accFee": "0",
+            "affiliateCode": "HIIIIII",
+            "depAmt": "0",
+            "firstTradeTime": "",
+            "inviteeLevel": "2",
+            "inviteeRebateRate": "0.39",
+            "joinTime": "1712546713000",
+            "kycTime": "",
+            "level": "Lv1",
+            "region": "Vietnam",
+            "totalCommission": "0",
+            "volMonth": "0"
+        }
+    ]
+}

@@ -25,19 +25,19 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 
     /// <inheritdoc />
     public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
-        OKXOrderSide side,
-        OKXOrderType type,
-        OKXTradeMode tradeMode,
+        OrderSide side,
+        OrderType type,
+        TradeMode tradeMode,
         decimal quantity,
         decimal? price = null,
-        OKXPositionSide? positionSide = null,
+        PositionSide? positionSide = null,
 
-        OKXQuickMarginType? quickMarginType = null,
+        QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
-        OKXSelfTradePreventionMode? selfTradePreventionMode = null,
+        SelfTradePreventionMode? selfTradePreventionMode = null,
 
         string? asset = null,
-        OKXQuantityAsset? quantityAsset = null,
+        QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
         CancellationToken ct = default)
@@ -65,8 +65,11 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
 
         var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderPlaceResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (!result)
+            return result;
+        
+        if (!result.Data.Success)
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }
@@ -95,8 +98,11 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
         var result = await _client.QueryInternalAsync<OKXOrderCancelResponse>(_client.GetUri("/ws/v5/private"), "cancel-order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderCancelResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (!result)
+            return result; 
+        
+        if (!result.Data.Success)
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }
@@ -128,8 +134,11 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
         parameters.AddOptionalParameter("newPx", newPrice?.ToString(CultureInfo.InvariantCulture));
 
         var result = await _client.QueryInternalAsync<OKXOrderAmendResponse>(_client.GetUri("/ws/v5/private"), "amend-order", parameters, true, 1, ct).ConfigureAwait(false);
-        if (result.Data.Code != "0")
-            return result.AsError<OKXOrderAmendResponse>(new ServerError(int.Parse(result.Data.Code), result.Data.Message, null));
+        if (!result)
+            return result;
+
+        if (!result.Data.Success)
+            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
 
         return result;
     }
@@ -142,7 +151,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
         bool regularUpdates,
@@ -165,7 +174,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToLiquidationWarningUpdatesAsync(OKXInstrumentType instrumentType,
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToLiquidationWarningUpdatesAsync(InstrumentType instrumentType,
         string? instrumentFamily,
         Action<DataEvent<OKXPosition>> onData,
         CancellationToken ct = default)
@@ -185,7 +194,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
         Action<DataEvent<OKXOrderUpdate>> onData,
@@ -207,7 +216,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol,
         string? instrumentFamily,
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,
@@ -229,7 +238,7 @@ public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTradin
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAdvanceAlgoOrderUpdatesAsync(
-        OKXInstrumentType instrumentType,
+        InstrumentType instrumentType,
         string? symbol,
         string? algoId,
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,

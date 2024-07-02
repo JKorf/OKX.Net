@@ -1,0 +1,18 @@
+> { "op": "subscribe", "args": [{ "channel": "estimated-price", "instType": "FUTURES", "instFamily": "BTC-USD" }]}
+< { "event": "subscribe", "arg": { "channel": "estimated-price", "instType": "FUTURES", "instFamily": "BTC-USD" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "estimated-price",
+    "instType": "FUTURES",
+    "instFamily": "BTC-USD"
+  },
+  "data": [
+    {
+      "instType": "FUTURES",
+      "instId": "BTC-USD-170310",
+      "settlePx": "200",
+      "ts": "1597026383085"
+    }
+  ]
+}

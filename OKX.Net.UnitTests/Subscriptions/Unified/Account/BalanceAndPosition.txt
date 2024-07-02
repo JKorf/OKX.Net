@@ -1,0 +1,37 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "balance_and_position" }]}
+< { "event": "subscribe", "arg": { "channel": "balance_and_position" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "balance_and_position",
+        "uid": "77982378738415879"
+    },
+    "data": [{
+        "pTime": "1597026383085",
+        "eventType": "snapshot",
+        "balData": [{
+            "ccy": "BTC",
+            "cashBal": "1",
+            "uTime": "1597026383085"
+        }],
+        "posData": [{
+            "posId": "1111111111",
+            "tradeId": "2",
+            "instId": "BTC-USD-191018",
+            "instType": "FUTURES",
+            "mgnMode": "cross",
+            "posSide": "long",
+            "pos": "10",
+            "ccy": "BTC",
+            "posCcy": "",
+            "avgPx": "3320",
+            "uTime": "1597026383085"
+        }],
+        "trades": [{
+            "instId": "BTC-USD-191018",
+            "tradeId": "2"
+        }]
+    }]
+}

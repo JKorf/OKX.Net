@@ -8,25 +8,25 @@ public record OKXIndexComponents
     /// <summary>
     /// Last price
     /// </summary>
-    [JsonProperty("last")]
+    [JsonPropertyName("last")]
     public decimal LastPrice { get; set; }
 
     /// <summary>
     /// Index
     /// </summary>
-    [JsonProperty("index")]
+    [JsonPropertyName("index")]
     public string Index { get; set; } = string.Empty;
 
     /// <summary>
     /// Timestamp
     /// </summary>
-    [JsonProperty("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
     /// Components
     /// </summary>
-    [JsonProperty("components")]
+    [JsonPropertyName("components")]
     public IEnumerable<OKXIndexComponent> Components { get; set; } = Array.Empty<OKXIndexComponent>();
 }
 
@@ -38,30 +38,30 @@ public record OKXIndexComponent
     /// <summary>
     /// Symbol
     /// </summary>
-    [JsonProperty("symbol")]
+    [JsonPropertyName("symbol")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
     /// Price
     /// </summary>
-    [JsonProperty("symPx")]
+    [JsonPropertyName("symPx")]
     public decimal Price { get; set; }
 
     /// <summary>
     /// Weight
     /// </summary>
-    [JsonProperty("wgt")]
+    [JsonPropertyName("wgt")]
     public decimal Weight { get; set; }
 
     /// <summary>
     /// Convert price
     /// </summary>
-    [JsonProperty("cnvPx")]
+    [JsonPropertyName("cnvPx")]
     public decimal ConvertPrice { get; set; }
 
     /// <summary>
     /// Exchange
     /// </summary>
-    [JsonProperty("exch")]
+    [JsonPropertyName("exch")]
     public string Exchange { get; set; } = string.Empty;
 }

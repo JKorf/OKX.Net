@@ -8,12 +8,12 @@ public record OKXDustConvertResult
     /// <summary>
     /// Total quantity of OKB after conversion
     /// </summary>
-    [JsonProperty("totalCnvAmt")]
+    [JsonPropertyName("totalCnvAmt")]
     public decimal TotalConvertedQuantity { get; set; }
     /// <summary>
     /// Details of asset conversion
     /// </summary>
-    [JsonProperty("details")]
+    [JsonPropertyName("details")]
     public IEnumerable<OKXDustConvertAsset> Assets { get; set; } = Array.Empty<OKXDustConvertAsset>();
 }
 
@@ -25,21 +25,21 @@ public record OKXDustConvertAsset
     /// <summary>
     /// Quantity of asset before conversion
     /// </summary>
-    [JsonProperty("amt")]
+    [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
     /// <summary>
     /// Asset name
     /// </summary>
-    [JsonProperty("ccy")]
+    [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
     /// <summary>
     /// Quantity of OKB after conversion
     /// </summary>
-    [JsonProperty("cnvAmt")]
+    [JsonPropertyName("cnvAmt")]
     public decimal ConvertQuantity { get; set; }
     /// <summary>
     /// Fee
     /// </summary>
-    [JsonProperty("fee")]
+    [JsonPropertyName("fee")]
     public decimal Fee { get; set; }
 }

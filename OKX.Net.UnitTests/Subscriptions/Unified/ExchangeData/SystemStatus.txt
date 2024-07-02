@@ -1,0 +1,24 @@
+> { "op": "subscribe", "args": [{ "channel": "status" }]}
+< { "event": "subscribe", "arg": { "channel": "status" }, "connId": "a4d3ae55" }
+= 
+{
+  "arg": {
+    "channel": "status"
+  },
+  "data": [
+        {
+            "begin": "1672823400000",
+            "end": "1672825980000",
+            "href": "",
+            "preOpenBegin": "",
+            "scheDesc": "",
+            "serviceType": "0",
+            "state": "completed",
+            "system": "unified",
+            "maintType": "1",
+            "env": "1",
+            "title": "Trading account WebSocket system upgrade",
+            "ts": "1672826038470"
+        }
+    ]
+}

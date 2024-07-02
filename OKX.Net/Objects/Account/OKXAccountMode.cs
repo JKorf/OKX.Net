@@ -10,6 +10,6 @@ public record OKXAccountMode
     /// <summary>
     /// Account mode
     /// </summary>
-    [JsonProperty("acctLv"), JsonConverter(typeof(EnumConverter))]
-    public OKXAccountLevel Mode { get; set; }
+    [JsonPropertyName("acctLv"), JsonConverter(typeof(EnumConverter))]
+    public AccountLevel Mode { get; set; }
 }

@@ -1,0 +1,54 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "algo-advance", "instType": "FUTURES" }]}
+< { "event": "subscribe", "arg": { "channel": "algo-advance", "instType": "FUTURES" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "algo-advance",
+        "instType": "FUTURES"
+    },
+    "data":[
+        {
+            "actualPx":"",
+            "actualSide":"",
+            "actualSz":"0",
+            "algoId":"355056228680335360",
+            "cTime":"1630924001545",
+            "ccy":"",
+            "clOrdId": "",
+            "count":"1",
+            "instId":"BTC-USDT",
+            "instType":"SPOT",
+            "lever":"0",
+            "notionalUsd":"",
+            "ordPx":"",
+            "ordType":"iceberg",
+            "pTime":"1630924295204",
+            "posSide":"net",
+            "pxLimit":"10",
+            "pxSpread":"1",
+            "pxVar":"",
+            "side":"buy",
+            "slOrdPx":"",
+            "slTriggerPx":"",
+            "state":"pause",
+            "sz":"0.1",
+            "szLimit":"0.1",
+            "tdMode":"cash",
+            "timeInterval":"",
+            "tpOrdPx":"",
+            "tpTriggerPx":"",
+            "tag": "adadadadad",
+            "triggerPx":"",
+            "triggerTime":"",
+            "callbackRatio":"",
+            "callbackSpread":"",
+            "activePx":"",
+            "moveTriggerPx":"",
+            "failCode": "",
+            "algoClOrdId": "",
+            "reduceOnly": ""
+        }
+    ]
+}

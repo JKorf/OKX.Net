@@ -1,0 +1,17 @@
+GET
+/api/v5/account/interest-rate
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "ccy":"BTC",
+            "interestRate":"0.0001"
+        },
+        {
+            "ccy":"LTC",
+            "interestRate":"0.0003"
+        }
+    ]
+}
