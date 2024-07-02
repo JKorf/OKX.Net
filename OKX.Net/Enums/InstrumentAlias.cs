@@ -9,6 +9,10 @@ public enum InstrumentAlias
     ThisWeek,
     [Map("next_week")]
     NextWeek,
+    [Map("this_month")]
+    ThisMonth,
+    [Map("next_month")]
+    NextMonth,
     [Map("quarter")]
     Quarter,
     [Map("next_quarter")]

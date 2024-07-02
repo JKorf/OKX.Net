@@ -8428,7 +8428,7 @@
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
             <summary>
-            Add the IOKXClient and IOKXSocketClient to the sevice collection so they can be injected
+            Add the IOKXRestClient and IOKXSocketClient to the sevice collection so they can be injected
             </summary>
             <param name="services">The service collection</param>
             <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>

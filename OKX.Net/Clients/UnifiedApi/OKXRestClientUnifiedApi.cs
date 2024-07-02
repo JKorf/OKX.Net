@@ -2,6 +2,7 @@
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.RateLimiting.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
@@ -13,7 +14,6 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 {
     #region Internal Fields
     private static TimeSyncState _timeSyncState = new("Unified Api");
-
     internal readonly string _ref;
 
     public event Action<OrderId>? OnOrderPlaced;
