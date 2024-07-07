@@ -7,7 +7,7 @@ using OKX.Net.Objects.Sockets.Subscriptions;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-public class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccount
+internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAccount
 {
     private readonly OKXSocketClientUnifiedApi _client;
 

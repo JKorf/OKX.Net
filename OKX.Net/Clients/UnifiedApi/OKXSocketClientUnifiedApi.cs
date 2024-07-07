@@ -14,7 +14,7 @@ using System.Net.WebSockets;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-public class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
+internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
 {
     private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
     private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");

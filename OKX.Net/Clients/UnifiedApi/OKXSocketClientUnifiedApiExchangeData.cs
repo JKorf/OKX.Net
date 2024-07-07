@@ -9,7 +9,7 @@ using OKX.Net.Objects.System;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-public class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiExchangeData
+internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedApiExchangeData
 {
     private readonly OKXSocketClientUnifiedApi _client;
 

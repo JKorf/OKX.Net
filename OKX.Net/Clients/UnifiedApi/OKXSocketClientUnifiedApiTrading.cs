@@ -8,7 +8,7 @@ using OKX.Net.Objects.Trade;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-public class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrading
+internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrading
 {
     private readonly OKXSocketClientUnifiedApi _client;
 
