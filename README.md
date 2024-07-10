@@ -121,6 +121,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.0.1 - 10 Jul 2024
+    * Fixed error during parsing of error response
+    * Fixed exception during CancelOrderAsync error response
+    * Updated internal classes to internal access modifier
+
 * Version 2.0.0 - 02 Jul 2024
     * Updated CryptoExchange.Net to V7.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/7.8.0
     * Added client side rate limiting
