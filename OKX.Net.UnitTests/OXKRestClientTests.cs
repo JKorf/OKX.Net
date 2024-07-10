@@ -55,14 +55,7 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            var resultObj = new OKXRestApiResponse<object>()
-            {
-                ErrorCode = 400001,
-                Data = default!,
-                ErrorMessage = "Error occured"
-            };
-
-            TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj), System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occured\" }", System.Net.HttpStatusCode.BadRequest);
 
             // act
             var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
