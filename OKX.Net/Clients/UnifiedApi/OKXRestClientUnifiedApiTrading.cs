@@ -146,6 +146,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendGetSingleAsync<OKXOrderCancelResponse>(request, parameters, ct).ConfigureAwait(false);
 
+        if (!result)
+            return result;
+
         _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
         {
             Id = result.Data.OrderId.ToString(),
