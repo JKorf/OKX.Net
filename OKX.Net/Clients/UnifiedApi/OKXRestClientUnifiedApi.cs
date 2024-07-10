@@ -126,15 +126,15 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
 
         var codePath = MessagePath.Get().Property("code");
         var msgPath = MessagePath.Get().Property("msg");
-        var code = accessor.GetValue<int?>(codePath);
+        var code = accessor.GetValue<string?>(codePath);
         var msg = accessor.GetValue<string>(msgPath);
         if (msg == null)
             return new ServerError(accessor.GetOriginalString());
 
-        if (code == null)
+        if (code == null || !int.TryParse(code, out var intCode))
             return new ServerError(msg);
 
-        return new ServerError(code.Value, msg);
+        return new ServerError(intCode, msg);
     }
 
     internal void InvokeOrderPlaced(OrderId id)
