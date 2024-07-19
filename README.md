@@ -26,10 +26,20 @@ The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for op
 |UWP|`10.0.16299` and higher|
 |Unity|`2018.1` and higher|
 
-## Get the library
-[![Nuget version](https://img.shields.io/nuget/v/JK.okx.net.svg?style=for-the-badge)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.okx.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/JK.OKX.Net)
+## Install the library
+
+### NuGet 
+[![NuGet version](https://img.shields.io/nuget/v/JK.OKX.net.svg?style=for-the-badge)](https://www.nuget.org/packages/JK.OKX.Net)  [![Nuget downloads](https://img.shields.io/nuget/dt/JK.OKX.Net.svg?style=for-the-badge)](https://www.nuget.org/packages/JK.OKX.Net)
 
 	dotnet add package JK.OKX.Net
+	
+### GitHub packages
+OKX.Net is available on [GitHub packages](https://github.com/JKorf/OKX.Net/pkgs/nuget/JK.OKX.Net). You'll need to add `https://nuget.pkg.github.com/JKorf/index.json` as a NuGet package source.
+
+### Download release
+[![GitHub Release](https://img.shields.io/github/v/release/JKorf/OKX.Net?style=for-the-badge&label=GitHub)](https://github.com/JKorf/OKX.Net/releases)
+
+The NuGet package files are added along side the source with the latest GitHub release which can found [here](https://github.com/JKorf/OKX.Net/releases).
 
 ## How to use
 *REST Endpoints*  
