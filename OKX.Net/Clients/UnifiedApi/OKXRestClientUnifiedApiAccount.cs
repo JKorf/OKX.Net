@@ -294,7 +294,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection {
             {"instId", instrumentId }
         };
-        parameters.AddEnum("mgmMode", marginMode);
+        parameters.AddEnum("mgnMode", marginMode);
         parameters.AddOptionalParameter("mgnCcy", marginAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-loan", OKXExchange.RateLimiter.EndpointGate, 1, true,
