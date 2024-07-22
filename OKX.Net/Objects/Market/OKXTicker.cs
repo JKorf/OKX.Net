@@ -74,13 +74,13 @@ public record OKXTicker
     public decimal? LowPrice { get; set; }
 
     /// <summary>
-    /// Quote Volume
+    /// Quote asset volume. For Spot/Margin this is the quantity in the quote asset. For derivatives it's the quantity in base asset.
     /// </summary>
     [JsonPropertyName("volCcy24h")]
     public decimal QuoteVolume { get; set; }
 
     /// <summary>
-    /// Base Volume
+    /// Volume. For Spot/Margin this is the volume in base asset. For derivatives it's the number of contracts.
     /// </summary>
     [JsonPropertyName("vol24h")]
     public decimal Volume { get; set; }
