@@ -5686,12 +5686,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.QuoteVolume">
             <summary>
-            Quote Volume
+            Quote asset volume. For Spot/Margin this is the quantity in the quote asset. For derivatives it's the quantity in base asset.
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.Volume">
             <summary>
-            Base Volume
+            Volume. For Spot/Margin this is the volume in base asset. For derivatives it's the number of contracts.
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Market.OKXTicker.OpenPriceUtc0">
