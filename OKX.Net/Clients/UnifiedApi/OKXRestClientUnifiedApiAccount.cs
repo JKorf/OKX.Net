@@ -58,7 +58,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     {
        var parameters = new ParameterCollection();
         parameters.AddOptionalEnum("instType", instrumentType);
-        parameters.AddOptionalEnum("mgmMode", marginMode);
+        parameters.AddOptionalEnum("mgnMode", marginMode);
         parameters.AddOptionalEnum("type", type);
         parameters.AddOptionalParameter("posId", positionId);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
@@ -182,7 +182,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection {
             {"instId", symbols }
         };
-        parameters.AddEnum("mgmMode", marginMode);
+        parameters.AddEnum("mgnMode", marginMode);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/leverage-info", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -207,7 +207,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new ParameterCollection {
             {"lever", leverage.ToString() }
         };
-        parameters.AddEnum("mgmMode", marginMode);
+        parameters.AddEnum("mgnMode", marginMode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalEnum("posSide", positionSide);
@@ -340,7 +340,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString());
-        parameters.AddOptionalEnum("mgmMode", marginMode);
+        parameters.AddOptionalEnum("mgnMode", marginMode);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/interest-accrued", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

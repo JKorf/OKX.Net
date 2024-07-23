@@ -264,7 +264,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"tag", _baseClient._ref },
             {"clOrdId", clientOrderId }
         };
-        parameters.AddEnum("mgmMode", marginMode);
+        parameters.AddEnum("mgnMode", marginMode);
         parameters.AddOptionalEnum("posSide", positionSide);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("autoCxl", autoCancel);
