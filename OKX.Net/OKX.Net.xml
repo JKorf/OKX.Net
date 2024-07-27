@@ -820,6 +820,21 @@
             Cancel both
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.SymbolRuleType">
+            <summary>
+            Rule type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.SymbolRuleType.Normal">
+            <summary>
+            Normal trading
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.SymbolRuleType.PreMarket">
+            <summary>
+            Pre-market trading
+            </summary>
+        </member>
         <member name="T:OKX.Net.Enums.TransferStatus">
             <summary>
             Status of a transfer
@@ -6224,6 +6239,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXInstrument.MaxStopQuantity">
             <summary>
             The maximum order quantity of the contract or spot stop market order.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.RuleType">
+            <summary>
+            Trading rule type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
