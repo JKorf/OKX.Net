@@ -179,4 +179,9 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("maxStopSz")]
     public decimal? MaxStopQuantity { get; set; }
+    /// <summary>
+    /// Trading rule type
+    /// </summary>
+    [JsonPropertyName("ruleType")]
+    public SymbolRuleType? RuleType { get; set; }
 }
