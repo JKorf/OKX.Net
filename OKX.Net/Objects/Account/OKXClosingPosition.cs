@@ -30,6 +30,11 @@ public record OKXClosingPosition
     /// </summary>
     [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
     public ClosingPositionType Type { get; set; }
+    /// <summary>
+    /// Position side
+    /// </summary>
+    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Timestamp
