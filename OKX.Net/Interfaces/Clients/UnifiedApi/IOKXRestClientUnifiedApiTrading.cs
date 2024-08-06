@@ -383,6 +383,46 @@ public interface IOKXRestClientUnifiedApiTrading
         CancellationToken ct = default);
 
     /// <summary>
+    /// Check the results of an order, returns account info before and after the order would be completed
+    /// </summary>
+    /// <param name="symbol">Symbol</param>
+    /// <param name="tradeMode">Trade Mode</param>
+    /// <param name="side">Order Side</param>
+    /// <param name="positionSide">Position Side</param>
+    /// <param name="type">Order Type</param>
+    /// <param name="quantity">Quantity</param>
+    /// <param name="price">Price</param>
+    /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
+    /// <param name="takeProfitTriggerPrice">Take profit trigger price</param>
+    /// <param name="stopLossTriggerPrice">Stop loss trigger price</param>
+    /// <param name="takeProfitOrderPrice">Take profit order price</param>
+    /// <param name="stopLossOrderPrice">Stop loss order price</param>
+    /// <param name="takeProfitTriggerPriceType">Take profit price type</param>
+    /// <param name="stopLossTriggerPriceType">Stop loss price type</param>
+    /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXCheckOrderResponse>> CheckOrderAsync(
+        string symbol,
+        OrderSide side,
+        OrderType type,
+        decimal quantity,
+        decimal? price = null,
+        PositionSide? positionSide = null,
+        TradeMode? tradeMode = null,
+
+        decimal? takeProfitTriggerPrice = null,
+        decimal? stopLossTriggerPrice = null,
+        decimal? takeProfitOrderPrice = null,
+        decimal? stopLossOrderPrice = null,
+        TriggerPriceType? takeProfitTriggerPriceType = null,
+        TriggerPriceType? stopLossTriggerPriceType = null,
+
+        QuantityAsset? quantityAsset = null,
+        bool? reduceOnly = null,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Get a specific algo order
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /></para>
     /// </summary>

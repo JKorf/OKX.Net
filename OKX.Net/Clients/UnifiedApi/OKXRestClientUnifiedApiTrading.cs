@@ -94,6 +94,54 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXCheckOrderResponse>> CheckOrderAsync(
+        string symbol,
+        OrderSide side,
+        OrderType type,
+        decimal quantity,
+        decimal? price = null,
+        PositionSide? positionSide = null,
+        TradeMode? tradeMode = null,
+
+        decimal? takeProfitTriggerPrice = null,
+        decimal? stopLossTriggerPrice = null,
+        decimal? takeProfitOrderPrice = null,
+        decimal? stopLossOrderPrice = null,
+        TriggerPriceType? takeProfitTriggerPriceType = null,
+        TriggerPriceType? stopLossTriggerPriceType = null,
+
+        QuantityAsset? quantityAsset = null,
+        bool? reduceOnly = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection {
+            {"instId", symbol },
+            {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
+            {"tag", _baseClient._ref },
+        };
+        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
+        parameters.AddEnum("side", side);
+        parameters.AddEnum("ordType", type);
+        parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
+
+        parameters.AddOptionalParameter("tgtCcy", EnumConverter.GetString(quantityAsset));
+        parameters.AddOptionalParameter("tpTriggerPx", takeProfitTriggerPrice);
+        parameters.AddOptionalParameter("slTriggerPx", stopLossTriggerPrice);
+        parameters.AddOptionalParameter("tpOrdPx", takeProfitOrderPrice);
+        parameters.AddOptionalParameter("slOrdPx", stopLossOrderPrice);
+        parameters.AddOptionalParameter("tpTriggerPxType", EnumConverter.GetString(takeProfitTriggerPriceType));
+        parameters.AddOptionalParameter("slTriggerPxType", EnumConverter.GetString(stopLossTriggerPriceType));
+
+        parameters.AddOptionalParameter("reduceOnly", reduceOnly);
+        parameters.AddOptionalEnum("posSide", positionSide);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-precheck", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXCheckOrderResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        return result.As<OKXCheckOrderResponse>(result.Data?.Data?.FirstOrDefault());
+    }
+
+    /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
     {
         foreach (var order in orders)

@@ -362,6 +362,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CheckOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -593,6 +596,31 @@
         <member name="F:OKX.Net.Enums.AccountType.Trading">
             <summary>
             Trading account
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.CheckUnitType">
+            <summary>
+            Check order unit type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CheckUnitType.BaseBoth">
+            <summary>
+            It is both base currency before and after placing order
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CheckUnitType.BaseBeforeQuoteAfter">
+            <summary>
+            Before plaing order, it is base currency. after placing order, it is quota currency.
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CheckUnitType.QuoteBeforeBaseAfter">
+            <summary>
+            Before plaing order, it is quota currency. after placing order, it is base currency
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CheckUnitType.QuoteBoth">
+            <summary>
+            It is both quota currency before and after placing order
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.DepositType">
@@ -2266,6 +2294,28 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.CheckOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+            <summary>
+            Check the results of an order, returns account info before and after the order would be completed
+            </summary>
+            <param name="symbol">Symbol</param>
+            <param name="tradeMode">Trade Mode</param>
+            <param name="side">Order Side</param>
+            <param name="positionSide">Position Side</param>
+            <param name="type">Order Type</param>
+            <param name="quantity">Quantity</param>
+            <param name="price">Price</param>
+            <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
+            <param name="takeProfitTriggerPrice">Take profit trigger price</param>
+            <param name="stopLossTriggerPrice">Stop loss trigger price</param>
+            <param name="takeProfitOrderPrice">Take profit order price</param>
+            <param name="stopLossOrderPrice">Stop loss order price</param>
+            <param name="takeProfitTriggerPriceType">Take profit price type</param>
+            <param name="stopLossTriggerPriceType">Stop loss price type</param>
+            <param name="quantityAsset">Asset of the quantity when placing market order</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetAlgoOrderAsync(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get a specific algo order
@@ -3290,6 +3340,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.Type">
             <summary>
             Closing type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.PositionSide">
+            <summary>
+            Position side
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXClosingPosition.CreateTime">
@@ -7414,6 +7469,106 @@
         <member name="P:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse.Timestamp">
             <summary>
             Timestamp
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXCheckOrderResponse">
+            <summary>
+            Check order info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.AdjustedEquity">
+            <summary>
+            Current adjusted / Effective equity in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.AdjustedEquityChange">
+            <summary>
+            After placing order, changed quantity of adjusted / Effective equity in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.AvailableBalance">
+            <summary>
+            Current available balance in margin coin currency, only applicable to turn auto borrow off
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.AvailableBalanceChange">
+            <summary>
+            After placing order, changed quantity of available balance after placing order, only applicable to turn auto borrow off
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.InitialMarginRequirement">
+            <summary>
+            Current initial margin requirement in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.InitialMarginRequirementChange">
+            <summary>
+            After placing order, changed quantity of initial margin requirement in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.Liabilities">
+            <summary>
+            Current liabilities of currency. For cross, it is cross liabilities. For isolated position, it is isolated liabilities
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.LiabilitiesChange">
+            <summary>
+            After placing order, changed quantity of liabilities
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.LiabilitiesChangeAsset">
+            <summary>
+            After placing order, the unit of changed liabilities quantity. Only applicable cross and in auto borrow
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.LiquidationPrice">
+            <summary>
+            Current estimated liquidation price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.LiquidationPriceDifference">
+            <summary>
+            After placing order, the distance between estimated liquidation price and mark price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.LiquidationPriceDifferenceRatio">
+            <summary>
+            After placing order, the distance rate between estimated liquidation price and mark price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.MarginRatio">
+            <summary>
+            Current margin ratio in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.MarginRatioChange">
+            <summary>
+            After placing order, changed quantity of margin ratio in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.MaintenanceMarginRequirement">
+            <summary>
+            Current Maintenance margin requirement in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.MaintenanceMarginRequirementChange">
+            <summary>
+            After placing order, changed quantity of maintenance margin requirement in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.PositionBalance">
+            <summary>
+            Current positive asset, only applicable to margin isolated position
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.PositionBalanceChange">
+            <summary>
+            After placing order, positive asset of margin isolated, only applicable to margin isolated position
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXCheckOrderResponse.Type">
+            <summary>
+            Unit type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXClosePositionResponse">

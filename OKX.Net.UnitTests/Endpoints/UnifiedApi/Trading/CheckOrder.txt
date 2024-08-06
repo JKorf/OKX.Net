@@ -1,0 +1,30 @@
+POST
+/api/v5/trade/order-precheck
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "adjEq": "41.94347460746277",
+            "adjEqChg": "-226.05616481626",
+            "availBal": "0",
+            "availBalChg": "0",
+            "imr": "0",
+            "imrChg": "57.74709688430927",
+            "liab": "0",
+            "liabChg": "0",
+            "liabChgCcy": "",
+            "liqPx": "6764.8556232031115",
+            "liqPxDiff": "-57693.044376796888536773622035980224609375",
+            "liqPxDiffRatio": "-0.8950500152315991",
+            "mgnRatio": "0",
+            "mgnRatioChg": "0",
+            "mmr": "0",
+            "mmrChg": "0",
+            "posBal": "",
+            "posBalChg": "",
+            "type": ""
+        }
+    ],
+    "msg": ""
+}

@@ -144,6 +144,7 @@ namespace OKX.Net.UnitTests
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Trading", "https://www.okx.com", IsAuthenticated, "data", stjCompare: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", Enums.OrderSide.Buy, Enums.OrderType.Limit, 1), "PlaceOrder", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Trading.CheckOrderAsync("ETH-USDT", Enums.OrderSide.Buy, Enums.OrderType.Limit, 1), "CheckOrder", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.PlaceMultipleOrdersAsync(new[] { new OKXOrderPlaceRequest() }), "PlaceMultipleOrders");
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.CancelOrderAsync("ETH-USDT", 123), "CancelOrder", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.CancelMultipleOrdersAsync(new[] { new OKXOrderCancelRequest() } ), "CancelMultipleOrders");
