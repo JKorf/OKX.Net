@@ -71,7 +71,7 @@ public record OKXAlgoOrder
     /// Position side
     /// </summary>
     [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
-    public PositionSide PositionSide { get; set; }
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Order side
