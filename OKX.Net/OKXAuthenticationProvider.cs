@@ -6,8 +6,7 @@ namespace OKX.Net;
 
 internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredentials>
 {
-    public string ApiKey => _credentials.Key!.GetString();
-    public string Passphrase => _credentials.PassPhrase.GetString();
+    public string Passphrase => _credentials.PassPhrase;
 
     private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
 
@@ -21,9 +20,9 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
             RestApiClient apiClient,
             Uri uri,
             HttpMethod method,
-            IDictionary<string, object> uriParameters,
-            IDictionary<string, object> bodyParameters,
-            Dictionary<string, string> headers,
+            ref IDictionary<string, object>? uriParameters,
+            ref IDictionary<string, object>? bodyParameters,
+            ref Dictionary<string, string>? headers,
             bool auth,
             ArrayParametersSerialization arraySerialization,
             HttpMethodParameterPosition parameterPosition,
@@ -33,23 +32,30 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
             return;
 
         // Set Parameters
-        uri = uri.SetParameters(uriParameters, arraySerialization);
+        if (uriParameters != null)
+            uri = uri.SetParameters(uriParameters, arraySerialization);
 
         // Signature Body
         var time = GetTimestamp(apiClient).ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
         var signtext = time + method.Method.ToUpper() + uri.PathAndQuery.Trim('?');
 
         if (method == HttpMethod.Post)
-            signtext += GetSerializedBody(_serializer, bodyParameters);
+        {
+            if (bodyParameters?.Any() == true)
+                signtext += GetSerializedBody(_serializer, bodyParameters);
+            else
+                signtext += "{}";
+        }
 
         // Compute Signature
         var signature = SignHMACSHA256(signtext, SignOutputType.Base64);
 
         // Headers
-        headers.Add("OK-ACCESS-KEY", _credentials.Key!.GetString());
+        headers ??= new Dictionary<string, string>();
+        headers.Add("OK-ACCESS-KEY", _credentials.Key);
         headers.Add("OK-ACCESS-SIGN", signature);
         headers.Add("OK-ACCESS-TIMESTAMP", time);
-        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.PassPhrase.GetString());
+        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.PassPhrase);
     }
 
     public string SignWebsocket(string timestamp)

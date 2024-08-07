@@ -23,7 +23,7 @@ public record OKXInterestAccrued
     /// Margin mode
     /// </summary>
     [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
-    public MarginMode MarginMode { get; set; }
+    public MarginMode? MarginMode { get; set; }
 
     /// <summary>
     /// Interest

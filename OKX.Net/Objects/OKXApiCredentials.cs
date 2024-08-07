@@ -6,7 +6,7 @@ public class OKXApiCredentials : ApiCredentials
     /// <summary>
     /// Passphrase
     /// </summary>
-    public SecureString PassPhrase { get; }
+    public string PassPhrase { get; }
 
     /// <summary>
     /// ctor
@@ -16,7 +16,7 @@ public class OKXApiCredentials : ApiCredentials
     /// <param name="apiPassPhrase"></param>
     public OKXApiCredentials(string apiKey, string apiSecret, string apiPassPhrase) : base(apiKey, apiSecret)
     {
-        PassPhrase = apiPassPhrase.ToSecureString();
+        PassPhrase = apiPassPhrase;
     }
 
     /// <summary>
@@ -25,6 +25,6 @@ public class OKXApiCredentials : ApiCredentials
     /// <returns></returns>
     public override ApiCredentials Copy()
     {
-        return new OKXApiCredentials(Key!.GetString(), Secret!.GetString(), PassPhrase!.GetString());
+        return new OKXApiCredentials(Key, Secret, PassPhrase);
     }
 }
