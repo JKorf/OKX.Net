@@ -14,8 +14,8 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-history-of-sub-account-transfer" /></para>
     /// </summary>
     /// <param name="subAccountName">Sub Account Name</param>
-    /// <param name="asset">Asset</param>
-    /// <param name="type">0: Transfers from master account to sub-account ;1 : Transfers from sub-account to master account.</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
+    /// <param name="type">Transfer type</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
@@ -74,10 +74,10 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// applies to master accounts only
     /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-master-accounts-manage-the-transfers-between-sub-accounts" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
-    /// <param name="fromAccount">6:Funding Account 18:Unified Account</param>
-    /// <param name="toAccount">6:Funding Account 18:Unified Account</param>
+    /// <param name="fromAccount">From account type</param>
+    /// <param name="toAccount">To account type</param>
     /// <param name="fromSubAccountName">Sub-account name of the account that transfers funds out.</param>
     /// <param name="toSubAccountName">Sub-account name of the account that transfers funds in.</param>
     /// <param name="ct">Cancellation Token</param>

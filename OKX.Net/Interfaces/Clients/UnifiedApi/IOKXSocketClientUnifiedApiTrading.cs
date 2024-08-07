@@ -15,7 +15,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-advance-algo-orders-channel" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="algoId">Algo order id</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -27,7 +27,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-algo-orders-channel" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -39,7 +39,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-order-channel" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -51,7 +51,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-positions-channel" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
     /// <param name="onData">On Data Handler</param>
@@ -77,7 +77,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// Place a new order
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="side">Order Side</param>
     /// <param name="positionSide">Position Side</param>
@@ -124,7 +124,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// Cancel an incomplete order
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /></para>
     /// </summary>
-    /// <param name="symbol">The symbol</param>
+    /// <param name="symbol">The symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
     /// <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
     /// <param name="ct">Cancellation token</param>
@@ -141,10 +141,10 @@ public interface IOKXSocketClientUnifiedApiTrading
     Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default);
 
     /// <summary>
-    /// Amend an incomplete order.
+    /// Edit an incomplete order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Amend by order id. This or clientOrderId should be provided</param>
     /// <param name="clientOrderId">Amend by client order id. This or orderId should be provided</param>
     /// <param name="requestId">Request id</param>
@@ -162,7 +162,7 @@ public interface IOKXSocketClientUnifiedApiTrading
         CancellationToken ct = default);
 
     /// <summary>
-    /// Amend incomplete orders in batches. Maximum 20 orders can be amended per request.
+    /// Edit incomplete orders in batches. Maximum 20 orders can be amended per request.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /></para>
     /// </summary>
     /// <param name="ordersToCancel">Orders to cancel</param>

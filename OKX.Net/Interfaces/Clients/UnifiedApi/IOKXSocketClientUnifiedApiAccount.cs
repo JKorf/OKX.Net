@@ -13,7 +13,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// Subscribe to account information updates. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-channel" /></para>
     /// </summary>
-    /// <param name="asset">Only receive updates for this asset</param>
+    /// <param name="asset">Only receive updates for this asset, for example `BTC`</param>
     /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>

@@ -9,7 +9,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 public interface IOKXRestClientUnifiedApiTrading
 {
     /// <summary>
-    /// Amend incomplete orders in batches. Maximum 20 orders can be amended at a time. Request parameters should be passed in the form of an array.
+    /// Edit incomplete orders in batches. Maximum 20 orders can be amended at a time. Request parameters should be passed in the form of an array.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-multiple-orders" /></para>
     /// </summary>
     /// <param name="orders">Orders</param>
@@ -18,10 +18,10 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default);
 
     /// <summary>
-    /// Amend an incomplete order.
+    /// Edit an incomplete order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-order" /></para>
     /// </summary>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="requestId">Request ID</param>
@@ -95,7 +95,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// Cancel an incomplete order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-order" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
@@ -106,10 +106,10 @@ public interface IOKXRestClientUnifiedApiTrading
     /// Close all positions of an instrument via a market order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-close-positions" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="positionSide">Position Side</param>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `USDT`</param>
     /// <param name="autoCancel">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
     /// <param name="clientOrderId">Client order id</param>
     /// <param name="ct">Cancellation Token</param>
@@ -117,14 +117,14 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, MarginMode marginMode, PositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve a list of untriggered Algo orders under the current account.
+    /// Get a list of untriggered Algo orders under the current account.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-history" /></para>
     /// </summary>
     /// <param name="algoOrderType">Algo Order Type</param>
     /// <param name="algoOrderState">Algo Order State</param>
     /// <param name="algoId">Algo ID</param>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
@@ -133,13 +133,13 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(AlgoOrderType algoOrderType, AlgoOrderState? algoOrderState = null, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve a list of untriggered Algo orders under the current account.
+    /// Get a list of untriggered Algo orders under the current account.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /></para>
     /// </summary>
     /// <param name="algoOrderType">Algo Order Type</param>
     /// <param name="algoId">Algo ID</param>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
@@ -148,11 +148,11 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(AlgoOrderType algoOrderType, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the completed order data of the last 3 months, and the incomplete orders that have been canceled are only reserved for 2 hours.
+    /// Get the completed order data of the last 3 months, and the incomplete orders that have been canceled are only reserved for 2 hours.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-3-months" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderType">Order Type</param>
     /// <param name="state">State</param>
@@ -168,10 +168,10 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? fromId = null, string? toId = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve order details.
+    /// Get order details.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-details" /></para>
     /// </summary>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
@@ -179,11 +179,11 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<OKXOrder>> GetOrderDetailsAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the completed order data for the last 7 days, and the incomplete orders that have been cancelled are only reserved for 2 hours.
+    /// Get the completed order data for the last 7 days, and the incomplete orders that have been cancelled are only reserved for 2 hours.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-7-days" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderType">Order Type</param>
     /// <param name="state">State</param>
@@ -203,11 +203,11 @@ public interface IOKXRestClientUnifiedApiTrading
         CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve all incomplete orders under the current account.
+    /// Get all incomplete orders under the current account.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-list" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderType">Order Type</param>
     /// <param name="state">State</param>
@@ -220,11 +220,11 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrdersAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve recently-filled transaction details in the last 3 months.
+    /// Get recently-filled transaction details in the last 3 months.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-months" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
@@ -238,11 +238,11 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve recently-filled transaction details in the last 3 day.
+    /// Get recently-filled transaction details in the last 3 day.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-days" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="orderId">Order ID</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
@@ -256,10 +256,10 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
+    /// Place new algo order. The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="orderSide">Order Side</param>
     /// <param name="algoOrderType">Algo Order Type</param>
@@ -335,7 +335,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// Place a new order
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="side">Order Side</param>
     /// <param name="positionSide">Position Side</param>
@@ -385,7 +385,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <summary>
     /// Check the results of an order, returns account info before and after the order would be completed
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="side">Order Side</param>
     /// <param name="positionSide">Position Side</param>
@@ -433,10 +433,10 @@ public interface IOKXRestClientUnifiedApiTrading
     Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Amend an incomplete order.
+    /// Edit an incomplete algo order.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /></para>
     /// </summary>
-    /// <param name="symbol">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="algoId">Algo ID</param>
     /// <param name="clientAlgoId">Client Algo Order ID</param>
     /// <param name="requestId">Request ID</param>

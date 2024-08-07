@@ -11,9 +11,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 public interface IOKXRestClientUnifiedApiAccount
 {
     /// <summary>
-    /// Cancel withdrawal
-    /// You can cancel normal withdrawal requests, but you cannot cancel withdrawal requests on Lightning.
-    /// Rate Limit: 6 requests per second
+    /// Cancel withdrawal. You can cancel normal withdrawal requests, but you cannot cancel withdrawal requests on Lightning.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-cancel-withdrawal" /></para>
     /// </summary>
     /// <param name="withdrawalId">Withdrawal ID</param>
@@ -22,16 +20,16 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXWithdrawalId>> CancelWithdrawalAsync(string withdrawalId, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve a list of assets (with non-zero balance), remaining balance, and available amount in the account.
+    /// Get a list of assets (with non-zero balance), remaining balance, and available amount in the account.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-balance" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAccountBalance>> GetAccountBalanceAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve current account configuration.
+    /// Get current account configuration.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-configuration" /></para>
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
@@ -42,18 +40,18 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get Leverage
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-leverage" /></para>
     /// </summary>
-    /// <param name="symbols">Single symbol or multiple symbols (no more than 20) separated with comma</param>
+    /// <param name="symbols">Single symbol or multiple symbols (no more than 20) separated with comma, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(string symbols, MarginMode marginMode, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the updated position data for the last 3 months. Return in reverse chronological order using utime.
+    /// Get the updated position data for the last 3 months. Return in reverse chronological order using utime.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin mode</param>
     /// <param name="type">The type of closing position. It is the latest type if there are several types for the same position.</param>
     /// <param name="positionId">Position ID</param>
@@ -75,22 +73,22 @@ public interface IOKXRestClientUnifiedApiAccount
 
 
     /// <summary>
-    /// Retrieve information on your positions. When the account is in net mode, net positions will be displayed, and when the account is in long/short mode, long or short positions will be displayed.
+    /// Get position info. When the account is in net mode, net positions will be displayed, and when the account is in long/short mode, long or short positions will be displayed.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="positionId">Position ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXPosition>>> GetPositionsAsync(InstrumentType? instrumentType = null, string? symbol = null, string? positionId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
+    /// Get the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-3-months" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="contractType">Contract Type</param>
     /// <param name="billType">Bill Type</param>
@@ -105,11 +103,11 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillArchiveAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
+    /// Get the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-7-days" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="contractType">Contract Type</param>
     /// <param name="billType">Bill Type</param>
@@ -124,19 +122,19 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXAccountBill>>> GetBillHistoryAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve a list of all currencies. Not all currencies can be traded. Currencies that have not been defined in ISO 4217 may use a custom symbol.
+    /// Get a list of all assets. Not all assets can be traded. Assets that have not been defined in ISO 4217 may use a custom symbol.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-currencies" /></para>
     /// </summary>
-    /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma</param>
+    /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXAsset>>> GetAssetsAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the deposit addresses of currencies, including previously-used addresses.
+    /// Get the deposit addresses of assets, including previously-used addresses.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXDepositAddress>>> GetDepositAddressAsync(string? asset = null, CancellationToken ct = default);
@@ -145,7 +143,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Retrieve the deposit history of all assets, up to 100 recent records in a year.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-history" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="transactionId">Transaction ID</param>
     /// <param name="state">State</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
@@ -163,7 +161,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
@@ -171,19 +169,19 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the balances of all the assets, and the amount that is available or on hold.
+    /// Get the balances of all the assets, and the amount that is available or on hold.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-balance" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXFundingBalance>>> GetFundingBalanceAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Query the billing record, you can get the latest 1 month historical data
+    /// Get billing records, you can get the latest 1 month historical data
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-asset-bills-details" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="type">Bill type</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
@@ -197,7 +195,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get interest-accrued
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-accrued-data" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="asset">Asset</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
@@ -211,13 +209,13 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get the user's current leveraged currency borrowing interest rate
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-rate" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXInterestRate>>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Users can create up to 10,000 different invoices within 24 hours.
+    /// Get lightning deposits. Users can create up to 10,000 different invoices within 24 hours.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-deposits" /></para>
     /// </summary>
     /// <param name="currency">Currency</param>
@@ -228,7 +226,7 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXLightningDeposit>>> GetLightningDepositsAsync(string currency, decimal amount, LightningDepositAccount? account = null, CancellationToken ct = default);
 
     /// <summary>
-    /// The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
+    /// Get a lightning withdrawal. The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-withdrawals" /></para>
     /// </summary>
     /// <param name="asset">Asset. Currently only BTC is supported.</param>
@@ -242,7 +240,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get maximum buy/sell amount or open amount
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-buy-sell-amount-or-open-amount" /></para>
     /// </summary>
-    /// <param name="symbol">SymbolD</param>
+    /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="asset">Asset</param>
     /// <param name="price">Price</param>
@@ -255,7 +253,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get Maximum Available Tradable Amount
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-tradable-amount" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="asset">Currency</param>
     /// <param name="reduceOnly">Reduce Only</param>
@@ -264,41 +262,39 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXMaximumAvailableAmount>>> GetMaximumAvailableAmountAsync(string symbol, TradeMode tradeMode, string? asset = null, bool? reduceOnly = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Get the maximum loan of instrument
+    /// Get the maximum loan of a instrument
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /></para>
     /// </summary>
-    /// <param name="instrumentId">Instrument ID</param>
+    /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="marginAsset">Margin asset</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(string instrumentId, MarginMode marginMode, string? marginAsset = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(string symbol, MarginMode marginMode, string? marginAsset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the maximum transferable amount.
+    /// Get the maximum transferable amount.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-withdrawals" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXWithdrawalAmount>>> GetMaximumWithdrawalsAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Get saving balance
-    /// Only the assets in the funding account can be used for saving.
-    /// Rate Limit: 6 requests per second
+    /// Get saving balances. Only the assets in the funding account can be used for saving.
     /// <para><a href="https://www.okx.com/docs-v5/en/#financial-product-savings-get-saving-balance" /></para>
     /// </summary>
-    /// <param name="asset">Asset, e.g. BTC</param>
+    /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXSavingBalance>>> GetSavingBalancesAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Retrieve the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
+    /// Get the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-withdrawal-history" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="transactionId">Transaction ID</param>
     /// <param name="state">State</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
@@ -311,28 +307,28 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXWithdrawalHistory>>> GetWithdrawalHistoryAsync(string? asset = null, string? transactionId = null, WithdrawalState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? withdrawalId = null, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// 
-    /// <para><a href="https://www.okx.com/docs-v5/en/#financial-product-savings-post-savings-purchase-redemption" /></para>
+    /// Purchase or redeem saving shares
+    /// <para><a href="https://www.okx.com/docs-v5/en/#financial-product-simple-earn-flexible-post-savings-purchase-redemption" /></para>
     /// </summary>
-    /// <param name="asset"></param>
-    /// <param name="amount"></param>
-    /// <param name="side"></param>
-    /// <param name="rate"></param>
-    /// <param name="ct"></param>
+    /// <param name="asset">Asset, for example `ETH`</param>
+    /// <param name="amount">Amount</param>
+    /// <param name="side">Side</param>
+    /// <param name="rate">Rate</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSavingActionResponse>> SavingPurchaseRedemptionAsync(string asset, decimal amount, SavingActionSide side, decimal? rate = null, CancellationToken ct = default);
 
     /// <summary>
-    /// The following are the setting leverage cases for an instrument:
-    /// Set leverage for isolated MARGIN at pairs level.
-    /// Set leverage for cross MARGIN in Single-currency margin at pairs level.
-    /// Set leverage for cross MARGIN in Multi-currency margin at currency level.
+    /// Set leverage. The following are the setting leverage cases for an instrument:<br />
+    /// Set leverage for isolated MARGIN at pairs level.<br />
+    /// Set leverage for cross MARGIN in Single-currency margin at pairs level.<br />
+    /// Set leverage for cross MARGIN in Multi-currency margin at currency level.<br />
     /// Set leverage for cross/isolated FUTURES/SWAP at underlying/contract level.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-leverage" /></para>
     /// </summary>
     /// <param name="leverage">Leverage</param>
-    /// <param name="asset">Asset</param>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="positionSide">Position Side</param>
     /// <param name="ct">Cancellation Token</param>
@@ -340,10 +336,10 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXLeverage>>> SetLeverageAsync(int leverage, MarginMode marginMode, string? asset = null, string? symbol = null, PositionSide? positionSide = null, CancellationToken ct = default);
 
     /// <summary>
-    /// FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.
+    /// Set position mode. FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-position-mode" /></para>
     /// </summary>
-    /// <param name="positionMode"></param>
+    /// <param name="positionMode">Position mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAccountPositionMode>> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
@@ -361,21 +357,21 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Increase or decrease the margin of the isolated position.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-increase-decrease-margin" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol</param>
+    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="positionSide">Position Side</param>
     /// <param name="marginAddReduce">Type</param>
     /// <param name="amount">Amount</param>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="auto">Automatic loan transfer out</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<IEnumerable<OKXMarginAmount>>> SetMarginAmountAsync(string symbol, PositionSide positionSide, MarginAddReduce marginAddReduce, decimal amount, string? asset = null, bool? auto = null, CancellationToken ct = default);
 
     /// <summary>
-    /// This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
+    /// Transfer asset. This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-funds-transfer" /></para>
     /// </summary>
-    /// <param name="asset">Currency</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
     /// <param name="type">Transfer type</param>
     /// <param name="fromAccount">The remitting account</param>
@@ -391,10 +387,10 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, TransferType type, AccountType fromAccount, AccountType toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, bool? loanTransfer = null, string? clientId = null, bool? ignorePositionRisk = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Withdrawal of tokens.
+    /// Withdraw an asset
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-withdrawal" /></para>
     /// </summary>
-    /// <param name="asset">Asset</param>
+    /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
     /// <param name="destination">Withdrawal destination address</param>
     /// <param name="toAddress">Verified digital currency address, email or mobile number. Some digital currency addresses are formatted as 'address+tag', e.g. 'ARDOR-7JF3-8F2E-QUWZ-CAN7F:123456'</param>
@@ -410,7 +406,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Convert small assets in funding account to OKB
     /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
     /// </summary>
-    /// <param name="assets">Assets to convert</param>
+    /// <param name="assets">Assets to convert, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default);
@@ -449,8 +445,8 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get details of an affiliate invitee
     /// <para><a href="https://www.okx.com/docs-v5/en/#affiliate-rest-api-get-the-invitee-39-s-detail" /></para>
     /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="ct"></param>
+    /// <param name="userId">User id</param>
+    /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default);
 
