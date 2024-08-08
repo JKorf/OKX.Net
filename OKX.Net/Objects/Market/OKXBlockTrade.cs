@@ -35,7 +35,7 @@ public record OKXBlockTrade
     /// Implied volatility (Options only)
     /// </summary>
     [JsonPropertyName("fillVol")]
-    public decimal ImpliedVolatility { get; set; }
+    public decimal? ImpliedVolatility { get; set; }
 
     /// <summary>
     /// Index price (Options only)

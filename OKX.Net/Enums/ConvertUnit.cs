@@ -7,6 +7,6 @@ public enum ConvertUnit
 {
     [Map("coin")]
     Coin,
-    [Map("usdt")]
+    [Map("usds")]
     Usdt,
 }
