@@ -60,7 +60,11 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+    public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+    {
+        var suffix = futuresType == FuturesType.Linear ? "-SWAP" : string.Empty;
+        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + suffix;
+    }
 
     internal Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
            => base.SendAsync(BaseAddress, definition, parameters, cancellationToken, null, weight);

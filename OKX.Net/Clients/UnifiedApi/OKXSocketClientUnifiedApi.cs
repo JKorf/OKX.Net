@@ -58,7 +58,11 @@ internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnif
     protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+    public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+    {
+        var suffix = futuresType == FuturesType.Linear ? "-SWAP" : string.Empty;
+        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + suffix;
+    }
 
     /// <inheritdoc />
     public override string GetListenerIdentifier(IMessageAccessor message)
