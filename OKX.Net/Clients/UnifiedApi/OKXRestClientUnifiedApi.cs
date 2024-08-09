@@ -60,9 +60,9 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset, FuturesType? futuresType = null)
+    public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
     {
-        var suffix = futuresType == FuturesType.Linear ? "-SWAP" : string.Empty;
+        var suffix = futuresType == ApiType.LinearFutures ? "-SWAP" : string.Empty;
         return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + suffix;
     }
 

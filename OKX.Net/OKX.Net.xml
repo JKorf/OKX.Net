@@ -83,7 +83,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetServerTimestampAsync">
@@ -443,7 +443,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAccessor">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.FuturesType})">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,System.Nullable{CryptoExchange.Net.Objects.ApiType})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
