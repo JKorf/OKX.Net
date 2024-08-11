@@ -5,6 +5,8 @@
 /// </summary>
 public interface IOKXSocketClientUnifiedApi : ISocketApiClient
 {
+    IOKXSocketClientUnifiedApiShared SharedClient { get; }
+
     /// <summary>
     /// Account streams and queries
     /// </summary>

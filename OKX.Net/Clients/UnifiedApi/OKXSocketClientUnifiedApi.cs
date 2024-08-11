@@ -14,7 +14,7 @@ using System.Net.WebSockets;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
+internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
 {
     private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
     private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
@@ -56,6 +56,8 @@ internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnif
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
     /// <inheritdoc />
     protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+
+    public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
