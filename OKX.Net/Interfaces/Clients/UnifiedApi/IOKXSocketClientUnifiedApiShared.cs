@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.SharedApis.Interfaces;
+﻿using CryptoExchange.Net.SharedApis.Interfaces.Socket;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +6,9 @@ using System.Text;
 namespace OKX.Net.Interfaces.Clients.UnifiedApi
 {
     public interface IOKXSocketClientUnifiedApiShared :
-        ITickerSocketClient
+        ITickerSocketClient,
+        ITradeSocketClient,
+        IBookTickerSocketClient
     {
     }
 }
