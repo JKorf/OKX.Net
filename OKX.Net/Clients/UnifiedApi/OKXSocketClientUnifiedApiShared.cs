@@ -44,5 +44,47 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return result;
         }
+
+        async Task<CallResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SharedRequest request, Action<DataEvent<IEnumerable<SharedBalance>>> handler, CancellationToken ct)
+        {
+            var result = await Account.SubscribeToAccountUpdatesAsync(null, false, 
+                update => handler(update.As(update.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)))),
+                ct: ct).ConfigureAwait(false);
+
+            return result;
+        }
+
+        async Task<CallResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToOrderUpdatesAsync(SharedRequest request, Action<DataEvent<IEnumerable<SharedSpotOrder>>> handler, CancellationToken ct)
+        {
+            var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Spot, null, null,
+                update => handler(update.As<IEnumerable<SharedSpotOrder>>(new[] {
+                    new SharedSpotOrder(
+                        update.Data.Symbol,
+                        update.Data.OrderId.ToString(),
+                        update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
+                        update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                        update.Data.OrderState == Enums.OrderStatus.Canceled ? SharedOrderStatus.Canceled : (update.Data.OrderState == Enums.OrderStatus.Live || update.Data.OrderState == Enums.OrderStatus.PartiallyFilled) ? SharedOrderStatus.Open : SharedOrderStatus.Filled,
+                        update.Data.CreateTime)
+                    {
+                        ClientOrderId = update.Data.ClientOrderId?.ToString(),
+                        Quantity = (update.Data.QuantityType == null && update.Data.OrderType == Enums.OrderType.Market && update.Data.OrderSide == Enums.OrderSide.Buy) ? null : update.Data.QuantityType == Enums.QuantityAsset.QuoteAsset ? null : update.Data.Quantity,
+                        QuantityFilled = update.Data.AccumulatedFillQuantity,
+                        AveragePrice = update.Data.AveragePrice,
+                        UpdateTime = update.Data.UpdateTime,
+                        Price = update.Data.Price,
+                        FeeAsset = update.Data.FeeAsset,
+                        Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        {
+                            Fee = update.Data.FillFee,
+                            FeeAsset = update.Data.FillFeeAsset,
+                            Role = update.Data.ExecutionType == "T" ? SharedRole.Taker : SharedRole.Maker
+                        }
+                    }
+                })),
+                ct: ct).ConfigureAwait(false);
+
+            return result;
+        }
     }
 }

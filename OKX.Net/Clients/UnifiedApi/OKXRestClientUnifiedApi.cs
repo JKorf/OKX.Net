@@ -11,7 +11,7 @@ using OKX.Net.Objects.Options;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
-internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi, ISpotClient
+internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi, ISpotClient
 {
     #region Internal Fields
     private static TimeSyncState _timeSyncState = new("Unified Api");
@@ -29,6 +29,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     public string ExchangeName => "OKX";
 
     public ISpotClient CommonSpotClient => this;
+    public IOKXRestClientUnifiedApiShared SharedClient => this;
 
     internal OKXRestClientUnifiedApi(ILogger logger, HttpClient? httpClient, OKXRestOptions options)
             : base(logger, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)

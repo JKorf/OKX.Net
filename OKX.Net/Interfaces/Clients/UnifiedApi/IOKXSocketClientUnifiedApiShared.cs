@@ -8,7 +8,9 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
     public interface IOKXSocketClientUnifiedApiShared :
         ITickerSocketClient,
         ITradeSocketClient,
-        IBookTickerSocketClient
+        IBookTickerSocketClient,
+        IBalanceSocketClient,
+        ISpotOrderSocketClient
     {
     }
 }
