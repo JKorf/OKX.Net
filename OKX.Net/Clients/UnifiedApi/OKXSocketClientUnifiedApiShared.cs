@@ -74,7 +74,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         Price = update.Data.Price,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = update.Data.FillFee,
                             FeeAsset = update.Data.FillFeeAsset,
