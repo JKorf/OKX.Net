@@ -48,7 +48,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError("Interval not supported"));
 
             var result = await ExchangeData.GetKlinesAsync(
-                FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                request.GetSymbol(FormatSymbol),
                 interval,
                 request.StartTime,
                 request.EndTime,
@@ -95,15 +95,10 @@ namespace OKX.Net.Clients.UnifiedApi
             return result.AsExchangeResult<IEnumerable<SharedTicker>>(Exchange, result.Data.Select(x => new SharedTicker(x.Symbol, x.LastPrice ?? 0, x.HighPrice ?? 0, x.LowPrice ?? 0)));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> ITradeRestClient.GetTradesAsync(GetTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
         {
-            if (request.StartTime != null || request.EndTime != null)
-                return new ExchangeWebResult<IEnumerable<SharedTrade>>(Exchange, new ArgumentError("Start/EndTime filtering not supported"));
-
             var result = await ExchangeData.GetTradeHistoryAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
-                startTime: request.StartTime,
-                endTime: request.EndTime,
                 limit: request.Limit ?? 100,
                 ct: ct).ConfigureAwait(false);
             if (!result)
@@ -201,7 +196,12 @@ namespace OKX.Net.Clients.UnifiedApi
 
         async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
         {
-            var order = await Trading.GetOrdersAsync(InstrumentType.Spot, symbol: FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType), startTime: request.StartTime, endTime: request.EndTime, limit: request.Limit ?? 100).ConfigureAwait(false);
+            var order = await Trading.GetOrdersAsync(
+                InstrumentType.Spot,
+                symbol: FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
+                startTime: request.StartTime,
+                endTime: request.EndTime,
+                limit: request.Limit ?? 100).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -250,12 +250,29 @@ namespace OKX.Net.Clients.UnifiedApi
             }));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedUserTrade>>> ISpotOrderRestClient.GetUserTradesAsync(GetUserTradesRequest request, INextPageToken? nextPageToken, CancellationToken ct)
         {
+            // Determine page token
+            string? fromId = null;
+            if (nextPageToken is FromIdToken fromIdToken)
+                fromId = fromIdToken.FromToken;
+
+            // Get data
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
-            var order = await Trading.GetUserTradesAsync(InstrumentType.Spot, symbol, startTime: request.StartTime, endTime: request.EndTime, limit: request.Limit ?? 100).ConfigureAwait(false);
+            var order = await Trading.GetUserTradesAsync(
+                InstrumentType.Spot,
+                symbol,
+                startTime: request.StartTime, 
+                endTime: request.EndTime,
+                limit: request.Limit ?? 100,
+                fromId: fromId).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
+
+            // Get next token
+            FromIdToken? nextToken = null;
+            if (order.Data.Count() == (request.Limit ?? 100))
+                nextToken = new FromIdToken(order.Data.Max(o => o.TradeId).ToString());
 
             return order.AsExchangeResult(Exchange, order.Data.Select(x => new SharedUserTrade(
                 x.Symbol,
@@ -268,7 +285,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 Fee = x.Fee,
                 FeeAsset = x.FeeAsset,
                 Role = x.OrderFlowType == OrderFlowType.Maker ? SharedRole.Maker : SharedRole.Taker
-            }));
+            }), nextToken);
         }
 
         async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)

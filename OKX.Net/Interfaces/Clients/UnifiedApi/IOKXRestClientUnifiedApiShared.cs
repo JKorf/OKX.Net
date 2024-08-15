@@ -9,7 +9,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         ITickerRestClient,
         ISpotSymbolRestClient,
         IKlineRestClient,
-        ITradeRestClient,
+        IRecentTradeRestClient,
         IBalanceRestClient,
         ISpotOrderRestClient
     {
