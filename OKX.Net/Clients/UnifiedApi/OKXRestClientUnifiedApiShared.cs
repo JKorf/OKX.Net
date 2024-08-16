@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using OKX.Net.Enums;
 using CryptoExchange.Net.SharedApis.Enums;
 using CryptoExchange.Net.SharedApis.Models;
+using OKX.Net.Objects.Market;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -41,24 +42,71 @@ namespace OKX.Net.Clients.UnifiedApi
                 SharedQuantityType.Both,
                 SharedQuantityType.Both);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
                 return new ExchangeWebResult<IEnumerable<SharedKline>>(Exchange, new ArgumentError("Interval not supported"));
 
-            var result = await ExchangeData.GetKlinesAsync(
-                request.GetSymbol(FormatSymbol),
-                interval,
-                request.StartTime,
-                request.EndTime,
-                request.Limit ?? 100,
-                ct: ct
-                ).ConfigureAwait(false);
+            // Determine page token
+            DateTime? fromTimestamp = null;
+            if (pageToken is DateTimeToken dateTimeToken)
+                fromTimestamp = dateTimeToken.LastTime;
+
+            var startTime = request.Filter?.StartTime?.AddSeconds(-1);
+            var endTime = request.Filter?.EndTime;
+            var apiLimit = 100;
+
+            // API returns the newest data first if the timespan is bigger than the api limit of 1500 results
+            // So we need to request the first 1500 from the start time, then the 1500 after that etc
+            if (request.Filter?.StartTime != null)
+            {
+                // Not paginated, check if the data will fit
+                var seconds = apiLimit * (int)request.Interval;
+                var maxEndTime = (fromTimestamp ?? startTime)!.Value.AddSeconds(seconds);
+                if (maxEndTime < endTime)
+                    endTime = maxEndTime;
+            }
+
+            // Get data
+            WebCallResult<IEnumerable<OKXKline>> result;
+            if (endTime > DateTime.UtcNow.AddSeconds(-(2 * (int)request.Interval)))
+            {
+                // The last Kline is delayed on the history endpoint so when retrieving the most recent klines use the non-history endpoint
+                result = await ExchangeData.GetKlinesAsync(
+                    request.GetSymbol(FormatSymbol),
+                    interval,
+                    fromTimestamp ?? startTime,
+                    endTime,
+                    request.Filter?.Limit ?? apiLimit,
+                    ct: ct
+                    ).ConfigureAwait(false);
+            }
+            else
+            {
+                result = await ExchangeData.GetKlineHistoryAsync(
+                    request.GetSymbol(FormatSymbol),
+                    interval,
+                    fromTimestamp ?? startTime,
+                    endTime,
+                    request.Filter?.Limit ?? apiLimit,
+                    ct: ct
+                    ).ConfigureAwait(false);
+            }
+
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedKline>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(x => new SharedKline(x.Time, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)));
+            // Get next token
+            DateTimeToken? nextToken = null;
+            if (request.Filter?.StartTime != null && result.Data.Any())
+            {
+                var maxOpenTime = result.Data.Max(x => x.Time);
+                if (maxOpenTime < request.Filter.EndTime!.Value.AddSeconds(-(int)request.Interval))
+                    nextToken = new DateTimeToken(maxOpenTime.AddSeconds(((int)interval) - 1));
+            }
+
+            return result.AsExchangeResult(Exchange, result.Data.Reverse().Select(x => new SharedKline(x.Time, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)), nextToken);
         }
 
         async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
@@ -194,14 +242,14 @@ namespace OKX.Net.Clients.UnifiedApi
             }));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotOrder>>> ISpotOrderRestClient.GetClosedOrdersAsync(GetSpotClosedOrdersRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
             var order = await Trading.GetOrdersAsync(
                 InstrumentType.Spot,
                 symbol: FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
-                startTime: request.StartTime,
-                endTime: request.EndTime,
-                limit: request.Limit ?? 100).ConfigureAwait(false);
+                startTime: request.Filter?.StartTime,
+                endTime: request.Filter?.EndTime,
+                limit: request.Filter?.Limit ?? 100).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -262,16 +310,16 @@ namespace OKX.Net.Clients.UnifiedApi
             var order = await Trading.GetUserTradesAsync(
                 InstrumentType.Spot,
                 symbol,
-                startTime: request.StartTime, 
-                endTime: request.EndTime,
-                limit: request.Limit ?? 100,
+                startTime: request.Filter?.StartTime, 
+                endTime: request.Filter?.EndTime,
+                limit: request.Filter?.Limit ?? 100,
                 fromId: fromId).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
             // Get next token
             FromIdToken? nextToken = null;
-            if (order.Data.Count() == (request.Limit ?? 100))
+            if (order.Data.Count() == (request.Filter?.Limit ?? 100))
                 nextToken = new FromIdToken(order.Data.Max(o => o.TradeId).ToString());
 
             return order.AsExchangeResult(Exchange, order.Data.Select(x => new SharedUserTrade(
