@@ -109,7 +109,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return result.AsExchangeResult(Exchange, result.Data.Reverse().Select(x => new SharedKline(x.Time, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume)), nextToken);
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSymbolsAsync(SharedRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(SharedRequest request, CancellationToken ct)
         {
             var result = await ExchangeData.GetSymbolsAsync(InstrumentType.Spot, ct: ct).ConfigureAwait(false);
             if (!result)
@@ -164,7 +164,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return result.AsExchangeResult(Exchange, result.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)));
         }
 
-        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
         {
             var result = await Trading.PlaceOrderAsync(
                 FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType),
@@ -176,9 +176,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 clientOrderId: request.ClientOrderId).ConfigureAwait(false);
 
             if (!result)
-                return result.AsExchangeResult<SharedOrderId>(Exchange, default);
+                return result.AsExchangeResult<SharedId>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, new SharedOrderId(result.Data.OrderId.ToString()));
+            return result.AsExchangeResult(Exchange, new SharedId(result.Data.OrderId.ToString()));
         }
 
         async Task<ExchangeWebResult<SharedSpotOrder>> ISpotOrderRestClient.GetOrderAsync(GetOrderRequest request, CancellationToken ct)
@@ -336,16 +336,16 @@ namespace OKX.Net.Clients.UnifiedApi
             }), nextToken);
         }
 
-        async Task<ExchangeWebResult<SharedOrderId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.CancelOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedOrderId>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Invalid order id"));
 
             var order = await Trading.CancelOrderAsync(FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType), orderId).ConfigureAwait(false);
             if (!order)
-                return order.AsExchangeResult<SharedOrderId>(Exchange, default);
+                return order.AsExchangeResult<SharedId>(Exchange, default);
 
-            return order.AsExchangeResult(Exchange, new SharedOrderId(request.OrderId));
+            return order.AsExchangeResult(Exchange, new SharedId(request.OrderId));
         }
 
         private OrderType GetPlaceOrderType(SharedOrderType type, SharedTimeInForce? tif)
