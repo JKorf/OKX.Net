@@ -215,6 +215,24 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     }
 
     /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
+        string? symbol,
+        Action<DataEvent<OKXUserTradeUpdate>> onData,
+        CancellationToken ct = default)
+    {
+        var subscription = new OKXSubscription<OKXUserTradeUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+            {
+                new Objects.Sockets.Models.OKXSocketArgs
+                {
+                    Channel = "fills",
+                    Symbol = symbol
+                }
+            }, onData, null, true);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAlgoOrderUpdatesAsync(
         InstrumentType instrumentType,
         string? symbol,

@@ -47,6 +47,19 @@ public interface IOKXSocketClientUnifiedApiTrading
     Task<CallResult<UpdateSubscription>> SubscribeToOrderUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, Action<DataEvent<OKXOrderUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
+    /// Subscribe to user trade updates. Note that this subscription is only available to VIP5 accounts or above.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-fills-channel" /></para>
+    /// </summary>
+    /// <param name="symbol">Filter updates by symbol</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(
+        string? symbol,
+        Action<DataEvent<OKXUserTradeUpdate>> onData,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-positions-channel" /></para>
     /// </summary>
