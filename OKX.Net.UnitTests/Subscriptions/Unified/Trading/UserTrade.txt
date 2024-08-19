@@ -1,0 +1,24 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "fills" }]}
+< { "event": "subscribe", "arg": { "channel": "fills" }, "connId": "a4d3ae55" }
+= 
+{
+    "arg": {
+        "channel": "fills",
+        "uid": "614488474791111"
+    },
+    "data":[
+        {
+            "instId": "BTC-USDT-SWAP",
+            "fillSz": "100",
+            "fillPx": "70000",
+            "side": "buy",
+            "ts": "1705449605015",
+            "ordId": "680800019749904384",
+            "tradeId": "12345",
+            "execType": "T",
+            "count": "10"
+        }
+    ]
+}

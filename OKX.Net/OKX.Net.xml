@@ -557,6 +557,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.SubscribeToOrderUpdatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Trade.OKXOrderUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Trade.OKXUserTradeUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.SubscribeToAlgoOrderUpdatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Trade.OKXAlgoOrderUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2607,6 +2610,16 @@
             <param name="instrumentType">Instrument Type</param>
             <param name="symbol">Symbol, for example `ETH-USDT`</param>
             <param name="instrumentFamily">Instrument family</param>
+            <param name="onData">On Data Handler</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{OKX.Net.Objects.Trade.OKXUserTradeUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to user trade updates. Note that this subscription is only available to VIP5 accounts or above.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-fills-channel" /></para>
+            </summary>
+            <param name="symbol">Filter updates by symbol</param>
             <param name="onData">On Data Handler</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
@@ -8276,6 +8289,56 @@
         <member name="P:OKX.Net.Objects.Trade.OKXTransaction.TransactionType">
             <summary>
             Transaction type
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXUserTradeUpdate">
+            <summary>
+            Order info update
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Quantity">
+            <summary>
+            Trade quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Price">
+            <summary>
+            Trade price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Side">
+            <summary>
+            Side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.OrderId">
+            <summary>
+            Order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.TradeId">
+            <summary>
+            Trade id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Role">
+            <summary>
+            Role
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXUserTradeUpdate.Count">
+            <summary>
+            Aggregated trade count
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trading.OKXInterestVolume">
