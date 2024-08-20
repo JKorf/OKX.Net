@@ -6,12 +6,18 @@ using System.Text;
 namespace OKX.Net.Interfaces.Clients.UnifiedApi
 {
     public interface IOKXRestClientUnifiedApiShared :
-        ITickerRestClient,
-        ISpotSymbolRestClient,
-        IKlineRestClient,
-        IRecentTradeRestClient,
+        IAssetRestClient,
         IBalanceRestClient,
-        ISpotOrderRestClient
+        IDepositRestClient,
+        IKlineRestClient,
+        IOrderBookRestClient,
+        IRecentTradeRestClient,
+        ISpotOrderRestClient,
+        ISpotSymbolRestClient,
+        ITickerRestClient,
+        //ITradeHistoryRestClient
+        IWithdrawalRestClient,
+        IWithdrawRestClient
     {
     }
 }
