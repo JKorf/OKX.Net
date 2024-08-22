@@ -24,12 +24,12 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Kline client
 
-        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(true)
+        GetKlinesOptions IKlineRestClient.GetKlinesOptions { get; } = new GetKlinesOptions(true, false)
         {
             MaxRequestDataPoints = 100
         };
 
-        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedKline>>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
@@ -100,7 +100,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Spot Symbol client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetSymbolsAsync(InstrumentType.Spot, ct: ct).ConfigureAwait(false);
             if (!result)
@@ -119,7 +119,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Ticker client
 
-        async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedTicker>> ITickerRestClient.GetTickerAsync(GetTickerRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var symbol = request.GetSymbol(FormatSymbol);
             var result = await ExchangeData.GetTickerAsync(symbol, ct).ConfigureAwait(false);
@@ -129,7 +129,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return result.AsExchangeResult(Exchange, new SharedTicker(symbol, result.Data.LastPrice ?? 0, result.Data.HighPrice ?? 0, result.Data.LowPrice ?? 0));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(ApiType? apiType, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTicker>>> ITickerRestClient.GetTickersAsync(ApiType? apiType, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetTickersAsync(InstrumentType.Spot, ct: ct).ConfigureAwait(false);
             if (!result)
@@ -143,7 +143,7 @@ namespace OKX.Net.Clients.UnifiedApi
         #region Recent Trade client
 
         GetRecentTradesOptions IRecentTradeRestClient.GetRecentTradesOptions { get; } = new GetRecentTradesOptions(100);
-        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedTrade>>> IRecentTradeRestClient.GetRecentTradesAsync(GetRecentTradesRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await ExchangeData.GetTradeHistoryAsync(
                 request.GetSymbol(FormatSymbol),
@@ -158,6 +158,7 @@ namespace OKX.Net.Clients.UnifiedApi
         #endregion
 
         #region Balance client
+        EndpointOptions IBalanceRestClient.GetBalancesOptions { get; } = new EndpointOptions(true);
 
         async Task<ExchangeWebResult<IEnumerable<SharedBalance>>> IBalanceRestClient.GetBalancesAsync(ApiType? apiType, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
@@ -242,7 +243,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             string? symbol = null;
             if (request.BaseAsset != null && request.QuoteAsset != null)
-                symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
+                symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, ApiType.Spot);
 
             var order = await Trading.GetOrdersAsync(symbol: symbol).ConfigureAwait(false);
             if (!order)
@@ -413,8 +414,9 @@ namespace OKX.Net.Clients.UnifiedApi
         #endregion
 
         #region Asset client
+        EndpointOptions IAssetRestClient.GetAssetsOptions { get; } = new EndpointOptions(true);
 
-        async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetRestClient.GetAssetsAsync(CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetRestClient.GetAssetsAsync(ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var assets = await Account.GetAssetsAsync(ct: ct).ConfigureAwait(false);
             if (!assets)
@@ -438,7 +440,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Order Book client
         GetOrderBookOptions IOrderBookRestClient.GetOrderBookOptions { get; } = new GetOrderBookOptions(1, 400);
-        async Task<ExchangeWebResult<SharedOrderBook>> IOrderBookRestClient.GetOrderBookAsync(GetOrderBookRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedOrderBook>> IOrderBookRestClient.GetOrderBookAsync(GetOrderBookRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var validationError = ((IOrderBookRestClient)this).GetOrderBookOptions.Validate(request);
             if (validationError != null)
@@ -458,7 +460,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Deposit client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedDepositAddress>>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedDepositAddress>>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var depositAddresses = await Account.GetDepositAddressAsync(request.Asset).ConfigureAwait(false);
             if (!depositAddresses)
@@ -472,7 +474,7 @@ namespace OKX.Net.Clients.UnifiedApi
             ));
         }
 
-        async Task<ExchangeWebResult<IEnumerable<SharedDeposit>>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedDeposit>>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             // Determine page token
             DateTime? fromTime = null;
@@ -505,7 +507,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Withdrawal client
 
-        async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, CancellationToken ct)
+        async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             // Determine page token
             DateTime? fromTime = null;
