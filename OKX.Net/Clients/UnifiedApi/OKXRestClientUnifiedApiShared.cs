@@ -192,7 +192,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 SharedQuantityType.Both,
                 SharedQuantityType.Both));
 
-        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceOrderAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
+        async Task<ExchangeWebResult<SharedId>> ISpotOrderRestClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
         {
             var result = await Trading.PlaceOrderAsync(
                 request.GetSymbol(FormatSymbol),
