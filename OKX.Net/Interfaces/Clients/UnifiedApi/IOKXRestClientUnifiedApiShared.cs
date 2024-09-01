@@ -6,7 +6,7 @@ using System.Text;
 namespace OKX.Net.Interfaces.Clients.UnifiedApi
 {
     public interface IOKXRestClientUnifiedApiShared :
-        IAssetRestClient,
+        IAssetsRestClient,
         IBalanceRestClient,
         IDepositRestClient,
         IKlineRestClient,
