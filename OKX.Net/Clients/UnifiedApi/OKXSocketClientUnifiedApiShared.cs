@@ -21,6 +21,7 @@ namespace OKX.Net.Clients.UnifiedApi
     internal partial class OKXSocketClientUnifiedApi : IOKXSocketClientUnifiedApiShared
     {
         public string Exchange => OKXExchange.ExchangeName;
+        public ApiType[] SupportedApiTypes { get; } = new[] { ApiType.Spot, ApiType.PerpetualLinear, ApiType.PerpetualInverse, ApiType.PerpetualInverse, ApiType.DeliveryInverse };
 
         async Task<ExchangeResult<UpdateSubscription>> ITickerSocketClient.SubscribeToTickerUpdatesAsync(TickerSubscribeRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
         {
