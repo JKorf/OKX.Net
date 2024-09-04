@@ -6249,7 +6249,7 @@
             Alias
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Public.OKXInstrument.state">
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.State">
             <summary>
             State
             </summary>

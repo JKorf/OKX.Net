@@ -137,7 +137,7 @@ public record OKXInstrument
     /// State
     /// </summary>
     [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
-    public InstrumentState state { get; set; }
+    public InstrumentState State { get; set; }
 
     /// <summary>
     /// The maximum order quantity of the contract or spot limit order.
