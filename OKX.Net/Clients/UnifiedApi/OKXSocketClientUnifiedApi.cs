@@ -62,7 +62,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
     {
-        var suffix = futuresType == ApiType.LinearFutures ? "-SWAP" : string.Empty;
+        var suffix = (futuresType == ApiType.PerpetualLinear || futuresType == ApiType.PerpetualInverse) ? "-SWAP" : string.Empty;
         return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + suffix;
     }
 
