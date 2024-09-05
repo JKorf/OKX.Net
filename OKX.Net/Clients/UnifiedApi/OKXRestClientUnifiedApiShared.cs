@@ -26,7 +26,7 @@ namespace OKX.Net.Clients.UnifiedApi
     internal partial class OKXRestClientUnifiedApi : IOKXRestClientUnifiedApiShared
     {
         public string Exchange => OKXExchange.ExchangeName;
-        public ApiType[] SupportedApiTypes { get; } = new[] { ApiType.Spot, ApiType.PerpetualLinear, ApiType.PerpetualInverse, ApiType.PerpetualInverse, ApiType.DeliveryInverse };
+        public ApiType[] SupportedApiTypes { get; } = new[] { ApiType.Spot, ApiType.PerpetualLinear, ApiType.PerpetualInverse, ApiType.DeliveryLinear, ApiType.DeliveryInverse };
 
         #region Kline client
 
@@ -121,7 +121,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, result.Data.Select(s => new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol)
+            return result.AsExchangeResult(Exchange, result.Data.Select(s => new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol, s.State == InstrumentState.Live)
             {
                 MaxTradeQuantity = Math.Min(s.MaxLimitQuantity ?? decimal.MaxValue, s.MaxMarketQuantity ?? decimal.MaxValue),
                 MinTradeQuantity = s.MinimumOrderSize,
@@ -699,10 +699,17 @@ namespace OKX.Net.Clients.UnifiedApi
             var result = await ExchangeData.GetSymbolsAsync(type, ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, default);
-                        
-            return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, result.Data.Select(x => new SharedFuturesSymbol(
+
+            var data = result.Data.Where(x =>
+                apiType == ApiType.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
+                apiType == ApiType.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
+                apiType == ApiType.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
+                (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
+            return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, data.Select(x => new SharedFuturesSymbol(
                 x.ContractType == ContractType.Linear ? SharedSymbolType.PerpetualLinear : SharedSymbolType.PerpetualInverse,
-                x.Symbol.Split(new[] { '-' })[0], x.Symbol.Split(new[] { '-' })[1], x.Symbol)
+                x.Symbol.Split(new[] { '-' })[0], x.Symbol.Split(new[] { '-' })[1],
+                x.Symbol,
+                x.State == InstrumentState.Live)
             {
                 ContractSize = x.ContractValue,
                 DeliveryTime = x.ExpiryTime,
