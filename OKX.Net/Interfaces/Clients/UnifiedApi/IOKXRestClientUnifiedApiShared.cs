@@ -27,7 +27,8 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         IIndexPriceKlineRestClient,
         IOpenInterestRestClient,
         IFuturesTickerRestClient,
-        IFundingRateRestClient
+        IFundingRateRestClient,
+        IPositionModeRestClient
     {
     }
 }

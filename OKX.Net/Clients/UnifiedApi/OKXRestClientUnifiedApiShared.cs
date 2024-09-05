@@ -50,13 +50,13 @@ namespace OKX.Net.Clients.UnifiedApi
             if (pageToken is DateTimeToken dateTimeToken)
                 fromTimestamp = dateTimeToken.LastTime;
 
-            var startTime = request.Filter?.StartTime?.AddSeconds(-1);
-            var endTime = request.Filter?.EndTime;
+            var startTime = request.StartTime?.AddSeconds(-1);
+            var endTime = request.EndTime;
             var apiLimit = 100;
 
             // API returns the newest data first if the timespan is bigger than the api limit of 1500 results
             // So we need to request the first 1500 from the start time, then the 1500 after that etc
-            if (request.Filter?.StartTime != null)
+            if (request.StartTime != null)
             {
                 // Not paginated, check if the data will fit
                 var seconds = apiLimit * (int)request.Interval;
@@ -75,7 +75,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     interval,
                     fromTimestamp ?? startTime,
                     endTime,
-                    request.Filter?.Limit ?? apiLimit,
+                    request.Limit ?? apiLimit,
                     ct: ct
                     ).ConfigureAwait(false);
             }
@@ -86,7 +86,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     interval,
                     fromTimestamp ?? startTime,
                     endTime,
-                    request.Filter?.Limit ?? apiLimit,
+                    request.Limit ?? apiLimit,
                     ct: ct
                     ).ConfigureAwait(false);
             }
@@ -96,10 +96,10 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get next token
             DateTimeToken? nextToken = null;
-            if (request.Filter?.StartTime != null && result.Data.Any())
+            if (request.StartTime != null && result.Data.Any())
             {
                 var maxOpenTime = result.Data.Max(x => x.Time);
-                if (maxOpenTime < request.Filter.EndTime!.Value.AddSeconds(-(int)request.Interval))
+                if (maxOpenTime < request.EndTime!.Value.AddSeconds(-(int)request.Interval))
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds(((int)interval) - 1));
             }
 
@@ -324,9 +324,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var order = await Trading.GetOrdersAsync(
                 InstrumentType.Spot,
                 symbol: request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
-                startTime: request.Filter?.StartTime,
-                endTime: request.Filter?.EndTime,
-                limit: request.Filter?.Limit ?? 100).ConfigureAwait(false);
+                startTime: request.StartTime,
+                endTime: request.EndTime,
+                limit: request.Limit ?? 100).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, default);
 
@@ -397,16 +397,16 @@ namespace OKX.Net.Clients.UnifiedApi
             var order = await Trading.GetUserTradesAsync(
                 InstrumentType.Spot,
                 symbol,
-                startTime: request.Filter?.StartTime, 
-                endTime: request.Filter?.EndTime,
-                limit: request.Filter?.Limit ?? 100,
+                startTime: request.StartTime, 
+                endTime: request.EndTime,
+                limit: request.Limit ?? 100,
                 fromId: fromId).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, default);
 
             // Get next token
             FromIdToken? nextToken = null;
-            if (order.Data.Count() == (request.Filter?.Limit ?? 100))
+            if (order.Data.Count() == (request.Limit ?? 100))
                 nextToken = new FromIdToken(order.Data.Max(o => o.TradeId).ToString());
 
             return order.AsExchangeResult(Exchange, order.Data.Select(x => new SharedUserTrade(
@@ -590,16 +590,16 @@ namespace OKX.Net.Clients.UnifiedApi
             // Get data
             var deposits = await Account.GetDepositHistoryAsync(
                 request.Asset,
-                startTime: request.Filter?.StartTime,
-                endTime: fromTime ?? request.Filter?.EndTime,
-                limit: request.Filter?.Limit ?? 100,
+                startTime: request.StartTime,
+                endTime: fromTime ?? request.EndTime,
+                limit: request.Limit ?? 100,
                 ct: ct).ConfigureAwait(false);
             if (!deposits)
                 return deposits.AsExchangeResult<IEnumerable<SharedDeposit>>(Exchange, default);
 
             // Determine next token
             DateTimeToken? nextToken = null;
-            if (deposits.Data.Count() == (request.Filter?.Limit ?? 100))
+            if (deposits.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(deposits.Data.Min(x => x.Time));
 
             return deposits.AsExchangeResult(Exchange, deposits.Data.Select(x => new SharedDeposit(x.Asset, x.Quantity, x.State == DepositState.Successful, x.Time)
@@ -629,16 +629,16 @@ namespace OKX.Net.Clients.UnifiedApi
 #warning does it return newest or oldest first?
             var withdrawals = await Account.GetWithdrawalHistoryAsync(
                 request.Asset,
-                startTime: request.Filter?.StartTime,
-                endTime: fromTime ?? request.Filter?.EndTime,
-                limit: request.Filter?.Limit ?? 100,
+                startTime: request.StartTime,
+                endTime: fromTime ?? request.EndTime,
+                limit: request.Limit ?? 100,
                 ct: ct).ConfigureAwait(false);
             if (!withdrawals)
                 return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, default);
 
             // Determine next token
             DateTimeToken? nextToken = null;
-            if (withdrawals.Data.Count() == (request.Filter?.Limit ?? 100))
+            if (withdrawals.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(withdrawals.Data.Min(x => x.Time));
 
             return withdrawals.AsExchangeResult(Exchange, withdrawals.Data.Select(x => new SharedWithdrawal(x.Asset, x.To, x.Quantity, x.State == WithdrawalState.Success, x.Time)
@@ -760,7 +760,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 GetPlaceOrderType(request.OrderType, request.TimeInForce),
                 quantity: request.Quantity ?? request.QuoteQuantity ?? 0,
                 price: request.Price,
-                positionSide: request.PositionSide == SharedPositionSide.Both ? PositionSide.Net : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
+                positionSide: request.PositionSide == null ? null : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
                 reduceOnly: request.ReduceOnly,
                 tradeMode: request.MarginMode == SharedMarginMode.Isolated ? TradeMode.Isolated : TradeMode.Cross,
                 clientOrderId: request.ClientOrderId,
@@ -801,7 +801,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = order.Data.QuantityFilled,
                 TimeInForce = ParseTimeInForce(order.Data.OrderType),
                 UpdateTime = order.Data.UpdateTime,
-                PositionSide = order.Data.PositionSide == PositionSide.Net ? SharedPositionSide.Both : order.Data.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
+                PositionSide = order.Data.PositionSide == PositionSide.Net ? null : order.Data.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
                 ReduceOnly = order.Data.ReduceOnly,
                 Fee = order.Data.Fee,
                 FeeAsset = order.Data.FeeAsset,
@@ -841,7 +841,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = x.QuantityFilled,
                 TimeInForce = ParseTimeInForce(x.OrderType),
                 UpdateTime = x.UpdateTime,
-                PositionSide = x.PositionSide == PositionSide.Net ? SharedPositionSide.Both : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
+                PositionSide = x.PositionSide == PositionSide.Net ? null : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
                 ReduceOnly = x.ReduceOnly,
                 Fee = x.Fee,
                 FeeAsset = x.FeeAsset,
@@ -869,18 +869,18 @@ namespace OKX.Net.Clients.UnifiedApi
                 orders = await Trading.GetOrderHistoryAsync(
                     InstrumentType.Swap, 
                     symbol: symbol, 
-                    startTime: fromTimestamp ?? request.Filter?.StartTime,
-                    endTime: request.Filter?.EndTime,
-                    limit: request.Filter?.Limit ?? 100).ConfigureAwait(false);
+                    startTime: fromTimestamp ?? request.StartTime,
+                    endTime: request.EndTime,
+                    limit: request.Limit ?? 100).ConfigureAwait(false);
             }
             else
             {
                 orders = await Trading.GetOrderHistoryAsync(
                     InstrumentType.Futures, 
                     symbol: symbol,
-                    startTime: fromTimestamp ?? request.Filter?.StartTime,
-                    endTime: request.Filter?.EndTime,
-                    limit: request.Filter?.Limit ?? 100).ConfigureAwait(false);
+                    startTime: fromTimestamp ?? request.StartTime,
+                    endTime: request.EndTime,
+                    limit: request.Limit ?? 100).ConfigureAwait(false);
             }
 #warning use from id for pagination?
             if (!orders)
@@ -888,7 +888,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get next token
             DateTimeToken? nextToken = null;
-            if (orders.Data.Count() == (request.Filter?.Limit ?? 100))
+            if (orders.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(orders.Data.Max(o => o.CreateTime));
 
             return orders.AsExchangeResult(Exchange, orders.Data.Select(x => new SharedFuturesOrder(
@@ -906,7 +906,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = x.QuantityFilled,
                 TimeInForce = ParseTimeInForce(x.OrderType),
                 UpdateTime = x.UpdateTime,
-                PositionSide = x.PositionSide == PositionSide.Net ? SharedPositionSide.Both : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
+                PositionSide = x.PositionSide == PositionSide.Net ? null : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
                 ReduceOnly = x.ReduceOnly,
                 Fee = x.Fee,
                 FeeAsset = x.FeeAsset,
@@ -978,9 +978,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 orders = await Trading.GetUserTradesAsync(
                     InstrumentType.Swap,
                     request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
-                    startTime: request.Filter?.StartTime,
-                    endTime: request.Filter?.EndTime,
-                    limit: request.Filter?.Limit ?? 100,
+                    startTime: request.StartTime,
+                    endTime: request.EndTime,
+                    limit: request.Limit ?? 100,
                     fromId: fromId
                 ).ConfigureAwait(false);
             }
@@ -989,9 +989,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 orders = await Trading.GetUserTradesAsync(
                     InstrumentType.Futures,
                     request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset, request.ApiType)),
-                    startTime: request.Filter?.StartTime,
-                    endTime: request.Filter?.EndTime,
-                    limit: request.Filter?.Limit ?? 100,
+                    startTime: request.StartTime,
+                    endTime: request.EndTime,
+                    limit: request.Limit ?? 100,
                     fromId: fromId
                 ).ConfigureAwait(false);
             }
@@ -1000,7 +1000,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get next token
             FromIdToken? nextToken = null;
-            if (orders.Data.Count() == (request.Filter?.Limit ?? 100))
+            if (orders.Data.Count() == (request.Limit ?? 100))
                 nextToken = new FromIdToken(orders.Data.Max(o => o.TradeId).ToString());
 
             return orders.AsExchangeResult(Exchange, orders.Data.Select(x => new SharedUserTrade(
@@ -1045,7 +1045,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedPosition>>(Exchange, default);
 
-            return result.AsExchangeResult<IEnumerable<SharedPosition>>(Exchange, result.Data.Select(x => new SharedPosition(x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
+            return result.AsExchangeResult<IEnumerable<SharedPosition>>(Exchange, result.Data.Select(x => new SharedPosition(x.Symbol, Math.Abs(x.PositionsQuantity ?? 0), x.UpdateTime)
             {
                 UnrealizedPnl = x.UnrealizedPnl,
                 LiquidationPrice = x.LiquidationPrice,
@@ -1053,7 +1053,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 AverageEntryPrice = x.AveragePrice,
                 InitialMargin = x.InitialMarginRequirement,
                 MaintenanceMargin = x.MaintenanceMarginRequirement,
-                PositionSide = x.PositionSide == PositionSide.Net ? SharedPositionSide.Both : x.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long
+                PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity >= 0 ? SharedPositionSide.Long : SharedPositionSide.Short) : x.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long
             }).ToList());
         }
 
@@ -1127,7 +1127,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 (int)request.Leverage,
                 request.MarginMode == SharedMarginMode.Isolated ? MarginMode.Isolated : MarginMode.Cross,
                 symbol: request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset)),
-                positionSide: request.Side == SharedPositionSide.Short ? PositionSide.Short : PositionSide.Long,
+                positionSide: request.Side == null ? null: request.Side == SharedPositionSide.Short ? PositionSide.Short : PositionSide.Long,
                 ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedLeverage>(Exchange, default);
@@ -1164,9 +1164,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var result = await ExchangeData.GetMarkPriceKlinesAsync(
                 request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset)),
                 interval,
-                fromTimestamp ?? request.Filter?.StartTime,
-                request.Filter?.EndTime,
-                request.Filter?.Limit ?? 100,
+                fromTimestamp ?? request.StartTime,
+                request.EndTime,
+                request.Limit ?? 100,
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
@@ -1174,10 +1174,10 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get next token
             DateTimeToken? nextToken = null;
-            if (request.Filter?.StartTime != null && result.Data.Any())
+            if (request.StartTime != null && result.Data.Any())
             {
                 var maxOpenTime = result.Data.Max(x => x.Time);
-                if (maxOpenTime < request.Filter.EndTime!.Value.AddSeconds(-(int)request.Interval))
+                if (maxOpenTime < request.EndTime!.Value.AddSeconds(-(int)request.Interval))
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds((int)interval));
             }
 
@@ -1211,9 +1211,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var result = await ExchangeData.GetMarkPriceKlinesAsync(
                 request.Symbol.GetSymbol((baseAsset, quoteAsset) => FormatSymbol(baseAsset, quoteAsset)),
                 interval,
-                fromTimestamp ?? request.Filter?.StartTime,
-                request.Filter?.EndTime,
-                request.Filter?.Limit ?? 100,
+                fromTimestamp ?? request.StartTime,
+                request.EndTime,
+                request.Limit ?? 100,
                 ct: ct
                 ).ConfigureAwait(false);
             if (!result)
@@ -1221,10 +1221,10 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get next token
             DateTimeToken? nextToken = null;
-            if (request.Filter?.StartTime != null && result.Data.Any())
+            if (request.StartTime != null && result.Data.Any())
             {
                 var maxOpenTime = result.Data.Max(x => x.Time);
-                if (maxOpenTime < request.Filter.EndTime!.Value.AddSeconds(-(int)request.Interval))
+                if (maxOpenTime < request.EndTime!.Value.AddSeconds(-(int)request.Interval))
                     nextToken = new DateTimeToken(maxOpenTime.AddSeconds((int)interval));
             }
 
@@ -1354,6 +1354,37 @@ namespace OKX.Net.Clients.UnifiedApi
             }));
         }
 
+        #endregion
+
+        #region Position Mode client
+
+        GetPositionModeOptions IPositionModeRestClient.GetPositionModeOptions { get; } = new GetPositionModeOptions(false);
+        async Task<ExchangeWebResult<SharedPositionModeResult>> IPositionModeRestClient.GetPositionModeAsync(GetPositionModeRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
+        {
+            var validationError = ((IPositionModeRestClient)this).GetPositionModeOptions.ValidateRequest(Exchange, request, exchangeParameters, request.ApiType, SupportedApiTypes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedPositionModeResult>(Exchange, validationError);
+
+            var result = await Account.GetAccountConfigurationAsync(ct: ct).ConfigureAwait(false);
+            if (!result)
+                return result.AsExchangeResult<SharedPositionModeResult>(Exchange, default);
+
+            return result.AsExchangeResult(Exchange, new SharedPositionModeResult(result.Data.PositionMode == PositionMode.LongShortMode ? SharedPositionMode.LongShort : SharedPositionMode.OneWay));
+        }
+
+        SetPositionModeOptions IPositionModeRestClient.SetPositionModeOptions { get; } = new SetPositionModeOptions(true, true, false);
+        async Task<ExchangeWebResult<SharedPositionModeResult>> IPositionModeRestClient.SetPositionModeAsync(SetPositionModeRequest request, ExchangeParameters? exchangeParameters, CancellationToken ct)
+        {
+            var validationError = ((IPositionModeRestClient)this).SetPositionModeOptions.ValidateRequest(Exchange, request, exchangeParameters, request.ApiType, SupportedApiTypes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedPositionModeResult>(Exchange, validationError);
+
+            var result = await Account.SetPositionModeAsync(request.Mode == SharedPositionMode.LongShort ? PositionMode.LongShortMode : PositionMode.NetMode, ct: ct).ConfigureAwait(false);
+            if (!result)
+                return result.AsExchangeResult<SharedPositionModeResult>(Exchange, default);
+
+            return result.AsExchangeResult(Exchange, new SharedPositionModeResult(request.Mode));
+        }
         #endregion
     }
 }
