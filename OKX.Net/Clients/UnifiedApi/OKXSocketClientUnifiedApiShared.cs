@@ -23,7 +23,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public string Exchange => OKXExchange.ExchangeName;
         public ApiType[] SupportedApiTypes { get; } = new[] { ApiType.Spot, ApiType.PerpetualLinear, ApiType.PerpetualInverse, ApiType.DeliveryLinear, ApiType.DeliveryInverse };
 
-        async Task<ExchangeResult<UpdateSubscription>> ITickerSocketClient.SubscribeToTickerUpdatesAsync(TickerSubscribeRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> ITickerSocketClient.SubscribeToSpotTickerUpdatesAsync(SubscribeTickerRequest request, Action<DataEvent<SharedSpotTicker>> handler, CancellationToken ct)
         {
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
             var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.As(new SharedSpotTicker(update.Data.Symbol, update.Data.LastPrice ?? 0, update.Data.HighPrice ?? 0, update.Data.LowPrice ?? 0, update.Data.Volume))), ct: ct).ConfigureAwait(false);
@@ -31,7 +31,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
 
-        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(TradeSubscribeRequest request, Action<DataEvent<IEnumerable<SharedTrade>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<DataEvent<IEnumerable<SharedTrade>>> handler, CancellationToken ct)
         {
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
             var result = await ExchangeData.SubscribeToTradeUpdatesAsync(symbol, update => handler(update.As<IEnumerable<SharedTrade>>(new[] { new SharedTrade(update.Data.Price, update.Data.Quantity, update.Data.Time) })), ct).ConfigureAwait(false);
@@ -39,7 +39,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
 
-        async Task<ExchangeResult<UpdateSubscription>> IBookTickerSocketClient.SubscribeToBookTickerUpdatesAsync(BookTickerSubscribeRequest request, Action<DataEvent<SharedBookTicker>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IBookTickerSocketClient.SubscribeToBookTickerUpdatesAsync(SubscribeBookTickerRequest request, Action<DataEvent<SharedBookTicker>> handler, CancellationToken ct)
         {
             var symbol = FormatSymbol(request.BaseAsset, request.QuoteAsset, request.ApiType);
             var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.As(new SharedBookTicker(update.Data.BestAskPrice ?? 0, update.Data.BestAskQuantity ?? 0, update.Data.BestBidPrice ?? 0, update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
