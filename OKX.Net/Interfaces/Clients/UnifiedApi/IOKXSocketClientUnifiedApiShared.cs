@@ -10,8 +10,11 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         ITickerSocketClient,
         ITradeSocketClient,
         IBookTickerSocketClient,
+        IKlineSocketClient,
+        IOrderBookSocketClient,
         IBalanceSocketClient,
-        ISpotOrderSocketClient
+        ISpotOrderSocketClient,
+        IUserTradeSocketClient
     {
     }
 }
