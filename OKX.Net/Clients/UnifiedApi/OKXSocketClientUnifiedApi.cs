@@ -60,10 +60,15 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType? futuresType = null)
+    public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType apiType, DateTime? deliverTime = null)
     {
-        var suffix = (futuresType == ApiType.PerpetualLinear || futuresType == ApiType.PerpetualInverse) ? "-SWAP" : string.Empty;
-        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + suffix;
+        if (apiType == ApiType.Spot)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
+        if (deliverTime == null)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-SWAP";
+
+        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-" + deliverTime.Value.ToString("yyMMdd");
     }
 
     /// <inheritdoc />
