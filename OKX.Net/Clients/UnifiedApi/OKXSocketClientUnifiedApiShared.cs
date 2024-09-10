@@ -1,14 +1,7 @@
 ﻿using OKX.Net;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.SharedApis.RequestModels;
 using CryptoExchange.Net.SharedApis.ResponseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using CryptoExchange.Net.SharedApis.Enums;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis.Models.Socket;
@@ -17,6 +10,7 @@ using CryptoExchange.Net.SharedApis.SubscribeModels;
 using CryptoExchange.Net.SharedApis.Models;
 using CryptoExchange.Net.SharedApis.Models.FilterOptions;
 using OKX.Net.Enums;
+using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -72,7 +66,6 @@ namespace OKX.Net.Clients.UnifiedApi
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
         #endregion
-
 
         #region Kline client
         SubscribeKlineOptions IKlineSocketClient.SubscribeKlineOptions { get; } = new SubscribeKlineOptions(false);
@@ -237,5 +230,34 @@ namespace OKX.Net.Clients.UnifiedApi
         }
         #endregion
 
+        #region Position client
+        SubscriptionOptions IPositionSocketClient.SubscribePositionOptions { get; } = new SubscriptionOptions("SubscribePositionRequest", true);
+        async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(Action<ExchangeEvent<IEnumerable<SharedPosition>>> handler, ApiType? apiType, ExchangeParameters? exchangeParameters, CancellationToken ct)
+        {
+            var validationError = ((IUserTradeSocketClient)this).SubscribeUserTradeOptions.ValidateRequest(Exchange, exchangeParameters, ApiType.Spot, SupportedApiTypes);
+            if (validationError != null)
+                return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
+
+            var instrType = apiType == null ? InstrumentType.Any : apiType.Value.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+            var result = await Trading.SubscribeToPositionUpdatesAsync(
+                instrType,
+                null,
+                null,
+                false,
+                update => handler(update.AsExchangeEvent<IEnumerable<SharedPosition>>(Exchange, update.Data.Select(x =>  new SharedPosition(x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
+                {
+                    AverageEntryPrice = x.AveragePrice,
+                    PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity < 0 ? SharedPositionSide.Short : SharedPositionSide.Long) : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
+                    UnrealizedPnl = x.UnrealizedPnl,
+                    InitialMargin = x.InitialMarginRequirement,
+                    MaintenanceMargin = x.MaintenanceMarginRequirement,
+                    Leverage = x.Leverage
+                }))),
+                ct: ct).ConfigureAwait(false);
+
+            return new ExchangeResult<UpdateSubscription>(Exchange, result);
+        }
+
+        #endregion
     }
 }
