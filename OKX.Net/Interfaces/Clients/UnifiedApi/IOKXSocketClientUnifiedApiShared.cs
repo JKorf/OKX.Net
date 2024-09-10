@@ -14,6 +14,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         IOrderBookSocketClient,
         IBalanceSocketClient,
         ISpotOrderSocketClient,
+        IFuturesOrderSocketClient,
         IUserTradeSocketClient
     {
     }
