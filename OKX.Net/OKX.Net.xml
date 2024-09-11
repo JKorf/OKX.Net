@@ -140,7 +140,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(System.String,OKX.Net.Enums.MarginMode,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetInterestAccruedAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.MarginMode},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
@@ -1124,7 +1124,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.Threading.CancellationToken)">
             <summary>
             Get Fee Rates
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /></para>
@@ -1133,6 +1133,7 @@
             <param name="symbol">Symbol, for example `ETH-USDT`</param>
             <param name="underlying">Underlying</param>
             <param name="instrumentFamily">Instrument family</param>
+            <param name="ruleType">Rule type</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -3578,6 +3579,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXFeeRate.Exercise">
             <summary>
             Exercise
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeRate.RuleType">
+            <summary>
+            Rule type this applies to
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXFeeRate.Fiat">

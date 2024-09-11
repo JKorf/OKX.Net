@@ -164,9 +164,10 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="underlying">Underlying</param>
     /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="ruleType">Rule type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, string? instrumentFamily = null, SymbolRuleType? ruleType = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the balances of all the assets, and the amount that is available or on hold.
