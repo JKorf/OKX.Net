@@ -32,6 +32,12 @@ public record OKXOpenInterest
     public decimal? OpenInterestAsset { get; set; }
 
     /// <summary>
+    /// Open interest in USD
+    /// </summary>
+    [JsonPropertyName("oiUsd")]
+    public decimal? OpenInterestUsd { get; set; }
+
+    /// <summary>
     /// Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]

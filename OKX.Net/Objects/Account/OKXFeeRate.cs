@@ -78,6 +78,13 @@ public record OKXFeeRate
     /// </summary>
     [JsonPropertyName("exercise")]
     public decimal? Exercise { get; set; }
+
+    /// <summary>
+    /// Rule type this applies to
+    /// </summary>
+    [JsonPropertyName("ruleType")]
+    public SymbolRuleType? RuleType { get; set; }
+
     /// <summary>
     /// Fiat fees
     /// </summary>

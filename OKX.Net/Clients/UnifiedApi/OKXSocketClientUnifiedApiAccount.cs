@@ -12,6 +12,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     private readonly OKXSocketClientUnifiedApi _client;
 
     private readonly ILogger _logger;
+
     #region ctor
 
     internal OKXSocketClientUnifiedApiAccount(ILogger logger, OKXSocketClientUnifiedApi client)

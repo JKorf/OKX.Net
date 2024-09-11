@@ -26,6 +26,12 @@ public record OKXDepositAddress
     public string? Memo { get; set; }
 
     /// <summary>
+    /// Deposit address attachment, e.g. TONCOIN attached tag name is comment, the return will be {'comment':'123456'}
+    /// </summary>
+    [JsonPropertyName("addrEx")]
+    public Dictionary<string, string>? Attachment { get; set; }
+
+    /// <summary>
     /// Payment id
     /// </summary>
     [JsonPropertyName("pmtId")]
