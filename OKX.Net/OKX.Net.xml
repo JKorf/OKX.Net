@@ -4685,6 +4685,11 @@
             Memo
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXDepositAddress.Attachment">
+            <summary>
+            Deposit address attachment, e.g. TONCOIN attached tag name is comment, the return will be {'comment':'123456'}
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Funding.OKXDepositAddress.DepositPaymentId">
             <summary>
             Payment id
