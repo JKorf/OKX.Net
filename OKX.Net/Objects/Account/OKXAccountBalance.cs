@@ -280,4 +280,46 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonPropertyName("coinUsdPrice")]
     public decimal? AssetUsdPrice { get; set; }
+
+    /// <summary>
+    /// Spot balance. The unit is currency, e.g. BTC
+    /// </summary>
+    [JsonPropertyName("spotBal")]
+    public decimal? SpotBalance { get; set; }
+
+    /// <summary>
+    /// Spot average cost price. The unit is USD
+    /// </summary>
+    [JsonPropertyName("openAvgPx")]
+    public decimal? SpotAverageOpenPrice { get; set; }
+
+    /// <summary>
+    /// Spot accumulated cost price. The unit is USD
+    /// </summary>
+    [JsonPropertyName("accAvgPx")]
+    public decimal? SpotAccumulatedCostPrice { get; set; }
+
+    /// <summary>
+    /// Spot unrealized profit and loss. The unit is USD
+    /// </summary>
+    [JsonPropertyName("spotUpl")]
+    public decimal? SpotUnrealizedPnl { get; set; }
+
+    /// <summary>
+    /// Spot unrealized profit and loss ratio
+    /// </summary>
+    [JsonPropertyName("spotUplRatio")]
+    public decimal? SpotUnrealizedPnlRatio { get; set; }
+
+    /// <summary>
+    /// Spot accumulated profit and loss. The unit is USD
+    /// </summary>
+    [JsonPropertyName("totalPnl")]
+    public decimal? SpotPnl { get; set; }
+
+    /// <summary>
+    /// Spot accumulated profit and loss ratio
+    /// </summary>
+    [JsonPropertyName("totalPnlRatio")]
+    public decimal? SpotPnlRatio { get; set; }
 }
