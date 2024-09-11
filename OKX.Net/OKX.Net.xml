@@ -2975,6 +2975,41 @@
             Price index usd of the asset
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotBalance">
+            <summary>
+            Spot balance. The unit is currency, e.g. BTC
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotAverageOpenPrice">
+            <summary>
+            Spot average cost price. The unit is USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotAccumulatedCostPrice">
+            <summary>
+            Spot accumulated cost price. The unit is USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotUnrealizedPnl">
+            <summary>
+            Spot unrealized profit and loss. The unit is USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotUnrealizedPnlRatio">
+            <summary>
+            Spot unrealized profit and loss ratio
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotPnl">
+            <summary>
+            Spot accumulated profit and loss. The unit is USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotPnlRatio">
+            <summary>
+            Spot accumulated profit and loss ratio
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">
             <summary>
             Account bill info
@@ -6607,6 +6642,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXOpenInterest.OpenInterestAsset">
             <summary>
             Open interest asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXOpenInterest.OpenInterestUsd">
+            <summary>
+            Open interest in USD
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXOpenInterest.Time">
