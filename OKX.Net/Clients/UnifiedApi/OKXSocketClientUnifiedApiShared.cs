@@ -234,11 +234,11 @@ namespace OKX.Net.Clients.UnifiedApi
         SubscriptionOptions<SubscribePositionRequest> IPositionSocketClient.SubscribePositionOptions { get; } = new SubscriptionOptions<SubscribePositionRequest>(true);
         async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(SubscribePositionRequest request, Action<ExchangeEvent<IEnumerable<SharedPosition>>> handler, CancellationToken ct)
         {
-            var validationError = ((IUserTradeSocketClient)this).SubscribeUserTradeOptions.ValidateRequest(Exchange, request, request.ApiType, SupportedApiTypes);
+            var validationError = ((IPositionSocketClient)this).SubscribePositionOptions.ValidateRequest(Exchange, request, request.ApiType, SupportedApiTypes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
-            var instrType = apiType == null ? InstrumentType.Any : apiType.Value.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+            var instrType = request.ApiType == null ? InstrumentType.Any : request.ApiType.Value.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
             var result = await Trading.SubscribeToPositionUpdatesAsync(
                 instrType,
                 null,
