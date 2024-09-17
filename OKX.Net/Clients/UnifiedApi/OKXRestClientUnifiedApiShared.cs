@@ -569,7 +569,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return depositAddresses.AsExchangeResult(Exchange, depositAddresses.Data.Where(x => request.Network == null ? true : x.Network == request.Network).Select(x => new SharedDepositAddress(request.Asset, x.Address)
             {
-                Tag = x.Memo,
+                TagOrMemo = x.Memo,
                 Network = x.Network
             }
             ));
