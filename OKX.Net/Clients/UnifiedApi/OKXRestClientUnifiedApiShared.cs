@@ -1064,7 +1064,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         EndpointOptions<ClosePositionRequest> IFuturesOrderRestClient.ClosePositionOptions { get; } = new EndpointOptions<ClosePositionRequest>(true)
         {
-            ExchangeRequestInfo = "No order id returned by the API for this",
+            RequestNotes = "No order id returned by the API for this",
             RequiredOptionalParameters = new List<ParameterDescription>
             {
                 new ParameterDescription(nameof(ClosePositionRequest.MarginMode), typeof(SharedMarginMode), "Cross or isolated margin position", SharedMarginMode.Cross)
@@ -1375,7 +1375,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<SharedPositionModeResult>(Exchange, default);
 
-            return result.AsExchangeResult(Exchange, new SharedPositionModeResult(result.Data.PositionMode == PositionMode.LongShortMode ? SharedPositionMode.LongShort : SharedPositionMode.OneWay));
+            return result.AsExchangeResult(Exchange, new SharedPositionModeResult(result.Data.PositionMode == PositionMode.LongShortMode ? SharedPositionMode.HedgeMode : SharedPositionMode.OneWay));
         }
 
         SetPositionModeOptions IPositionModeRestClient.SetPositionModeOptions { get; } = new SetPositionModeOptions(true, true, false);
@@ -1385,7 +1385,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return new ExchangeWebResult<SharedPositionModeResult>(Exchange, validationError);
 
-            var result = await Account.SetPositionModeAsync(request.Mode == SharedPositionMode.LongShort ? PositionMode.LongShortMode : PositionMode.NetMode, ct: ct).ConfigureAwait(false);
+            var result = await Account.SetPositionModeAsync(request.Mode == SharedPositionMode.HedgeMode ? PositionMode.LongShortMode : PositionMode.NetMode, ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedPositionModeResult>(Exchange, default);
 
