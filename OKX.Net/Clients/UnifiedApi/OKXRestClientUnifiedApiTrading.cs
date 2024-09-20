@@ -23,7 +23,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        TradeMode? tradeMode = null,
+        Enums.TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
@@ -49,7 +49,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"tag", _baseClient._ref },
             {"clOrdId",  clientOrderId },
         };
-        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
+        parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
@@ -101,7 +101,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        TradeMode? tradeMode = null,
+        Enums.TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
@@ -119,7 +119,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
             {"tag", _baseClient._ref },
         };
-        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
+        parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
@@ -521,7 +521,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol,
-        TradeMode tradeMode,
+        Enums.TradeMode tradeMode,
         OrderSide orderSide,
         AlgoOrderType algoOrderType,
         decimal? quantity = null,

@@ -248,7 +248,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="leverage">Leverage</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, TradeMode tradeMode, string? asset = null, decimal? price = null, int? leverage = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(string symbol, Enums.TradeMode tradeMode, string? asset = null, decimal? price = null, int? leverage = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get Maximum Available Tradable Amount
@@ -260,7 +260,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="reduceOnly">Reduce Only</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMaximumAvailableAmount>>> GetMaximumAvailableAmountAsync(string symbol, TradeMode tradeMode, string? asset = null, bool? reduceOnly = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMaximumAvailableAmount>>> GetMaximumAvailableAmountAsync(string symbol, Enums.TradeMode tradeMode, string? asset = null, bool? reduceOnly = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the maximum loan of a instrument

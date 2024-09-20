@@ -83,7 +83,7 @@ public record OKXAlgoOrder
     /// Trade mode
     /// </summary>
     [JsonPropertyName("tdMode"), JsonConverter(typeof(EnumConverter))]
-    public TradeMode TradeMode { get; set; }
+    public Enums.TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order type

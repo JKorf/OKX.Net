@@ -60,9 +60,9 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset, ApiType apiType, DateTime? deliverTime = null)
+    public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode apiType, DateTime? deliverTime = null)
     {
-        if (apiType == ApiType.Spot)
+        if (apiType == TradingMode.Spot)
             return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
 
         if (deliverTime == null)

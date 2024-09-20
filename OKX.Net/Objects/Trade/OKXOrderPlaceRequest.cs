@@ -17,7 +17,7 @@ public record OKXOrderPlaceRequest
     /// Trade mode
     /// </summary>
     [JsonPropertyName("tdMode"), JsonConverter(typeof(EnumConverter))]
-    public TradeMode TradeMode { get; set; }
+    public Enums.TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order side
