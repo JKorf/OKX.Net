@@ -1,17 +1,9 @@
 ﻿using OKX.Net;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using CryptoExchange.Net.SharedApis.ResponseModels;
-using CryptoExchange.Net.SharedApis.Enums;
+using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Objects.Sockets;
-using CryptoExchange.Net.SharedApis.Models.Socket;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket;
-using CryptoExchange.Net.SharedApis.Models;
 using OKX.Net.Enums;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Futures;
 using OKX.Net.Objects.Trade;
-using CryptoExchange.Net.SharedApis.Interfaces.Socket.Spot;
-using CryptoExchange.Net.SharedApis.Models.Options.Subscriptions;
-using CryptoExchange.Net.SharedApis.Models.Options.Endpoints;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -147,7 +139,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId?.ToString(),
-                        Quantity = ParseQuantity(update.Data),// ((update.Data.QuantityType == null || update.Data.QuantityType == QuantityAsset.QuoteAsset) && update.Data.OrderType == Enums.OrderType.Market && update.Data.OrderSide == Enums.OrderSide.Buy) ? null : update.Data.QuantityType == Enums.QuantityAsset.QuoteAsset ? null : update.Data.Quantity,
+                        Quantity = ParseQuantity(update.Data),
                         QuantityFilled = update.Data.AccumulatedFillQuantity,
                         QuoteQuantity = ParseQuoteQuantity(update.Data),
                         AveragePrice = update.Data.AveragePrice,
@@ -155,7 +147,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         OrderPrice = update.Data.Price,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = update.Data.FillFee,
                             FeeAsset = update.Data.FillFeeAsset,
@@ -199,7 +191,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         PositionSide = update.Data.PositionSide == PositionSide.Net ? null : update.Data.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = Math.Abs(update.Data.FillFee),
                             FeeAsset = update.Data.FillFeeAsset,
@@ -244,6 +236,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.Symbol,
                         update.Data.OrderId.ToString(),
                         update.Data.TradeId.ToString(),
+                        update.Data.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                         update.Data.Quantity,
                         update.Data.Price,
                         update.Data.Timestamp)

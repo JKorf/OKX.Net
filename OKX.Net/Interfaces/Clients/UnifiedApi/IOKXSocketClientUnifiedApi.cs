@@ -5,6 +5,9 @@
 /// </summary>
 public interface IOKXSocketClientUnifiedApi : ISocketApiClient
 {
+    /// <summary>
+    /// Get the shared socket subscription client
+    /// </summary>
     IOKXSocketClientUnifiedApiShared SharedClient { get; }
 
     /// <summary>

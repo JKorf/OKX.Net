@@ -1,25 +1,9 @@
 ﻿using OKX.Net.Interfaces.Clients.UnifiedApi;
-using CryptoExchange.Net.Objects;
-using CryptoExchange.Net.SharedApis.Interfaces;
-using CryptoExchange.Net.SharedApis.Models.Rest;
-using CryptoExchange.Net.SharedApis.ResponseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using CryptoExchange.Net.SharedApis;
 using OKX.Net.Enums;
-using CryptoExchange.Net.SharedApis.Enums;
-using CryptoExchange.Net.SharedApis.Models;
 using OKX.Net.Objects.Market;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Futures;
 using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Public;
-using CryptoExchange.Net.SharedApis.Models.Options.Endpoints;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Models.Options;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -325,19 +309,27 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedSpotOrder>>(Exchange, validationError);
 
-            var order = await Trading.GetOrderHistoryAsync(
+            string? fromId = null;
+            if (pageToken is FromIdToken token)
+                fromId = token.FromToken;
+
+            var limit = request.Limit ?? 100;
+            var order = await Trading.GetOrderArchiveAsync(
                 InstrumentType.Spot,
                 symbol: request.Symbol.GetSymbol(FormatSymbol),
                 startTime: request.StartTime,
                 endTime: request.EndTime,
-                limit: request.Limit ?? 100,
+                limit: limit,
+                toId: fromId,
                 ct: ct).ConfigureAwait(false);
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, null, default);
 
-#warning pagination
+            FromIdToken? nextPageToken = null;
+            if (order.Data.Count() == limit)
+                nextPageToken = new FromIdToken(order.Data.Min(x => x.OrderId).ToString());
 
-            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, order.Data.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, TradingMode.Spot, order.Data.Select(x => new SharedSpotOrder(
                 x.Symbol,
                 x.OrderId.ToString(),
                 ParseOrderType(x.OrderType),
@@ -355,7 +347,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 AveragePrice = x.AveragePrice,
                 Fee = Math.Abs(x.Fee ?? 0),
                 FeeAsset = x.FeeAsset
-            }).ToArray());
+            }).ToArray(), nextPageToken);
         }
 
         EndpointOptions<GetOrderTradesRequest> ISpotOrderRestClient.GetSpotOrderTradesOptions { get; } = new EndpointOptions<GetOrderTradesRequest>(true);
@@ -377,6 +369,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
+                x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.QuantityFilled ?? 0,
                 x.FillPrice ?? 0,
                 x.FillTime)
@@ -421,6 +414,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
+                x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.QuantityFilled ?? 0,
                 x.FillPrice ?? 0,
                 x.FillTime)
@@ -968,6 +962,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
+                x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.QuantityFilled ?? 0,
                 x.FillPrice ?? 0,
                 x.FillTime)
@@ -1029,6 +1024,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
+                x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                 x.QuantityFilled ?? 0,
                 x.FillPrice ?? 0,
                 x.FillTime)

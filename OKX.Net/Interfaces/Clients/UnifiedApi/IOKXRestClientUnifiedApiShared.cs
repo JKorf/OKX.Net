@@ -1,12 +1,10 @@
-﻿using CryptoExchange.Net.SharedApis.Interfaces.Rest;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Futures;
-using CryptoExchange.Net.SharedApis.Interfaces.Rest.Spot;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CryptoExchange.Net.SharedApis;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi
 {
+    /// <summary>
+    /// Shared interface for rest API usage
+    /// </summary>
     public interface IOKXRestClientUnifiedApiShared :
         IAssetsRestClient,
         IBalanceRestClient,

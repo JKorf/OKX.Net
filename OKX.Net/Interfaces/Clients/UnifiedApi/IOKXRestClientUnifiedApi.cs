@@ -32,5 +32,9 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient
     /// </summary>
     /// <returns></returns>
     public ISpotClient CommonSpotClient { get; }
+
+    /// <summary>
+    /// Get the shared rest requests client
+    /// </summary>
     IOKXRestClientUnifiedApiShared SharedClient { get; }
 }

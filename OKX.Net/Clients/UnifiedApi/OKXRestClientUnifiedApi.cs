@@ -1,9 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Converters.MessageParsing;
-using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.RateLimiting.Interfaces;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;

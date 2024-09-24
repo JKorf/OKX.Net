@@ -974,6 +974,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.SharedClient">
+            <summary>
+            Get the shared rest requests client
+            </summary>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount">
             <summary>
             Unified account endpoints
@@ -1896,6 +1901,11 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
+        <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiShared">
+            <summary>
+            Shared interface for rest API usage
+            </summary>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiSubAccounts">
             <summary>
             Unified API subaccount endpoints
@@ -2340,6 +2350,11 @@
             Unified API
             </summary>
         </member>
+        <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SharedClient">
+            <summary>
+            Get the shared socket subscription client
+            </summary>
+        </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.Account">
             <summary>
             Account streams and queries
@@ -2573,6 +2588,11 @@
             <param name="onData">On Data Handler</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
+        </member>
+        <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiShared">
+            <summary>
+            Shared interface for socket API usage
+            </summary>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading">
             <summary>
