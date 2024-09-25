@@ -830,9 +830,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<IEnumerable<SharedFuturesOrder>>(Exchange, validationError);
 
             var symbol = request.Symbol?.GetSymbol(FormatSymbol);
-            var apiType = request.Symbol?.TradingMode ?? request.TradingMode ?? CryptoExchange.Net.Objects.TradingMode.PerpetualLinear;
+            var tradingMode = request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear;
             WebCallResult<IEnumerable<OKXOrder>> orders;
-            if (apiType.IsPerpetual())
+            if (tradingMode.IsPerpetual())
                 orders = await Trading.GetOrdersAsync(InstrumentType.Swap, symbol: symbol, ct: ct).ConfigureAwait(false);
             else
                 orders = await Trading.GetOrdersAsync(InstrumentType.Futures, symbol: symbol, ct: ct).ConfigureAwait(false);

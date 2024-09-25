@@ -59,9 +59,9 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode apiType, DateTime? deliverTime = null)
+    public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
     {
-        if (apiType == TradingMode.Spot)
+        if (tradingMode == TradingMode.Spot)
             return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
 
         if (deliverTime == null)
