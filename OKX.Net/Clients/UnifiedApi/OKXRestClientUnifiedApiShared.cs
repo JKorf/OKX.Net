@@ -654,7 +654,13 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Withdraw client
 
-        WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions();
+        WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions()
+        {
+            RequiredExchangeParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription("withdrawFee", typeof(decimal), "Fee to use for the withdrawal", 0.001m)
+            }
+        };
 
         async Task<ExchangeWebResult<SharedId>> IWithdrawRestClient.WithdrawAsync(WithdrawRequest request, CancellationToken ct)
         {
@@ -666,7 +672,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (request.AddressTag != null)
                 target += ":" + request.AddressTag;
 
-            var fee = request.ExchangeParameters?.GetValue<decimal?>(Exchange, "fee");
+            var fee = ExchangeParameters.GetValue<decimal?>(request.ExchangeParameters, Exchange, "fee");
             if (fee == null)
                 return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("OKX requires withdrawal fee parameter. Please pass it as exchangeParameter `fee`"));
 
