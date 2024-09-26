@@ -2,6 +2,7 @@
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Interfaces.CommonClients;
+using CryptoExchange.Net.SharedApis;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;

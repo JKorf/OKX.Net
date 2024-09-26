@@ -83,7 +83,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetServerTimestampAsync">
@@ -443,7 +443,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAccessor">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.Objects.TradingMode,System.Nullable{System.DateTime})">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">

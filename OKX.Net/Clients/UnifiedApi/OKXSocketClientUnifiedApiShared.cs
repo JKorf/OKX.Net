@@ -10,7 +10,7 @@ namespace OKX.Net.Clients.UnifiedApi
     internal partial class OKXSocketClientUnifiedApi : IOKXSocketClientUnifiedApiShared
     {
         public string Exchange => OKXExchange.ExchangeName;
-        public CryptoExchange.Net.Objects.TradingMode[] SupportedTradingModes { get; } = new[] { CryptoExchange.Net.Objects.TradingMode.Spot, CryptoExchange.Net.Objects.TradingMode.PerpetualLinear, CryptoExchange.Net.Objects.TradingMode.PerpetualInverse, CryptoExchange.Net.Objects.TradingMode.DeliveryLinear, CryptoExchange.Net.Objects.TradingMode.DeliveryInverse };
+        public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
@@ -125,7 +125,7 @@ namespace OKX.Net.Clients.UnifiedApi
         EndpointOptions<SubscribeSpotOrderRequest> ISpotOrderSocketClient.SubscribeSpotOrderOptions { get; } = new EndpointOptions<SubscribeSpotOrderRequest>(false);
         async Task<ExchangeResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, CancellationToken ct)
         {
-            var validationError = ((ISpotOrderSocketClient)this).SubscribeSpotOrderOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((ISpotOrderSocketClient)this).SubscribeSpotOrderOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
             var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Spot, null, null,

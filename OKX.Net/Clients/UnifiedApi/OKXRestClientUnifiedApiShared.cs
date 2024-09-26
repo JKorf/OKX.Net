@@ -10,8 +10,8 @@ namespace OKX.Net.Clients.UnifiedApi
     internal partial class OKXRestClientUnifiedApi : IOKXRestClientUnifiedApiShared
     {
         public string Exchange => OKXExchange.ExchangeName;
-        public CryptoExchange.Net.Objects.TradingMode[] SupportedTradingModes { get; } = new[] { CryptoExchange.Net.Objects.TradingMode.Spot, CryptoExchange.Net.Objects.TradingMode.PerpetualLinear, CryptoExchange.Net.Objects.TradingMode.PerpetualInverse, CryptoExchange.Net.Objects.TradingMode.DeliveryLinear, CryptoExchange.Net.Objects.TradingMode.DeliveryInverse };
-        private CryptoExchange.Net.Objects.TradingMode[] FuturesApiTypes { get; } = new[] { CryptoExchange.Net.Objects.TradingMode.PerpetualLinear, CryptoExchange.Net.Objects.TradingMode.DeliveryLinear, CryptoExchange.Net.Objects.TradingMode.PerpetualInverse, CryptoExchange.Net.Objects.TradingMode.DeliveryInverse };
+        public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse };
+        private TradingMode[] FuturesApiTypes { get; } = new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
@@ -98,7 +98,7 @@ namespace OKX.Net.Clients.UnifiedApi
         EndpointOptions<GetSymbolsRequest> ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new EndpointOptions<GetSymbolsRequest>(false);
         async Task<ExchangeWebResult<IEnumerable<SharedSpotSymbol>>> ISpotSymbolRestClient.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
-            var validationError = ((ISpotSymbolRestClient)this).GetSpotSymbolsOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((ISpotSymbolRestClient)this).GetSpotSymbolsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedSpotSymbol>>(Exchange, validationError);
 
@@ -106,7 +106,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, null, default);
 
-            return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, result.Data.Select(s => new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol, s.State == InstrumentState.Live)
+            return result.AsExchangeResult<IEnumerable<SharedSpotSymbol>>(Exchange, TradingMode.Spot, result.Data.Select(s => new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol, s.State == InstrumentState.Live)
             {
                 MaxTradeQuantity = Math.Min(s.MaxLimitQuantity ?? decimal.MaxValue, s.MaxMarketQuantity ?? decimal.MaxValue),
                 MinTradeQuantity = s.MinimumOrderSize,
@@ -131,13 +131,13 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<SharedSpotTicker>(Exchange, null, default);
 
-            return result.AsExchangeResult(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, new SharedSpotTicker(symbol, result.Data.LastPrice ?? 0, result.Data.HighPrice ?? 0, result.Data.LowPrice ?? 0, result.Data.Volume, result.Data.OpenPrice == null ? null : Math.Round((result.Data.LastPrice ?? 0) / result.Data.OpenPrice.Value * 100 - 100, 2)));
+            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedSpotTicker(symbol, result.Data.LastPrice ?? 0, result.Data.HighPrice ?? 0, result.Data.LowPrice ?? 0, result.Data.Volume, result.Data.OpenPrice == null ? null : Math.Round((result.Data.LastPrice ?? 0) / result.Data.OpenPrice.Value * 100 - 100, 2)));
         }
 
         EndpointOptions<GetTickersRequest> ISpotTickerRestClient.GetSpotTickersOptions { get; } = new EndpointOptions<GetTickersRequest>(false);
         async Task<ExchangeWebResult<IEnumerable<SharedSpotTicker>>> ISpotTickerRestClient.GetSpotTickersAsync(GetTickersRequest request, CancellationToken ct)
         {
-            var validationError = ((ISpotTickerRestClient)this).GetSpotTickersOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((ISpotTickerRestClient)this).GetSpotTickersOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedSpotTicker>>(Exchange, validationError);
 
@@ -145,7 +145,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedSpotTicker>>(Exchange, null, default);
 
-            return result.AsExchangeResult<IEnumerable<SharedSpotTicker>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, result.Data.Select(x => new SharedSpotTicker(x.Symbol, x.LastPrice ?? 0, x.HighPrice ?? 0, x.LowPrice ?? 0, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))).ToArray());
+            return result.AsExchangeResult<IEnumerable<SharedSpotTicker>>(Exchange, TradingMode.Spot, result.Data.Select(x => new SharedSpotTicker(x.Symbol, x.LastPrice ?? 0, x.HighPrice ?? 0, x.LowPrice ?? 0, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))).ToArray());
         }
 
         #endregion
@@ -248,7 +248,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!order)
                 return order.AsExchangeResult<SharedSpotOrder>(Exchange, null, default);
 
-            return order.AsExchangeResult(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, new SharedSpotOrder(
+            return order.AsExchangeResult(Exchange, TradingMode.Spot, new SharedSpotOrder(
                 order.Data.Symbol,
                 order.Data.OrderId.ToString(),
                 ParseOrderType(order.Data.OrderType),
@@ -281,7 +281,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, null, default);
 
-            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, order.Data.Select(x => new SharedSpotOrder(
+            return order.AsExchangeResult<IEnumerable<SharedSpotOrder>>(Exchange, TradingMode.Spot, order.Data.Select(x => new SharedSpotOrder(
                 x.Symbol,
                 x.OrderId.ToString(),
                 ParseOrderType(x.OrderType),
@@ -365,7 +365,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!order)
                 return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, null, default);
 
-            return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, order.Data.Select(x => new SharedUserTrade(
+            return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, TradingMode.Spot, order.Data.Select(x => new SharedUserTrade(
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
@@ -410,7 +410,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (order.Data.Count() == (request.Limit ?? 100))
                 nextToken = new FromIdToken(order.Data.Max(o => o.TradeId).ToString());
 
-            return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, order.Data.Select(x => new SharedUserTrade(
+            return order.AsExchangeResult<IEnumerable<SharedUserTrade>>(Exchange, TradingMode.Spot, order.Data.Select(x => new SharedUserTrade(
                 x.Symbol,
                 x.OrderId.ToString(),
                 x.TradeId.ToString(),
@@ -484,7 +484,7 @@ namespace OKX.Net.Clients.UnifiedApi
         EndpointOptions<GetAssetRequest> IAssetsRestClient.GetAssetOptions { get; } = new EndpointOptions<GetAssetRequest>(false);
         async Task<ExchangeWebResult<SharedAsset>> IAssetsRestClient.GetAssetAsync(GetAssetRequest request, CancellationToken ct)
         {
-            var validationError = ((IAssetsRestClient)this).GetAssetOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IAssetsRestClient)this).GetAssetOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedAsset>(Exchange, validationError);
 
@@ -495,7 +495,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!assets.Data.Any())
                 return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError("Asset not found"));
 
-            return assets.AsExchangeResult<SharedAsset>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, new SharedAsset(request.Asset)
+            return assets.AsExchangeResult<SharedAsset>(Exchange, TradingMode.Spot, new SharedAsset(request.Asset)
             {
                 FullName = assets.Data.First().Name,
                 Networks = assets.Data.Select(x => new SharedAssetNetwork(x.Network)
@@ -512,7 +512,7 @@ namespace OKX.Net.Clients.UnifiedApi
         EndpointOptions<GetAssetsRequest> IAssetsRestClient.GetAssetsOptions { get; } = new EndpointOptions<GetAssetsRequest>(true);
         async Task<ExchangeWebResult<IEnumerable<SharedAsset>>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
         {
-            var validationError = ((IAssetsRestClient)this).GetAssetsOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IAssetsRestClient)this).GetAssetsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedAsset>>(Exchange, validationError);
 
@@ -520,7 +520,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!assets)
                 return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, null, default);
 
-            return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
+            return assets.AsExchangeResult<IEnumerable<SharedAsset>>(Exchange, TradingMode.Spot, assets.Data.GroupBy(x => x.Asset).Select(x => new SharedAsset(x.Key)
             {
                 FullName = x.First().Name,
                 Networks = x.Select(x => new SharedAssetNetwork(x.Network)
@@ -561,7 +561,7 @@ namespace OKX.Net.Clients.UnifiedApi
         EndpointOptions<GetDepositAddressesRequest> IDepositRestClient.GetDepositAddressesOptions { get; } = new EndpointOptions<GetDepositAddressesRequest>(true);
         async Task<ExchangeWebResult<IEnumerable<SharedDepositAddress>>> IDepositRestClient.GetDepositAddressesAsync(GetDepositAddressesRequest request, CancellationToken ct)
         {
-            var validationError = ((IDepositRestClient)this).GetDepositAddressesOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IDepositRestClient)this).GetDepositAddressesOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedDepositAddress>>(Exchange, validationError);
 
@@ -569,7 +569,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!depositAddresses)
                 return depositAddresses.AsExchangeResult<IEnumerable<SharedDepositAddress>>(Exchange, null, default);
 
-            return depositAddresses.AsExchangeResult<IEnumerable<SharedDepositAddress>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, depositAddresses.Data.Where(x => request.Network == null ? true : x.Network == request.Network).Select(x => new SharedDepositAddress(request.Asset, x.Address)
+            return depositAddresses.AsExchangeResult<IEnumerable<SharedDepositAddress>>(Exchange, TradingMode.Spot, depositAddresses.Data.Where(x => request.Network == null ? true : x.Network == request.Network).Select(x => new SharedDepositAddress(request.Asset, x.Address)
             {
                 TagOrMemo = x.Memo,
                 Network = x.Network
@@ -580,7 +580,7 @@ namespace OKX.Net.Clients.UnifiedApi
         GetDepositsOptions IDepositRestClient.GetDepositsOptions { get; } = new GetDepositsOptions(SharedPaginationSupport.Descending, true);
         async Task<ExchangeWebResult<IEnumerable<SharedDeposit>>> IDepositRestClient.GetDepositsAsync(GetDepositsRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
-            var validationError = ((IDepositRestClient)this).GetDepositsOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IDepositRestClient)this).GetDepositsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedDeposit>>(Exchange, validationError);
 
@@ -604,7 +604,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (deposits.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(deposits.Data.Min(x => x.Time).AddMilliseconds(-1));
 
-            return deposits.AsExchangeResult<IEnumerable<SharedDeposit>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, deposits.Data.Select(x => new SharedDeposit(x.Asset, x.Quantity, x.State == DepositState.Successful, x.Time)
+            return deposits.AsExchangeResult<IEnumerable<SharedDeposit>>(Exchange, TradingMode.Spot, deposits.Data.Select(x => new SharedDeposit(x.Asset, x.Quantity, x.State == DepositState.Successful, x.Time)
             {
                 Network = x.Network,
                 TransactionId = x.TransactionId
@@ -618,7 +618,7 @@ namespace OKX.Net.Clients.UnifiedApi
         GetWithdrawalsOptions IWithdrawalRestClient.GetWithdrawalsOptions { get; } = new GetWithdrawalsOptions(SharedPaginationSupport.Descending, true);
         async Task<ExchangeWebResult<IEnumerable<SharedWithdrawal>>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
-            var validationError = ((IWithdrawalRestClient)this).GetWithdrawalsOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IWithdrawalRestClient)this).GetWithdrawalsOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedWithdrawal>>(Exchange, validationError);
 
@@ -642,7 +642,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (withdrawals.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(withdrawals.Data.Min(x => x.Time).AddMilliseconds(-1));
 
-            return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, withdrawals.Data.Select(x => new SharedWithdrawal(x.Asset, x.To, x.Quantity, x.State == WithdrawalState.Success, x.Time)
+            return withdrawals.AsExchangeResult<IEnumerable<SharedWithdrawal>>(Exchange, TradingMode.Spot, withdrawals.Data.Select(x => new SharedWithdrawal(x.Asset, x.To, x.Quantity, x.State == WithdrawalState.Success, x.Time)
             {
                 Network = x.Network,
                 TransactionId = x.TransactionId,
@@ -664,7 +664,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         async Task<ExchangeWebResult<SharedId>> IWithdrawRestClient.WithdrawAsync(WithdrawRequest request, CancellationToken ct)
         {
-            var validationError = ((IWithdrawRestClient)this).WithdrawOptions.ValidateRequest(Exchange, request, CryptoExchange.Net.Objects.TradingMode.Spot, SupportedTradingModes);
+            var validationError = ((IWithdrawRestClient)this).WithdrawOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
@@ -688,7 +688,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!withdrawal)
                 return withdrawal.AsExchangeResult<SharedId>(Exchange, null, default);
 
-            return withdrawal.AsExchangeResult(Exchange, CryptoExchange.Net.Objects.TradingMode.Spot, new SharedId(withdrawal.Data.WithdrawalId));
+            return withdrawal.AsExchangeResult(Exchange, TradingMode.Spot, new SharedId(withdrawal.Data.WithdrawalId));
         }
 
         #endregion
@@ -702,7 +702,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedFuturesSymbol>>(Exchange, validationError);
 
-            var type = (!request.TradingMode.HasValue || request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualLinear || request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualInverse) ? InstrumentType.Swap : InstrumentType.Futures;
+            var type = (!request.TradingMode.HasValue || request.TradingMode == TradingMode.PerpetualLinear || request.TradingMode == TradingMode.PerpetualInverse) ? InstrumentType.Swap : InstrumentType.Futures;
             var result = await ExchangeData.GetSymbolsAsync(type, ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange, null, default);
@@ -710,9 +710,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var data = result.Data;
             if (request.TradingMode.HasValue)
                 data = data.Where(x =>
-                    request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
-                    request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
-                    request.TradingMode == CryptoExchange.Net.Objects.TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
+                    request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
+                    request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
+                    request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
                     (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
             return result.AsExchangeResult<IEnumerable<SharedFuturesSymbol>>(Exchange,
                 request.TradingMode == null ? FuturesApiTypes : new[] { request.TradingMode.Value },
@@ -1388,7 +1388,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return new ExchangeWebResult<IEnumerable<SharedFuturesTicker>>(Exchange, validationError);
 
-            var type = !request.TradingMode.HasValue || request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualLinear || request.TradingMode == CryptoExchange.Net.Objects.TradingMode.PerpetualInverse ? InstrumentType.Swap : InstrumentType.Futures;
+            var type = !request.TradingMode.HasValue || request.TradingMode == TradingMode.PerpetualLinear || request.TradingMode == TradingMode.PerpetualInverse ? InstrumentType.Swap : InstrumentType.Futures;
             var resultTickers = ExchangeData.GetTickersAsync(type, ct: ct);
             var resultMarkPrice = ExchangeData.GetMarkPricesAsync(type, ct: ct);
             await Task.WhenAll(resultTickers, resultMarkPrice).ConfigureAwait(false);
@@ -1398,7 +1398,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return resultMarkPrice.Result.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange, null, default);
 
             return resultTickers.Result.AsExchangeResult<IEnumerable<SharedFuturesTicker>>(Exchange,
-                type == InstrumentType.Swap ? new[] { CryptoExchange.Net.Objects.TradingMode.PerpetualLinear, CryptoExchange.Net.Objects.TradingMode.PerpetualInverse } : new[] { CryptoExchange.Net.Objects.TradingMode.DeliveryLinear, CryptoExchange.Net.Objects.TradingMode.DeliveryInverse },
+                type == InstrumentType.Swap ? new[] { TradingMode.PerpetualLinear, TradingMode.PerpetualInverse } : new[] { TradingMode.DeliveryLinear, TradingMode.DeliveryInverse },
                 resultTickers.Result.Data.Select(x =>
             {
                 var markPrice = resultMarkPrice.Result.Data.Single(p => p.Symbol == x.Symbol);
