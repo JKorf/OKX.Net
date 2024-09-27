@@ -292,7 +292,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol, 
-        TradeMode tradeMode, 
+        Enums.TradeMode tradeMode, 
         OrderSide orderSide, 
         AlgoOrderType algoOrderType, 
         decimal? quantity = null,
@@ -364,7 +364,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        TradeMode? tradeMode = null,
+        Enums.TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
@@ -409,7 +409,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        TradeMode? tradeMode = null,
+        Enums.TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,

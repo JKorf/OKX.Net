@@ -1,9 +1,8 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.CommonObjects;
 using CryptoExchange.Net.Converters.MessageParsing;
-using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Interfaces.CommonClients;
-using CryptoExchange.Net.RateLimiting.Interfaces;
+using CryptoExchange.Net.SharedApis;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
@@ -11,7 +10,7 @@ using OKX.Net.Objects.Options;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
-internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi, ISpotClient
+internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi, ISpotClient
 {
     #region Internal Fields
     private static TimeSyncState _timeSyncState = new("Unified Api");
@@ -29,6 +28,7 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
     public string ExchangeName => "OKX";
 
     public ISpotClient CommonSpotClient => this;
+    public IOKXRestClientUnifiedApiShared SharedClient => this;
 
     internal OKXRestClientUnifiedApi(ILogger logger, HttpClient? httpClient, OKXRestOptions options)
             : base(logger, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
@@ -60,7 +60,16 @@ internal class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
         => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
 
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+    public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+    {
+        if (tradingMode == TradingMode.Spot)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
+        if (deliverTime == null)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-SWAP";
+
+        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-" + deliverTime.Value.ToString("yyMMdd");
+    }
 
     internal Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
            => base.SendAsync(BaseAddress, definition, parameters, cancellationToken, null, weight);

@@ -220,7 +220,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumAmount>>> GetMaximumAmountAsync(
         string symbol,
-        TradeMode tradeMode,
+        Enums.TradeMode tradeMode,
         string? asset = null,
         decimal? price = null,
         int? leverage = null,
@@ -242,7 +242,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumAvailableAmount>>> GetMaximumAvailableAmountAsync(
         string symbol,
-        TradeMode tradeMode,
+        Enums.TradeMode tradeMode,
         string? asset = null,
         bool? reduceOnly = null,
         CancellationToken ct = default)

@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
@@ -14,7 +15,7 @@ using System.Net.WebSockets;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
+internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
 {
     private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
     private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
@@ -57,8 +58,19 @@ internal class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnif
     /// <inheritdoc />
     protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
 
+    public IOKXSocketClientUnifiedApiShared SharedClient => this;
+
     /// <inheritdoc />
-    public override string FormatSymbol(string baseAsset, string quoteAsset) => baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+    public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+    {
+        if (tradingMode == TradingMode.Spot)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
+        if (deliverTime == null)
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-SWAP";
+
+        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-" + deliverTime.Value.ToString("yyMMdd");
+    }
 
     /// <inheritdoc />
     public override string GetListenerIdentifier(IMessageAccessor message)

@@ -109,7 +109,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
         OrderSide side,
         OrderType type,
-        TradeMode tradeMode,
+        Enums.TradeMode tradeMode,
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,

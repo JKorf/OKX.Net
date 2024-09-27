@@ -352,9 +352,6 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
 
-        if (instrumentType == InstrumentType.Swap && string.IsNullOrEmpty(underlying))
-            throw new ArgumentException("Underlying is required for Option.");
-
         var parameters = new ParameterCollection();
         parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("uly", underlying);
