@@ -141,6 +141,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.4.0 - 27 Sep 2024
+    * Updated CryptoExchange.Net to version 8.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.0
+    * Added Shared client interfaces implementation for Unified Rest and Socket clients
+    * Updated Sourcelink package version
+    * Fixed UnifiedApi.ExchangeData.GetOpenInterestsAsync request for Swap instruments
+    * Marked ISpotClient references as deprecated
+
 * Version 2.3.1 - 11 Sep 2024
     * Added Spot fields to Balance response models
     * Added OpenInterestUsd field to ExchangeData.GetOpenInterestAsync response model
