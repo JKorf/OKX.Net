@@ -6137,7 +6137,17 @@
             Discount level
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.MinDiscountRate">
+            <summary>
+            Minimal discount rate
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.Details">
+            <summary>
+            DEPRECATED, use DiscountDetails instead
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.DiscountDetails">
             <summary>
             Discount info
             </summary>
@@ -6160,6 +6170,41 @@
         <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountInfoDetail.MinimumAmount">
             <summary>
             Min amount
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXPublicDiscountDetails">
+            <summary>
+            Discount details
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.DiscountRate">
+            <summary>
+            Discount rate
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.MaximumAmount">
+            <summary>
+            Max amount
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.MinimumAmount">
+            <summary>
+            Min amount
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.Tier">
+            <summary>
+            Tier
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.LiquidationPenaltyRate">
+            <summary>
+            Liquidation penalty rate
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXPublicDiscountDetails.DiscountAssetEquity">
+            <summary>
+            Discount equity in currency for quick calculation if your equity is the MaximumAmount
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXEstimatedPrice">

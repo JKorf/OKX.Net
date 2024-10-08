@@ -24,10 +24,22 @@ public record OKXDiscountInfo
     public int DiscountLevel { get; set; }
 
     /// <summary>
-    /// Discount info
+    /// Minimal discount rate
+    /// </summary>
+    [JsonPropertyName("minDiscountRate")]
+    public decimal? MinDiscountRate { get; set; }
+
+    /// <summary>
+    /// DEPRECATED, use DiscountDetails instead
     /// </summary>
     [JsonPropertyName("discountInfo")]
     public IEnumerable<OKXPublicDiscountInfoDetail> Details { get; set; } = Array.Empty<OKXPublicDiscountInfoDetail>();
+
+    /// <summary>
+    /// Discount info
+    /// </summary>
+    [JsonPropertyName("details")]
+    public IEnumerable<OKXPublicDiscountDetails> DiscountDetails { get; set; } = Array.Empty<OKXPublicDiscountDetails>();
 }
 
 /// <summary>
@@ -52,4 +64,46 @@ public record OKXPublicDiscountInfoDetail
     /// </summary>
     [JsonPropertyName("minAmt")]
     public decimal? MinimumAmount { get; set; }
+}
+
+/// <summary>
+/// Discount details
+/// </summary>
+public record OKXPublicDiscountDetails
+{
+    /// <summary>
+    /// Discount rate
+    /// </summary>
+    [JsonPropertyName("discountRate")]
+    public decimal? DiscountRate { get; set; }
+
+    /// <summary>
+    /// Max amount
+    /// </summary>
+    [JsonPropertyName("maxAmt")]
+    public decimal? MaximumAmount { get; set; }
+
+    /// <summary>
+    /// Min amount
+    /// </summary>
+    [JsonPropertyName("minAmt")]
+    public decimal? MinimumAmount { get; set; }
+
+    /// <summary>
+    /// Tier
+    /// </summary>
+    [JsonPropertyName("tier")]
+    public string? Tier { get; set; }
+
+    /// <summary>
+    /// Liquidation penalty rate
+    /// </summary>
+    [JsonPropertyName("liqPenaltyRate")]
+    public decimal? LiquidationPenaltyRate { get; set; }
+
+    /// <summary>
+    /// Discount equity in currency for quick calculation if your equity is the MaximumAmount
+    /// </summary>
+    [JsonPropertyName("disCcyEq")]
+    public decimal? DiscountAssetEquity { get; set; }
 }
