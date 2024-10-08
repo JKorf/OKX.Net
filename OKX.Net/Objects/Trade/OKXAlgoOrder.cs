@@ -293,4 +293,11 @@ public record OKXAlgoOrder
     [JsonPropertyName("amendPxOnTriggerType")]
     [JsonConverter(typeof(BoolConverter))]
     public bool CostPriceSlEnabled { get; set; }
+
+    /// <summary>
+    /// Whether borrowing asset automatically
+    /// </summary>
+    [JsonPropertyName("isTradeBorrowMode")]
+    [JsonConverter(typeof(BoolConverter))]
+    public bool? IsTradeBorrowMode { get; set; }
 }
