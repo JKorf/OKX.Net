@@ -1,6 +1,6 @@
 GET
 /api/v5/support/announcements
-false
+true
 {
     "code": "0",
     "data": [
