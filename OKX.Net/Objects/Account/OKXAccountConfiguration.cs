@@ -130,4 +130,16 @@ public record OKXAccountConfiguration
     /// </summary>
     [JsonPropertyName("mainUid")]
     public string MainUserId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Whether borrow is allowed or not in Spot mode
+    /// </summary>
+    [JsonPropertyName("enableSpotBorrow")]
+    public bool SpotBorrowEnabled { get; set; }
+
+    /// <summary>
+    /// Whether auto-repay is allowed or not in Spot mode
+    /// </summary>
+    [JsonPropertyName("spotBorrowAutoRepay")]
+    public bool SpotBorrowAutoRepay { get; set; }
 }
