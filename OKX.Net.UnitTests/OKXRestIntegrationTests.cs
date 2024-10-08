@@ -57,7 +57,7 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetBillHistoryAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetBillArchiveAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAccountConfigurationAsync(default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetLeverageAsync("ETH-USDT", Enums.MarginMode.Isolated, default), true);
+            await RunAndCheckResult(client => client.UnifiedApi.Account.GetLeverageAsync("ETH-USDT", Enums.MarginMode.Isolated, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAvailableAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetFeeRatesAsync(Enums.InstrumentType.Spot, "ETH-USDT", default, default, default, default), true);

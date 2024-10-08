@@ -122,7 +122,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetPositionModeAsync(OKX.Net.Enums.PositionMode,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetLeverageAsync(System.String,OKX.Net.Enums.MarginMode,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetLeverageAsync(System.String,OKX.Net.Enums.MarginMode,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetLeverageAsync(System.Int32,OKX.Net.Enums.MarginMode,System.String,System.String,System.Nullable{OKX.Net.Enums.PositionSide},System.Threading.CancellationToken)">
@@ -1015,13 +1015,14 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetLeverageAsync(System.String,OKX.Net.Enums.MarginMode,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetLeverageAsync(System.String,OKX.Net.Enums.MarginMode,System.String,System.Threading.CancellationToken)">
             <summary>
             Get Leverage
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-leverage" /></para>
             </summary>
             <param name="symbols">Single symbol or multiple symbols (no more than 20) separated with comma, for example `BTC-USD-SWAP`</param>
             <param name="marginMode">Margin Mode</param>
+            <param name="asset">Asset, only applicable to Quick Margin Mode</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -3320,6 +3321,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.MainUserId">
             <summary>
             Main user id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.SpotBorrowEnabled">
+            <summary>
+            Whether borrow is allowed or not in Spot mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.SpotBorrowAutoRepay">
+            <summary>
+            Whether auto-repay is allowed or not in Spot mode
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountGreeksType">

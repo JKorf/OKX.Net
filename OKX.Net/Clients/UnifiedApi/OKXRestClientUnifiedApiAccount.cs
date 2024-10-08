@@ -177,12 +177,14 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(
         string symbols,
         MarginMode marginMode,
+        string? asset = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
             {"instId", symbols }
         };
         parameters.AddEnum("mgnMode", marginMode);
+        parameters.AddOptional("ccy", asset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/leverage-info", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

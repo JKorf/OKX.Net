@@ -42,9 +42,10 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="symbols">Single symbol or multiple symbols (no more than 20) separated with comma, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
+    /// <param name="asset">Asset, only applicable to Quick Margin Mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(string symbols, MarginMode marginMode, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXLeverage>>> GetLeverageAsync(string symbols, MarginMode marginMode, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the updated position data for the last 3 months. Return in reverse chronological order using utime.
