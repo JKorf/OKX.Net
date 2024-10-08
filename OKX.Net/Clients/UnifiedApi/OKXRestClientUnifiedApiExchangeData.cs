@@ -760,4 +760,36 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
         return await _baseClient.SendAsync<OKXTakerFlow>(request, parameters, ct).ConfigureAwait(false);
     }
+
+    #region Get Announcements
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<OKXAnnouncementsPage>> GetAnnouncementsAsync(string? announcementType = null, int? page = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("annType", announcementType);
+        parameters.AddOptional("page", page);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/support/announcements", OKXExchange.RateLimiter.EndpointGate, 1, _baseClient.AuthenticationProvider != null,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
+        var result = await _baseClient.SendGetSingleAsync<OKXAnnouncementsPage>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+    #region Get Announcement Types
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<IEnumerable<OKXAnnouncementType>>> GetAnnouncementTypesAsync(CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/support/announcement-types", OKXExchange.RateLimiter.EndpointGate, 1, false,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
+        var result = await _baseClient.SendAsync<IEnumerable<OKXAnnouncementType>>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+
 }

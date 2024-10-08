@@ -113,6 +113,8 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeExpiryAsync("ETH"), "GetRubikInterestVolumeExpiry");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeStrikeAsync("ETH", "20210623"), "GetRubikInterestVolumeStrike");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerFlowAsync("ETH"), "GetRubikTakerFlow", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetAnnouncementsAsync("123"), "GetAnnouncements", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetAnnouncementTypesAsync(), "GetAnnouncementTypes");
         }
 
         [Test]

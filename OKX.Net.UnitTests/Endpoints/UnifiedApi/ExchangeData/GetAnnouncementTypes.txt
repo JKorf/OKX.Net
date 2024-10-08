@@ -1,0 +1,17 @@
+GET
+/api/v5/support/announcement-types
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "annType": "announcements-latest-announcements",
+            "annTypeDesc": "Latest announcements"
+        },
+        {
+            "annType": "announcements-latest-events",
+            "annTypeDesc": "Latest events"
+        }
+    ],
+    "msg": ""
+}

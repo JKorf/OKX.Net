@@ -1,0 +1,26 @@
+GET
+/api/v5/support/announcements
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "details": [
+                {
+                    "annType": "announcements-latest-announcements",
+                    "pTime": "1726128000000",
+                    "title": "OKX to delist KISHU margin trading pairs",
+                    "url": "https://www.okx.com/help/okx-to-delist-kishu-margin-trading-pairs"
+                },
+                {
+                    "annType": "announcements-latest-announcements",
+                    "pTime": "1725967800000",
+                    "title": "OKX completed MATIC token migration",
+                    "url": "https://www.okx.com/help/okx-completed-matic-token-migration"
+                }
+            ],
+            "totalPage": "90"
+        }
+    ],
+    "msg": ""
+}

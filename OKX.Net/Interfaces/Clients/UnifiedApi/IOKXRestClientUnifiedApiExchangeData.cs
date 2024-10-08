@@ -480,4 +480,21 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXUnitConvert>> UnitConvertAsync(ConvertType type, string symbol, decimal quantity, ConvertUnit? unit = null, decimal? price = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get announcements
+    /// <para><a href="https://www.okx.com/docs-v5/en/#announcement-get-announcements" /></para>
+    /// </summary>
+    /// <param name="announcementType">Announcement type filter</param>
+    /// <param name="page">Page number</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<OKXAnnouncementsPage>> GetAnnouncementsAsync(string? announcementType = null, int? page = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get a list of different announcement type values
+    /// <para><a href="https://www.okx.com/docs-v5/en/#announcement-get-announcement-types" /></para>
+    /// </summary>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<IEnumerable<OKXAnnouncementType>>> GetAnnouncementTypesAsync(CancellationToken ct = default);
+
 }

@@ -341,6 +341,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTradeStatsTakerFlowAsync(System.String,OKX.Net.Enums.KlineInterval,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetAnnouncementsAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetAnnouncementTypesAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.GetSubAccountsAsync(System.Nullable{System.Boolean},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1899,6 +1905,22 @@
             <param name="quantity">Quantity to buy or sell</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetAnnouncementsAsync(System.String,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get announcements
+            <para><a href="https://www.okx.com/docs-v5/en/#announcement-get-announcements" /></para>
+            </summary>
+            <param name="announcementType">Announcement type filter</param>
+            <param name="page">Page number</param>
+            <param name="ct">Cancellation token</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetAnnouncementTypesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Get a list of different announcement type values
+            <para><a href="https://www.okx.com/docs-v5/en/#announcement-get-announcement-types" /></para>
+            </summary>
+            <param name="ct">Cancellation token</param>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiShared">
             <summary>
@@ -5992,6 +6014,61 @@
         <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.UnifiedOptions">
             <summary>
             Options for the Unified API
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXAnnouncementsPage">
+            <summary>
+            Announcements page
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncementsPage.Details">
+            <summary>
+            Details
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncementsPage.TotalPage">
+            <summary>
+            Total number of pages
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXAnnouncement">
+            <summary>
+            Announcement
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncement.AnnouncementType">
+            <summary>
+            Announcement type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncement.PublishTime">
+            <summary>
+            Publish time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncement.Title">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncement.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXAnnouncementType">
+            <summary>
+            Announcement type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncementType.AnnouncementType">
+            <summary>
+            Announcement type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXAnnouncementType.Description">
+            <summary>
+            Announcement type description
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXDeliveryExerciseHistory">
