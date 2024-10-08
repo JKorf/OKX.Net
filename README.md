@@ -142,6 +142,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.5.0 - 08 Oct 2024
+    * Added ExchangeData.GetAnnouncementsAsync and GetAnnouncementTypesAsync endpoints
+    * Added asset parameter to Account.GetLeverageAsync endpoint
+    * Added IsTradeBorrowMode property to Algo order response model
+    * Updated OKXAccountConfiguration response model
+    * Updated OKXDiscountInfo response model
+
 * Version 2.4.0 - 27 Sep 2024
     * Updated CryptoExchange.Net to version 8.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.0
     * Added Shared client interfaces implementation for Unified Rest and Socket clients
