@@ -226,20 +226,25 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXOrderCancelResponse>>(request, parameters, ct).ConfigureAwait(false);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
-            return result;
+            return result.AsError<IEnumerable<OKXOrderCancelResponse>>(result.Error!);
 
-        foreach (var order in result.Data.Where(r => r.Success))
+        if (result.Data.ErrorCode > 0 && result.Data.ErrorCode != 2)
+            return result.AsError<IEnumerable<OKXOrderCancelResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+
+        foreach (var order in result.Data.Data.Where(r => r.Success))
         {
             _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
             {
                 Id = order.OrderId.ToString(),
-                SourceObject = result.Data
+                SourceObject = order
             });
         }
 
-        return result;
+        return result.As<IEnumerable<OKXOrderCancelResponse>>(result.Data.Data);
     }
 
     /// <inheritdoc />
