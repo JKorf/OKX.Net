@@ -226,8 +226,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
-            limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<IEnumerable<OKXOrderCancelResponse>>(result.Error!);
