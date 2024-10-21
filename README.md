@@ -142,6 +142,15 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.6.0 - 21 Oct 2024
+    * Added restClient.UnifiedApi.Account.ManualBorrowRepayAsync, SetAutoRepayAsync and GetBorrowRepayHistoryAsync endpoints
+    * Added EasyConvertDustAsync, GetEasyConvertDustAssetsAsync and GetEasyConvertDustHistoryAsync endpoints
+    * Added BurningFeeRate property to restClient.UnifiedApi.Account.GetAssetsAsync response model
+    * Updated AccountBillSubType and AccountSubType Enum values
+    * Refactored restClient.UnifiedApi.Trading.PlaceOrderAsync take profit / stop loss parameters to support the full functionality offered by the API
+    * Fixed restClient.UnifiedApi.Trading.CancelMultipleOrdersAsync order canceled event processing
+    * Removed restClient.UnifiedApi.Account.ConvertDustAsync deprecated endpoint
+
 * Version 2.5.1 - 14 Oct 2024
     * Updated CryptoExchange.Net to version 8.0.3, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.0.3
     * Fixed TypeLoadException during initialization
