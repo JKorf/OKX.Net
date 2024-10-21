@@ -1,0 +1,16 @@
+GET
+/api/v5/account/spot-borrow-repay-history
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "accBorrowed": "0",
+            "amt": "6764.802661157592",
+            "ccy": "USDT",
+            "ts": "1725330976644",
+            "type": "auto_repay"
+        }
+    ],
+    "msg": ""
+}

@@ -1,0 +1,14 @@
+POST
+/api/v5/account/spot-manual-borrow-repay
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "ccy":"USDT",
+            "side":"borrow",
+            "amt":"100"
+        }
+    ],
+    "msg": ""
+}

@@ -2,6 +2,7 @@
 using CryptoExchange.Net.Testing;
 using NUnit.Framework;
 using OKX.Net.Clients;
+using OKX.Net.Enums;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Trade;
 
@@ -58,6 +59,9 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountModeAsync(Enums.AccountLevel.Simple), "SetAccountMode", skipResponseValidation: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAffiliateInviteeDetailsAsync("123"), "GetAffiliateInviteeDetails", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAssetValuationAsync("123"), "GetAssetValuation", useSingleArrayItem: true, ignoreProperties: new List<string> { "classic" });
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.ManualBorrowRepay("123", BorrowRepaySide.Repay, 0.1m), "ManualBorrowRepay", nestedJsonProperty: "data", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAutoRepayAsync(true), "SetAutoRepay", nestedJsonProperty: "data", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetBorrowRepayHistoryAsync(), "GetBorrowRepayHistory", nestedJsonProperty: "data");
         }
 
         [Test]

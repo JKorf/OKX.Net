@@ -720,4 +720,56 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
             limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXAssetValuation>(request, parameters, ct).ConfigureAwait(false);
     }
+
+    #region Manual Borrow Repay
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<OKXBorrowRepayResult>> ManualBorrowRepay(string asset, BorrowRepaySide BorrowRepaySide, decimal quantity, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.Add("ccy", asset);
+        parameters.AddEnum("side", BorrowRepaySide);
+        parameters.AddString("amt", quantity);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "/api/v5/account/spot-manual-borrow-repay", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        var result = await _baseClient.SendGetSingleAsync<OKXBorrowRepayResult>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+    #region Set Auto Repay
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<OKXAutoRepayStatus>> SetAutoRepayAsync(bool autoRepay, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.Add("autoRepay", autoRepay);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "/api/v5/account/set-auto-repay", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        var result = await _baseClient.SendGetSingleAsync<OKXAutoRepayStatus>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+    #region Get Borrow Repay History
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<IEnumerable<OKXBorrowRepayEntry>>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("ccy", asset);
+        parameters.AddOptionalEnum("type", type);
+        parameters.AddOptionalMillisecondsString("after", startTime);
+        parameters.AddOptionalMillisecondsString("before", endTime);
+        parameters.AddOptional("limit", limit);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/account/spot-borrow-repay-history", OKXExchange.RateLimiter.EndpointGate, 1, true);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXBorrowRepayEntry>>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+
 }

@@ -460,4 +460,35 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct"></param>
     /// <returns></returns>
     Task<WebCallResult<OKXAssetValuation>> GetAssetValuationAsync(string? asset = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Manually borrow / repay. Only applicable to Spot mode
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-manual-borrow-repay" /></para>
+    /// </summary>
+    /// <param name="asset">Asset name</param>
+    /// <param name="BorrowRepaySide">Borrow or repay</param>
+    /// <param name="quantity">Quantity</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<OKXBorrowRepayResult>> ManualBorrowRepay(string asset, BorrowRepaySide BorrowRepaySide, decimal quantity, CancellationToken ct = default);
+
+    /// <summary>
+    /// Set auto repay. Only applicable to Spot mode
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-auto-repay" /></para>
+    /// </summary>
+    /// <param name="autoRepay">Auto repay enabled or not</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<OKXAutoRepayStatus>> SetAutoRepayAsync(bool autoRepay, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get borrow/repay history
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-borrow-repay-history" /></para>
+    /// </summary>
+    /// <param name="asset">Filter by asset</param>
+    /// <param name="type">Filter by type</param>
+    /// <param name="startTime">Filter by start time</param>
+    /// <param name="endTime">Filter by end time</param>
+    /// <param name="limit">Max number of results</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<IEnumerable<OKXBorrowRepayEntry>>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
+
 }
