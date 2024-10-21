@@ -165,4 +165,23 @@ public enum AccountBillSubType
     FromStructuredSettlements,
     [Map("299")]
     ToStructuredSettlements,
+
+    [Map("306")]
+    ManualBorrow,
+    [Map("307")]
+    AutoBorrow,
+    [Map("308")]
+    ManualRepay,
+    [Map("309")]
+    AutoRepay,
+    [Map("312")]
+    AuotOffset,
+    [Map("318")]
+    ConvertIn,
+    [Map("319")]
+    ConvertOut,
+    [Map("320")]
+    SimpleBuy,
+    [Map("320")]
+    SimpleSell,
 }
