@@ -343,18 +343,17 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="quantity">Quantity</param>
     /// <param name="price">Price</param>
     /// <param name="asset">Asset</param>
+    /// <param name="attachedAlgoOrders">Attached take profit / stop loss orders</param>
     /// <param name="clientOrderId">Client Order ID</param>
     /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
-    /// <param name="takeProfitTriggerPrice">Take profit trigger price</param>
-    /// <param name="stopLossTriggerPrice">Stop loss trigger price</param>
-    /// <param name="takeProfitOrderPrice">Take profit order price</param>
-    /// <param name="stopLossOrderPrice">Stop loss order price</param>
-    /// <param name="takeProfitTriggerPriceType">Take profit price type</param>
-    /// <param name="stopLossTriggerPriceType">Stop loss price type</param>
     /// <param name="quickMarginType">Quick margin type</param>
     /// <param name="selfTradePreventionId">Self trade prevention id</param>
     /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
     /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
+    /// <param name="tag">Order tag</param>
+    /// <param name="priceUsd">Place options orders in USD, only applicable to OPTIONS</param>
+    /// <param name="priceVol">Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
+    /// <param name="banAmend">Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -365,21 +364,18 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? price = null,
         PositionSide? positionSide = null,
         Enums.TradeMode? tradeMode = null,
-
-        decimal? takeProfitTriggerPrice = null,
-        decimal? stopLossTriggerPrice = null,
-        decimal? takeProfitOrderPrice = null,
-        decimal? stopLossOrderPrice = null,
-        TriggerPriceType? takeProfitTriggerPriceType = null,
-        TriggerPriceType? stopLossTriggerPriceType = null,
+        IEnumerable<OKXAttachedAlgoOrder>? attachedAlgoOrders = null,
         QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
         SelfTradePreventionMode? selfTradePreventionMode = null,
-
         string? asset = null,
         QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
+        string? tag = null,
+        decimal? priceUsd = null,
+        decimal? priceVol = null,
+        bool? banAmend = null,
         CancellationToken ct = default);
 
     /// <summary>

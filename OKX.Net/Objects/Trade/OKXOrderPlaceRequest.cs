@@ -1,4 +1,5 @@
 ﻿using OKX.Net.Enums;
+using System;
 
 namespace OKX.Net.Objects.Trade;
 
@@ -28,8 +29,8 @@ public record OKXOrderPlaceRequest
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
-    public PositionSide PositionSide { get; set; }
+    [JsonPropertyName("posSide"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Order type
@@ -78,4 +79,34 @@ public record OKXOrderPlaceRequest
     /// </summary>
     [JsonPropertyName("tgtCcy"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
     public QuantityAsset? QuantityType { get; set; }
+
+    /// <summary>
+    /// Place options orders in USD, only applicable to options
+    /// </summary>
+    [JsonPropertyName("pxUsd"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
+    public decimal? PriceUsd { get; set; }
+
+    /// <summary>
+    /// Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS
+    /// </summary>
+    [JsonPropertyName("pxVol"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
+    public decimal? PriceVol { get; set; }
+
+    /// <summary>
+    /// Whether to disallow the system from amending the size of the SPOT Market Order. If true, system will not amend and reject the market order if user does not have sufficient funds.
+    /// </summary>
+    [JsonPropertyName("banAmend"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool? BanAmmend { get; set; }
+
+    /// <summary>
+    /// Self trade prevention mode
+    /// </summary>
+    [JsonPropertyName("stpMode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    public SelfTradePreventionMode? StpMode { get; set; }
+
+    /// <summary>
+    /// Attached take profit / stop loss orders
+    /// </summary>
+    [JsonPropertyName("attachAlgoOrds"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public IEnumerable<OKXAttachedAlgoOrder>? AttachedAlgoOrders { get; set; }
 }

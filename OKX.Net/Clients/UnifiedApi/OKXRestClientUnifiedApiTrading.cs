@@ -25,12 +25,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         PositionSide? positionSide = null,
         Enums.TradeMode? tradeMode = null,
 
-        decimal? takeProfitTriggerPrice = null,
-        decimal? stopLossTriggerPrice = null,
-        decimal? takeProfitOrderPrice = null,
-        decimal? stopLossOrderPrice = null,
-        TriggerPriceType? takeProfitTriggerPriceType = null,
-        TriggerPriceType? stopLossTriggerPriceType = null,
+        IEnumerable<OKXAttachedAlgoOrder>? attachedAlgoOrders = null,
+
         QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
         SelfTradePreventionMode? selfTradePreventionMode = null,
@@ -39,6 +35,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
+        string? tag = null,
+        decimal? priceUsd = null,
+        decimal? priceVol = null,
+        bool? banAmend = null,
+
         CancellationToken ct = default)
     {
         clientOrderId ??= ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
@@ -52,22 +53,23 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
-        parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalString("px", price);
+        parameters.AddOptional("ccy", asset);
 
-        parameters.AddOptionalParameter("tgtCcy", EnumConverter.GetString(quantityAsset));
-        parameters.AddOptionalParameter("tpTriggerPx", takeProfitTriggerPrice);
-        parameters.AddOptionalParameter("slTriggerPx", stopLossTriggerPrice);
-        parameters.AddOptionalParameter("tpOrdPx", takeProfitOrderPrice);
-        parameters.AddOptionalParameter("slOrdPx", stopLossOrderPrice);
-        parameters.AddOptionalParameter("tpTriggerPxType", EnumConverter.GetString(takeProfitTriggerPriceType));
-        parameters.AddOptionalParameter("slTriggerPxType", EnumConverter.GetString(stopLossTriggerPriceType));
-        parameters.AddOptionalParameter("quickMgnType", EnumConverter.GetString(quickMarginType));
-        parameters.AddOptionalParameter("stpId", selfTradePreventionId);
-        parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
+        parameters.AddOptionalEnum("tgtCcy", quantityAsset);
+        parameters.AddOptionalEnum("quickMgnType", quickMarginType);
+        parameters.AddOptional("stpId", selfTradePreventionId);
+        parameters.AddOptionalEnum("stpMode", selfTradePreventionMode);
 
-        parameters.AddOptionalParameter("reduceOnly", reduceOnly);
+        parameters.AddOptional("attachAlgoOrds", attachedAlgoOrders?.ToArray());
+
+        parameters.AddOptional("tag", tag);
+        parameters.AddOptional("reduceOnly", reduceOnly);
         parameters.AddOptionalEnum("posSide", positionSide);
+
+        parameters.AddOptionalString("pxUsd", priceUsd);
+        parameters.AddOptionalString("pxVol", priceVol);
+        parameters.AddOptional("banAmend", banAmend);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

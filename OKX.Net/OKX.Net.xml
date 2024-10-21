@@ -365,7 +365,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CheckOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
@@ -890,6 +890,21 @@
         <member name="F:OKX.Net.Enums.TransferStatus.Failed">
             <summary>
             Transfer failed
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.TriggerOrderKind">
+            <summary>
+            Order kind
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.TriggerOrderKind.Condition">
+            <summary>
+            Condition
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.TriggerOrderKind.Limit">
+            <summary>
+            Limit
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.TriggerPriceType">
@@ -2287,7 +2302,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
@@ -2300,18 +2315,17 @@
             <param name="quantity">Quantity</param>
             <param name="price">Price</param>
             <param name="asset">Asset</param>
+            <param name="attachedAlgoOrders">Attached take profit / stop loss orders</param>
             <param name="clientOrderId">Client Order ID</param>
             <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
-            <param name="takeProfitTriggerPrice">Take profit trigger price</param>
-            <param name="stopLossTriggerPrice">Stop loss trigger price</param>
-            <param name="takeProfitOrderPrice">Take profit order price</param>
-            <param name="stopLossOrderPrice">Stop loss order price</param>
-            <param name="takeProfitTriggerPriceType">Take profit price type</param>
-            <param name="stopLossTriggerPriceType">Stop loss price type</param>
             <param name="quickMarginType">Quick margin type</param>
             <param name="selfTradePreventionId">Self trade prevention id</param>
             <param name="selfTradePreventionMode">Self trade prevention mode</param>
             <param name="quantityAsset">Asset of the quantity when placing market order</param>
+            <param name="tag">Order tag</param>
+            <param name="priceUsd">Place options orders in USD, only applicable to OPTIONS</param>
+            <param name="priceVol">Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
+            <param name="banAmend">Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -7657,6 +7671,61 @@
             Push time
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder">
+            <summary>
+            Algo order attached to an order
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.ClientOrderId">
+            <summary>
+            Client order id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.TakeProfitTriggerPrice">
+            <summary>
+            Take profit trigger price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.TakeProfitOrderPrice">
+            <summary>
+            Take profit order price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.TakeProfitOrderKind">
+            <summary>
+            Take profit order kind
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.TakeProfitPriceType">
+            <summary>
+            Take profit price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.TakeProfitQuantity">
+            <summary>
+            Take profit quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.StopLossTriggerPrice">
+            <summary>
+            Stop loss trigger price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.StopLossOrderPrice">
+            <summary>
+            Stop loss order price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.StopLossPriceType">
+            <summary>
+            Stop loss price type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAttachedAlgoOrder.AmendPriceOnTriggerType">
+            <summary>
+            Whether to enable Cost-price SL. Only applicable to SL order of split TPs. Whether slTriggerPx will move to avgPx when the first TP order is triggered, 0: disable, the default value, 1: Enable
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXCancelAllAfterResponse">
             <summary>
             Cancel all after response
@@ -8255,6 +8324,31 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.QuantityType">
             <summary>
             Quantity type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.PriceUsd">
+            <summary>
+            Place options orders in USD, only applicable to options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.PriceVol">
+            <summary>
+            Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.BanAmmend">
+            <summary>
+            Whether to disallow the system from amending the size of the SPOT Market Order. If true, system will not amend and reject the market order if user does not have sufficient funds.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.StpMode">
+            <summary>
+            Self trade prevention mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.AttachedAlgoOrders">
+            <summary>
+            Attached take profit / stop loss orders
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderPlaceResponse">
