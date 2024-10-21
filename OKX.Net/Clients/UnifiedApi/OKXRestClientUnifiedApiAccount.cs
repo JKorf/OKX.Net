@@ -650,16 +650,51 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         return await _baseClient.SendGetSingleAsync<OKXSavingActionResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
+    #region Get Easy Convert Dust Assets
+
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXDustAssets>> GetEasyConvertDustAssetsAsync(AccountType? sourceAccount = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        if (sourceAccount != null)
+            parameters.Add("source", sourceAccount == AccountType.Funding ? "2" : "1");
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/trade/easy-convert-currency-list", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        var result = await _baseClient.SendGetSingleAsync<OKXDustAssets>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<IEnumerable<OKXDustConvertEntry>>> EasyConvertDustAsync(IEnumerable<string> assets, string targetAsset, AccountType? sourceAccount = null, CancellationToken ct = default)
     {
        var parameters = new ParameterCollection();
         parameters.AddParameter("ccy", assets);
+        parameters.AddParameter("toCcy", targetAsset);
+        if (sourceAccount != null)
+            parameters.AddParameter("source", sourceAccount == AccountType.Funding ? "2" : "1");
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/convert-dust-assets", OKXExchange.RateLimiter.EndpointGate, 1, true,
-            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXDustConvertResult>(request, parameters, ct).ConfigureAwait(false);
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/easy-convert", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<IEnumerable<OKXDustConvertEntry>>(request, parameters, ct).ConfigureAwait(false);
     }
+
+    #region Get Easy Convert Dust History
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<IEnumerable<OKXDustConvertEntry>>> GetEasyConvertDustHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptionalMillisecondsString("after", startTime);
+        parameters.AddOptionalMillisecondsString("before", endTime);
+        parameters.AddOptional("limit", limit);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/trade/easy-convert-history", OKXExchange.RateLimiter.EndpointGate, 1, true);
+        var result = await _baseClient.SendAsync<IEnumerable<OKXDustConvertEntry>>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(InstrumentType instumentType, IsolatedMarginMode isolatedMarginMode, CancellationToken ct = default)

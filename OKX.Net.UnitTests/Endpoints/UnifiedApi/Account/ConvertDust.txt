@@ -1,20 +1,25 @@
 POST
-/api/v5/asset/convert-dust-assets
+/api/v5/trade/easy-convert
 true
 {
-  "code": "0",
-  "data": [
-    {
-      "details": [
+    "code": "0",
+    "data": [
         {
-          "amt": "1",
-          "ccy": "USDT",
-          "cnvAmt": "0.04771642808422",
-          "fee": "0.00097380465478"
+            "fillFromSz": "6.5807127",
+            "fillToSz": "0.17171580105126",
+            "fromCcy": "ADA",
+            "status": "running",
+            "toCcy": "OKB",
+            "uTime": "1661419684687"
+        },
+        {
+            "fillFromSz": "2.997",
+            "fillToSz": "0.1683755161661844",
+            "fromCcy": "USDC",
+            "status": "running",
+            "toCcy": "OKB",
+            "uTime": "1661419684687"
         }
-      ],
-      "totalCnvAmt": "0.04771642"
-    }
-  ],
-  "msg": ""
+    ],
+    "msg": ""
 }

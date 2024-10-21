@@ -194,7 +194,13 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SavingPurchaseRedemptionAsync(System.String,System.Decimal,OKX.Net.Enums.SavingActionSide,System.Nullable{System.Decimal},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetEasyConvertDustAssetsAsync(System.Nullable{OKX.Net.Enums.AccountType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.EasyConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{OKX.Net.Enums.AccountType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetEasyConvertDustHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.InstrumentType,OKX.Net.Enums.IsolatedMarginMode,System.Threading.CancellationToken)">
@@ -694,6 +700,26 @@
         <member name="F:OKX.Net.Enums.DepositType.NetworkDeposit">
             <summary>
             Deposit
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.DustConvertStatus">
+            <summary>
+            Dust convert status
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.DustConvertStatus.Running">
+            <summary>
+            Running
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.DustConvertStatus.Filled">
+            <summary>
+            Filled
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.DustConvertStatus.Failed">
+            <summary>
+            Failed
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.IsolatedMarginMode">
@@ -1446,14 +1472,34 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.ConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetEasyConvertDustAssetsAsync(System.Nullable{OKX.Net.Enums.AccountType},System.Threading.CancellationToken)">
             <summary>
-            Convert small assets in funding account to OKB
-            <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
+            Get assets available for dust conversion
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-currency-list" /></para>
+            </summary>
+            <param name="sourceAccount">Source account type</param>
+            <param name="ct">Cancellation token</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.EasyConvertDustAsync(System.Collections.Generic.IEnumerable{System.String},System.String,System.Nullable{OKX.Net.Enums.AccountType},System.Threading.CancellationToken)">
+            <summary>
+            Convert small assets in funding account to a target asset
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-easy-convert" /></para>
             </summary>
             <param name="assets">Assets to convert, for example `ETH`</param>
+            <param name="targetAsset">Target asset</param>
+            <param name="sourceAccount">Convert from account</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetEasyConvertDustHistoryAsync(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get easy dust convert history
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-history" /></para>
+            </summary>
+            <param name="startTime">Filter by start time</param>
+            <param name="endTime">Filter by end time</param>
+            <param name="limit">Max number of results</param>
+            <param name="ct">Cancellation token</param>
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetIsolatedMarginModeAsync(OKX.Net.Enums.InstrumentType,OKX.Net.Enums.IsolatedMarginMode,System.Threading.CancellationToken)">
             <summary>
@@ -3681,44 +3727,74 @@
             Accumulated liquidation penalty. It is negative when there is a value.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.Account.OKXDustConvertResult">
+        <member name="T:OKX.Net.Objects.Account.OKXDustAssets">
             <summary>
-            Dust conversion result
+            Dust assets
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertResult.TotalConvertedQuantity">
+        <member name="P:OKX.Net.Objects.Account.OKXDustAssets.Convertable">
             <summary>
-            Total quantity of OKB after conversion
+            Convertable assets
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertResult.Assets">
+        <member name="P:OKX.Net.Objects.Account.OKXDustAssets.ToAssets">
             <summary>
-            Details of asset conversion
+            Available target assets
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.Account.OKXDustConvertAsset">
+        <member name="T:OKX.Net.Objects.Account.OKXDustAsset">
             <summary>
-            Dust conversion asset details
+            Dust asset 
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Quantity">
+        <member name="P:OKX.Net.Objects.Account.OKXDustAsset.Quantity">
             <summary>
-            Quantity of asset before conversion
+            Quantity available for conversion
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Asset">
+        <member name="P:OKX.Net.Objects.Account.OKXDustAsset.Asset">
             <summary>
-            Asset name
+            Asset
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.ConvertQuantity">
+        <member name="T:OKX.Net.Objects.Account.OKXDustConvertEntry">
             <summary>
-            Quantity of OKB after conversion
+            Dust convert info
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXDustConvertAsset.Fee">
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.FillFromQuantity">
             <summary>
-            Fee
+            Fill from quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.FillToQuantity">
+            <summary>
+            Fill to quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.FromAsset">
+            <summary>
+            From asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.DustConvertStatus">
+            <summary>
+            Status
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.AccountType">
+            <summary>
+            Account type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.ToAsset">
+            <summary>
+            To asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXDustConvertEntry.UpdateTime">
+            <summary>
+            Update time
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXFeeRate">

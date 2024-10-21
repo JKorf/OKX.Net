@@ -405,13 +405,33 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, WithdrawalDestination destination, string toAddress, decimal fee, string? network = null, string? areaCode = null, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Convert small assets in funding account to OKB
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-small-assets-convert" /></para>
+    /// Get assets available for dust conversion
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-currency-list" /></para>
+    /// </summary>
+    /// <param name="sourceAccount">Source account type</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<OKXDustAssets>> GetEasyConvertDustAssetsAsync(AccountType? sourceAccount = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Convert small assets in funding account to a target asset
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-easy-convert" /></para>
     /// </summary>
     /// <param name="assets">Assets to convert, for example `ETH`</param>
+    /// <param name="targetAsset">Target asset</param>
+    /// <param name="sourceAccount">Convert from account</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXDustConvertResult>> ConvertDustAsync(IEnumerable<string> assets, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXDustConvertEntry>>> EasyConvertDustAsync(IEnumerable<string> assets, string targetAsset, AccountType? sourceAccount = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get easy dust convert history
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-history" /></para>
+    /// </summary>
+    /// <param name="startTime">Filter by start time</param>
+    /// <param name="endTime">Filter by end time</param>
+    /// <param name="limit">Max number of results</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<WebCallResult<IEnumerable<OKXDustConvertEntry>>> GetEasyConvertDustHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set isolated margin mode for the Margin or Contracts instrument type

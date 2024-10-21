@@ -53,7 +53,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetWithdrawalHistoryAsync("ETH"), "GetWithdrawalHistory");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetSavingBalancesAsync("ETH"), "GetSavingBalances");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SavingPurchaseRedemptionAsync("ETH", 1, Enums.SavingActionSide.Redempt), "SavingPurchaseRedemption", useSingleArrayItem: true);
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.ConvertDustAsync(new[] { "ETH" }), "ConvertDust", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.EasyConvertDustAsync(new[] { "ETH" }, "USD"), "ConvertDust");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetIsolatedMarginModeAsync(Enums.InstrumentType.Any, Enums.IsolatedMarginMode.Automatic), "SetIsolatedMarginMode", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetTransferAsync("123"), "GetTransfer", useSingleArrayItem: true, ignoreProperties: new List<string> { "instId", "toInstId" });
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAccountModeAsync(Enums.AccountLevel.Simple), "SetAccountMode", skipResponseValidation: true);
@@ -62,6 +62,8 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.ManualBorrowRepay("123", BorrowRepaySide.Repay, 0.1m), "ManualBorrowRepay", nestedJsonProperty: "data", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetAutoRepayAsync(true), "SetAutoRepay", nestedJsonProperty: "data", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetBorrowRepayHistoryAsync(), "GetBorrowRepayHistory", nestedJsonProperty: "data");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetEasyConvertDustAssetsAsync(), "GetEasyConvertDustAssets", nestedJsonProperty: "data", useSingleArrayItem: true);
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetEasyConvertDustHistoryAsync(), "GetEasyConvertDustHistory", nestedJsonProperty: "data");
         }
 
         [Test]

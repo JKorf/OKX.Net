@@ -1,0 +1,21 @@
+GET
+/api/v5/trade/easy-convert-currency-list
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "fromData": [
+                {
+                    "fromAmt": "6.580712708344864",
+                    "fromCcy": "ADA"
+                },
+                {
+                    "fromAmt": "2.9970000013055097",
+                    "fromCcy": "USDC"
+                }
+            ]
+        }
+    ],
+    "msg": ""
+}

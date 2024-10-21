@@ -1,0 +1,27 @@
+GET
+/api/v5/trade/easy-convert-history
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "fillFromSz": "0.1761712511667539",
+            "fillToSz": "6.7342205900000000",
+            "fromCcy": "OKB",
+            "status": "filled",
+            "toCcy": "ADA",
+            "acct": "18",
+            "uTime": "1661313307979"
+        },
+        {
+            "fillFromSz": "0.1722106121112177",
+            "fillToSz": "2.9971018300000000",
+            "fromCcy": "OKB",
+            "status": "filled",
+            "toCcy": "USDC",
+            "acct": "18",
+            "uTime": "1661313307979"
+        }
+    ],
+    "msg": ""
+}
