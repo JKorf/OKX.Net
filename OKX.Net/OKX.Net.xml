@@ -4731,6 +4731,11 @@
             The withdrawal precision, indicating the number of digits after the decimal point.
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.BurningFeeRate">
+            <summary>
+            Burning fee rate, e.g "0.05" represents "5%". Some currencies may charge combustion fees.The burning fee is deducted based on the withdrawal quantity
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXDepositAddress">
             <summary>
             Deposit address info

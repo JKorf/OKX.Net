@@ -148,4 +148,10 @@ public record OKXAsset
     /// </summary>
     [JsonPropertyName("wdTickSz")]
     public decimal? WithdrawalTickSize { get; set; }
+
+    /// <summary>
+    /// Burning fee rate, e.g "0.05" represents "5%". Some currencies may charge combustion fees.The burning fee is deducted based on the withdrawal quantity
+    /// </summary>
+    [JsonPropertyName("burningFeeRate")]
+    public decimal? BurningFeeRate { get; set; }
 }
