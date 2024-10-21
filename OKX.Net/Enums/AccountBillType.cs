@@ -41,6 +41,14 @@ public enum AccountBillType
     SpreadTrading,
     [Map("26")]
     StructuredProducts,
+    [Map("27")]
+    Convert,
+    [Map("28")]
+    EasyConvert,
+    [Map("29")]
+    OneClickRepay,
+    [Map("30")]
+    SimpleTrade,
     [Map("250")]
     CopyTraderProfitShareExpense,
     [Map("251")]

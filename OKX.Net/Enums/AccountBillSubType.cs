@@ -165,7 +165,6 @@ public enum AccountBillSubType
     FromStructuredSettlements,
     [Map("299")]
     ToStructuredSettlements,
-
     [Map("306")]
     ManualBorrow,
     [Map("307")]
