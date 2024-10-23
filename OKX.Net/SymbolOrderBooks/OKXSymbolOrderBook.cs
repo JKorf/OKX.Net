@@ -16,6 +16,9 @@ namespace OKX.Net.SymbolOrderBooks
         private readonly IOKXSocketClient _socketClient;
         private readonly bool _clientOwner;
         private bool _initialSnapshotDone;
+        private int? _levels;
+        private bool _snapshots;
+        private OrderBookType _type;
         private readonly TimeSpan _initialDataTimeout;
 
         /// <summary>
@@ -48,15 +51,27 @@ namespace OKX.Net.SymbolOrderBooks
             _sequencesAreConsecutive = false;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
+            _levels = options?.Limit;
 
             _socketClient = socketClient ?? new OKXSocketClient();
             _clientOwner = socketClient == null;
+
+
+            _levels?.ValidateIntValues("Limit", 1, 5, 400);
+            _type = OrderBookType.BBO_TBT;
+            if (_levels == 5)
+                _type = OrderBookType.OrderBook_5;
+            else if (_levels == 400 || _levels == null)
+                _type = OrderBookType.OrderBook;
+
+            _snapshots = _type == OrderBookType.OrderBook_5 || _type == OrderBookType.BBO_TBT;
         }
 
         /// <inheritdoc />
         protected override async Task<CallResult<UpdateSubscription>> DoStartAsync(CancellationToken ct)
         {
-            var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, OrderBookType.OrderBook, ProcessUpdate).ConfigureAwait(false);
+
+            var result = await _socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(Symbol, _type, ProcessUpdate).ConfigureAwait(false);
             if (!result)
                 return result;
 
@@ -69,7 +84,7 @@ namespace OKX.Net.SymbolOrderBooks
             Status = OrderBookStatus.Syncing;
 
             var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
+            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);            
         }
 
         /// <inheritdoc />
@@ -80,8 +95,7 @@ namespace OKX.Net.SymbolOrderBooks
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-
-            if (!_initialSnapshotDone)
+            if (!_initialSnapshotDone || _snapshots)
             {
                 SetInitialOrderBook(data.Data.Time.Ticks, data.Data.Bids, data.Data.Asks);
                 _initialSnapshotDone = true;
