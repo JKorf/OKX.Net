@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Interfaces;
+using CryptoExchange.Net.SharedApis;
 
 namespace OKX.Net
 {
@@ -26,10 +27,30 @@ namespace OKX.Net
             };
 
         /// <summary>
+        /// Format a base and quote asset to an OKX recognized symbol 
+        /// </summary>
+        /// <param name="baseAsset">Base asset</param>
+        /// <param name="quoteAsset">Quote asset</param>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="deliverTime">Delivery time for delivery futures</param>
+        /// <returns></returns>
+        public static string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
+        {
+            if (tradingMode == TradingMode.Spot)
+                return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
+
+            if (deliverTime == null)
+                return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-SWAP";
+
+            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-" + deliverTime.Value.ToString("yyMMdd");
+        }
+
+        /// <summary>
         /// Rate limiter configuration for the OKX API
         /// </summary>
         public static OKXRateLimiters RateLimiter { get; } = new OKXRateLimiters();
     }
+
     /// <summary>
     /// Rate limiter configuration for the GateIo API
     /// </summary>

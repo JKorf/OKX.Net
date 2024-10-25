@@ -61,15 +61,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
-    {
-        if (tradingMode == TradingMode.Spot)
-            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant();
-
-        if (deliverTime == null)
-            return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-SWAP";
-
-        return baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant() + "-" + deliverTime.Value.ToString("yyMMdd");
-    }
+        => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
     internal Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
            => base.SendAsync(BaseAddress, definition, parameters, cancellationToken, null, weight);

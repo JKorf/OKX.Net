@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
@@ -58,6 +59,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
+            services.AddTransient<IOKXTrackerFactory, OKXTrackerFactory>();
             services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);

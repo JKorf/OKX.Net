@@ -166,7 +166,10 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result)
                 return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, null, default);
 
-            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, request.Symbol.TradingMode, result.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Time)).ToArray());
+            return result.AsExchangeResult<IEnumerable<SharedTrade>>(Exchange, request.Symbol.TradingMode, result.Data.Select(x => new SharedTrade(x.Quantity, x.Price, x.Time)
+            {
+                Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
+            }).ToArray());
         }
 
         #endregion
@@ -1368,9 +1371,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 request.Symbol.TradingMode,
                 new SharedFuturesTicker(
                     resultTicker.Result.Data.Symbol,
-                    resultTicker.Result.Data.LastPrice ?? 0,
-                    resultTicker.Result.Data.HighPrice ?? 0,
-                    resultTicker.Result.Data.LowPrice ?? 0,
+                    resultTicker.Result.Data.LastPrice,
+                    resultTicker.Result.Data.HighPrice,
+                    resultTicker.Result.Data.LowPrice,
                     resultTicker.Result.Data.Volume,
                     resultTicker.Result.Data.OpenPrice == null ? null : Math.Round((resultTicker.Result.Data.LastPrice ?? 0) / resultTicker.Result.Data.OpenPrice.Value * 100 - 100, 2))
                 {
@@ -1402,7 +1405,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 resultTickers.Result.Data.Select(x =>
             {
                 var markPrice = resultMarkPrice.Result.Data.Single(p => p.Symbol == x.Symbol);
-                return new SharedFuturesTicker(x.Symbol, x.LastPrice ?? 0, x.HighPrice ?? 0, x.LowPrice ?? 0, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
+                return new SharedFuturesTicker(x.Symbol, x.LastPrice, x.HighPrice, x.LowPrice, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
                 {
                     MarkPrice = markPrice.MarkPrice
                 };
