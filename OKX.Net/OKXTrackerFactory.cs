@@ -6,13 +6,21 @@ using OKX.Net.Interfaces.Clients;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using OKX.Net.Clients;
 
 namespace OKX.Net
 {
     /// <inheritdoc />
     public class OKXTrackerFactory : IOKXTrackerFactory
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider? _serviceProvider;
+
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public OKXTrackerFactory()
+        {
+        }
 
         /// <summary>
         /// ctor
@@ -26,11 +34,11 @@ namespace OKX.Net
         /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null)
         {
-            var restClient = _serviceProvider.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient;
-            var socketClient = _serviceProvider.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedClient;
+            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedClient;
 
             return new KlineTracker(
-                _serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
+                _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
                 restClient,
                 socketClient,
                 symbol,
@@ -42,11 +50,11 @@ namespace OKX.Net
         /// <inheritdoc />
         public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null)
         {
-            var restClient = _serviceProvider.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient;
-            var socketClient = _serviceProvider.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedClient;
+            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedClient;
 
             return new TradeTracker(
-                _serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
+                _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
                 restClient,
                 null,
                 socketClient,
