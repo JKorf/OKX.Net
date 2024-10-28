@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OKX.Net\OKX.Net.csproj" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\Projects\OKX.Net\OKX.Net\OKX.Net.csproj" />
   </ItemGroup>
 
 </Project>

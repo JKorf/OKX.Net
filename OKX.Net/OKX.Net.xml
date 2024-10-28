@@ -2914,12 +2914,44 @@
             Unified API order book factory methods
             </summary>
         </member>
+        <member name="M:OKX.Net.Interfaces.IOKXOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions})">
+            <summary>
+            Create a SymbolOrderBook for the symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="options">Book options</param>
+            <returns></returns>
+        </member>
         <member name="M:OKX.Net.Interfaces.IOKXOrderBookFactory.Create(System.String,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions})">
             <summary>
             Create a new order book
             </summary>
             <param name="symbol">The symbol</param>
             <param name="options">Order book options</param>
+            <returns></returns>
+        </member>
+        <member name="T:OKX.Net.Interfaces.IOKXTrackerFactory">
+            <summary>
+            Tracker factory
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Create a new kline tracker
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="interval">Kline interval</param>
+            <param name="limit">The max amount of klines to retain</param>
+            <param name="period">The max period the data should be retained</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Create a new trade tracker for a symbol
+            </summary>
+            <param name="symbol">The symbol</param>
+            <param name="limit">The max amount of klines to retain</param>
+            <param name="period">The max period the data should be retained</param>
             <returns></returns>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBalance">
@@ -9127,6 +9159,16 @@
             Urls to the API documentation
             </summary>
         </member>
+        <member name="M:OKX.Net.OKXExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
+            <summary>
+            Format a base and quote asset to an OKX recognized symbol 
+            </summary>
+            <param name="baseAsset">Base asset</param>
+            <param name="quoteAsset">Quote asset</param>
+            <param name="tradingMode">Trading mode</param>
+            <param name="deliverTime">Delivery time for delivery futures</param>
+            <returns></returns>
+        </member>
         <member name="P:OKX.Net.OKXExchange.RateLimiter">
             <summary>
             Rate limiter configuration for the OKX API
@@ -9142,6 +9184,26 @@
             Event for when a rate limit is triggered
             </summary>
         </member>
+        <member name="T:OKX.Net.OKXTrackerFactory">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.#ctor(System.IServiceProvider)">
+            <summary>
+            ctor
+            </summary>
+            <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <inheritdoc />
+        </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
             <inheritdoc />
         </member>
@@ -9153,6 +9215,9 @@
             ctor
             </summary>
             <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.Create(CryptoExchange.Net.SharedApis.SharedSymbol,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions})">
+            <inheritdoc />
         </member>
         <member name="M:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.Create(System.String,System.Action{OKX.Net.Objects.Options.OKXOrderBookOptions})">
             <inheritdoc />

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.OrderBook;
+using CryptoExchange.Net.SharedApis;
 using Microsoft.Extensions.DependencyInjection;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
@@ -22,7 +23,16 @@ namespace OKX.Net.SymbolOrderBooks
         {
             _serviceProvider = serviceProvider;
 
-            Unified = new OrderBookFactory<OKXOrderBookOptions>((symbol, options) => Create(symbol, options), (baseAsset, quoteAsset, options) => Create(baseAsset.ToUpperInvariant() + "-" + quoteAsset.ToUpperInvariant(), options));
+            Unified = new OrderBookFactory<OKXOrderBookOptions>(
+                Create,
+                (sharedSymbol, options) => Create(OKXExchange.FormatSymbol(sharedSymbol.BaseAsset, sharedSymbol.QuoteAsset, sharedSymbol.TradingMode, sharedSymbol.DeliverTime), options));
+        }
+
+        /// <inheritdoc />
+        public ISymbolOrderBook Create(SharedSymbol symbol, Action<OKXOrderBookOptions>? options = null)
+        {
+            var symbolName = OKXExchange.FormatSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.TradingMode, symbol.DeliverTime);
+            return Create(symbolName, options);
         }
 
         /// <inheritdoc />

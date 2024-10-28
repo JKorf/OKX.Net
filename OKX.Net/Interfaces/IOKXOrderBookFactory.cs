@@ -1,4 +1,5 @@
-﻿using OKX.Net.Objects.Options;
+﻿using CryptoExchange.Net.SharedApis;
+using OKX.Net.Objects.Options;
 
 namespace OKX.Net.Interfaces;
 
@@ -11,6 +12,14 @@ public interface IOKXOrderBookFactory
     /// Unified API order book factory methods
     /// </summary>
     IOrderBookFactory<OKXOrderBookOptions> Unified { get; }
+
+    /// <summary>
+    /// Create a SymbolOrderBook for the symbol
+    /// </summary>
+    /// <param name="symbol">The symbol</param>
+    /// <param name="options">Book options</param>
+    /// <returns></returns>
+    ISymbolOrderBook Create(SharedSymbol symbol, Action<OKXOrderBookOptions>? options = null);
 
     /// <summary>
     /// Create a new order book
