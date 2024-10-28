@@ -9187,6 +9187,11 @@
         <member name="T:OKX.Net.OKXTrackerFactory">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
         <member name="M:OKX.Net.OKXTrackerFactory.#ctor(System.IServiceProvider)">
             <summary>
             ctor
