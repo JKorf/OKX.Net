@@ -6678,6 +6678,11 @@
             Listing time
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.AuctionEndTime">
+            <summary>
+            The end time of call auction, only applicable to SPOT that are listed through call auctions
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Public.OKXInstrument.ExpiryTime">
             <summary>
             Expiry time

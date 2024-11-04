@@ -1,4 +1,5 @@
 ﻿using OKX.Net.Enums;
+using System.Collections.Generic;
 
 namespace OKX.Net.Objects.Public;
 
@@ -90,6 +91,12 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("listTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? ListingTime { get; set; }
+
+    /// <summary>
+    /// The end time of call auction, only applicable to SPOT that are listed through call auctions
+    /// </summary>
+    [JsonPropertyName("auctionEndTime"), JsonConverter(typeof(DateTimeConverter))]
+    public DateTime? AuctionEndTime { get; set; }
 
     /// <summary>
     /// Expiry time
