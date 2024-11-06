@@ -143,6 +143,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.8.0 - 06 Nov 2024
+    * Updated CryptoExchange.Net to version 8.2.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.2.0
+    * Added AuctionEndTime property to restClient.UnifiedApi.ExchangeData.GetSymbolsAsync and socketClient.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync models
+
 * Version 2.7.0 - 28 Oct 2024
     * Updated CryptoExchange.Net to version 8.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.1.0
     * Moved FormatSymbol to OKXExchange class
