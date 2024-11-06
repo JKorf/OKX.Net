@@ -83,7 +83,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     }
 
     /// <inheritdoc />
-    protected override Query GetAuthenticationRequest(SocketConnection connection)
+    protected override Task<Query?> GetAuthenticationRequestAsync(SocketConnection connection)
     {
         var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider!;
         var timestamp = (DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow) / 1000).Value.ToString(CultureInfo.InvariantCulture);
@@ -102,7 +102,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
                 }
             ]
         };
-        return new OKXQuery(request, false);
+        return Task.FromResult<Query?>(new OKXQuery(request, false));
     }
 
     internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)

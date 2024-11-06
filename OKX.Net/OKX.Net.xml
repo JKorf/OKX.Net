@@ -470,7 +470,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetAuthenticationRequest(CryptoExchange.Net.Sockets.SocketConnection)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetAuthenticationRequestAsync(CryptoExchange.Net.Sockets.SocketConnection)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetConnectionUrlAsync(System.String,System.Boolean)">
