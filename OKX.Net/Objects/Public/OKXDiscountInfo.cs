@@ -21,7 +21,7 @@ public record OKXDiscountInfo
     /// Discount level
     /// </summary>
     [JsonPropertyName("discountLv")]
-    public int DiscountLevel { get; set; }
+    public int? DiscountLevel { get; set; }
 
     /// <summary>
     /// Minimal discount rate
