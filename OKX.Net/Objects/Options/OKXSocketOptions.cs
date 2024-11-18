@@ -10,11 +10,19 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, OKXApiCred
     /// <summary>
     /// Default options for new OKXRestClients
     /// </summary>
-    public static OKXSocketOptions Default { get; set; } = new OKXSocketOptions()
+    internal static OKXSocketOptions Default { get; set; } = new OKXSocketOptions()
     {
         SocketSubscriptionsCombineTarget = 10,
         Environment = OKXEnvironment.Live
     };
+
+    /// <summary>
+    /// ctor
+    /// </summary>
+    public OKXSocketOptions()
+    {
+        Default?.Set(this);
+    }
 
     /// <summary>
     /// Broker ID for earning rebates
@@ -26,11 +34,11 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, OKXApiCred
     /// </summary>
     public SocketApiOptions UnifiedOptions { get; private set; } = new SocketApiOptions();
 
-    internal OKXSocketOptions Copy()
+    internal OKXSocketOptions Set(OKXSocketOptions targetOptions)
     {
-        var options = Copy<OKXSocketOptions>();
-        options.BrokerId = BrokerId;
-        options.UnifiedOptions = UnifiedOptions.Copy<SocketApiOptions>();
-        return options;
+        targetOptions = base.Set<OKXSocketOptions>(targetOptions);
+        targetOptions.BrokerId = BrokerId;
+        targetOptions.UnifiedOptions = UnifiedOptions.Set(targetOptions.UnifiedOptions);
+        return targetOptions;
     }
 }

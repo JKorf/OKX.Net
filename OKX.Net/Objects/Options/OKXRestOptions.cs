@@ -10,10 +10,18 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXApiCredenti
     /// <summary>
     /// Default options for new OKXRestClients
     /// </summary>
-    public static OKXRestOptions Default { get; set; } = new OKXRestOptions()
+    internal static OKXRestOptions Default { get; set; } = new OKXRestOptions()
     {
         Environment = OKXEnvironment.Live
     };
+
+    /// <summary>
+    /// ctor
+    /// </summary>
+    public OKXRestOptions()
+    {
+        Default?.Set(this);
+    }
 
     /// <summary>
     /// Whether or not to sign public requests
@@ -30,12 +38,12 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXApiCredenti
     /// </summary>
     public RestApiOptions UnifiedOptions { get; private set; } = new RestApiOptions();
 
-    internal OKXRestOptions Copy()
+    internal OKXRestOptions Set(OKXRestOptions targetOptions)
     {
-        var options = Copy<OKXRestOptions>();
-        options.SignPublicRequests = SignPublicRequests;
-        options.BrokerId = BrokerId;
-        options.UnifiedOptions = UnifiedOptions.Copy<RestApiOptions>();
-        return options;
+        targetOptions = base.Set<OKXRestOptions>(targetOptions);
+        targetOptions.SignPublicRequests = SignPublicRequests;
+        targetOptions.BrokerId = BrokerId;
+        targetOptions.UnifiedOptions = UnifiedOptions.Set(targetOptions.UnifiedOptions);
+        return targetOptions;
     }
 }

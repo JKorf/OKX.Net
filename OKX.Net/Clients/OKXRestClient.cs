@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using Microsoft.Extensions.Options;
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -22,25 +23,23 @@ public class OKXRestClient : BaseRestClient, IOKXRestClient
     /// Create a new instance of the OKXRestClient using provided options
     /// </summary>
     /// <param name="optionsDelegate">Option configuration delegate</param>
-    public OKXRestClient(Action<OKXRestOptions>? optionsDelegate = null) : this(null, null, optionsDelegate)
+    public OKXRestClient(Action<OKXRestOptions>? optionsDelegate = null)
+            : this(null, null, Options.Create(ApplyOptionsDelegate(optionsDelegate)))
     {
     }
 
     /// <summary>
     /// Create a new instance of the OKXRestClient
     /// </summary>
-    /// <param name="optionsDelegate">Option configuration delegate</param>
+    /// <param name="options">Option configuration</param>
     /// <param name="loggerFactory">The logger factory</param>
     /// <param name="httpClient">Http client for this client</param>
-    public OKXRestClient(HttpClient? httpClient, ILoggerFactory? loggerFactory, Action<OKXRestOptions>? optionsDelegate = null)
+    public OKXRestClient(HttpClient? httpClient, ILoggerFactory? loggerFactory, IOptions<OKXRestOptions> options)
         : base(loggerFactory, "OKX")
     {
-        var options = OKXRestOptions.Default.Copy();
-        if (optionsDelegate != null)
-            optionsDelegate(options);
-        Initialize(options);
+        Initialize(options.Value);
 
-        UnifiedApi = AddApiClient(new OKXRestClientUnifiedApi(_logger, httpClient, options));
+        UnifiedApi = AddApiClient(new OKXRestClientUnifiedApi(_logger, httpClient, options.Value));
     }
     #endregion
 
@@ -51,9 +50,7 @@ public class OKXRestClient : BaseRestClient, IOKXRestClient
     /// <param name="optionsDelegate">Callback for setting the options</param>
     public static void SetDefaultOptions(Action<OKXRestOptions> optionsDelegate)
     {
-        var options = OKXRestOptions.Default.Copy();
-        optionsDelegate(options);
-        OKXRestOptions.Default = options;
+        OKXRestOptions.Default = ApplyOptionsDelegate(optionsDelegate);
     }
 
     /// <summary>
