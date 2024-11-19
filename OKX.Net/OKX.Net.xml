@@ -9198,6 +9198,16 @@
             Exchange name
             </summary>
         </member>
+        <member name="P:OKX.Net.OKXExchange.DisplayName">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.ImageUrl">
+            <summary>
+            Url to exchange image
+            </summary>
+        </member>
         <member name="P:OKX.Net.OKXExchange.Url">
             <summary>
             Url to the main website
