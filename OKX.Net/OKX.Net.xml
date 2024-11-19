@@ -18,11 +18,11 @@
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:OKX.Net.Clients.OKXRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
+        <member name="M:OKX.Net.Clients.OKXRestClient.#ctor(System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILoggerFactory,Microsoft.Extensions.Options.IOptions{OKX.Net.Objects.Options.OKXRestOptions})">
             <summary>
             Create a new instance of the OKXRestClient
             </summary>
-            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="options">Option configuration</param>
             <param name="loggerFactory">The logger factory</param>
             <param name="httpClient">Http client for this client</param>
         </member>
@@ -46,24 +46,18 @@
             Unified API endpoints
             </summary>
         </member>
-        <member name="M:OKX.Net.Clients.OKXSocketClient.#ctor(Microsoft.Extensions.Logging.ILoggerFactory)">
-            <summary>
-            Create a new instance of the OKXSocketClient
-            </summary>
-            <param name="loggerFactory">The logger</param>
-        </member>
         <member name="M:OKX.Net.Clients.OKXSocketClient.#ctor(System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
             <summary>
             Create a new instance of the OKXSocketClient
             </summary>
             <param name="optionsDelegate">Option configuration delegate</param>
         </member>
-        <member name="M:OKX.Net.Clients.OKXSocketClient.#ctor(System.Action{OKX.Net.Objects.Options.OKXSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:OKX.Net.Clients.OKXSocketClient.#ctor(Microsoft.Extensions.Options.IOptions{OKX.Net.Objects.Options.OKXSocketOptions},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Create a new instance of the OKXSocketClient
             </summary>
             <param name="loggerFactory">The logger</param>
-            <param name="optionsDelegate">Option configuration delegate</param>
+            <param name="options">Option configuration delegate</param>
         </member>
         <member name="M:OKX.Net.Clients.OKXSocketClient.SetDefaultOptions(System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
             <summary>
@@ -6218,15 +6212,45 @@
             <summary>
             ctor
             </summary>
-            <param name="apiKey"></param>
-            <param name="apiSecret"></param>
-            <param name="apiPassPhrase"></param>
+            <param name="key">The API key</param>
+            <param name="secret">The API secret</param>
+            <param name="passPhrase">The API passphrase</param>
         </member>
         <member name="M:OKX.Net.Objects.OKXApiCredentials.Copy">
             <summary>
             Copy
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:OKX.Net.Objects.Options.OKXOptions">
+            <summary>
+            OKX options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXOptions.Rest">
+            <summary>
+            Rest client options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXOptions.Socket">
+            <summary>
+            Socket client options
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXOptions.Environment">
+            <summary>
+            Trade environment. Contains info about URL's to use to connect to the API. Use `OKXEnvironment` to swap environment, for example `Environment = OKXEnvironment.Live`
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXOptions.ApiCredentials">
+            <summary>
+            The api credentials used for signing requests.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Options.OKXOptions.SocketClientLifeTime">
+            <summary>
+            The DI service lifetime for the IOKXSocketClient
+            </summary>
         </member>
         <member name="T:OKX.Net.Objects.Options.OKXOrderBookOptions">
             <summary>
@@ -6258,6 +6282,11 @@
             Default options for new OKXRestClients
             </summary>
         </member>
+        <member name="M:OKX.Net.Objects.Options.OKXRestOptions.#ctor">
+            <summary>
+            ctor
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Options.OKXRestOptions.SignPublicRequests">
             <summary>
             Whether or not to sign public requests
@@ -6281,6 +6310,11 @@
         <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.Default">
             <summary>
             Default options for new OKXRestClients
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Objects.Options.OKXSocketOptions.#ctor">
+            <summary>
+            ctor
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Options.OKXSocketOptions.BrokerId">
@@ -9125,6 +9159,16 @@
             Socket API base address
             </summary>
         </member>
+        <member name="M:OKX.Net.OKXEnvironment.#ctor">
+            <summary>
+            ctor for DI, use <see cref="M:OKX.Net.OKXEnvironment.CreateCustom(System.String,System.String,System.String)"/> for creating a custom environment
+            </summary>
+        </member>
+        <member name="M:OKX.Net.OKXEnvironment.GetEnvironmentByName(System.String)">
+            <summary>
+            Get the OKX environment by name
+            </summary>
+        </member>
         <member name="P:OKX.Net.OKXEnvironment.Live">
             <summary>
             Live environment
@@ -9152,6 +9196,16 @@
         <member name="P:OKX.Net.OKXExchange.ExchangeName">
             <summary>
             Exchange name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.DisplayName">
+            <summary>
+            Exchange name
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.ImageUrl">
+            <summary>
+            Url to exchange image
             </summary>
         </member>
         <member name="P:OKX.Net.OKXExchange.Url">
@@ -9286,15 +9340,26 @@
             Extensions for DI
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            Add the IOKXRestClient and IOKXSocketClient to the sevice collection so they can be injected
+            Add services such as the IOKXRestClient and IOKXSocketClient. Configures the services based on the provided configuration.
             </summary>
             <param name="services">The service collection</param>
-            <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
-            <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
-            <param name="socketClientLifeTime">The lifetime of the IOKXSocketClient for the service collection. Defaults to Singleton.</param>
+            <param name="configuration">The configuration(section) containing the options</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXOptions})">
+            <summary>
+            Add services such as the IOKXRestClient and IOKXSocketClient. Services will be configured based on the provided options.
+            </summary>
+            <param name="services">The service collection</param>
+            <param name="optionsDelegate">Set options for the OKX services</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
+            <summary>
+            DEPRECATED; use <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXOptions})" /> instead
+            </summary>
         </member>
     </members>
 </doc>

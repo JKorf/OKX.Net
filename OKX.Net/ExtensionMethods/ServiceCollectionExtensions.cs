@@ -1,4 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces;
@@ -14,47 +16,115 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+
         /// <summary>
-        /// Add the IOKXRestClient and IOKXSocketClient to the sevice collection so they can be injected
+        /// Add services such as the IOKXRestClient and IOKXSocketClient. Configures the services based on the provided configuration.
         /// </summary>
         /// <param name="services">The service collection</param>
-        /// <param name="defaultRestOptionsDelegate">Set default options for the rest client</param>
-        /// <param name="defaultSocketOptionsDelegate">Set default options for the socket client</param>
-        /// <param name="socketClientLifeTime">The lifetime of the IOKXSocketClient for the service collection. Defaults to Singleton.</param>
+        /// <param name="configuration">The configuration(section) containing the options</param>
         /// <returns></returns>
         public static IServiceCollection AddOKX(
             this IServiceCollection services,
-            Action<OKXRestOptions>? defaultRestOptionsDelegate = null,
-            Action<OKXSocketOptions>? defaultSocketOptionsDelegate = null,
+            IConfiguration configuration)
+        {
+            var options = new OKXOptions();
+            // Reset environment so we know if theyre overriden
+            options.Rest.Environment = null!;
+            options.Socket.Environment = null!;
+            configuration.Bind(options);
+
+            if (options.Rest == null || options.Socket == null)
+                throw new ArgumentException("Options null");
+
+            var restEnvName = options.Rest.Environment?.Name ?? options.Environment?.Name ?? OKXEnvironment.Live.Name;
+            var socketEnvName = options.Socket.Environment?.Name ?? options.Environment?.Name ?? OKXEnvironment.Live.Name;
+            options.Rest.Environment = OKXEnvironment.GetEnvironmentByName(restEnvName) ?? options.Rest.Environment!;
+            options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
+            options.Socket.Environment = OKXEnvironment.GetEnvironmentByName(socketEnvName) ?? options.Socket.Environment!;
+            options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
+
+
+            services.AddSingleton(x => Options.Options.Create(options.Rest));
+            services.AddSingleton(x => Options.Options.Create(options.Socket));
+
+            return AddOKXCore(services, options.SocketClientLifeTime);
+        }
+
+        /// <summary>
+        /// Add services such as the IOKXRestClient and IOKXSocketClient. Services will be configured based on the provided options.
+        /// </summary>
+        /// <param name="services">The service collection</param>
+        /// <param name="optionsDelegate">Set options for the OKX services</param>
+        /// <returns></returns>
+        public static IServiceCollection AddOKX(
+            this IServiceCollection services,
+            Action<OKXOptions>? optionsDelegate = null)
+        {
+            var options = new OKXOptions();
+            // Reset environment so we know if theyre overriden
+            options.Rest.Environment = null!;
+            options.Socket.Environment = null!;
+            optionsDelegate?.Invoke(options);
+            if (options.Rest == null || options.Socket == null)
+                throw new ArgumentException("Options null");
+
+            options.Rest.Environment = options.Rest.Environment ?? options.Environment ?? OKXEnvironment.Live;
+            options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
+            options.Socket.Environment = options.Socket.Environment ?? options.Environment ?? OKXEnvironment.Live;
+            options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
+
+            services.AddSingleton(x => Options.Options.Create(options.Rest));
+            services.AddSingleton(x => Options.Options.Create(options.Socket));
+
+            return AddOKXCore(services, options.SocketClientLifeTime);
+        }
+
+        /// <summary>
+        /// DEPRECATED; use <see cref="AddOKX(IServiceCollection, Action{OKXOptions}?)" /> instead
+        /// </summary>
+        public static IServiceCollection AddOKX(
+            this IServiceCollection services,
+            Action<OKXRestOptions> restDelegate,
+            Action<OKXSocketOptions>? socketDelegate = null,
             ServiceLifetime? socketClientLifeTime = null)
         {
-            var restOptions = OKXRestOptions.Default.Copy();
+            services.Configure<OKXRestOptions>((x) => { restDelegate?.Invoke(x); });
+            services.Configure<OKXSocketOptions>((x) => { socketDelegate?.Invoke(x); });
 
-            if (defaultRestOptionsDelegate != null)
-            {
-                defaultRestOptionsDelegate(restOptions);
-                OKXRestClient.SetDefaultOptions(defaultRestOptionsDelegate);
-            }
+            return AddOKXCore(services, socketClientLifeTime);
+        }
 
-            if (defaultSocketOptionsDelegate != null)
-                OKXSocketClient.SetDefaultOptions(defaultSocketOptionsDelegate);
-
-            services.AddHttpClient<IOKXRestClient, OKXRestClient>(options =>
+        private static IServiceCollection AddOKXCore(
+            this IServiceCollection services,
+            ServiceLifetime? socketClientLifeTime = null)
+        {
+            services.AddHttpClient<IOKXRestClient, OKXRestClient>((client, serviceProvider) =>
             {
-                options.Timeout = restOptions.RequestTimeout;
-            }).ConfigurePrimaryHttpMessageHandler(() =>
-            {
+                var options = serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>().Value;
+                client.Timeout = options.RequestTimeout;
+                return new OKXRestClient(client, serviceProvider.GetRequiredService<ILoggerFactory>(), serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>());
+            }).ConfigurePrimaryHttpMessageHandler((serviceProvider) => {
                 var handler = new HttpClientHandler();
-                if (restOptions.Proxy != null)
+                try
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                catch (PlatformNotSupportedException)
+                { }
+
+                var options = serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>().Value;
+                if (options.Proxy != null)
                 {
                     handler.Proxy = new WebProxy
                     {
-                        Address = new Uri($"{restOptions.Proxy.Host}:{restOptions.Proxy.Port}"),
-                        Credentials = restOptions.Proxy.Password == null ? null : new NetworkCredential(restOptions.Proxy.Login, restOptions.Proxy.Password)
+                        Address = new Uri($"{options.Proxy.Host}:{options.Proxy.Port}"),
+                        Credentials = options.Proxy.Password == null ? null : new NetworkCredential(options.Proxy.Login, options.Proxy.Password)
                     };
                 }
                 return handler;
             });
+            services.Add(new ServiceDescriptor(typeof(IOKXSocketClient), x => { return new OKXSocketClient(x.GetRequiredService<IOptions<OKXSocketOptions>>(), x.GetRequiredService<ILoggerFactory>()); }, socketClientLifeTime ?? ServiceLifetime.Singleton));
+
 
             services.AddTransient<ICryptoRestClient, CryptoRestClient>();
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
@@ -65,10 +135,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient);
 
-            if (socketClientLifeTime == null)
-                services.AddSingleton<IOKXSocketClient, OKXSocketClient>();
-            else
-                services.Add(new ServiceDescriptor(typeof(IOKXSocketClient), typeof(OKXSocketClient), socketClientLifeTime.Value));
             return services;
         }
     }

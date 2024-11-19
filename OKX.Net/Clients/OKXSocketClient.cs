@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using Microsoft.Extensions.Options;
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -16,19 +17,13 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     public IOKXSocketClientUnifiedApi UnifiedApi { get; }
 
     #region ctor
-    /// <summary>
-    /// Create a new instance of the OKXSocketClient
-    /// </summary>
-    /// <param name="loggerFactory">The logger</param>
-    public OKXSocketClient(ILoggerFactory? loggerFactory = null) : this((x) => { }, loggerFactory)
-    {
-    }
 
     /// <summary>
     /// Create a new instance of the OKXSocketClient
     /// </summary>
     /// <param name="optionsDelegate">Option configuration delegate</param>
-    public OKXSocketClient(Action<OKXSocketOptions> optionsDelegate) : this(optionsDelegate, null)
+    public OKXSocketClient(Action<OKXSocketOptions>? optionsDelegate = null)
+            : this(Options.Create(ApplyOptionsDelegate(optionsDelegate)), null)
     {
     }
 
@@ -36,14 +31,12 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     /// Create a new instance of the OKXSocketClient
     /// </summary>
     /// <param name="loggerFactory">The logger</param>
-    /// <param name="optionsDelegate">Option configuration delegate</param>
-    public OKXSocketClient(Action<OKXSocketOptions> optionsDelegate, ILoggerFactory? loggerFactory = null) : base(loggerFactory, "OKX")
+    /// <param name="options">Option configuration delegate</param>
+    public OKXSocketClient(IOptions<OKXSocketOptions> options, ILoggerFactory? loggerFactory = null) : base(loggerFactory, "OKX")
     {
-        var options = OKXSocketOptions.Default.Copy();
-        optionsDelegate(options);
-        Initialize(options);
+        Initialize(options.Value);
 
-        UnifiedApi = AddApiClient(new OKXSocketClientUnifiedApi(_logger, options));
+        UnifiedApi = AddApiClient(new OKXSocketClientUnifiedApi(_logger, options.Value));
     }
     #endregion
 
@@ -54,9 +47,7 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     /// <param name="optionsDelegate"></param>
     public static void SetDefaultOptions(Action<OKXSocketOptions> optionsDelegate)
     {
-        var options = OKXSocketOptions.Default.Copy();
-        optionsDelegate(options);
-        OKXSocketOptions.Default = options;
+        OKXSocketOptions.Default = ApplyOptionsDelegate(optionsDelegate);
     }
 
     /// <inheritdoc />

@@ -190,16 +190,22 @@
           
 		  <p>OKX.Net can be configured using Dotnet dependency injection, after which the clients can be injected into your services. It also correctly configures logging and HttpClient usage.</p>
 		  
-		  <pre><code>builder.Services.AddOKX(options => {
-  // Options can be configured here, for example:
-  options.ApiCredentials = new ApiCredentials("APIKEY", "APISECRET");
+		  <pre><code>// Configure options from config file
+// see https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples/example-config.json for an example
+builder.Services.AddOKX(builder.Configuration.GetSection("OKX"));
+		  
+// OR
+		  
+ builder.Services.AddOKX(options => {
+  // Configure options in code
+  options.ApiCredentials = new OKXApiCredentials("APIKEY", "APISECRET", "APIPASS");
 });</code></pre>
 		  
 		  <p>The <code>IOKXRestClient</code> and <code>IOKXSocketClient</code> can then be injected.</p>
 		  <p>Alternatively the rest and socket client can be constructed directly</p>
 		  <pre><code>var restClient = new OKXRestClient(options => {
   // Options can be configured here, for example:
-  options.ApiCredentials = new ApiCredentials("APIKEY", "APISECRET");
+  options.ApiCredentials = new OKXApiCredentials("APIKEY", "APISECRET", "APIPASS");
 });
 var socketClient = new OKXSocketClient();</code></pre>
 		  

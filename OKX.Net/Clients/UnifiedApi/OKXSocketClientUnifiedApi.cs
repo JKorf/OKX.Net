@@ -45,7 +45,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
         _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "078ee129065aBCDE";
 
-        _demoTrading = options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet;
+        _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 
         RegisterPeriodicQuery("Ping", TimeSpan.FromSeconds(20), x => new OKXPingQuery(), null);
 

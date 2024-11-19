@@ -40,7 +40,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
         _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "1425d83a94fbBCDE";
 
-        if (options.Environment.EnvironmentName == TradeEnvironmentNames.Testnet)
+        if (options.Environment.Name == TradeEnvironmentNames.Testnet)
         {
             StandardRequestHeaders = new Dictionary<string, string>
             {

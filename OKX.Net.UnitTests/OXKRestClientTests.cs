@@ -5,6 +5,10 @@ using NUnit.Framework.Legacy;
 using CryptoExchange.Net.Clients;
 using OKX.Net.Objects;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using CryptoExchange.Net.Objects;
+using OKX.Net.Interfaces.Clients;
 
 namespace OKX.Net.UnitTests
 {
@@ -100,6 +104,108 @@ namespace OKX.Net.UnitTests
         {
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingRestInterfaces<OKXRestClient>();
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingSocketInterfaces<OKXSocketClient>();
+        }
+        
+
+        [Test]
+        [TestCase(TradeEnvironmentNames.Live, "https://www.okx.com")]
+        [TestCase(TradeEnvironmentNames.Testnet, "https://www.okx.com")]
+        [TestCase("", "https://www.okx.com")]
+        public void TestConstructorEnvironments(string environmentName, string expected)
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "OKX:Environment:Name", environmentName },
+                }).Build();
+
+            var collection = new ServiceCollection();
+            collection.AddOKX(configuration.GetSection("OKX"));
+            var provider = collection.BuildServiceProvider();
+
+            var client = provider.GetRequiredService<IOKXRestClient>();
+
+            var address = client.UnifiedApi.BaseAddress;
+
+            Assert.That(address, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void TestConstructorNullEnvironment()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "OKX", null },
+                }).Build();
+
+            var collection = new ServiceCollection();
+            collection.AddOKX(configuration.GetSection("OKX"));
+            var provider = collection.BuildServiceProvider();
+
+            var client = provider.GetRequiredService<IOKXRestClient>();
+
+            var address = client.UnifiedApi.BaseAddress;
+
+            Assert.That(address, Is.EqualTo("https://www.okx.com"));
+        }
+
+        [Test]
+        public void TestConstructorApiOverwriteEnvironment()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "OKX:Environment:Name", "test" },
+                    { "OKX:Rest:Environment:Name", "live" },
+                }).Build();
+
+            var collection = new ServiceCollection();
+            collection.AddOKX(configuration.GetSection("OKX"));
+            var provider = collection.BuildServiceProvider();
+
+            var client = provider.GetRequiredService<IOKXRestClient>();
+
+            var address = client.UnifiedApi.BaseAddress;
+
+            Assert.That(address, Is.EqualTo("https://www.okx.com"));
+        }
+
+        [Test]
+        public void TestConstructorConfiguration()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "ApiCredentials:Key", "123" },
+                    { "ApiCredentials:Secret", "456" },
+                    { "ApiCredentials:PassPhrase", "222" },
+                    { "Socket:ApiCredentials:Key", "456" },
+                    { "Socket:ApiCredentials:Secret", "789" },
+                    { "Socket:ApiCredentials:PassPhrase", "111" },
+                    { "Rest:OutputOriginalData", "true" },
+                    { "Socket:OutputOriginalData", "false" },
+                    { "Rest:Proxy:Host", "host" },
+                    { "Rest:Proxy:Port", "80" },
+                    { "Socket:Proxy:Host", "host2" },
+                    { "Socket:Proxy:Port", "81" },
+                }).Build();
+
+            var collection = new ServiceCollection();
+            collection.AddOKX(configuration);
+            var provider = collection.BuildServiceProvider();
+
+            var restClient = provider.GetRequiredService<IOKXRestClient>();
+            var socketClient = provider.GetRequiredService<IOKXSocketClient>();
+
+            Assert.That(((BaseApiClient)restClient.UnifiedApi).OutputOriginalData, Is.True);
+            Assert.That(((BaseApiClient)socketClient.UnifiedApi).OutputOriginalData, Is.False);
+            Assert.That(((BaseApiClient)restClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("123"));
+            Assert.That(((BaseApiClient)socketClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("456"));
+            Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
+            Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
+            Assert.That(((BaseApiClient)socketClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));
+            Assert.That(((BaseApiClient)socketClient.UnifiedApi).ClientOptions.Proxy.Port, Is.EqualTo(81));
         }
     }
 }

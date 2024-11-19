@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using OKX.Net.Objects.Options;
 
 namespace OKX.Net.UnitTests
 {
@@ -28,11 +30,11 @@ namespace OKX.Net.UnitTests
             var pass = Environment.GetEnvironmentVariable("APIPASS");
 
             Authenticated = key != null && sec != null;
-            return new OKXRestClient(null, loggerFactory, opts =>
+            return new OKXRestClient(null, loggerFactory, Options.Create(new OKXRestOptions
             {
-                opts.OutputOriginalData = true;
-                opts.ApiCredentials = Authenticated ? new OKXApiCredentials(key, sec, pass) : null;
-            });
+                OutputOriginalData = true,
+                ApiCredentials = Authenticated ? new OKXApiCredentials(key, sec, pass) : null
+            }));
         }
 
         [Test]
