@@ -144,6 +144,15 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.9.0 - 19 Nov 2024
+    * Updated CryptoExchange.Net to version 8.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.3.0
+    * Added support for loading client settings from IConfiguration
+    * Added DI registration method for configuring Rest and Socket options at the same time
+    * Added DisplayName and ImageUrl properties to OKXExchange class
+    * Updated client constructors to accept IOptions from DI
+    * Removed redundant OKXSocketClient constructor
+    * Fixed deserialization issue in okxRestClient.UnifiedApi.ExchangeData.GetDiscountInfoAsync
+
 * Version 2.8.0 - 06 Nov 2024
     * Updated CryptoExchange.Net to version 8.2.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.2.0
     * Added AuctionEndTime property to restClient.UnifiedApi.ExchangeData.GetSymbolsAsync and socketClient.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync models
