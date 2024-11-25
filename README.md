@@ -144,6 +144,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.10.0 - 25 Nov 2024
+    * Added Chase Algo order support
+    * Added AccountType property to restClient.UnifiedApi.Account.GetAccountConfigurationAsync response model
+    * Updated restClient.UnifiedApi.Account.GetAssetsAsync response model
+    * Updated restClient.UnifiedApi.Account.GetMaximumLoanAmountAsync parameters
+
 * Version 2.9.0 - 19 Nov 2024
     * Updated CryptoExchange.Net to version 8.3.0, see https://github.com/JKorf/CryptoExchange.Net/releases/tag/8.3.0
     * Added support for loading client settings from IConfiguration
