@@ -288,16 +288,17 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
     /// <inheritdoc />
     public virtual async Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(
-        string instrumentId,
         MarginMode marginMode,
+        string? symbol = null,
+        string? asset = null,
         string? marginAsset = null,
         CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection {
-            {"instId", instrumentId }
-        };
+        var parameters = new ParameterCollection();
         parameters.AddEnum("mgnMode", marginMode);
         parameters.AddOptionalParameter("mgnCcy", marginAsset);
+        parameters.AddOptional("instId", symbol);
+        parameters.AddOptional("ccy", asset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-loan", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

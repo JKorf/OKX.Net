@@ -34,7 +34,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumAmountAsync("123", Enums.TradeMode.Cash), "GetMaximumAmount");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumAvailableAmountAsync("123", Enums.TradeMode.Cash), "GetMaximumAvailableAmount");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.SetMarginAmountAsync("123", Enums.PositionSide.Net, Enums.MarginAddReduce.Add, 1), "SetMarginAmount");
-            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumLoanAmountAsync("123", Enums.MarginMode.Isolated), "GetMaximumLoanAmount");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetMaximumLoanAmountAsync(Enums.MarginMode.Isolated, "123"), "GetMaximumLoanAmount");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFeeRatesAsync(Enums.InstrumentType.Spot), "GetFeeRates", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetInterestAccruedAsync(), "GetInterestAccrued");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetInterestRateAsync(), "GetInterestRate");

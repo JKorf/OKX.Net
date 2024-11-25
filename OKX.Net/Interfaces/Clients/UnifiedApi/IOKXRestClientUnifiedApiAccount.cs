@@ -268,11 +268,12 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /></para>
     /// </summary>
     /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
+    /// <param name="asset">Applicable to get Max loan of manual borrow for the currency in Spot mode (enabled borrowing)</param>
     /// <param name="marginMode">Margin Mode</param>
     /// <param name="marginAsset">Margin asset</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(string symbol, MarginMode marginMode, string? marginAsset = null, CancellationToken ct = default);
+    Task<WebCallResult<IEnumerable<OKXMaximumLoanAmount>>> GetMaximumLoanAmountAsync(MarginMode marginMode, string? symbol = null, string? asset = null, string? marginAsset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the maximum transferable amount.

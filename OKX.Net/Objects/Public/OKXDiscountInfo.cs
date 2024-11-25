@@ -12,7 +12,7 @@ public record OKXDiscountInfo
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quantity
+    /// Interest-free quota
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }

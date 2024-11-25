@@ -131,7 +131,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetMarginAmountAsync(System.String,OKX.Net.Enums.PositionSide,OKX.Net.Enums.MarginAddReduce,System.Decimal,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(System.String,OKX.Net.Enums.MarginMode,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(OKX.Net.Enums.MarginMode,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.Threading.CancellationToken)">
@@ -996,6 +996,41 @@
             Mark price
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.UserAccountType">
+            <summary>
+            Account type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.Main">
+            <summary>
+            Main account
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.StandardSubAccount">
+            <summary>
+            Standard sub account
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.ManagedSubAccount">
+            <summary>
+            Managed trading sub account
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.CustodySubAccountCopper">
+            <summary>
+            Custody trading sub-account - Copper
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.ManagedSubAccountCopper">
+            <summary>
+            Managed trading sub-account - Copper
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UserAccountType.CustodySubAccountKomainu">
+            <summary>
+            Custody trading sub-account - Komainu
+            </summary>
+        </member>
         <member name="T:OKX.Net.ExtensionMethods.OKXExtensionMethods">
             <summary>
             Extension methods specific to using the OKX API
@@ -1325,12 +1360,13 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(System.String,OKX.Net.Enums.MarginMode,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(OKX.Net.Enums.MarginMode,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get the maximum loan of a instrument
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /></para>
             </summary>
             <param name="symbol">Symbol, for example 'ETH-USDT'</param>
+            <param name="asset">Applicable to get Max loan of manual borrow for the currency in Spot mode (enabled borrowing)</param>
             <param name="marginMode">Margin Mode</param>
             <param name="marginAsset">Margin asset</param>
             <param name="ct">Cancellation Token</param>
@@ -3498,6 +3534,11 @@
             Whether auto-repay is allowed or not in Spot mode
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.AccountType">
+            <summary>
+            Account type
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountGreeksType">
             <summary>
             Greeks type
@@ -4887,14 +4928,19 @@
             Minimal withdrawal quantity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.FixedWithdrawalFee">
+            <summary>
+            Fixed withdrawal fee
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinimumWithdrawalFee">
             <summary>
-            Minimum withdrawal fee
+            DEPRECATED
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaximumWithdrawalFee">
             <summary>
-            Maximum withdrawal fee
+            DEPRECATED
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxDeposit">
@@ -4919,12 +4965,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxWithdrawalFeeForContractAddress">
             <summary>
-            The maximum withdrawal fee for contract address
+            DEPRECATED
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinWithdrawalFeeForContractAddress">
             <summary>
-            The minimum withdrawal fee for contract address
+            DEPRECATED
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Funding.OKXAsset.MaxWithdrawal">
@@ -6429,7 +6475,7 @@
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.Quantity">
             <summary>
-            Quantity
+            Interest-free quota
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.DiscountLevel">
