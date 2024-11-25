@@ -300,4 +300,25 @@ public record OKXAlgoOrder
     [JsonPropertyName("isTradeBorrowMode")]
     [JsonConverter(typeof(BoolConverter))]
     public bool? IsTradeBorrowMode { get; set; }
+
+    /// <summary>
+    /// Chase order value type
+    /// </summary>
+    [JsonPropertyName("chaseType")]
+    public ChaseType? ChaseType { get; set; }
+    /// <summary>
+    /// Chase value
+    /// </summary>
+    [JsonPropertyName("chaseVal")]
+    public decimal? ChaseValue { get; set; }
+    /// <summary>
+    /// Max chase order value type
+    /// </summary>
+    [JsonPropertyName("maxChaseType")]
+    public ChaseType? MaxChaseType { get; set; }
+    /// <summary>
+    /// Max chase value
+    /// </summary>
+    [JsonPropertyName("maxChaseVal")]
+    public decimal? MaxChaseValue { get; set; }
 }

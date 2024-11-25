@@ -288,6 +288,10 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="cancelOnClose">Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
     /// <param name="quickMarginType">Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
     /// <param name="clientOrderId">Client order id</param>
+    /// <param name="chaseType">Chase order value type</param>
+    /// <param name="chaseValue">Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
+    /// <param name="maxChaseType">Max chase order value type</param>
+    /// <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -320,6 +324,10 @@ public interface IOKXRestClientUnifiedApiTrading
         bool? cancelOnClose = null,
         QuickMarginType? quickMarginType = null,
         string? clientOrderId = null,
+        ChaseType? chaseType = null,
+        decimal? chaseValue = null,
+        ChaseType? maxChaseType = null,
+        decimal? maxChaseValue = null,
         CancellationToken ct = default);
 
     /// <summary>

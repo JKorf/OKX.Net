@@ -561,6 +561,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         QuickMarginType? quickMarginType = null,
         string? clientOrderId = null,
 
+        ChaseType? chaseType = null,
+        decimal? chaseValue = null,
+        ChaseType? maxChaseType = null,
+        decimal? maxChaseValue = null,
+
         CancellationToken ct = default)
     {
         clientOrderId ??= ExchangeHelpers.AppendRandomString(_baseClient._ref, 32);
@@ -602,6 +607,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         parameters.AddOptionalParameter("timeInterval", timeInterval?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("closeFraction", closeFraction?.ToString(CultureInfo.InvariantCulture));
+
+        parameters.AddOptionalEnum("chaseType", chaseType);
+        parameters.AddOptionalString("chaseVal", chaseValue);
+        parameters.AddOptionalEnum("maxChaseType", maxChaseType);
+        parameters.AddOptionalString("maxChaseVal", maxChaseValue);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

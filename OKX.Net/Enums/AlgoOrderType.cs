@@ -17,4 +17,6 @@ public enum AlgoOrderType
     Iceberg,
     [Map("twap")]
     TWAP,
+    [Map("chase")]
+    Chase
 }
