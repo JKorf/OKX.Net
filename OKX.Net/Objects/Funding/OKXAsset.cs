@@ -48,13 +48,19 @@ public record OKXAsset
     public decimal MinimumWithdrawalAmount { get; set; }
 
     /// <summary>
-    /// Minimum withdrawal fee
+    /// Fixed withdrawal fee
+    /// </summary>
+    [JsonPropertyName("fee")]
+    public decimal FixedWithdrawalFee { get; set; }
+
+    /// <summary>
+    /// DEPRECATED
     /// </summary>
     [JsonPropertyName("minFee")]
     public decimal MinimumWithdrawalFee { get; set; }
 
     /// <summary>
-    /// Maximum withdrawal fee
+    /// DEPRECATED
     /// </summary>
     [JsonPropertyName("maxFee")]
     public decimal MaximumWithdrawalFee { get; set; }
@@ -84,13 +90,13 @@ public record OKXAsset
     public bool IsMainNet { get; set; }
 
     /// <summary>
-    /// The maximum withdrawal fee for contract address
+    /// DEPRECATED
     /// </summary>
     [JsonPropertyName("maxFeeForCtAddr")]
     public decimal? MaxWithdrawalFeeForContractAddress { get; set; }
 
     /// <summary>
-    /// The minimum withdrawal fee for contract address
+    /// DEPRECATED
     /// </summary>
     [JsonPropertyName("minFeeForCtAddr")]
     public decimal? MinWithdrawalFeeForContractAddress { get; set; }
