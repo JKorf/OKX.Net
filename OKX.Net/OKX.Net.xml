@@ -5042,6 +5042,26 @@
             Burning fee rate, e.g "0.05" represents "5%". Some currencies may charge combustion fees.The burning fee is deducted based on the withdrawal quantity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.ContractAddress">
+            <summary>
+            Contract address
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.EstimatedDepositOpenTime">
+            <summary>
+            Estimated deposit open time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.EstimatedWithdrawalOpenTime">
+            <summary>
+            Estimated withdrawal open time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXAsset.MinInternalTransferQuantity">
+            <summary>
+            Minimal internal tranfer quantity
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXDepositAddress">
             <summary>
             Deposit address info

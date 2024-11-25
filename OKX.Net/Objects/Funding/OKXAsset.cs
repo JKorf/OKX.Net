@@ -160,4 +160,25 @@ public record OKXAsset
     /// </summary>
     [JsonPropertyName("burningFeeRate")]
     public decimal? BurningFeeRate { get; set; }
+
+    /// <summary>
+    /// Contract address
+    /// </summary>
+    [JsonPropertyName("ctAddr")]
+    public string? ContractAddress { get; set; }
+    /// <summary>
+    /// Estimated deposit open time
+    /// </summary>
+    [JsonPropertyName("depEstOpenTime")]
+    public DateTime? EstimatedDepositOpenTime { get; set; }
+    /// <summary>
+    /// Estimated withdrawal open time
+    /// </summary>
+    [JsonPropertyName("wdEstOpenTime")]
+    public DateTime? EstimatedWithdrawalOpenTime { get; set; }
+    /// <summary>
+    /// Minimal internal tranfer quantity
+    /// </summary>
+    [JsonPropertyName("minInternal")]
+    public decimal? MinInternalTransferQuantity { get; set; }
 }
