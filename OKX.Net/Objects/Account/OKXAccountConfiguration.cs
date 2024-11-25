@@ -142,4 +142,10 @@ public record OKXAccountConfiguration
     /// </summary>
     [JsonPropertyName("spotBorrowAutoRepay")]
     public bool SpotBorrowAutoRepay { get; set; }
+
+    /// <summary>
+    /// Account type
+    /// </summary>
+    [JsonPropertyName("type")]
+    public UserAccountType AccountType { get; set; }
 }
