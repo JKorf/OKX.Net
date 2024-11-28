@@ -6312,31 +6312,6 @@
             OKX options
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Options.OKXOptions.Rest">
-            <summary>
-            Rest client options
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Options.OKXOptions.Socket">
-            <summary>
-            Socket client options
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Options.OKXOptions.Environment">
-            <summary>
-            Trade environment. Contains info about URL's to use to connect to the API. Use `OKXEnvironment` to swap environment, for example `Environment = OKXEnvironment.Live`
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Options.OKXOptions.ApiCredentials">
-            <summary>
-            The api credentials used for signing requests.
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Options.OKXOptions.SocketClientLifeTime">
-            <summary>
-            The DI service lifetime for the IOKXSocketClient
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.Options.OKXOrderBookOptions">
             <summary>
             Order book options
