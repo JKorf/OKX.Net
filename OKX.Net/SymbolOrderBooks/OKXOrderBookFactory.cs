@@ -23,15 +23,13 @@ namespace OKX.Net.SymbolOrderBooks
         {
             _serviceProvider = serviceProvider;
 
-            Unified = new OrderBookFactory<OKXOrderBookOptions>(
-                Create,
-                (sharedSymbol, options) => Create(OKXExchange.FormatSymbol(sharedSymbol.BaseAsset, sharedSymbol.QuoteAsset, sharedSymbol.TradingMode, sharedSymbol.DeliverTime), options));
+            Unified = new OrderBookFactory<OKXOrderBookOptions>(Create, Create);
         }
 
         /// <inheritdoc />
         public ISymbolOrderBook Create(SharedSymbol symbol, Action<OKXOrderBookOptions>? options = null)
         {
-            var symbolName = OKXExchange.FormatSymbol(symbol.BaseAsset, symbol.QuoteAsset, symbol.TradingMode, symbol.DeliverTime);
+            var symbolName = symbol.GetSymbol(OKXExchange.FormatSymbol);
             return Create(symbolName, options);
         }
 
