@@ -24,6 +24,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     private static readonly MessagePath _instTypePath = MessagePath.Get().Property("arg").Property("instType");
     private static readonly MessagePath _instFamilyPath = MessagePath.Get().Property("arg").Property("instFamily");
 
+    public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
+
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiAccount Account { get; }
     /// <inheritdoc />
@@ -31,7 +33,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiTrading Trading { get; }
 
-    internal readonly string _ref;
     private readonly bool _demoTrading;
 
     #region ctor
@@ -42,8 +43,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         Account = new OKXSocketClientUnifiedApiAccount(logger, this);
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
-
-        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "078ee129065aBCDE";
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 

@@ -13,8 +13,9 @@ namespace OKX.Net.Clients.UnifiedApi;
 internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi, ISpotClient
 {
     #region Internal Fields
+    public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
+
     private static TimeSyncState _timeSyncState = new("Unified Api");
-    internal readonly string _ref;
 
     public event Action<OrderId>? OnOrderPlaced;
     public event Action<OrderId>? OnOrderCanceled;
@@ -37,8 +38,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
-
-        _ref = !string.IsNullOrEmpty(options.BrokerId) ? options.BrokerId! : "1425d83a94fbBCDE";
 
         if (options.Environment.Name == TradeEnvironmentNames.Testnet)
         {
