@@ -53,6 +53,7 @@ public record OKXOrder
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
@@ -212,9 +213,10 @@ public record OKXOrder
     public decimal? Leverage { get; set; }
 
     /// <summary>
-    /// Client-supplied Algo ID when plaing order attaching TP/SL.
+    /// Client-supplied Algo ID when placing order attaching TP/SL.
     /// </summary>
     [JsonPropertyName("attachAlgoClOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? AttachAlgoCllientOrderId { get; set; }
 
     /// <summary>
@@ -266,6 +268,7 @@ public record OKXOrder
     /// Client algo order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>

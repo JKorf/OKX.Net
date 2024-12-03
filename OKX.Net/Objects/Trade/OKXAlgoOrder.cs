@@ -41,6 +41,7 @@ public record OKXAlgoOrder
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
@@ -278,6 +279,7 @@ public record OKXAlgoOrder
     /// Client algo order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>

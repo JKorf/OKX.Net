@@ -51,11 +51,11 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
-        clientOrderId = clientOrderId ?? ExchangeHelpers.AppendRandomString(_client._ref, 32);
+        clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
 
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
-        parameters.AddOptionalParameter("tag", _client._ref);
+        parameters.AddOptionalParameter("tag", OKXExchange.ClientOrderId);
         parameters.AddOptionalParameter("posSide", EnumConverter.GetString(positionSide));
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
@@ -79,8 +79,8 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     {
         foreach (var order in orders)
         {
-            order.Tag = _client._ref;
-            order.ClientOrderId = order.ClientOrderId ?? ExchangeHelpers.AppendRandomString(_client._ref, 32);
+            order.Tag = OKXExchange.ClientOrderId;
+            order.ClientOrderId = LibraryHelpers.ApplyBrokerId(order.ClientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
         }
 
         return await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "batch-orders", orders, true, 1, ct).ConfigureAwait(false);
@@ -89,6 +89,9 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     /// <inheritdoc />
     public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
     {
+        if (clientOrderId != null)
+            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
+
         var parameters = new Dictionary<string, object>()
         {
             { "instId", symbol }
@@ -123,6 +126,9 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         decimal? newPrice = null, 
         CancellationToken ct = default)
     {
+        if (clientOrderId != null)
+            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
+
         var parameters = new Dictionary<string, object>
         {
             { "instId", symbol },

@@ -36,6 +36,9 @@ namespace OKX.Net
             "https://www.okx.com/docs-v5/en/"
             };
 
+        internal const string ClientOrderId = "1425d83a94fbBCDE";
+        internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeperator;
+
         /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 
         /// </summary>

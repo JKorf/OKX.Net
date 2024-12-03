@@ -15,6 +15,7 @@ public record OKXOrderPlaceResponse
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
+    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
