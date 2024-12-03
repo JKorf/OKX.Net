@@ -9,4 +9,6 @@ public enum MarginMode
     Isolated,
     [Map("cross")]
     Cross,
+    [Map("cash")]
+    Cash
 }
