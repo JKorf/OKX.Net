@@ -53,7 +53,7 @@ public record OKXOrder
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
@@ -216,7 +216,7 @@ public record OKXOrder
     /// Client-supplied Algo ID when placing order attaching TP/SL.
     /// </summary>
     [JsonPropertyName("attachAlgoClOrdId")]
-    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? AttachAlgoCllientOrderId { get; set; }
 
     /// <summary>
@@ -268,7 +268,7 @@ public record OKXOrder
     /// Client algo order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
-    [JsonConverterCtor<ReplaceConverter>($"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>
