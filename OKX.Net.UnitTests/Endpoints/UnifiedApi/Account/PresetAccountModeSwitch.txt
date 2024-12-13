@@ -1,0 +1,13 @@
+POST
+/api/v5/account/account-level-switch-preset
+true
+{
+    "code": "0",
+    "msg": "",
+    "data": [{
+    "acctLv": "3",
+    "curAcctLv": "2",
+    "lever": "",
+    "riskOffsetType": ""
+}]
+}

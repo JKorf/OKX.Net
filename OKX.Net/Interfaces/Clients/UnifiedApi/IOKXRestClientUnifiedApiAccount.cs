@@ -456,6 +456,26 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, TransferType? type = null, CancellationToken ct = default);
 
     /// <summary>
+    /// Preset info for switching account mode
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-preset-account-mode-switch" /></para>
+    /// </summary>
+    /// <param name="mode">Account mode</param>
+    /// <param name="leverage">Leverage, required when switching from Portfolio margin mode to Spot and futures mode or Multi-currency margin mode, and the user holds cross-margin positions.</param>
+    /// <param name="riskOffsetType">Risk offset type, applicable when switching from Spot and futures mode or Multi-currency margin mode to Portfolio margin mode.</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXPresetAccountMode>> PresetAccountModeSwitchAsync(AccountLevel mode, int? leverage = null, RiskOffsetType? riskOffsetType = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Run a pre-check for account mode switching
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-precheck-account-mode-switch" /></para>
+    /// </summary>
+    /// <param name="mode">Account mode</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAccountSwitchCheckResult>> PrecheckAccountModeSwitchAsync(AccountLevel mode, CancellationToken ct = default);
+
+    /// <summary>
     /// Set the account mode
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-account-mode" /></para>
     /// </summary>

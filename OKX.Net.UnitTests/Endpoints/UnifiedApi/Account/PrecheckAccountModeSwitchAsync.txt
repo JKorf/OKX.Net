@@ -1,0 +1,45 @@
+GET
+/api/v5/account/set-account-switch-precheck
+true
+{
+    "code": "0",
+    "data": [
+        {
+            "acctLv": "3",
+            "curAcctLv": "4",
+            "mgnAft": {
+                "acctAvailEq": "106002.2061970689",
+                "details": [],
+                "mgnRatio": "148.1652396878421"
+            },
+            "mgnBf": {
+                "acctAvailEq": "77308.89735228613",
+                "details": [],
+                "mgnRatio": "4.460069474634038"
+            },
+            "posList": [
+                {
+                    "lever": "50",
+                    "posId": "2005456500916518912"
+                },
+                {
+                    "lever": "50",
+                    "posId": "2005456108363218944"
+                },
+                {
+                    "lever": "50",
+                    "posId": "2005456332909477888"
+                },
+                {
+                    "lever": "50",
+                    "posId": "2005456415990251520"
+                }
+            ],
+            "posTierCheck": [],
+            "riskOffsetType": "",
+            "sCode": "0",
+            "unmatchedInfoCheck": []
+        }
+    ],
+    "msg": ""
+}

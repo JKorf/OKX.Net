@@ -723,6 +723,30 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXPresetAccountMode>> PresetAccountModeSwitchAsync(AccountLevel mode, int? leverage = null, RiskOffsetType? riskOffsetType = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("acctLv", mode);
+        parameters.AddOptionalString("lever", leverage);
+        parameters.AddOptionalEnum("riskOffsetType", riskOffsetType);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/account-level-switch-preset", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXPresetAccountMode>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAccountSwitchCheckResult>> PrecheckAccountModeSwitchAsync(AccountLevel mode, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("acctLv", mode);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/set-account-switch-precheck", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXAccountSwitchCheckResult>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAccountMode>> SetAccountModeAsync(AccountLevel mode, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();

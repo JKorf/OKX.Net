@@ -203,6 +203,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetTransferAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.TransferType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.PresetAccountModeSwitchAsync(OKX.Net.Enums.AccountLevel,System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.RiskOffsetType},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.PrecheckAccountModeSwitchAsync(OKX.Net.Enums.AccountLevel,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetAccountModeAsync(OKX.Net.Enums.AccountLevel,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -599,6 +605,31 @@
         <member name="F:OKX.Net.Enums.AccountRoleType.CopyTrader">
             <summary>
             Copy trader
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.AccountSwitchCheckResult">
+            <summary>
+            Check result
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountSwitchCheckResult.Passed">
+            <summary>
+            Passed all checks
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountSwitchCheckResult.UmatchedInfo">
+            <summary>
+            Unmatched information
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountSwitchCheckResult.LeverageSettingNotFinished">
+            <summary>
+            Leverage setting is not finished
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.AccountSwitchCheckResult.PositionTierOrMarginNotPassed">
+            <summary>
+            Position tier or margin check is not passed
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.AccountType">
@@ -1009,6 +1040,111 @@
         <member name="F:OKX.Net.Enums.TriggerPriceType.Mark">
             <summary>
             Mark price
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.UnmatchedInfoType">
+            <summary>
+            Unmatched info type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.AssetValidation">
+            <summary>
+            Asset validation
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.PendingOrders">
+            <summary>
+            Order book pending orders
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.PendingAlgos">
+            <summary>
+            Pending algo orders and trading bots, such as iceberg, recurring buy and twap
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.IsolatedMargin">
+            <summary>
+            Isolated margin (quick margin and manual transfers
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.IsolatedContract">
+            <summary>
+            Isolated contract (manual transfers
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.ContractLongShort">
+            <summary>
+            Contract positions in hedge mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.CrossMargin">
+            <summary>
+            Cross margin positions
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.CrossOptionBuyer">
+            <summary>
+            Cross options buyer
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.IsolatedOption">
+            <summary>
+            Isolated options (only applicable to spot mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.GrowthFund">
+            <summary>
+            Positions with trial funds
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.AllPositions">
+            <summary>
+            All positions
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.SpotLeadCopyOnlySimpleSingle">
+            <summary>
+            Copy trader and customize lead trader can only use spot mode or spot and futures mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.StopSpotCustom">
+            <summary>
+            Spot customize copy trading
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.StopFuturesCustom">
+            <summary>
+            Contract customize copy trading
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.LeadPortfolio">
+            <summary>
+            Lead trader can not switch to portfolio margin mode
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.FuturesSmartSync">
+            <summary>
+            You can not switch to spot mode when having smart contract sync
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.VipFixedLoan">
+            <summary>
+            Vip loan
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.RepayBorrowings">
+            <summary>
+            Borrowings
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.ComplianceRestriction">
+            <summary>
+            Due to compliance restrictions, margin trading services are unavailable
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.UnmatchedInfoType.ComplianceKyc2">
+            <summary>
+            Due to compliance restrictions, margin trading services are unavailable. if you are not a resident of this region, please complete kyc2 identity verification.
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.UserAccountType">
@@ -1564,6 +1700,26 @@
             <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
             <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
             <param name="type">The type of transfer</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.PresetAccountModeSwitchAsync(OKX.Net.Enums.AccountLevel,System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.RiskOffsetType},System.Threading.CancellationToken)">
+            <summary>
+            Preset info for switching account mode
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-preset-account-mode-switch" /></para>
+            </summary>
+            <param name="mode">Account mode</param>
+            <param name="leverage">Leverage, required when switching from Portfolio margin mode to Spot and futures mode or Multi-currency margin mode, and the user holds cross-margin positions.</param>
+            <param name="riskOffsetType">Risk offset type, applicable when switching from Spot and futures mode or Multi-currency margin mode to Portfolio margin mode.</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.PrecheckAccountModeSwitchAsync(OKX.Net.Enums.AccountLevel,System.Threading.CancellationToken)">
+            <summary>
+            Run a pre-check for account mode switching
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-precheck-account-mode-switch" /></para>
+            </summary>
+            <param name="mode">Account mode</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -3588,6 +3744,136 @@
             Account mode
             </summary>
         </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult">
+            <summary>
+            Result of account switch pre-check
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.NewAccountMode">
+            <summary>
+            Requested account mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.CurrentAccountMode">
+            <summary>
+            Current account mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.MarginAfter">
+            <summary>
+            Margin after
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.MarginBefore">
+            <summary>
+            Margin before
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.RiskOffsetType">
+            <summary>
+            Risk offset type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.ResultStatus">
+            <summary>
+            Result of the check
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.PositionTierCheck">
+            <summary>
+            Position tier check
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.Positions">
+            <summary>
+            Positions
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchCheckResult.UnmatchedInfoCheck">
+            <summary>
+            Unmatched info check
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountSwitchUnmatched">
+            <summary>
+            Unmatched info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchUnmatched.TotalAsset">
+            <summary>
+            Total asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchUnmatched.Type">
+            <summary>
+            Unmatched info type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchUnmatched.Positions">
+            <summary>
+            Positions
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountSwitchPosTier">
+            <summary>
+            Position tier check info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosTier.InstrumentFamily">
+            <summary>
+            Symbol family
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosTier.InstrumentType">
+            <summary>
+            Symbol type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosTier.PositionQuantity">
+            <summary>
+            Position quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosTier.Leverage">
+            <summary>
+            Position leverage
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosTier.MaxSize">
+            <summary>
+            Max size
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountSwitchMargin">
+            <summary>
+            Margin info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchMargin.availableEquity">
+            <summary>
+            Account available equity in USD
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchMargin.MarginRatio">
+            <summary>
+            Margin ratio in USD
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXAccountSwitchPosition">
+            <summary>
+            Position reference
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosition.PositionId">
+            <summary>
+            Position id
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountSwitchPosition.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAssetValuation">
             <summary>
             Account asset valuation
@@ -4771,6 +5057,31 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountPositionRiskPositionData.QuoteBalance">
             <summary>
             Quote asset balance
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXPresetAccountMode">
+            <summary>
+            Account mode switch preset info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPresetAccountMode.CurrentAccountMode">
+            <summary>
+            Current account mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPresetAccountMode.NewAccountMode">
+            <summary>
+            New account mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPresetAccountMode.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPresetAccountMode.RiskOffsetType">
+            <summary>
+            Risk offset type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXWithdrawalAmount">

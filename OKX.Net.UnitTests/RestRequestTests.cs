@@ -64,6 +64,8 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetBorrowRepayHistoryAsync(), "GetBorrowRepayHistory", nestedJsonProperty: "data");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetEasyConvertDustAssetsAsync(), "GetEasyConvertDustAssets", nestedJsonProperty: "data", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetEasyConvertDustHistoryAsync(), "GetEasyConvertDustHistory", nestedJsonProperty: "data");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.PresetAccountModeSwitchAsync(AccountLevel.SingleCurrencyMargin), "PresetAccountModeSwitch", nestedJsonProperty: "data");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.PrecheckAccountModeSwitchAsync(AccountLevel.SingleCurrencyMargin), "PrecheckAccountModeSwitchAsync", nestedJsonProperty: "data");
         }
 
         [Test]
