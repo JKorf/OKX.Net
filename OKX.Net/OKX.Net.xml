@@ -6591,6 +6591,11 @@
             Default live addresses
             </summary>
         </member>
+        <member name="F:OKX.Net.Objects.OKXApiAddresses.Europe">
+            <summary>
+            Europe customers addresses
+            </summary>
+        </member>
         <member name="F:OKX.Net.Objects.OKXApiAddresses.Demo">
             <summary>
             Demo addresses
@@ -9583,6 +9588,11 @@
         <member name="P:OKX.Net.OKXEnvironment.Live">
             <summary>
             Live environment
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXEnvironment.Europe">
+            <summary>
+            Live environment for Europe customers
             </summary>
         </member>
         <member name="P:OKX.Net.OKXEnvironment.Demo">

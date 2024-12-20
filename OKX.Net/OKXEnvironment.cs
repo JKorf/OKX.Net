@@ -53,6 +53,13 @@ namespace OKX.Net
                                    OKXApiAddresses.Default.UnifiedSocketAddress);
 
         /// <summary>
+        /// Live environment for Europe customers
+        /// </summary>
+        public static OKXEnvironment Europe { get; }
+            = new OKXEnvironment(TradeEnvironmentNames.Live,
+                                   OKXApiAddresses.Europe.UnifiedRestAddress,
+                                   OKXApiAddresses.Europe.UnifiedSocketAddress);
+        /// <summary>
         /// Live environment
         /// </summary>
         public static OKXEnvironment Demo { get; }

@@ -62,6 +62,22 @@ var tickerSubscriptionResult = socketClient.UnifiedApi.ExchangeData.SubscribeToT
 });
 ```
 
+**Note that for European clients the environment should be updated to Europe like so:**
+```csharp
+// With DI
+services.AddOKX(options =>
+{
+    options.Environment = OKXEnvironment.Europe;
+});
+
+// Or when constructing client
+var client = new OKXRestClient(options => 
+{
+    options.Environment = OKXEnvironment.Europe;
+});
+```
+
+
 For information on the clients, dependency injection, response processing and more see the [OKX.Net documentation](https://jkorf.github.io/OKX.Net), [CryptoExchange.Net documentation](https://jkorf.github.io/CryptoExchange.Net), or have a look at the examples [here](https://github.com/JKorf/OKX.Net/tree/main/Examples) or [here](https://github.com/JKorf/CryptoExchange.Net/tree/master/Examples).
 
 ## CryptoExchange.Net
