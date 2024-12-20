@@ -165,6 +165,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.13.1 - 20 Dec 2024
+    * Added Europe environment
+
 * Version 2.13.0 - 13 Dec 2024
     * Added restClient.UnifiedApi.Account.PresetAccountModeSwitchAsync endpoint
     * Added restClient.UnifiedApi.Account.PrecheckAccountModeSwitchAsync endpoint
