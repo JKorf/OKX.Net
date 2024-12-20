@@ -33,6 +33,7 @@ namespace OKX.Net.UnitTests
             return new OKXRestClient(null, loggerFactory, Options.Create(new OKXRestOptions
             {
                 OutputOriginalData = true,
+                Environment = Authenticated ? OKXEnvironment.Europe : OKXEnvironment.Live,
                 ApiCredentials = Authenticated ? new OKXApiCredentials(key, sec, pass) : null
             }));
         }
@@ -71,7 +72,6 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetSavingBalancesAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetValuationAsync(default, default), true);
         }
 
