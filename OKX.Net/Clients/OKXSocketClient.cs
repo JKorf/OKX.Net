@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Options;
 using Microsoft.Extensions.Options;
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Interfaces.Clients;
@@ -40,7 +41,12 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     }
     #endregion
 
-    #region Common Methods
+    /// <inheritdoc />
+    public void SetOptions(UpdateOptions options)
+    {
+        UnifiedApi.SetOptions(options);
+    }
+
     /// <summary>
     /// Set default options
     /// </summary>
@@ -55,6 +61,4 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     {
         UnifiedApi.SetApiCredentials(credentials.Copy());
     }
-
-    #endregion
 }

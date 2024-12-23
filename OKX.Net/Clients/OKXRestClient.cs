@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Options;
 using Microsoft.Extensions.Options;
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Interfaces.Clients;
@@ -43,7 +44,12 @@ public class OKXRestClient : BaseRestClient, IOKXRestClient
     }
     #endregion
 
-    #region Common Methods
+    /// <inheritdoc />
+    public void SetOptions(UpdateOptions options)
+    {
+        UnifiedApi.SetOptions(options);
+    }
+
     /// <summary>
     /// Sets the default options to use for new clients
     /// </summary>
@@ -61,5 +67,4 @@ public class OKXRestClient : BaseRestClient, IOKXRestClient
     {
         UnifiedApi.SetApiCredentials(credentials);
     }
-    #endregion
 }

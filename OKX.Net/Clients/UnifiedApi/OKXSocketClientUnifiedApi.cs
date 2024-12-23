@@ -46,7 +46,19 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 
-        RegisterPeriodicQuery("Ping", TimeSpan.FromSeconds(20), x => new OKXPingQuery(), null);
+        RegisterPeriodicQuery(
+            "Ping",
+            TimeSpan.FromSeconds(20),
+            x => new OKXPingQuery(),
+            (connection, result) =>
+            {
+                if (result.Error?.Message.Equals("Query timeout") == true)
+                {
+                    // Ping timeout, reconnect
+                    _logger.LogWarning("[Sckt {SocketId}] Ping response timeout, reconnecting", connection.SocketId);
+                    _ = connection.TriggerReconnectAsync();
+                }
+            });
 
         SetDedicatedConnection(GetUri("/ws/v5/private"), true);        
     }

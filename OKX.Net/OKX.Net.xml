@@ -26,6 +26,9 @@
             <param name="loggerFactory">The logger factory</param>
             <param name="httpClient">Http client for this client</param>
         </member>
+        <member name="M:OKX.Net.Clients.OKXRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.OKXRestClient.SetDefaultOptions(System.Action{OKX.Net.Objects.Options.OKXRestOptions})">
             <summary>
             Sets the default options to use for new clients
@@ -58,6 +61,9 @@
             </summary>
             <param name="loggerFactory">The logger</param>
             <param name="options">Option configuration delegate</param>
+        </member>
+        <member name="M:OKX.Net.Clients.OKXSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.OKXSocketClient.SetDefaultOptions(System.Action{OKX.Net.Objects.Options.OKXSocketOptions})">
             <summary>
@@ -1197,6 +1203,12 @@
             Unified API endpoints
             </summary>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.IOKXRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <summary>
+            Update specific options
+            </summary>
+            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
+        </member>
         <member name="M:OKX.Net.Interfaces.Clients.IOKXRestClient.SetApiCredentials(OKX.Net.Objects.OKXApiCredentials)">
             <summary>
             Set the API credentials for this client. All Api clients in this client will use the new credentials, regardless of earlier set options.
@@ -1212,6 +1224,12 @@
             <summary>
             Unified API
             </summary>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.IOKXSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
+            <summary>
+            Update specific options
+            </summary>
+            <param name="options">Options to update. Only specific options are changable after the client has been created</param>
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.IOKXSocketClient.SetApiCredentials(OKX.Net.Objects.OKXApiCredentials)">
             <summary>
