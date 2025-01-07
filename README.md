@@ -165,6 +165,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.14.1 - 07 Jan 2025
+    * Updated CryptoExchange.Net version
+    * Added Type property to OKXExchange class
+
 * Version 2.14.0 - 23 Dec 2024
     * Updated CryptoExchange.Net to version 8.5.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
     * Added SetOptions methods on Rest and Socket clients
