@@ -9657,6 +9657,11 @@
             Urls to the API documentation
             </summary>
         </member>
+        <member name="P:OKX.Net.OKXExchange.Type">
+            <summary>
+            Type of exchange
+            </summary>
+        </member>
         <member name="M:OKX.Net.OKXExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <summary>
             Format a base and quote asset to an OKX recognized symbol 

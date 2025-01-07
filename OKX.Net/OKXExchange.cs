@@ -36,6 +36,11 @@ namespace OKX.Net
             "https://www.okx.com/docs-v5/en/"
             };
 
+        /// <summary>
+        /// Type of exchange
+        /// </summary>
+        public static ExchangeType Type { get; } = ExchangeType.CEX;
+
         internal const string ClientOrderId = "1425d83a94fbBCDE";
         internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeperator;
 
