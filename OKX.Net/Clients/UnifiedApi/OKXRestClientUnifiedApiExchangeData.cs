@@ -244,14 +244,6 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXOracle>> GetOracleAsync(CancellationToken ct = default)
-    {
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/open-oracle", OKXExchange.RateLimiter.EndpointGate, 1, false,
-            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(5), RateLimitWindowType.Sliding));
-        return await _baseClient.SendGetSingleAsync<OKXOracle>(request, null, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXIndexComponents>> GetIndexComponentsAsync(string index, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection

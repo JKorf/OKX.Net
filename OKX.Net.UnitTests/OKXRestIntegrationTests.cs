@@ -89,7 +89,6 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetRecentTradesAsync("ETH-USDT", 100, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeHistoryAsync("ETH-USDT", default, default, default, 100, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.Get24HourVolumeAsync(default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetOracleAsync(default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetIndexComponentsAsync("ETH-USD", default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetBlockTickersAsync(Enums.InstrumentType.Swap, default, default, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetBlockTickerAsync("ETH-USD-SWAP", default), false);

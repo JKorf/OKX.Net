@@ -266,9 +266,6 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.Get24HourVolumeAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetOracleAsync(System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetIndexComponentsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2041,14 +2038,6 @@
             <param name="underlying">Underlying</param>
             <param name="expiryDate">Contract expiry date</param>
             <param name="instrumentFamily">Instrument type</param>
-            <param name="ct">Cancellation Token</param>
-            <returns></returns>
-        </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetOracleAsync(System.Threading.CancellationToken)">
-            <summary>
-            Get the crypto price of signing using Open Oracle smart contract.
-            <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-oracle" /></para>
-            </summary>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>

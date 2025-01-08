@@ -252,14 +252,6 @@ public interface IOKXRestClientUnifiedApiExchangeData
     Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Get the crypto price of signing using Open Oracle smart contract.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-oracle" /></para>
-    /// </summary>
-    /// <param name="ct">Cancellation Token</param>
-    /// <returns></returns>
-    Task<WebCallResult<OKXOracle>> GetOracleAsync(CancellationToken ct = default);
-
-    /// <summary>
     /// Get a symbol order book.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-order-book" /></para>
     /// </summary>
