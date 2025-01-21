@@ -19,6 +19,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 {
     private static readonly MessagePath _idPath = MessagePath.Get().Property("id");
     private static readonly MessagePath _eventPath = MessagePath.Get().Property("event");
+    private static readonly MessagePath _errorMsgPath = MessagePath.Get().Property("msg");
     private static readonly MessagePath _channelPath = MessagePath.Get().Property("arg").Property("channel");
     private static readonly MessagePath _instIdPath = MessagePath.Get().Property("arg").Property("instId");
     private static readonly MessagePath _instTypePath = MessagePath.Get().Property("arg").Property("instType");
@@ -86,6 +87,20 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
             return id;
 
         var evnt = message.GetValue<string>(_eventPath);
+        if (evnt == "error")
+        {
+            var errorMsg = message.GetValue<string?>(_errorMsgPath);
+            if (errorMsg != null && errorMsg.StartsWith("Wrong URL or channel:"))
+            {
+                // Try parse which sub request produced the error so it can be linked to the specific request
+                var subParams = errorMsg.Substring(21, errorMsg.IndexOf(" doesn't exist") - 21);
+                var subParamsSplit = subParams.Split(',');
+                return evnt + string.Join("", subParamsSplit.Select(x => x.Split(':').Last())).ToLowerInvariant();
+            }
+
+            return evnt;
+        }
+
         var channel = message.GetValue<string>(_channelPath);
         var instType = message.GetValue<string>(_instTypePath);
         var instId = message.GetValue<string>(_instIdPath);
