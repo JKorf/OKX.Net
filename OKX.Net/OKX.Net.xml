@@ -6358,31 +6358,6 @@
             false represents that it is uncompleted, true represents that it is completed.
             </summary>
         </member>
-        <member name="T:OKX.Net.Objects.Market.OKXOracle">
-            <summary>
-            Oracle
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXOracle.Messages">
-            <summary>
-            Messages
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXOracle.Signatures">
-            <summary>
-            Signatures
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXOracle.Time">
-            <summary>
-            Timestamp
-            </summary>
-        </member>
-        <member name="P:OKX.Net.Objects.Market.OKXOracle.Prices">
-            <summary>
-            Prices
-            </summary>
-        </member>
         <member name="T:OKX.Net.Objects.Market.OKXOrderBook">
             <summary>
             Order book
