@@ -233,6 +233,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetBorrowRepayHistoryAsync(System.String,System.Nullable{OKX.Net.Enums.BorrowRepayType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1794,6 +1797,18 @@
             <param name="endTime">Filter by end time</param>
             <param name="limit">Max number of results</param>
             <param name="ct">Cancellation token</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get a list of instruments with open contracts for the current user
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /></para>
+            </summary>
+            <param name="instrumentType">Instrument Type</param>
+            <param name="underlying">Underlying</param>
+            <param name="symbol">Filter by symbol, for example `ETH-USDT`</param>
+            <param name="instrumentFamily">Instrument family</param>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData">
             <summary>
