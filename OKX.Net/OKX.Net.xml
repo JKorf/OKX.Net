@@ -1808,7 +1808,6 @@
             <param name="symbol">Filter by symbol, for example `ETH-USDT`</param>
             <param name="instrumentFamily">Instrument family</param>
             <param name="ct">Cancellation Token</param>
-            <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData">
             <summary>

@@ -533,7 +533,7 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<IEnumerable<OKXBorrowRepayEntry>>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Get a list of instruments with open contracts for the current user
+    /// Get a list of instruments that are available to the user
     /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /></para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
