@@ -48,7 +48,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "tickers",
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -65,7 +65,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                 }
         ).ToList(); 
 
-        var subscription = new OKXSubscription<OKXTicker>(_logger, symbolSubs , onData, null, false);
+        var subscription = new OKXSubscription<OKXTicker>(_logger, symbolSubs , x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -80,7 +80,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "open-interest",
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -100,7 +100,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
             data => 
             {
                 data.Data.Symbol = symbol;
-                onData(data);
+                onData(data.WithDataTimestamp(data.Data.Time));
             }, null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
@@ -116,7 +116,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "trades",
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -133,7 +133,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     InstrumentType = instrumentType,
                     Symbol = symbol,
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -148,7 +148,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "mark-price",
                     Symbol = symbol,
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -179,7 +179,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "price-limit",
                     Symbol = symbol,
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -195,7 +195,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = jc,
                     Symbol = symbol,
                 }
-            }, onData, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -211,7 +211,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "opt-summary",
                     InstrumentFamily = instrumentFamily,
                 }
-            }, null, onData, false);
+            }, null, x => onData(x.WithDataTimestamp(x.Data.Max(x => x.Time))), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -226,7 +226,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "funding-rate",
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Timestamp)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -257,7 +257,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Channel = "index-tickers",
                     Symbol = symbol
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -271,7 +271,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                 {
                     Channel = "status"
                 }
-            }, onData, null, false);
+            }, x => onData(x.WithDataTimestamp(x.Data.Timestamp)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }

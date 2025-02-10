@@ -15,7 +15,7 @@ using OKX.Net.Objects.Options;
 namespace OKX.Net.UnitTests
 {
     [NonParallelizable]
-    internal class OKXRestIntegrationTests : RestIntergrationTest<OKXRestClient>
+    internal class OKXRestIntegrationTests : RestIntegrationTest<OKXRestClient>
     {
         public override bool Run { get; set; }
 

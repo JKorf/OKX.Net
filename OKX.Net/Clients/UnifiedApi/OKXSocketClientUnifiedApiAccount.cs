@@ -37,7 +37,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                     Asset = asset,
                     ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
                 }
-            }, onData, null, true);
+            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -53,7 +53,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                 {
                     Channel = "balance_and_position"
                 }
-            }, onData, null, true);
+            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -69,7 +69,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                 {
                     Channel = "deposit-info"
                 }
-            }, onData, null, true);
+            }, x => onData(x.WithDataTimestamp(x.Data.PushTime)), null, true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
@@ -83,7 +83,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                 {
                     Channel = "withdrawal-info"
                 }
-            }, onData, null, true);
+            }, x => onData(x.WithDataTimestamp(x.Data.PushTime)), null, true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }

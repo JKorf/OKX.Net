@@ -42,7 +42,7 @@ namespace OKX.Net
         public static ExchangeType Type { get; } = ExchangeType.CEX;
 
         internal const string ClientOrderId = "1425d83a94fbBCDE";
-        internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeperator;
+        internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeparator;
 
         /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 
