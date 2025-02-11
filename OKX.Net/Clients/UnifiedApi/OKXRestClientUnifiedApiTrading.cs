@@ -47,7 +47,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection {
             {"instId", symbol },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
-            {"tag", OKXExchange.ClientOrderId },
+            {"tag", tag ?? OKXExchange.ClientOrderId },
             {"clOrdId",  clientOrderId },
         };
         parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
@@ -68,7 +68,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         }
         parameters.AddOptional("attachAlgoOrds", attachedAlgoOrders?.ToArray());
 
-        parameters.AddOptional("tag", tag);
         parameters.AddOptional("reduceOnly", reduceOnly);
         parameters.AddOptionalEnum("posSide", positionSide);
 
