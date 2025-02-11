@@ -532,4 +532,15 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct">Cancellation token</param>
     Task<WebCallResult<IEnumerable<OKXBorrowRepayEntry>>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
+    /// <summary>
+    /// Get a list of instruments that are available to the user
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /></para>
+    /// </summary>
+    /// <param name="instrumentType">Instrument Type</param>
+    /// <param name="underlying">Underlying</param>
+    /// <param name="symbol">Filter by symbol, for example `ETH-USDT`</param>
+    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<IEnumerable<Objects.Public.OKXInstrument>>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+
 }
