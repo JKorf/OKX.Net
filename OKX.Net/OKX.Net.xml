@@ -1800,7 +1800,7 @@
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get a list of instruments with open contracts for the current user
+            Get a list of instruments that are available to the user
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /></para>
             </summary>
             <param name="instrumentType">Instrument Type</param>
