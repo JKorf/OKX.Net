@@ -174,7 +174,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentFamily = instrumentFamily,
                     ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
                 }
-            }, null, x => onData(x.WithDataTimestamp(x.Data.Max(x => x.UpdateTime))), true);
+            }, null, x => onData(x.WithDataTimestamp(x.Data.Any() ? x.Data.Max(x => x.UpdateTime) : default)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
