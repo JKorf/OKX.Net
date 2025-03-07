@@ -5,8 +5,8 @@ namespace OKX.Net.Enums;
 
 public enum MarginTransferMode
 {
-    [Map("automatic")]
+    [Map("automatic", "auto_transfers_ccy")]
     AutoTransfer,
     [Map("autonomy")]
-    ManualTransfer,
+    ManualTransfer
 }
