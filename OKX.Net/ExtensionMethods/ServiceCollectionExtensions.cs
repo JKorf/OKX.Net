@@ -107,7 +107,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 var options = serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>().Value;
                 client.Timeout = options.RequestTimeout;
                 return new OKXRestClient(client, serviceProvider.GetRequiredService<ILoggerFactory>(), serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>());
-            }).ConfigurePrimaryHttpMessageHandler((serviceProvider) => {
+            }).ConfigurePrimaryHttpMessageHandler((serviceProvider) =>
+            {
                 var handler = new HttpClientHandler();
                 try
                 {

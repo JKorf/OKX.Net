@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Unit conversion info
 /// </summary>
+[SerializationModel]
 public record OKXUnitConvert
 {
     /// <summary>
@@ -28,12 +30,12 @@ public record OKXUnitConvert
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public ConvertType Type { get; set; }
 
     /// <summary>
     /// Unit
     /// </summary>
-    [JsonPropertyName("unit"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("unit")]
     public ConvertUnit Unit { get; set; }
 }

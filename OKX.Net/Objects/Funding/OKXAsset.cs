@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Funding;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Asset info
 /// </summary>
+[SerializationModel]
 public record OKXAsset
 {
     /// <summary>

@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Funding bill
 /// </summary>
+[SerializationModel]
 public record OKXFundingBill
 {
     /// <summary>
@@ -34,7 +36,7 @@ public record OKXFundingBill
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public FundingBillType Type { get; set; }
 
     /// <summary>

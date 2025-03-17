@@ -81,10 +81,10 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
     internal async Task<WebCallResult<T>> SendGetSingleAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null) where T : class
     {
-        var result = await SendToAddressAsync<IEnumerable<T>>(BaseAddress, definition, parameters, cancellationToken, weight, requestHeaders).ConfigureAwait(false);
+        var result = await SendToAddressAsync<T[]>(BaseAddress, definition, parameters, cancellationToken, weight, requestHeaders).ConfigureAwait(false);
         if (!result)
             return result.As<T>(default);
-        
+
         if (!result.Data.Any())
             return result.AsError<T>(new ServerError("No response data"));
 

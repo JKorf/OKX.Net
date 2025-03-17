@@ -1,6 +1,6 @@
 
 namespace OKX.Net.Converters
-{  
+{
 
     // End manual defined attributes
 

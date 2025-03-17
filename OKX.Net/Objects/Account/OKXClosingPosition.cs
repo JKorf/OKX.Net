@@ -1,16 +1,18 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Position info
 /// </summary>
+[SerializationModel]
 public record OKXClosingPosition
 {
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -22,18 +24,18 @@ public record OKXClosingPosition
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Closing type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public ClosingPositionType Type { get; set; }
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
@@ -93,7 +95,7 @@ public record OKXClosingPosition
     /// <summary>
     /// Direction
     /// </summary>
-    [JsonPropertyName("direction"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("direction")]
     public PositionSide Direction { get; set; }
 
     /// <summary>

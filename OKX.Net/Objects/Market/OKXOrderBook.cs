@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Order book
 /// </summary>
+[SerializationModel]
 public record OKXOrderBook
 {
     /// <summary>
@@ -14,13 +16,13 @@ public record OKXOrderBook
     /// List of asks
     /// </summary>
     [JsonPropertyName("asks")]
-    public IEnumerable<OKXOrderBookRow> Asks { get; set; } = new List<OKXOrderBookRow>();
+    public OKXOrderBookRow[] Asks { get; set; } = new List<OKXOrderBookRow>();
 
     /// <summary>
     /// List of bids
     /// </summary>
     [JsonPropertyName("bids")]
-    public IEnumerable<OKXOrderBookRow> Bids { get; set; } = new List<OKXOrderBookRow>();
+    public OKXOrderBookRow[] Bids { get; set; } = new List<OKXOrderBookRow>();
 
     /// <summary>
     /// Timestamp

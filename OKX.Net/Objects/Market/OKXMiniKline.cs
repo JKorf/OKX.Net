@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Candlestick/Kline data
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXMiniKline, OKXSourceGenerationContext>))]
+[SerializationModel]
 public record OKXMiniKline
 {
     /// <summary>

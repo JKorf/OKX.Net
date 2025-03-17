@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Public;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Interest rate
 /// </summary>
+[SerializationModel]
 public record OKXVipInterestRate
 {
     /// <summary>
@@ -27,12 +29,13 @@ public record OKXVipInterestRate
     /// Level list
     /// </summary>
     [JsonPropertyName("levelList")]
-    public IEnumerable<OKXVipInterestRateLevel> LevelList { get; set; } = Array.Empty<OKXVipInterestRateLevel>();
+    public OKXVipInterestRateLevel[] LevelList { get; set; } = Array.Empty<OKXVipInterestRateLevel>();
 }
 
 /// <summary>
 /// Interest rate level
 /// </summary>
+[SerializationModel]
 public record OKXVipInterestRateLevel
 {
     /// <summary>

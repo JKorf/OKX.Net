@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.RateLimiting.Guards;
+using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
@@ -16,7 +16,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXSubAccount>>> GetSubAccountsAsync(
+    public virtual async Task<WebCallResult<OKXSubAccount[]>> GetSubAccountsAsync(
         bool? enable = null,
         string? subAccountName = null,
         DateTime? endTime = null,
@@ -36,7 +36,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/users/subaccount/list", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXSubAccount>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXSubAccount[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -84,7 +84,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXSubAccountFundingBalance>>> GetSubAccountFundingBalancesAsync(
+    public virtual async Task<WebCallResult<OKXSubAccountFundingBalance[]>> GetSubAccountFundingBalancesAsync(
         string subAccountName,
         string? asset = null,
         CancellationToken ct = default)
@@ -98,11 +98,11 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/balances", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXSubAccountFundingBalance>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXSubAccountFundingBalance[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXSubAccountBill>>> GetSubAccountBillsAsync(
+    public virtual async Task<WebCallResult<OKXSubAccountBill[]>> GetSubAccountBillsAsync(
         string? subAccountName = null,
         string? asset = null,
         SubAccountTransferType? type = null,
@@ -124,7 +124,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/bills", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXSubAccountBill>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXSubAccountBill[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

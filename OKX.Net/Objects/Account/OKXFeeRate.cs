@@ -1,16 +1,18 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Fee rate
 /// </summary>
+[SerializationModel]
 public record OKXFeeRate
 {
     /// <summary>
     /// Category
     /// </summary>
-    [JsonPropertyName("category"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("category")]
     public FeeRateCategory? Category { get; set; }
 
     /// <summary>
@@ -64,7 +66,7 @@ public record OKXFeeRate
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -89,12 +91,13 @@ public record OKXFeeRate
     /// Fiat fees
     /// </summary>
     [JsonPropertyName("fiat")]
-    public IEnumerable<OKXFiatFee> Fiat { get; set; } = Array.Empty<OKXFiatFee>();
+    public OKXFiatFee[] Fiat { get; set; } = Array.Empty<OKXFiatFee>();
 }
 
 /// <summary>
 /// Fiat fee rate
 /// </summary>
+[SerializationModel]
 public record OKXFiatFee
 {
     /// <summary>

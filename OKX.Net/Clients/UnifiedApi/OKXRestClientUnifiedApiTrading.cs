@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.RateLimiting.Guards;
+using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
@@ -63,7 +63,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (attachedAlgoOrders != null)
         {
-            foreach(var attachOrder in attachedAlgoOrders)
+            foreach (var attachOrder in attachedAlgoOrders)
                 attachOrder.ClientOrderId = LibraryHelpers.ApplyBrokerId(attachOrder.ClientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
         }
         parameters.AddOptional("attachAlgoOrds", attachedAlgoOrders?.ToArray());
@@ -77,7 +77,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result.As<OKXOrderPlaceResponse>(default);
 
@@ -136,12 +136,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-precheck", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXCheckOrderResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXCheckOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         return result.As<OKXCheckOrderResponse>(result.Data?.Data?.FirstOrDefault());
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXOrderPlaceResponse[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
     {
         foreach (var order in orders)
         {
@@ -151,21 +151,21 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         }
 
         var parameters = new ParameterCollection();
-        parameters.SetBody(orders);
+        parameters.SetBody(orders.ToArray());
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderPlaceResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
-            return result.As<IEnumerable<OKXOrderPlaceResponse>>(default);
+            return result.As<OKXOrderPlaceResponse[]>(default);
 
         if (result.Data.ErrorCode > 0)
         {
             var detailed = result.Data.Data.FirstOrDefault(x => !x.Success);
             if (detailed != null)
-                return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(detailed.Code, detailed.Message, null));
+                return result.AsError<OKXOrderPlaceResponse[]>(new OKXRestApiError(detailed.Code, detailed.Message, null));
 
-            return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<OKXOrderPlaceResponse[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
         return result.As(result.Data.Data!);
@@ -206,21 +206,21 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.SetBody(orders);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXOrderCancelResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderCancelResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
-            return result.AsError<IEnumerable<OKXOrderCancelResponse>>(result.Error!);
+            return result.AsError<OKXOrderCancelResponse[]>(result.Error!);
 
         if (result.Data.ErrorCode > 0 && result.Data.ErrorCode != 2)
-            return result.AsError<IEnumerable<OKXOrderCancelResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<OKXOrderCancelResponse[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
 
-        return result.As<IEnumerable<OKXOrderCancelResponse>>(result.Data.Data);
+        return result.As<OKXOrderCancelResponse[]>(result.Data.Data);
     }
 
     /// <inheritdoc />
@@ -269,14 +269,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXOrderAmendResponse[]>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.SetBody(orders);
+        parameters.SetBody(orders.ToArray());
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXOrderAmendResponse>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOrderAmendResponse[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -328,7 +328,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrdersAsync(
+    public virtual async Task<WebCallResult<OKXOrder[]>> GetOrdersAsync(
         InstrumentType? instrumentType = null,
         string? symbol = null,
         string? underlying = null,
@@ -356,12 +356,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("state", state);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
-            limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey)); 
-        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
+            limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderHistoryAsync(
+    public virtual async Task<WebCallResult<OKXOrder[]>> GetOrderHistoryAsync(
         InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
@@ -395,11 +395,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOrder>>> GetOrderArchiveAsync(
+    public virtual async Task<WebCallResult<OKXOrder[]>> GetOrderArchiveAsync(
         InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
@@ -434,11 +434,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history-archive", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXOrder>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesAsync(
+    public virtual async Task<WebCallResult<OKXTransaction[]>> GetUserTradesAsync(
         InstrumentType? instrumentType = null,
         string? symbol = null,
         string? underlying = null,
@@ -468,11 +468,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXTransaction>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTransaction[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTransaction>>> GetUserTradesArchiveAsync(
+    public virtual async Task<WebCallResult<OKXTransaction[]>> GetUserTradesArchiveAsync(
         InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
@@ -502,7 +502,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXTransaction>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTransaction[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -598,7 +598,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<IEnumerable<OKXAlgoOrderResponse>>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXAlgoOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result.As<OKXAlgoOrderResponse>(default);
 
@@ -618,7 +618,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.SetBody(orders);
+        parameters.SetBody(orders.ToArray());
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -629,7 +629,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> CancelAdvanceAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.SetBody(orders);
+        parameters.SetBody(orders.ToArray());
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-advance-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -637,7 +637,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderListAsync(
+    public virtual async Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderListAsync(
         AlgoOrderType algoOrderType,
         string? algoId = null,
         InstrumentType? instrumentType = null,
@@ -661,11 +661,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXAlgoOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXAlgoOrder>>> GetAlgoOrderHistoryAsync(
+    public virtual async Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderHistoryAsync(
         AlgoOrderType algoOrderType,
         AlgoOrderState? algoOrderState = null,
         string? algoId = null,
@@ -692,7 +692,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXAlgoOrder>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXAlgoOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

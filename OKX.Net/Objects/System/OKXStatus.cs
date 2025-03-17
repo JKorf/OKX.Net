@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.System;
 
 /// <summary>
 /// Status info
 /// </summary>
+[SerializationModel]
 public record OKXStatus
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXStatus
     /// <summary>
     /// System maintenance status
     /// </summary>
-    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state")]
     public MaintenanceState Status { get; set; }
 
     /// <summary>
@@ -46,13 +48,13 @@ public record OKXStatus
     /// <summary>
     /// Service type, 0：WebSocket ; 1：Spot/Margin ; 2：Futures ; 3：Perpetual ; 4：Options ; 5：Trading service
     /// </summary>
-    [JsonPropertyName("serviceType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("serviceType")]
     public MaintenanceService Product { get; set; }
 
     /// <summary>
     /// Service type, 0：WebSocket ; 1：Spot/Margin ; 2：Futures ; 3：Perpetual ; 4：Options ; 5：Trading service
     /// </summary>
-    [JsonPropertyName("system"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("system")]
     public MaintenanceSystem System { get; set; }
 
     /// <summary>
@@ -64,7 +66,7 @@ public record OKXStatus
     /// <summary>
     /// Maintenance type
     /// </summary>
-    [JsonPropertyName("maintType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("maintType")]
     public MaintenanceType MaintenanceType { get; set; }
 
     /// <summary>

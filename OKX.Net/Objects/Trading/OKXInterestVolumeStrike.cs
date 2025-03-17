@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Trading;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Trading;
 
 /// <summary>
 /// Interest volume strike
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXInterestVolumeStrike, OKXSourceGenerationContext>))]
+[SerializationModel]
 public record OKXInterestVolumeStrike
 {
     /// <summary>

@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Trade;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order amend request
 /// </summary>
+[SerializationModel]
 public record OKXOrderAmendRequest
 {
     /// <summary>

@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums
 {
     /// <summary>
     /// Trigger price tpye
     /// </summary>
+    [JsonConverter(typeof(EnumConverter<TriggerPriceType>))]
     public enum TriggerPriceType
     {
         /// <summary>

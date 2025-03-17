@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Position risk info
 /// </summary>
+[SerializationModel]
 public record OKXPositionRisk
 {
     /// <summary>
@@ -23,18 +25,19 @@ public record OKXPositionRisk
     /// Balance data
     /// </summary>
     [JsonPropertyName("balData")]
-    public IEnumerable<OKXAccountPositionRiskBalanceData> BalanceData { get; set; } = Array.Empty<OKXAccountPositionRiskBalanceData>();
+    public OKXAccountPositionRiskBalanceData[] BalanceData { get; set; } = Array.Empty<OKXAccountPositionRiskBalanceData>();
 
     /// <summary>
     /// Position data
     /// </summary>
     [JsonPropertyName("posData")]
-    public IEnumerable<OKXAccountPositionRiskPositionData> PositionData { get; set; } = Array.Empty<OKXAccountPositionRiskPositionData>();
+    public OKXAccountPositionRiskPositionData[] PositionData { get; set; } = Array.Empty<OKXAccountPositionRiskPositionData>();
 }
 
 /// <summary>
 /// Balance info
 /// </summary>
+[SerializationModel]
 public record OKXAccountPositionRiskBalanceData
 {
     /// <summary>
@@ -59,6 +62,7 @@ public record OKXAccountPositionRiskBalanceData
 /// <summary>
 /// Position info
 /// </summary>
+[SerializationModel]
 public record OKXAccountPositionRiskPositionData
 {
     /// <summary>
@@ -76,13 +80,13 @@ public record OKXAccountPositionRiskPositionData
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
@@ -118,7 +122,7 @@ public record OKXAccountPositionRiskPositionData
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>

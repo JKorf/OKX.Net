@@ -1,10 +1,12 @@
-﻿namespace OKX.Net.Objects.Trade;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Trade;
 
 using OKX.Net.Enums;
 
 /// <summary>
 /// Order info update
 /// </summary>
+[SerializationModel]
 public record OKXUserTradeUpdate
 {
     /// <summary>

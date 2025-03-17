@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.RateLimiting.Guards;
+using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.ExtensionMethods;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -19,7 +19,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTicker>>> GetTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXTicker[]>> GetTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("instType", instrumentType);
@@ -28,7 +28,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/tickers", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXTicker>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTicker[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -41,12 +41,12 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/ticker", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXTicker>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXTicker[]>(request, parameters, ct).ConfigureAwait(false);
         return result.As<OKXTicker>(result.Data?.FirstOrDefault());
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXIndexTicker>>> GetIndexTickersAsync(string? quoteAsset = null, string? symbol = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXIndexTicker[]>> GetIndexTickersAsync(string? quoteAsset = null, string? symbol = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("quoteCcy", quoteAsset);
@@ -54,7 +54,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/index-tickers", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXIndexTicker>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXIndexTicker[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -71,7 +71,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/books", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXOrderBook>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXOrderBook[]>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result.As<OKXOrderBook>(default);
 
@@ -84,7 +84,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<OKXKline[]>> GetKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 300)
@@ -101,17 +101,17 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/candles", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXKline[]>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
-        foreach (var candle in result.Data) 
+        foreach (var candle in result.Data)
             candle.Symbol = symbol;
         return result;
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetKlineHistoryAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<OKXKline[]>> GetKlineHistoryAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -128,18 +128,18 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/history-candles", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXKline[]>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
-        foreach (var candle in result.Data) 
+        foreach (var candle in result.Data)
             candle.Symbol = symbol;
 
         return result;
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetIndexKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
+    public virtual async Task<WebCallResult<OKXKline[]>> GetIndexKlinesAsync(string symbol, KlineInterval klineInterval, DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 100)
@@ -153,10 +153,10 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
-        
+
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/index-candles", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXKline[]>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -167,7 +167,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXKline>>> GetMarkPriceKlinesAsync(string symbol, KlineInterval klineInterval,
+    public virtual async Task<WebCallResult<OKXKline[]>> GetMarkPriceKlinesAsync(string symbol, KlineInterval klineInterval,
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
@@ -185,7 +185,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/mark-price-candles", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXKline>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXKline[]>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
             return result;
 
@@ -196,7 +196,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTrade>>> GetRecentTradesAsync(string symbol, int limit = 100, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXTrade[]>> GetRecentTradesAsync(string symbol, int limit = 100, CancellationToken ct = default)
     {
         if (limit < 1 || limit > 500)
             throw new ArgumentException("Limit can be between 1-500.");
@@ -209,11 +209,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/trades", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(100, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXTrade>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTrade[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTrade>>> GetTradeHistoryAsync(string symbol, TradeHistoryPaginationType type = TradeHistoryPaginationType.TradeId,
+    public virtual async Task<WebCallResult<OKXTrade[]>> GetTradeHistoryAsync(string symbol, TradeHistoryPaginationType type = TradeHistoryPaginationType.TradeId,
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
@@ -232,7 +232,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/history-trades", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXTrade>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTrade[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -257,7 +257,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTicker>>> GetBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXBlockTicker[]>> GetBlockTickersAsync(InstrumentType instrumentType, string? underlying = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("instType", instrumentType);
@@ -266,7 +266,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/market/block-tickers", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXBlockTicker>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXBlockTicker[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -283,7 +283,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXBlockTrade>>> GetBlockTradesAsync(string symbol, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXBlockTrade[]>> GetBlockTradesAsync(string symbol, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
@@ -292,11 +292,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/block-trades", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXBlockTrade>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXBlockTrade[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInstrument>>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         parameters.AddEnum("instType", instrumentType);
@@ -306,15 +306,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/instruments", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<IEnumerable<OKXInstrument>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInstrument[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXDeliveryExerciseHistory>>> GetDeliveryExerciseHistoryAsync(
+    public virtual async Task<WebCallResult<OKXDeliveryExerciseHistory[]>> GetDeliveryExerciseHistoryAsync(
         InstrumentType instrumentType,
         string? underlying = null,
         DateTime? startTime = null,
-        DateTime? endTime = null, 
+        DateTime? endTime = null,
         int limit = 100,
         string? instrumentFamily = null,
         CancellationToken ct = default)
@@ -335,11 +335,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/delivery-exercise-history", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXDeliveryExerciseHistory>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXDeliveryExerciseHistory[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOpenInterest>>> GetOpenInterestsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXOpenInterest[]>> GetOpenInterestsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
@@ -352,11 +352,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/open-interest", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXOpenInterest>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOpenInterest[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXFundingRate>>> GetFundingRatesAsync(string symbol, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXFundingRate[]>> GetFundingRatesAsync(string symbol, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
@@ -365,11 +365,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/funding-rate", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXFundingRate>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXFundingRate[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXFundingRateHistory>>> GetFundingRateHistoryAsync(string symbol,
+    public virtual async Task<WebCallResult<OKXFundingRateHistory[]>> GetFundingRateHistoryAsync(string symbol,
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
@@ -386,7 +386,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/funding-rate-history", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXFundingRateHistory>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXFundingRateHistory[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -403,7 +403,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXOptionSummary>>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXOptionSummary[]>> GetOptionMarketDataAsync(string underlying, DateTime? expiryDate = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
@@ -414,7 +414,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/opt-summary", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXOptionSummary>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOptionSummary[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -431,7 +431,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXDiscountInfo>>> GetDiscountInfoAsync(int? discountLevel = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXDiscountInfo[]>> GetDiscountInfoAsync(int? discountLevel = null, CancellationToken ct = default)
     {
 
         if (discountLevel.HasValue && (discountLevel < 1 || discountLevel > 5))
@@ -442,7 +442,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/discount-rate-interest-free-quota", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXDiscountInfo>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXDiscountInfo[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -450,12 +450,12 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     {
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/time", OKXExchange.RateLimiter.EndpointGate, 1, false, preventCaching: true,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result =  await _baseClient.SendGetSingleAsync<OKXTime>(request, null, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendGetSingleAsync<OKXTime>(request, null, ct).ConfigureAwait(false);
         return result.As(result.Data?.Time ?? default);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXMarkPrice>>> GetMarkPricesAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXMarkPrice[]>> GetMarkPricesAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(InstrumentType.Margin, InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Margin, Futures, Option or Swap.");
@@ -468,11 +468,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/mark-price", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXMarkPrice>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXMarkPrice[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPositionTier>>> GetPositionTiersAsync(
+    public virtual async Task<WebCallResult<OKXPositionTier[]>> GetPositionTiersAsync(
         InstrumentType instrumentType,
         MarginMode marginMode,
         string underlying,
@@ -496,7 +496,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/position-tiers", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXPositionTier>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXPositionTier[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -508,15 +508,15 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXVipInterestRate>>> GetVIPInterestRatesAsync(CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXVipInterestRate[]>> GetVIPInterestRatesAsync(CancellationToken ct = default)
     {
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/vip-interest-rate-loan-quota", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXVipInterestRate>>(request, null, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXVipInterestRate[]>(request, null, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<string>>> GetUnderlyingAsync(InstrumentType instrumentType, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<string[]>> GetUnderlyingAsync(InstrumentType instrumentType, CancellationToken ct = default)
     {
         if (instrumentType.IsNotIn(InstrumentType.Futures, InstrumentType.Option, InstrumentType.Swap))
             throw new ArgumentException("Instrument Type can be only Futures, Option or Swap.");
@@ -525,7 +525,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         parameters.AddEnum("instType", instrumentType);
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/underlying", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendGetSingleAsync<IEnumerable<string>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<string[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -590,7 +590,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXTakerVolume>>> GetTradeStatsTakerVolumeAsync(
+    public virtual async Task<WebCallResult<OKXTakerVolume[]>> GetTradeStatsTakerVolumeAsync(
         string asset,
         InstrumentType instrumentType,
         KlineInterval period = KlineInterval.FiveMinutes,
@@ -608,11 +608,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/taker-volume", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXTakerVolume>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXTakerVolume[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsMarginLendingRatioAsync(
+    public virtual async Task<WebCallResult<OKXRatio[]>> GetTradeStatsMarginLendingRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -628,11 +628,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/margin/loan-ratio", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXRatio>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXRatio[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXRatio>>> GetTradeStatsLongShortRatioAsync(
+    public virtual async Task<WebCallResult<OKXRatio[]>> GetTradeStatsLongShortRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -648,11 +648,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/contracts/long-short-account-ratio", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXRatio>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXRatio[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsContractSummaryAsync(
+    public virtual async Task<WebCallResult<OKXInterestVolume[]>> GetTradeStatsContractSummaryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         DateTime? startTime = null,
@@ -668,11 +668,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/contracts/open-interest-volume", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXInterestVolume>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInterestVolume[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolume>>> GetTradeStatsOptionsSummaryAsync(
+    public virtual async Task<WebCallResult<OKXInterestVolume[]>> GetTradeStatsOptionsSummaryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -684,11 +684,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXInterestVolume>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInterestVolume[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXPutCallRatio>>> GetTradeStatsPutCallRatioAsync(
+    public virtual async Task<WebCallResult<OKXPutCallRatio[]>> GetTradeStatsPutCallRatioAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -700,11 +700,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-ratio", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXPutCallRatio>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXPutCallRatio[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeExpiry>>> GetTradeStatsInterestVolumeExpiryAsync(
+    public virtual async Task<WebCallResult<OKXInterestVolumeExpiry[]>> GetTradeStatsInterestVolumeExpiryAsync(
         string asset,
         KlineInterval period = KlineInterval.FiveMinutes,
         CancellationToken ct = default)
@@ -716,11 +716,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-expiry", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXInterestVolumeExpiry>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInterestVolumeExpiry[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<IEnumerable<OKXInterestVolumeStrike>>> GetTradeStatsInterestVolumeStrikeAsync(
+    public virtual async Task<WebCallResult<OKXInterestVolumeStrike[]>> GetTradeStatsInterestVolumeStrikeAsync(
         string asset,
         string expiryTime,
         KlineInterval period = KlineInterval.FiveMinutes,
@@ -734,7 +734,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/rubik/stat/option/open-interest-volume-strike", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<IEnumerable<OKXInterestVolumeStrike>>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInterestVolumeStrike[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -772,12 +772,12 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     #region Get Announcement Types
 
     /// <inheritdoc />
-    public async Task<WebCallResult<IEnumerable<OKXAnnouncementType>>> GetAnnouncementTypesAsync(CancellationToken ct = default)
+    public async Task<WebCallResult<OKXAnnouncementType[]>> GetAnnouncementTypesAsync(CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
         var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/support/announcement-types", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        var result = await _baseClient.SendAsync<IEnumerable<OKXAnnouncementType>>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendAsync<OKXAnnouncementType[]>(request, parameters, ct).ConfigureAwait(false);
         return result;
     }
 

@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Account;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Account balance
 /// </summary>
+[SerializationModel]
 public record OKXAccountBalance
 {
     /// <summary>
@@ -75,12 +77,13 @@ public record OKXAccountBalance
     /// Details
     /// </summary>
     [JsonPropertyName("details")]
-    public IEnumerable<OKXAccountBalanceDetail> Details { get; set; } = Array.Empty<OKXAccountBalanceDetail>();
+    public OKXAccountBalanceDetail[] Details { get; set; } = Array.Empty<OKXAccountBalanceDetail>();
 }
 
 /// <summary>
 /// Balance details
 /// </summary>
+[SerializationModel]
 public record OKXAccountBalanceDetail
 {
     /// <summary>

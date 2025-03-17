@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Leverage info
 /// </summary>
+[SerializationModel]
 public record OKXLeverage
 {
     /// <summary>
@@ -16,13 +18,13 @@ public record OKXLeverage
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>

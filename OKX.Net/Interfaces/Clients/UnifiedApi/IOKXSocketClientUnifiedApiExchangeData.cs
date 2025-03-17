@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
@@ -43,7 +43,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval period, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval period, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to index tickers data updates
@@ -95,7 +95,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval period, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval period, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to detailed pricing information updates of all OPTION contracts. Data will be pushed at once.
@@ -105,7 +105,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<IEnumerable<OKXOptionSummary>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<OKXOptionSummary[]>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to order book data updates.<br />
@@ -141,7 +141,7 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<IEnumerable<OKXInstrument>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<OKXInstrument[]>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to status updates of system maintenance and push when the system maintenance status changes. First subscription: "Push the latest change data"; every time there is a state change, push the changed content

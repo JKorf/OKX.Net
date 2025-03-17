@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Liquidation info
 /// </summary>
+[SerializationModel]
 public record OKXLiquidationInfo
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXLiquidationInfo
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -35,24 +37,25 @@ public record OKXLiquidationInfo
     /// Details
     /// </summary>
     [JsonPropertyName("details")]
-    public IEnumerable<OKXPublicLiquidationInfoDetail> Details { get; set; } = Array.Empty<OKXPublicLiquidationInfoDetail>();
+    public OKXPublicLiquidationInfoDetail[] Details { get; set; } = Array.Empty<OKXPublicLiquidationInfoDetail>();
 }
 
 /// <summary>
 /// Liquidation info details
 /// </summary>
+[SerializationModel]
 public record OKXPublicLiquidationInfoDetail
 {
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>

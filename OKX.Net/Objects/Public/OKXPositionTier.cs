@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Public;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Position tier
 /// </summary>
+[SerializationModel]
 public record OKXPositionTier
 {
     /// <summary>

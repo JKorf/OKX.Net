@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Affiliate;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Affiliate;
 
 /// <summary>
 /// Affiliate invitee info
 /// </summary>
+[SerializationModel]
 public record OKXInviteeDetails
 {
     /// <summary>
