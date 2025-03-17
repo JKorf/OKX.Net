@@ -570,7 +570,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.AddOptionalEnum("type", type);
+        parameters.AddEnum("type", type);
         parameters.AddOptionalEnum("unit", unit);
         if (!string.IsNullOrEmpty(symbol)) parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));

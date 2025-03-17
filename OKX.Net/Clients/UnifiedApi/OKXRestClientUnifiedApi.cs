@@ -56,9 +56,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
-    internal Task<WebCallResult> SendAsync(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null)
-           => base.SendAsync(BaseAddress, definition, parameters, cancellationToken, null, weight);
-
     internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null) where T : class
     {
         var result = await base.SendAsync<OKXRestApiResponse<T>>(baseAddress, definition, parameters, cancellationToken, requestHeaders, weight).ConfigureAwait(false);
@@ -67,9 +64,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
         return result.As<T>(result.Data.Data);
     }
-
-    internal Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? queryParameters, ParameterCollection? bodyParameters, CancellationToken cancellationToken, int? weight = null) where T : class
-        => SendToAddressAsync<T>(BaseAddress, definition, queryParameters, bodyParameters, cancellationToken, weight);
 
     internal Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null) where T : class
         => SendToAddressAsync<T>(BaseAddress, definition, parameters, cancellationToken, weight, requestHeaders);
@@ -89,15 +83,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
             return result.AsError<T>(new ServerError("No response data"));
 
         return result.As<T>(result.Data?.FirstOrDefault());
-    }
-
-    internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? queryParameters, ParameterCollection? bodyParameters, CancellationToken cancellationToken, int? weight = null) where T : class
-    {
-        var result = await base.SendAsync<OKXRestApiResponse<T>>(baseAddress, definition, queryParameters, bodyParameters, cancellationToken, null, weight).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<T>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<T>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        return result.As<T>(result.Data.Data);
     }
 
     /// <inheritdoc />

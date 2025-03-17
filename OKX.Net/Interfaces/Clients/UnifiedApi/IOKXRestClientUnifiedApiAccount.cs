@@ -214,7 +214,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXInterestRate[]>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXAccountInterestRate[]>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get lightning deposits. Users can create up to 10,000 different invoices within 24 hours.

@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Account;
 /// Interest rate
 /// </summary>
 [SerializationModel]
-public record OKXInterestRate
+public record OKXAccountInterestRate
 {
     /// <summary>
     /// Asset

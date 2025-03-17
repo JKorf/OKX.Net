@@ -16,13 +16,13 @@ public record OKXOrderBook
     /// List of asks
     /// </summary>
     [JsonPropertyName("asks")]
-    public OKXOrderBookRow[] Asks { get; set; } = new List<OKXOrderBookRow>();
+    public OKXOrderBookRow[] Asks { get; set; } = [];
 
     /// <summary>
     /// List of bids
     /// </summary>
     [JsonPropertyName("bids")]
-    public OKXOrderBookRow[] Bids { get; set; } = new List<OKXOrderBookRow>();
+    public OKXOrderBookRow[] Bids { get; set; } = [];
 
     /// <summary>
     /// Timestamp

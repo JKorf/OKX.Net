@@ -122,7 +122,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
                 new OKXSocketAuthArgs
                 {
                     ApiKey = okxAuthProvider.ApiKey,
-                    Passphrase = okxAuthProvider.Passphrase,
+                    Passphrase = okxAuthProvider.Pass!,
                     Timestamp = timestamp,
                     Sign = signature,
                 }
@@ -157,7 +157,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     internal async Task<CallResult<T[]>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
     {
-        var query = new OKXIdQuery<T>(operation, data, authenticated, weight);
+        var query = new OKXIdQuery<T>(operation, data.ToArray(), authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<T[]>(result.Error!);

@@ -353,7 +353,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXInterestRate[]>> GetInterestRateAsync(
+    public virtual async Task<WebCallResult<OKXAccountInterestRate[]>> GetInterestRateAsync(
         string? asset = null,
         CancellationToken ct = default)
     {
@@ -362,7 +362,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/interest-rate", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<OKXInterestRate[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXAccountInterestRate[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

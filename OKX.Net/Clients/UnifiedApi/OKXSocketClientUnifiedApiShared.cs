@@ -9,6 +9,9 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedApi : IOKXSocketClientUnifiedApiShared
     {
+        private const string _topicSpotId = "OKXSpot";
+        private const string _topicFuturesId = "OKXFutures";
+
         public string Exchange => OKXExchange.ExchangeName;
         public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse };
 
@@ -24,7 +27,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(update.Data.Symbol, update.Data.LastPrice ?? 0, update.Data.HighPrice ?? 0, update.Data.LowPrice ?? 0, update.Data.Volume, update.Data.OpenPrice == null ? null : Math.Round((update.Data.LastPrice ?? 0) / update.Data.OpenPrice.Value * 100 - 100, 2)))), ct: ct).ConfigureAwait(false);
+            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.LastPrice ?? 0, update.Data.HighPrice ?? 0, update.Data.LowPrice ?? 0, update.Data.Volume, update.Data.OpenPrice == null ? null : Math.Round((update.Data.LastPrice ?? 0) / update.Data.OpenPrice.Value * 100 - 100, 2)))), ct: ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -59,7 +62,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(update.Data.BestAskPrice ?? 0, update.Data.BestAskQuantity ?? 0, update.Data.BestBidPrice ?? 0, update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
+            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.BestAskPrice ?? 0, update.Data.BestAskQuantity ?? 0, update.Data.BestBidPrice ?? 0, update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -147,6 +150,7 @@ namespace OKX.Net.Clients.UnifiedApi
             var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Spot, null, null,
                 update => handler(update.AsExchangeEvent<SharedSpotOrder[]>(Exchange, new[] {
                     new SharedSpotOrder(
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString(),
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -163,7 +167,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         OrderPrice = update.Data.Price,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol), update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = update.Data.FillFee,
                             FeeAsset = update.Data.FillFeeAsset,
@@ -188,6 +192,7 @@ namespace OKX.Net.Clients.UnifiedApi
             var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null,
                 update => handler(update.AsExchangeEvent<SharedFuturesOrder[]>(Exchange, new[] {
                     new SharedFuturesOrder(
+                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString(),
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
@@ -196,7 +201,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId,
-                        Quantity = ParseQuantity(update.Data),// ((update.Data.QuantityType == null || update.Data.QuantityType == QuantityAsset.QuoteAsset) && update.Data.OrderType == Enums.OrderType.Market && update.Data.OrderSide == Enums.OrderSide.Buy) ? null : update.Data.QuantityType == Enums.QuantityAsset.QuoteAsset ? null : update.Data.Quantity,
+                        Quantity = ParseQuantity(update.Data),
                         QuantityFilled = update.Data.AccumulatedFillQuantity,
                         QuoteQuantity = ParseQuoteQuantity(update.Data),
                         AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
@@ -207,7 +212,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         PositionSide = update.Data.PositionSide == PositionSide.Net ? null : update.Data.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = Math.Abs(update.Data.FillFee),
                             FeeAsset = update.Data.FillFeeAsset,
@@ -249,6 +254,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 null,
                 update => handler(update.AsExchangeEvent<SharedUserTrade[]>(Exchange, new[] {
                     new SharedUserTrade(
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol) ?? ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString(),
                         update.Data.TradeId.ToString(),
@@ -285,7 +291,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.AsExchangeEvent<SharedPosition[]>(Exchange, update.Data.Select(x => new SharedPosition(x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
+                    handler(update.AsExchangeEvent<SharedPosition[]>(Exchange, update.Data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
                     {
                         AverageOpenPrice = x.AveragePrice,
                         PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity < 0 ? SharedPositionSide.Short : SharedPositionSide.Long) : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,

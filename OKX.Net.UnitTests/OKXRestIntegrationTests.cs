@@ -34,7 +34,7 @@ namespace OKX.Net.UnitTests
             {
                 OutputOriginalData = true,
                 Environment = Authenticated ? OKXEnvironment.Europe : OKXEnvironment.Live,
-                ApiCredentials = Authenticated ? new OKXApiCredentials(key, sec, pass) : null
+                ApiCredentials = Authenticated ? new ApiCredentials(key, sec, pass) : null
             }));
         }
 
