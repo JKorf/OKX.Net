@@ -90,7 +90,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        return result.As(detailed);
+        return result.As(detailed!);
     }
 
     /// <inheritdoc />
@@ -161,7 +161,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (result.Data.ErrorCode > 0)
         {
-            var detailed = result.Data.Data.FirstOrDefault(x => !x.Success);
+            var detailed = result.Data.Data?.FirstOrDefault(x => !x.Success);
             if (detailed != null)
                 return result.AsError<OKXOrderPlaceResponse[]>(new OKXRestApiError(detailed.Code, detailed.Message, null));
 

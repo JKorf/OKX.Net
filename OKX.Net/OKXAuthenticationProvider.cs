@@ -53,7 +53,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
         headers.Add("OK-ACCESS-KEY", _credentials.Key);
         headers.Add("OK-ACCESS-SIGN", signature);
         headers.Add("OK-ACCESS-TIMESTAMP", time);
-        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass);
+        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass!);
     }
 
     public string SignWebsocket(string timestamp)
