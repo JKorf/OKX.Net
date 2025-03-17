@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Interfaces.CommonClients;
-
-namespace OKX.Net.Interfaces.Clients.UnifiedApi;
+﻿namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
 /// <summary>
 /// Unified API endpoints
@@ -18,7 +16,7 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient
     IOKXRestClientUnifiedApiExchangeData ExchangeData { get; }
 
     /// <summary>
-    /// Endpoints related to subaccount mangement
+    /// Endpoints related to subaccount management
     /// </summary>
     IOKXRestClientUnifiedApiSubAccounts SubAccounts { get; }
 
@@ -28,12 +26,7 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient
     IOKXRestClientUnifiedApiTrading Trading { get; }
 
     /// <summary>
-    /// DEPRECATED; use <see cref="CryptoExchange.Net.SharedApis.ISharedClient" /> instead for common/shared functionality. See <see href="https://jkorf.github.io/CryptoExchange.Net/docs/index.html#shared" /> for more info.
-    /// </summary>
-    public ISpotClient CommonSpotClient { get; }
-
-    /// <summary>
-    /// Get the shared rest requests client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
+    /// Get the shared rest requests client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
     /// </summary>
     IOKXRestClientUnifiedApiShared SharedClient { get; }
 }

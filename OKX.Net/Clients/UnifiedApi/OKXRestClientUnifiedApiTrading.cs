@@ -90,12 +90,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
-        {
-            Id = detailed!.OrderId.ToString(),
-            SourceObject = result.Data
-        });
-
         return result.As(detailed);
     }
 
@@ -174,15 +168,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<IEnumerable<OKXOrderPlaceResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
         }
 
-        foreach (var order in result.Data.Data.Where(o => o.Success))
-        {
-            _baseClient.InvokeOrderPlaced(new CryptoExchange.Net.CommonObjects.OrderId
-            {
-                Id = order.OrderId.ToString(),
-                SourceObject = result.Data
-            });
-        }
-
         return result.As(result.Data.Data!);
     }
 
@@ -204,12 +189,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (!result)
             return result;
-
-        _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
-        {
-            Id = result.Data.OrderId.ToString(),
-            SourceObject = result.Data
-        });
 
         return result;
     }
@@ -240,15 +219,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (result.Data.ErrorCode > 0 && result.Data.ErrorCode != 2)
             return result.AsError<IEnumerable<OKXOrderCancelResponse>>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
-
-        foreach (var order in result.Data.Data.Where(r => r.Success))
-        {
-            _baseClient.InvokeOrderCanceled(new CryptoExchange.Net.CommonObjects.OrderId
-            {
-                Id = order.OrderId.ToString(),
-                SourceObject = order
-            });
-        }
 
         return result.As<IEnumerable<OKXOrderCancelResponse>>(result.Data.Data);
     }
@@ -519,7 +489,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             throw new ArgumentException("Limit can be between 1-100.");
 
         var parameters = new ParameterCollection();
-        parameters.AddOptionalEnum("instType", instrumentType);
+        parameters.AddEnum("instType", instrumentType);
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("ordId", orderId?.ToString());

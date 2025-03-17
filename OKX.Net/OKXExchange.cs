@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using OKX.Net.Converters;
 
 namespace OKX.Net
 {
@@ -43,6 +44,8 @@ namespace OKX.Net
 
         internal const string ClientOrderId = "1425d83a94fbBCDE";
         internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeparator;
+
+        internal static JsonSerializerContext SerializerContext = new OKXSourceGenerationContext();
 
         /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 

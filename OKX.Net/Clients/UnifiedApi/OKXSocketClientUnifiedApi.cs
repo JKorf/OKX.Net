@@ -66,9 +66,9 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     #endregion
 
     /// <inheritdoc />
-    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
+    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
     /// <inheritdoc />
-    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
 
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
@@ -169,7 +169,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     /// <inheritdoc />
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
-        => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
+        => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />
     public override ReadOnlyMemory<byte> PreprocessStreamMessage(SocketConnection connection, WebSocketMessageType type, ReadOnlyMemory<byte> data)

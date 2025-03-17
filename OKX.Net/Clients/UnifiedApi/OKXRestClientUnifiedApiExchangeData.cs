@@ -78,7 +78,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         if (!result.Data.Any())
             return result.AsError<OKXOrderBook>(new OKXRestApiError(null, "No data", null));
 
-        var orderbook = result.Data.FirstOrDefault();
+        var orderbook = result.Data.First();
         orderbook.Symbol = symbol;
         return result.As(orderbook);
     }
@@ -225,7 +225,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
             { "instId", symbol },
         };
 
-        parameters.AddOptionalEnum("type", type);
+        parameters.AddEnum("type", type);
         parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());

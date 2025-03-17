@@ -4,16 +4,14 @@ using OKX.Net.Objects.Options;
 
 namespace OKX.Net;
 
-internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredentials>
+internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials>
 {
-    public string Passphrase => _credentials.PassPhrase;
+    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
 
-    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer();
-
-    public OKXAuthenticationProvider(OKXApiCredentials credentials) : base(credentials)
+    public OKXAuthenticationProvider(ApiCredentials credentials) : base(credentials)
     {
-        if (credentials == null || credentials.Secret == null)
-            throw new ArgumentException("No valid API credentials provided. Key/Secret needed.");
+        if (string.IsNullOrEmpty(credentials.Pass))
+            throw new ArgumentNullException(nameof(ApiCredentials.Pass), "Passphrase is required for OKX authentication");
     }
 
     public override void AuthenticateRequest(
@@ -55,7 +53,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXApiCredenti
         headers.Add("OK-ACCESS-KEY", _credentials.Key);
         headers.Add("OK-ACCESS-SIGN", signature);
         headers.Add("OK-ACCESS-TIMESTAMP", time);
-        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.PassPhrase);
+        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass);
     }
 
     public string SignWebsocket(string timestamp)

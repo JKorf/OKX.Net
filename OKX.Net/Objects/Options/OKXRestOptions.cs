@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Options;
 /// <summary>
 /// Rest client options
 /// </summary>
-public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXApiCredentials>
+public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, ApiCredentials>
 {
     /// <summary>
     /// Default options for new OKXRestClients
