@@ -159,9 +159,8 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId?.ToString(),
-                        Quantity = ParseQuantity(update.Data),
-                        QuantityFilled = update.Data.AccumulatedFillQuantity,
-                        QuoteQuantity = ParseQuoteQuantity(update.Data),
+                        OrderQuantity = new SharedOrderQuantity(ParseQuantity(update.Data), ParseQuoteQuantity(update.Data)),
+                        QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
                         AveragePrice = update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
@@ -201,9 +200,8 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId,
-                        Quantity = ParseQuantity(update.Data),
-                        QuantityFilled = update.Data.AccumulatedFillQuantity,
-                        QuoteQuantity = ParseQuoteQuantity(update.Data),
+                        OrderQuantity = new SharedOrderQuantity(contractQuantity: update.Data.Quantity),
+                        QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
                         AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
