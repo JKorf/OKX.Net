@@ -438,7 +438,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/transfer", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXTransferResponse>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXTransferResponse>(request, parameters, ct, rateLimitKeySuffix: asset).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -844,7 +844,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/instruments", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<Objects.Public.OKXInstrument[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<Objects.Public.OKXInstrument[]>(request, parameters, ct, rateLimitKeySuffix: instrumentType.ToString()).ConfigureAwait(false);
     }
 
     #endregion

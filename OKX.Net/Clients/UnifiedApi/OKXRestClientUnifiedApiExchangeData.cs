@@ -306,7 +306,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/instruments", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendAsync<OKXInstrument[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXInstrument[]>(request, parameters, ct, rateLimitKeySuffix: instrumentType.ToString()).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -335,7 +335,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/delivery-exercise-history", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXDeliveryExerciseHistory[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXDeliveryExerciseHistory[]>(request, parameters, ct, rateLimitKeySuffix: instrumentType.ToString() + underlying).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -352,7 +352,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/open-interest", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXOpenInterest[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOpenInterest[]>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -365,7 +365,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/funding-rate", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXFundingRate[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXFundingRate[]>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -386,7 +386,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/funding-rate-history", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXFundingRateHistory[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXFundingRateHistory[]>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -414,7 +414,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/opt-summary", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXOptionSummary[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXOptionSummary[]>(request, parameters, ct, rateLimitKeySuffix: underlying).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -427,7 +427,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/estimated-price", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendGetSingleAsync<OKXEstimatedPrice>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXEstimatedPrice>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -468,7 +468,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/mark-price", OKXExchange.RateLimiter.EndpointGate, 1, false,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
-        return await _baseClient.SendAsync<OKXMarkPrice[]>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendAsync<OKXMarkPrice[]>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
