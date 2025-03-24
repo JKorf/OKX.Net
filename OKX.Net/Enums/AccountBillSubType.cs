@@ -186,4 +186,6 @@ public enum AccountBillSubType
     SimpleBuy,
     [Map("320")]
     SimpleSell,
+    [Map("355")]
+    SettlementPnl
 }

@@ -123,6 +123,8 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerFlowAsync("ETH"), "GetRubikTakerFlow", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetAnnouncementsAsync("123"), "GetAnnouncements", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetAnnouncementTypesAsync(), "GetAnnouncementTypes");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetEstimatedFuturesSettlementPriceAsync("XRP-USDT-250307"), "GetEstimatedFuturesSettlementPrice");
+            await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetSettlementHistoryAsync("XRP-USDT-250307"), "GetSettlementHistory");
         }
 
         [Test]

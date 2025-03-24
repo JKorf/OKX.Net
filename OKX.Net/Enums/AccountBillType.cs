@@ -52,6 +52,8 @@ public enum AccountBillType
     OneClickRepay,
     [Map("30")]
     SimpleTrade,
+    [Map("34")]
+    Settlement,
     [Map("250")]
     CopyTraderProfitShareExpense,
     [Map("251")]

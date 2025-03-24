@@ -1,0 +1,15 @@
+GET
+/api/v5/public/estimated-settlement-info
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "estSettlePx": "2.5666068562369959",
+            "instId": "XRP-USDT-250307",
+            "nextSettleTime": "1741248000000",
+            "ts": "1741246429748"
+        }
+    ],
+    "msg": ""
+}
