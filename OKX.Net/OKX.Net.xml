@@ -368,6 +368,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetAnnouncementTypesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetEstimatedFuturesSettlementPriceAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.GetSubAccountsAsync(System.Nullable{System.Boolean},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2285,6 +2288,15 @@
             </summary>
             <param name="ct">Cancellation token</param>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetEstimatedFuturesSettlementPriceAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get estimated futures settlement price
+            <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-estimated-future-settlement-price" /></para>
+            </summary>
+            <param name="symbol">Symbol name, for example `XRP-USDT-250307`</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiShared">
             <summary>
             Shared interface for rest API usage
@@ -3448,6 +3460,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.SpotPnlRatio">
             <summary>
             Spot accumulated profit and loss ratio
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.CollateralEnabled">
+            <summary>
+            Collateral enabled for multi-currency margin
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">
@@ -7677,6 +7694,31 @@
         <member name="P:OKX.Net.Objects.Public.OKXPositionTier.MaximumBaseLoan">
             <summary>
             Maximum base loan
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXSettlementPrice">
+            <summary>
+            Estimated settlement price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementPrice.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementPrice.EstimatedSettlementPrice">
+            <summary>
+            Estimated settlement price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementPrice.NextSettlementTime">
+            <summary>
+            Next settlement time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementPrice.Timestamp">
+            <summary>
+            Data timestamp
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXTime">

@@ -783,5 +783,20 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
 
     #endregion
 
+    #region Get Estimated Futures Settlement Price
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<OKXSettlementPrice>> GetEstimatedFuturesSettlementPriceAsync(string symbol, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.Add("instId", symbol);
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "/api/v5/public/estimated-settlement-info", OKXExchange.RateLimiter.EndpointGate, 1, false,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding));
+        var result = await _baseClient.SendGetSingleAsync<OKXSettlementPrice>(request, parameters, ct).ConfigureAwait(false);
+        return result;
+    }
+
+    #endregion
+
 
 }

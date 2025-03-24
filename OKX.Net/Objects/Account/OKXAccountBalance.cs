@@ -322,4 +322,10 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonPropertyName("totalPnlRatio")]
     public decimal? SpotPnlRatio { get; set; }
+
+    /// <summary>
+    /// Collateral enabled for multi-currency margin
+    /// </summary>
+    [JsonPropertyName("collateralEnabled")]
+    public bool CollateralEnabled { get; set; }
 }

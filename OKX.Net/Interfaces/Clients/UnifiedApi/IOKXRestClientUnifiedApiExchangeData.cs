@@ -489,4 +489,12 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="ct">Cancellation token</param>
     Task<WebCallResult<IEnumerable<OKXAnnouncementType>>> GetAnnouncementTypesAsync(CancellationToken ct = default);
 
+    /// <summary>
+    /// Get estimated futures settlement price
+    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-estimated-future-settlement-price" /></para>
+    /// </summary>
+    /// <param name="symbol">Symbol name, for example `XRP-USDT-250307`</param>
+    /// <param name="ct">Cancellation token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXSettlementPrice>> GetEstimatedFuturesSettlementPriceAsync(string symbol, CancellationToken ct = default);
 }
