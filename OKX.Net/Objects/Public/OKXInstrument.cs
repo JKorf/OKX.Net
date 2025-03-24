@@ -191,4 +191,9 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("ruleType")]
     public SymbolRuleType? RuleType { get; set; }
+    /// <summary>
+    /// Whether daily settlement is enabled
+    /// </summary>
+    [JsonPropertyName("futureSettlement")]
+    public bool? FutureSettlement { get; set; }
 }
