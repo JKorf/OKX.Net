@@ -168,6 +168,15 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.16.0 - 24 Mar 2025
+    * Added restClient.UnifiedApi.ExchangeData.GetEstimatedFuturesSettlementPriceAsync endpoint
+    * Added restClient.UnifiedApi.ExchangeData.GetSettlementHistoryAsync endpoint
+    * Added settlement biz type enums values
+    * Added NonSettlementEntryPrice and SettledPnl to OKXPosition model
+    * Added FutureSettlement property to OKXInstrument model
+    * Added ThirdQuarter to InstrumentAlias enum values
+    * Correctly set update type to snapshot for account and position socket updates
+
 * Version 2.15.1 - 07 Mar 2025
     * Fixed internal exception when receiving empty snapshot update in socketClient.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync
 
