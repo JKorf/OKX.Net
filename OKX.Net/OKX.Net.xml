@@ -371,6 +371,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetEstimatedFuturesSettlementPriceAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetSettlementHistoryAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.GetSubAccountsAsync(System.Nullable{System.Boolean},System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2294,6 +2297,18 @@
             <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-estimated-future-settlement-price" /></para>
             </summary>
             <param name="symbol">Symbol name, for example `XRP-USDT-250307`</param>
+            <param name="ct">Cancellation token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetSettlementHistoryAsync(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+            Get settlement history
+            <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-futures-settlement-history" /></para>
+            </summary>
+            <param name="symbol">Symbol name, for example `XRP-USDT-250307`</param>
+            <param name="startTime">Filter by start time</param>
+            <param name="endTime">Filter by end time</param>
+            <param name="limit">Max number of results</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -4852,6 +4867,16 @@
             Fraction of position to be closed when the algo order is triggered.
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.NonSettlementEntryPrice">
+            <summary>
+            The non-settlement entry price only reflects the average price at which the position is opened or increased.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.SettledPnl">
+            <summary>
+            Accumulated settled profit and loss (calculated by settlement price)
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXPositionAndBalanceUpdate">
             <summary>
             Position and balance update
@@ -7211,6 +7236,11 @@
             Trading rule type
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.FutureSettlement">
+            <summary>
+            Whether daily settlement is enabled
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund
@@ -7694,6 +7724,36 @@
         <member name="P:OKX.Net.Objects.Public.OKXPositionTier.MaximumBaseLoan">
             <summary>
             Maximum base loan
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXSettlementInfo">
+            <summary>
+            Settlement info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementInfo.Timestamp">
+            <summary>
+            Timestamp
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementInfo.Details">
+            <summary>
+            Price info
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Public.OKXSettlementInfoDetails">
+            <summary>
+            Settlement info details
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementInfoDetails.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXSettlementInfoDetails.SettlementPrice">
+            <summary>
+            Settlement price
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXSettlementPrice">

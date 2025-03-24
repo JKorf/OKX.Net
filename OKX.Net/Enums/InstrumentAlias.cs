@@ -17,4 +17,6 @@ public enum InstrumentAlias
     Quarter,
     [Map("next_quarter")]
     NextQuarter,
+    [Map("third_quarter")]
+    ThirdQuarter,
 }
