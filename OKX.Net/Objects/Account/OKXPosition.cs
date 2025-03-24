@@ -395,4 +395,14 @@ public record OKXPositionCloseOrder
     /// </summary>
     [JsonPropertyName("closeFraction")]
     public decimal? CloseFraction { get; set; }
+    /// <summary>
+    /// The non-settlement entry price only reflects the average price at which the position is opened or increased.
+    /// </summary>
+    [JsonPropertyName("nonSettleAvgPx")]
+    public decimal? NonSettlementEntryPrice { get; set; }
+    /// <summary>
+    /// Accumulated settled profit and loss (calculated by settlement price)
+    /// </summary>
+    [JsonPropertyName("settledPnl")]
+    public decimal? SettledPnl { get; set; }
 }
