@@ -1,0 +1,27 @@
+GET
+/api/v5/public/settlement-history
+false
+{
+    "code": "0",
+    "data": [
+        {
+            "details": [
+                {
+                    "instId": "XRP-USDT-250307",
+                    "settlePx": "2.5192078615298715"
+                }
+            ],
+            "ts": "1741161600000"
+        },
+        {
+            "details": [
+                {
+                    "instId": "XRP-USDT-250307",
+                    "settlePx": "2.5551316341327384"
+                }
+            ],
+            "ts": "1741075200000"
+        }
+    ],
+    "msg": ""
+}
