@@ -778,7 +778,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         string IFuturesOrderRestClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(32);
 
-        PlaceFuturesOrderOptions IFuturesOrderRestClient.PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions()
+        PlaceFuturesOrderOptions IFuturesOrderRestClient.PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions(false)
         {
             RequiredOptionalParameters = new List<ParameterDescription>
             {
@@ -1758,6 +1758,72 @@ namespace OKX.Net.Clients.UnifiedApi
                 return order.AsExchangeResult<SharedId>(Exchange, null, default);
 
             return order.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedId(request.OrderId));
+        }
+
+        #endregion
+
+        #region Tp/SL Client
+        EndpointOptions<SetTpSlRequest> IFuturesTpSlRestClient.SetTpSlOptions { get; } = new EndpointOptions<SetTpSlRequest>(true)
+        {
+            RequiredOptionalParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(nameof(SetTpSlRequest.MarginMode), typeof(SharedMarginMode), "Margin mode to use", SharedMarginMode.Cross),
+                new ParameterDescription(nameof(SetTpSlRequest.PositionMode), typeof(SharedPositionMode), "Position mode the account is in", SharedPositionMode.OneWay)
+            }
+        };
+
+        async Task<ExchangeWebResult<SharedId>> IFuturesTpSlRestClient.SetTpSlAsync(SetTpSlRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesTpSlRestClient)this).SetTpSlOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedId>(Exchange, validationError);
+
+            var result = await Trading.PlaceAlgoOrderAsync(
+                request.Symbol.GetSymbol(FormatSymbol),
+                request.MarginMode == SharedMarginMode.Cross ? TradeMode.Cross : TradeMode.Isolated,
+                request.PositionSide == SharedPositionSide.Long ? OrderSide.Buy : OrderSide.Sell,
+                AlgoOrderType.Conditional,
+                triggerPrice: request.TriggerPrice,
+                closeFraction: 1,
+                tpOrderPrice: request.TpSlSide == SharedTpSlSide.TakeProfit ? -1 : null,
+                slOrderPrice: request.TpSlSide == SharedTpSlSide.StopLoss ? -1 : null,
+                cancelOnClose: true,
+                reduceOnly: true,
+                positionSide: request.PositionMode == SharedPositionMode.OneWay ? null : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
+                ct: ct).ConfigureAwait(false);
+
+            if (!result)
+                return result.AsExchangeResult<SharedId>(Exchange, null, default);
+
+            // Return
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedId(result.Data.AlgoOrderId!));
+        }
+
+        EndpointOptions<CancelTpSlRequest> IFuturesTpSlRestClient.CancelTpSlOptions { get; } = new EndpointOptions<CancelTpSlRequest>(true)
+        {
+            RequiredOptionalParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(nameof(CancelTpSlRequest.OrderId), typeof(string), "Id of the tp/sl order", "123123")
+            }
+        };
+
+        async Task<ExchangeWebResult<bool>> IFuturesTpSlRestClient.CancelTpSlAsync(CancelTpSlRequest request, CancellationToken ct)
+        {
+            var validationError = ((IFuturesTpSlRestClient)this).CancelTpSlOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<bool>(Exchange, validationError);
+
+            var result = await Trading.CancelAlgoOrderAsync(
+                [new OKXAlgoOrderRequest {
+                    Symbol = request.Symbol.GetSymbol(FormatSymbol),
+                    AlgoOrderId = request.OrderId!
+                }],
+                ct: ct).ConfigureAwait(false);
+            if (!result)
+                return result.AsExchangeResult<bool>(Exchange, null, default);
+
+            // Return
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, true);
         }
 
         #endregion

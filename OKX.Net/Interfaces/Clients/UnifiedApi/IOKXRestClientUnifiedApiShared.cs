@@ -30,7 +30,8 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         IPositionHistoryRestClient,
         IFeeRestClient,
         ISpotTriggerOrderRestClient,
-        IFuturesTriggerOrderRestClient
+        IFuturesTriggerOrderRestClient,
+        IFuturesTpSlRestClient
     {
     }
 }
