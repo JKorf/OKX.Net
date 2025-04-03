@@ -374,7 +374,7 @@ public record OKXPositionCloseOrder
     [JsonPropertyName("algoId")]
     public string AlgoId { get; set; } = string.Empty;
     /// <summary>
-    /// Stop losse trigger price
+    /// Stop loss trigger price
     /// </summary>
     [JsonPropertyName("slTriggerPx")]
     public decimal StopLossTriggerPrice { get; set; }

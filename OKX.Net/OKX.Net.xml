@@ -7398,7 +7398,7 @@
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.StopLossTriggerPrice">
             <summary>
-            Stop losse trigger price
+            Stop loss trigger price
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXPositionCloseOrder.StopLossTriggerType">
