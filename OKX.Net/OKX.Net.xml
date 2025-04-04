@@ -12412,10 +12412,5 @@
             <param name="optionsDelegate">Set options for the OKX services</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXRestOptions},System.Action{OKX.Net.Objects.Options.OKXSocketOptions},System.Nullable{Microsoft.Extensions.DependencyInjection.ServiceLifetime})">
-            <summary>
-            DEPRECATED; use <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionExtensions.AddOKX(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{OKX.Net.Objects.Options.OKXOptions})" /> instead
-            </summary>
-        </member>
     </members>
 </doc>

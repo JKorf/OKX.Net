@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             IConfiguration configuration)
         {
             var options = new OKXOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             configuration.Bind(options);
@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<OKXOptions>? optionsDelegate = null)
         {
             var options = new OKXOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             optionsDelegate?.Invoke(options);
@@ -81,21 +81,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(x => Options.Options.Create(options.Socket));
 
             return AddOKXCore(services, options.SocketClientLifeTime);
-        }
-
-        /// <summary>
-        /// DEPRECATED; use <see cref="AddOKX(IServiceCollection, Action{OKXOptions}?)" /> instead
-        /// </summary>
-        public static IServiceCollection AddOKX(
-            this IServiceCollection services,
-            Action<OKXRestOptions> restDelegate,
-            Action<OKXSocketOptions>? socketDelegate = null,
-            ServiceLifetime? socketClientLifeTime = null)
-        {
-            services.Configure<OKXRestOptions>((x) => { restDelegate?.Invoke(x); });
-            services.Configure<OKXSocketOptions>((x) => { socketDelegate?.Invoke(x); });
-
-            return AddOKXCore(services, socketClientLifeTime);
         }
 
         private static IServiceCollection AddOKXCore(
