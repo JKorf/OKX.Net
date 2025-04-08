@@ -12,6 +12,7 @@ public interface IOKXSocketClient : ISocketClient
     /// <summary>
     /// Unified API
     /// </summary>
+    /// <see cref="IOKXSocketClientUnifiedApi"/>
     IOKXSocketClientUnifiedApi UnifiedApi { get; }
 
     /// <summary>

@@ -3767,6 +3767,7 @@
             <summary>
             Unified API endpoints
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi"/>
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.IOKXRestClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
             <summary>
@@ -3789,6 +3790,7 @@
             <summary>
             Unified API
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi"/>
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.IOKXSocketClient.SetOptions(CryptoExchange.Net.Objects.Options.UpdateOptions)">
             <summary>
@@ -3811,21 +3813,25 @@
             <summary>
             Endpoints related to account settings, info or actions
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.ExchangeData">
             <summary>
             Endpoints related to retrieving market and system data
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.SubAccounts">
             <summary>
             Endpoints related to subaccount management
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiSubAccounts"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.Trading">
             <summary>
             Endpoints related to orders and trades
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.SharedClient">
             <summary>
@@ -5320,23 +5326,26 @@
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.SharedClient">
             <summary>
-            Get the shared socket subscription client. This interface is shared with other exhanges to allow for a common implementation for different exchanges.
+            Get the shared socket subscription client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
             </summary>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.Account">
             <summary>
             Account streams and queries
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.ExchangeData">
             <summary>
             Exchange data streams and queries
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiExchangeData"/>
         </member>
         <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApi.Trading">
             <summary>
             Trading data and queries
             </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading"/>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiAccount">
             <summary>

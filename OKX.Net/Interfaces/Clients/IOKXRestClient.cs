@@ -12,6 +12,7 @@ public interface IOKXRestClient : IRestClient
     /// <summary>
     /// Unified API endpoints
     /// </summary>
+    /// <see cref="IOKXRestClientUnifiedApi"/>
     IOKXRestClientUnifiedApi UnifiedApi { get; }
 
     /// <summary>

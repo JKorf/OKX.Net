@@ -8,21 +8,25 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient
     /// <summary>
     /// Endpoints related to account settings, info or actions
     /// </summary>
+    /// <see cref="IOKXRestClientUnifiedApiAccount"/>
     IOKXRestClientUnifiedApiAccount Account { get; }
 
     /// <summary>
     /// Endpoints related to retrieving market and system data
     /// </summary>
+    /// <see cref="IOKXRestClientUnifiedApiExchangeData"/>
     IOKXRestClientUnifiedApiExchangeData ExchangeData { get; }
 
     /// <summary>
     /// Endpoints related to subaccount management
     /// </summary>
+    /// <see cref="IOKXRestClientUnifiedApiSubAccounts"/>
     IOKXRestClientUnifiedApiSubAccounts SubAccounts { get; }
 
     /// <summary>
     /// Endpoints related to orders and trades
     /// </summary>
+    /// <see cref="IOKXRestClientUnifiedApiTrading"/>
     IOKXRestClientUnifiedApiTrading Trading { get; }
 
     /// <summary>
