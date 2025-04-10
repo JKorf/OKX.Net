@@ -131,7 +131,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="orders">The orders to place</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<OKXOrderPlaceResponse[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
+    Task<CallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel an incomplete order

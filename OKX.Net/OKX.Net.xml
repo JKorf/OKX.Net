@@ -5233,7 +5233,7 @@
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
             <summary>
-            Place orders in batches. Maximum 20 orders can be placed at a time. Request parameters should be passed in the form of an array.
+            Place orders in batches. Maximum 20 orders can be placed at a time.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-multiple-orders" /></para>
             </summary>
             <param name="orders">Orders</param>

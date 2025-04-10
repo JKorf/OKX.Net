@@ -141,7 +141,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXOrderPlaceResponse[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
     {
         foreach (var order in orders)
         {
@@ -157,18 +157,24 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
-            return result.As<OKXOrderPlaceResponse[]>(default);
+            return result.As<CallResult<OKXOrderPlaceResponse>[]>(default);
 
-        if (result.Data.ErrorCode > 0)
+        if (result.Data.ErrorCode > 0 && result.Data.Data?.Any() != true)
+            return result.AsError<CallResult<OKXOrderPlaceResponse>[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        
+        var ordersResult = new List<CallResult<OKXOrderPlaceResponse>>();
+        foreach (var item in result.Data.Data!)
         {
-            var detailed = result.Data.Data?.FirstOrDefault(x => !x.Success);
-            if (detailed != null)
-                return result.AsError<OKXOrderPlaceResponse[]>(new OKXRestApiError(detailed.Code, detailed.Message, null));
-
-            return result.AsError<OKXOrderPlaceResponse[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            if (item.Code > 0)
+                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(new OKXRestApiError(item.Code, item.Message!, null)));
+            else
+                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item));
         }
 
-        return result.As(result.Data.Data!);
+        if (ordersResult.All(x => !x.Success))
+            return result.AsErrorWithData(new ServerError("All orders failed"), ordersResult.ToArray());
+
+        return result.As(ordersResult.ToArray());
     }
 
     /// <inheritdoc />

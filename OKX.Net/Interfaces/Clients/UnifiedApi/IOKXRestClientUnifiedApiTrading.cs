@@ -331,13 +331,13 @@ public interface IOKXRestClientUnifiedApiTrading
         CancellationToken ct = default);
 
     /// <summary>
-    /// Place orders in batches. Maximum 20 orders can be placed at a time. Request parameters should be passed in the form of an array.
+    /// Place orders in batches. Maximum 20 orders can be placed at a time.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-multiple-orders" /></para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderPlaceResponse[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
+    Task<WebCallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Place a new order
