@@ -83,4 +83,19 @@ public record OKXFundingRate
     /// </summary>
     [JsonPropertyName("settFundingRate")]
     public decimal? SettFundingRate { get; set; }
+    /// <summary>
+    /// Interest rate
+    /// </summary>
+    [JsonPropertyName("interestRate")]
+    public decimal? InterestRate { get; set; }
+    /// <summary>
+    /// Depth weighted amount (in the unit of quote currency)
+    /// </summary>
+    [JsonPropertyName("impactValue")]
+    public decimal? ImpactValue { get; set; }
+    /// <summary>
+    /// Formula type
+    /// </summary>
+    [JsonPropertyName("formulaType")]
+    public FundingRateFormula FormulaType { get;set; }
 }

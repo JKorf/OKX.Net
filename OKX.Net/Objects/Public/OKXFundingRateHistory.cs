@@ -44,4 +44,9 @@ public record OKXFundingRateHistory
     /// </summary>
     [JsonPropertyName("method")]
     public string Method { get; set; } = string.Empty;
+    /// <summary>
+    /// Formula type
+    /// </summary>
+    [JsonPropertyName("formulaType")]
+    public FundingRateFormula FormulaType { get; set; }
 }

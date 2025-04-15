@@ -764,6 +764,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.FundingRateFormula">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.GreeksType">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -3331,6 +3336,21 @@
         <member name="F:OKX.Net.Enums.DustConvertStatus.Failed">
             <summary>
             Failed
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.FundingRateFormula">
+            <summary>
+            Funding rate calculation type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.FundingRateFormula.NoRate">
+            <summary>
+            Old funding rate formula
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.FundingRateFormula.WithRate">
+            <summary>
+            New funding rate formula
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.IsolatedMarginMode">
@@ -9577,6 +9597,21 @@
             If settState = processing, it is the funding rate that is being used for current settlement cycle. If settState = settled, it is the funding rate that is being used for previous settlement cycle
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXFundingRate.InterestRate">
+            <summary>
+            Interest rate
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXFundingRate.ImpactValue">
+            <summary>
+            Depth weighted amount (in the unit of quote currency)
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXFundingRate.FormulaType">
+            <summary>
+            Formula type
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXFundingRateHistory">
             <summary>
             Funding rate history
@@ -9610,6 +9645,11 @@
         <member name="P:OKX.Net.Objects.Public.OKXFundingRateHistory.Method">
             <summary>
             Funding rate mechanism
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXFundingRateHistory.FormulaType">
+            <summary>
+            Formula type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXInstrument">
