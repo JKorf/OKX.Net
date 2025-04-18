@@ -6,7 +6,7 @@ namespace OKX.Net;
 
 internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials>
 {
-    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
+    private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public OKXAuthenticationProvider(ApiCredentials credentials) : base(credentials)
     {

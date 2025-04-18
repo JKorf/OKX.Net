@@ -66,9 +66,9 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     #endregion
 
     /// <inheritdoc />
-    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
+    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
     /// <inheritdoc />
-    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange.SerializerContext));
+    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
