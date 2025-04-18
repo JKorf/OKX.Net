@@ -63,7 +63,7 @@ public class OKXRestClient : BaseRestClient, IOKXRestClient
     /// Sets the API Credentials
     /// </summary>
     /// <param name="credentials">API Credentials Object</param>
-    public void SetApiCredentials(OKXApiCredentials credentials)
+    public void SetApiCredentials(ApiCredentials credentials)
     {
         UnifiedApi.SetApiCredentials(credentials);
     }

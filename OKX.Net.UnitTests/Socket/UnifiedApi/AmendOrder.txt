@@ -1,0 +1,22 @@
+> { "op": "login", "args": [{}]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "id": "|1|", "op": "amend-order", "args": [{}]}
+=
+{
+  "id": "|1|",
+  "op": "amend-order",
+  "data": [
+    {
+      "clOrdId": "",
+      "ordId": "2510789768709120",
+      "ts": "1695190491421",
+      "reqId": "b12344",
+      "sCode": "0",
+      "sMsg": ""
+    }
+  ],
+  "code": "0",
+  "msg": "",
+  "inTime": "1695190491421339",
+  "outTime": "1695190491423240"
+}

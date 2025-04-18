@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Transfer response
 /// </summary>
+[SerializationModel]
 public record OKXTransferResponse
 {
     /// <summary>
@@ -28,13 +30,13 @@ public record OKXTransferResponse
     /// <summary>
     /// From account
     /// </summary>
-    [JsonPropertyName("from"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("from")]
     public AccountType? From { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("to")]
     public AccountType? To { get; set; }
 
     /// <summary>

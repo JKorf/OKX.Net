@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Trade;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Cancel request
 /// </summary>
+[SerializationModel]
 public record OKXOrderCancelRequest
 {
     /// <summary>

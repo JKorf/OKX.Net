@@ -33,7 +33,7 @@ namespace OKX.Net.UnitTests
             var request = new Mock<IRequest>();
             request.Setup(c => c.Uri).Returns(new Uri("http://www.test.com"));
             request.Setup(c => c.GetResponseAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(response.Object));
-            request.Setup(c => c.GetHeaders()).Returns(new Dictionary<string, IEnumerable<string>>());
+            request.Setup(c => c.GetHeaders()).Returns([]);
 
             var factory = Mock.Get(client.UnifiedApi.RequestFactory);
             factory.Setup(c => c.Create(It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>()))

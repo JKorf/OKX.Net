@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Saving action info
 /// </summary>
+[SerializationModel]
 public record OKXSavingActionResponse
 {
     /// <summary>
@@ -28,6 +30,6 @@ public record OKXSavingActionResponse
     /// <summary>
     /// Side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public SavingActionSide Side { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,7 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Announcement type
 /// </summary>
+[SerializationModel]
 public record OKXAnnouncementType
 {
     /// <summary>

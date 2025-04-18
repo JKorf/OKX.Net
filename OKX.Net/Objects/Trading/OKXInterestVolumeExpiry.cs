@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Trading;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Trading;
 
 /// <summary>
 /// Interest volume expiry
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXInterestVolumeExpiry, OKXSourceGenerationContext>))]
+[SerializationModel]
 public record OKXInterestVolumeExpiry
 {
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 using System;
 
 namespace OKX.Net.Objects.Trade;
@@ -6,6 +7,7 @@ namespace OKX.Net.Objects.Trade;
 /// <summary>
 /// Order place request
 /// </summary>
+[SerializationModel]
 public record OKXOrderPlaceRequest
 {
     /// <summary>
@@ -17,25 +19,25 @@ public record OKXOrderPlaceRequest
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonPropertyName("tdMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tdMode")]
     public Enums.TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonPropertyName("ordType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("ordType")]
     public OrderType OrderType { get; set; }
 
     /// <summary>
@@ -77,7 +79,7 @@ public record OKXOrderPlaceRequest
     /// <summary>
     /// Quantity type
     /// </summary>
-    [JsonPropertyName("tgtCcy"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tgtCcy"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public QuantityAsset? QuantityType { get; set; }
 
     /// <summary>
@@ -101,12 +103,12 @@ public record OKXOrderPlaceRequest
     /// <summary>
     /// Self trade prevention mode
     /// </summary>
-    [JsonPropertyName("stpMode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("stpMode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public SelfTradePreventionMode? StpMode { get; set; }
 
     /// <summary>
     /// Attached take profit / stop loss orders
     /// </summary>
     [JsonPropertyName("attachAlgoOrds"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IEnumerable<OKXAttachedAlgoOrder>? AttachedAlgoOrders { get; set; }
+    public OKXAttachedAlgoOrder[]? AttachedAlgoOrders { get; set; }
 }

@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Interest accrued
 /// </summary>
+[SerializationModel]
 public record OKXInterestAccrued
 {
     /// <summary>
@@ -22,7 +24,7 @@ public record OKXInterestAccrued
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
@@ -53,6 +55,6 @@ public record OKXInterestAccrued
     /// Loan type
     /// </summary>
     [JsonPropertyName("type")]
-    [JsonConverter(typeof(EnumConverter))]
+
     public LoanType Type { get; set; }
 }

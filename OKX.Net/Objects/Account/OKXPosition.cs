@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Position info
 /// </summary>
+[SerializationModel]
 public record OKXPosition
 {
     /// <summary>
@@ -58,19 +60,19 @@ public record OKXPosition
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
@@ -357,12 +359,13 @@ public record OKXPosition
     /// Close position algo orders attached to the position
     /// </summary>
     [JsonPropertyName("closeOrderAlgo")]
-    public IEnumerable<OKXPositionCloseOrder> CloseOrderAlgo { get; set; } = Array.Empty<OKXPositionCloseOrder>();
+    public OKXPositionCloseOrder[] CloseOrderAlgo { get; set; } = Array.Empty<OKXPositionCloseOrder>();
 }
 
 /// <summary>
 /// Position close order info
 /// </summary>
+[SerializationModel]
 public record OKXPositionCloseOrder
 {
     /// <summary>
@@ -371,14 +374,14 @@ public record OKXPositionCloseOrder
     [JsonPropertyName("algoId")]
     public string AlgoId { get; set; } = string.Empty;
     /// <summary>
-    /// Stop losse trigger price
+    /// Stop loss trigger price
     /// </summary>
     [JsonPropertyName("slTriggerPx")]
     public decimal StopLossTriggerPrice { get; set; }
     /// <summary>
     /// Stop loss trigger price type
     /// </summary>
-    [JsonPropertyName("slTriggerPxType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("slTriggerPxType")]
     public TriggerPriceType StopLossTriggerType { get; set; }
     /// <summary>
     /// Take profit trigger price
@@ -388,7 +391,7 @@ public record OKXPositionCloseOrder
     /// <summary>
     /// Take profit trigger price type
     /// </summary>
-    [JsonPropertyName("tpTriggerPxType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tpTriggerPxType")]
     public TriggerPriceType TakeProfitTriggerType { get; set; }
     /// <summary>
     /// Fraction of position to be closed when the algo order is triggered.

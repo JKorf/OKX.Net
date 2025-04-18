@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Core;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Core;
 
 /// <summary>
 /// Rest API response
 /// </summary>
+[SerializationModel]
 public record OKXRestApiResponse
 {
     /// <summary>
@@ -22,6 +24,7 @@ public record OKXRestApiResponse
 /// Rest API response
 /// </summary>
 /// <typeparam name="T"></typeparam>
+[SerializationModel]
 public record OKXRestApiResponse<T> : OKXRestApiResponse
 {
     /// <summary>

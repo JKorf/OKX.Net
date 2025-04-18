@@ -1,10 +1,13 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
 
 /// <summary>
 /// Self trade prevention mode
 /// </summary>
+[JsonConverter(typeof(EnumConverter<SelfTradePreventionMode>))]
 public enum SelfTradePreventionMode
 {
     /// <summary>

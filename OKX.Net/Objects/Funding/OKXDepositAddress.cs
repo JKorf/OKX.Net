@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Deposit address info
 /// </summary>
+[SerializationModel]
 public record OKXDepositAddress
 {
     /// <summary>
@@ -64,7 +66,7 @@ public record OKXDepositAddress
     /// <summary>
     /// Account
     /// </summary>
-    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("to")]
     public AccountType? Account { get; set; }
 
     /// <summary>

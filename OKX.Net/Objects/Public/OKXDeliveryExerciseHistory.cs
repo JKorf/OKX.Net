@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Delivery exercise history
 /// </summary>
+[SerializationModel]
 public record OKXDeliveryExerciseHistory
 {
     /// <summary>
@@ -17,18 +19,19 @@ public record OKXDeliveryExerciseHistory
     /// Details
     /// </summary>
     [JsonPropertyName("details")]
-    public IEnumerable<OKXPublicDeliveryExerciseHistoryDetail> Details { get; set; } = Array.Empty<OKXPublicDeliveryExerciseHistoryDetail>();
+    public OKXPublicDeliveryExerciseHistoryDetail[] Details { get; set; } = Array.Empty<OKXPublicDeliveryExerciseHistoryDetail>();
 }
 
 /// <summary>
 /// Delivery exercise history details
 /// </summary>
+[SerializationModel]
 public record OKXPublicDeliveryExerciseHistoryDetail
 {
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public DeliveryExerciseHistoryType Type { get; set; }
 
     /// <summary>

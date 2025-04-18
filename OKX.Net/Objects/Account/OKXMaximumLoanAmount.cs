@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Maximum loan amount
 /// </summary>
+[SerializationModel]
 public record OKXMaximumLoanAmount
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXMaximumLoanAmount
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
@@ -40,6 +42,6 @@ public record OKXMaximumLoanAmount
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide? OrderSide { get; set; }
 }

@@ -1,0 +1,30 @@
+> { "op": "login", "args": [{}]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "id": "|1|", "op": "batch-amend-orders", "args": [{}]}
+=
+{
+  "id": "|1|",
+  "op": "batch-amend-orders",
+  "data": [
+    {
+      "clOrdId": "oktswap6",
+      "ordId": "12345689",
+      "ts": "1695190491421",
+      "reqId": "b12344",
+      "sCode": "0",
+      "sMsg": ""
+    },
+    {
+      "clOrdId": "oktswap7",
+      "ordId": "12344",
+      "ts": "1695190491421",
+      "reqId": "b12344",
+      "sCode": "0",
+      "sMsg": ""
+    }
+  ],
+  "code": "0",
+  "msg": "",
+  "inTime": "1695190491421339",
+  "outTime": "1695190491423240"
+}

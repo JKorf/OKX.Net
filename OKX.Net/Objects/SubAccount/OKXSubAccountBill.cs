@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.SubAccount;
 
 /// <summary>
 /// Subaccount bill
 /// </summary>
+[SerializationModel]
 public record OKXSubAccountBill
 {
     /// <summary>
@@ -22,7 +24,7 @@ public record OKXSubAccountBill
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public SubAccountTransferType Type { get; set; }
 
     /// <summary>

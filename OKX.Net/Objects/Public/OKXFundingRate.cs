@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Funding rate
 /// </summary>
+[SerializationModel]
 public record OKXFundingRate
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXFundingRate
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -81,4 +83,19 @@ public record OKXFundingRate
     /// </summary>
     [JsonPropertyName("settFundingRate")]
     public decimal? SettFundingRate { get; set; }
+    /// <summary>
+    /// Interest rate
+    /// </summary>
+    [JsonPropertyName("interestRate")]
+    public decimal? InterestRate { get; set; }
+    /// <summary>
+    /// Depth weighted amount (in the unit of quote currency)
+    /// </summary>
+    [JsonPropertyName("impactValue")]
+    public decimal? ImpactValue { get; set; }
+    /// <summary>
+    /// Formula type
+    /// </summary>
+    [JsonPropertyName("formulaType")]
+    public FundingRateFormula FormulaType { get;set; }
 }

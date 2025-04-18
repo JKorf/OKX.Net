@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Insurance fund
 /// </summary>
+[SerializationModel]
 public record OKXInsuranceFund
 {
     /// <summary>
@@ -22,19 +24,20 @@ public record OKXInsuranceFund
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Details
     /// </summary>
     [JsonPropertyName("details")]
-    public IEnumerable<OKXInsuranceFundDetail> Details { get; set; } = Array.Empty<OKXInsuranceFundDetail>();
+    public OKXInsuranceFundDetail[] Details { get; set; } = Array.Empty<OKXInsuranceFundDetail>();
 }
 
 /// <summary>
 /// Fund details
 /// </summary>
+[SerializationModel]
 public record OKXInsuranceFundDetail
 {
     /// <summary>
@@ -74,7 +77,7 @@ public record OKXInsuranceFundDetail
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public InsuranceType Type { get; set; }
 
     /// <summary>
