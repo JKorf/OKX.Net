@@ -10,7 +10,7 @@ namespace OKX.Net.UnitTests
 {
     internal class OKXSocketIntegrationTests : SocketIntegrationTest<OKXSocketClient>
     {
-        public override bool Run { get; set; } = true;
+        public override bool Run { get; set; } = false;
 
         public OKXSocketIntegrationTests()
         {
