@@ -20,12 +20,13 @@ namespace OKX.Net.UnitTests
         {
             var key = Environment.GetEnvironmentVariable("APIKEY");
             var sec = Environment.GetEnvironmentVariable("APISECRET");
+            var pass = Environment.GetEnvironmentVariable("APIPASS");
 
-            Authenticated = key != null && sec != null;
+            Authenticated = key != null && sec != null && pass != null;
             return new OKXSocketClient(Options.Create(new OKXSocketOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec) : null
+                ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec, pass) : null
             }), loggerFactory);
         }
 
