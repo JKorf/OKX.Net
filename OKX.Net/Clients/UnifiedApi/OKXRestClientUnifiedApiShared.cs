@@ -1573,7 +1573,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return result.AsExchangeResult<SharedFee>(Exchange, null, default);
 
             // Return
-            return result.AsExchangeResult(Exchange, TradingMode.Spot, new SharedFee(Math.Abs(result.Data.Maker ?? 0) * 100, Math.Abs(result.Data.Taker ?? 0) * 100));
+            return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedFee(Math.Abs(result.Data.Maker ?? 0) * 100, Math.Abs(result.Data.Taker ?? 0) * 100));
         }
         #endregion
 
