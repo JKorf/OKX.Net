@@ -32,8 +32,8 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         ISpotTriggerOrderRestClient,
         IFuturesTriggerOrderRestClient,
         IFuturesTpSlRestClient,
-        ISpotOrderClientIdClient,
-        IFuturesOrderClientIdClient,
+        ISpotOrderClientIdRestClient,
+        IFuturesOrderClientIdRestClient,
         IBookTickerRestClient
     {
     }
