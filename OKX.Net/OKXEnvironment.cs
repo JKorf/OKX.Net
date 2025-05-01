@@ -39,10 +39,17 @@ namespace OKX.Net
          {
              TradeEnvironmentNames.Live => Live,
              TradeEnvironmentNames.Testnet => Demo,
+             "Europe" => Europe,
              "" => Live,
              null => Live,
              _ => default
          };
+
+        /// <summary>
+        /// Available environment names
+        /// </summary>
+        /// <returns></returns>
+        public static string[] All => [Live.Name, Demo.Name, Europe.Name];
 
         /// <summary>
         /// Live environment
@@ -56,7 +63,7 @@ namespace OKX.Net
         /// Live environment for Europe customers
         /// </summary>
         public static OKXEnvironment Europe { get; }
-            = new OKXEnvironment(TradeEnvironmentNames.Live,
+            = new OKXEnvironment("Europe",
                                    OKXApiAddresses.Europe.UnifiedRestAddress,
                                    OKXApiAddresses.Europe.UnifiedSocketAddress);
         /// <summary>

@@ -12264,6 +12264,12 @@
             Get the OKX environment by name
             </summary>
         </member>
+        <member name="P:OKX.Net.OKXEnvironment.All">
+            <summary>
+            Available environment names
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:OKX.Net.OKXEnvironment.Live">
             <summary>
             Live environment
