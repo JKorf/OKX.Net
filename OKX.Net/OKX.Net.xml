@@ -95,7 +95,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetTimeOffset">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor,System.Exception)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetAccountBalanceAsync(System.String,System.Threading.CancellationToken)">
@@ -7830,13 +7830,10 @@
             API error
             </summary>
         </member>
-        <member name="M:OKX.Net.Objects.Core.OKXRestApiError.#ctor(System.Nullable{System.Int32},System.String,System.Object)">
+        <member name="M:OKX.Net.Objects.Core.OKXRestApiError.#ctor(System.Nullable{System.Int32},System.String,System.Exception)">
             <summary>
             ctor
             </summary>
-            <param name="code"></param>
-            <param name="message"></param>
-            <param name="data"></param>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse">
             <summary>

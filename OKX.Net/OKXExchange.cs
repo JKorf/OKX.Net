@@ -45,7 +45,7 @@ namespace OKX.Net
         internal const string ClientOrderId = "1425d83a94fbBCDE";
         internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeparator;
 
-        internal static JsonSerializerContext _serializerContext = new OKXSourceGenerationContext();
+        internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<OKXSourceGenerationContext>();
 
         /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 
