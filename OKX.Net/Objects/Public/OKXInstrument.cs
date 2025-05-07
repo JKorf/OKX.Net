@@ -114,19 +114,19 @@ public record OKXInstrument
     /// Tick size
     /// </summary>
     [JsonPropertyName("tickSz")]
-    public decimal TickSize { get; set; }
+    public decimal? TickSize { get; set; }
 
     /// <summary>
     /// Lot size
     /// </summary>
     [JsonPropertyName("lotSz")]
-    public decimal LotSize { get; set; }
+    public decimal? LotSize { get; set; }
 
     /// <summary>
     /// Minimum order size
     /// </summary>
     [JsonPropertyName("minSz")]
-    public decimal MinimumOrderSize { get; set; }
+    public decimal? MinimumOrderSize { get; set; }
 
     /// <summary>
     /// Contract type
