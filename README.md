@@ -12,6 +12,7 @@ OKX.Net is strongly typed client library for accessing the [OKX REST and Websock
 * Extensive logging
 * Support for different environments
 * Easy integration with other exchange client based on the CryptoExchange.Net base library
+* Native AOT support
 
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility
@@ -168,8 +169,46 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.0.0-beta3 - 01 May 2025
+    * Updated CryptoExchange.Net version to 9.0.0-beta5
+    * Added property to retrieve all available API environments
+    * Renamed Europe OKXEnvironment name
+
+* Version 3.0.0-beta2 - 23 Apr 2025
+    * Updated CryptoExchange.Net to version 9.0.0-beta2
+    * Added Shared spot ticker QuoteVolume mapping
+    * Fixed incorrect DataTradeMode on responses
+
+* Version 3.0.0-beta1 - 22 Apr 2025
+    * Updated CryptoExchange.Net to version 9.0.0-beta1, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added support for Native AOT compilation
+    * Added RateLimitUpdated event
+    * Added SharedSymbol response property to all Shared interfaces response models returning a symbol name
+    * Added GenerateClientOrderId method to UnifiedApi Shared clients
+    * Added IBookTickerRestClient implementation to UnifiedApi Shared client
+    * Added ISpotTriggerOrderRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesTriggerOrderRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesTpSlRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesOrderClientIdClient implementation to UnifiedApi Shared client
+    * Added ISpotOrderClientIdClient implementation to UnifiedApi Shared client
+    * Added TakeProfitPrice, StopLossPrice to SharedFuturesOrder model
+    * Added TakeProfitPrice, StopLossPrice to SharedPosition model
+    * Added MaxLongLeverage, MaxShortLeverage to SharedFuturesSymbol model
+    * Added OptionalExchangeParameters and Supported properties to EndpointOptions
+    * Refactored Shared clients quantity parameters and responses to use SharedQuantity
+    * Updated all IEnumerable response and model types to array response types
+    * Updated funding rate models
+    * Updated PlaceMultipleOrdersAsync endpoints to return a list of CallResult models and an error if all orders fail to place
+    * Replaced OKXApiCredentials with ApiCredentials
+    * Removed Newtonsoft.Json dependency
+    * Removed legacy ISpotClient implementation
+    * Removed legacy AddOKX(restOptions, socketOptions) DI overload
+    * Fixed some typos
+    * Fixed ratelimiting not respecting limits for different symbols
+
 * Version 2.16.1 - 07 May 2025
     * Changed OKXInstrument decimal fields to nullable to fix deserialization error
+
 
 * Version 2.16.0 - 24 Mar 2025
     * Added restClient.UnifiedApi.ExchangeData.GetEstimatedFuturesSettlementPriceAsync endpoint

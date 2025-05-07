@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Index info
 /// </summary>
+[SerializationModel]
 public record OKXIndexComponents
 {
     /// <summary>
@@ -27,12 +29,13 @@ public record OKXIndexComponents
     /// Components
     /// </summary>
     [JsonPropertyName("components")]
-    public IEnumerable<OKXIndexComponent> Components { get; set; } = Array.Empty<OKXIndexComponent>();
+    public OKXIndexComponent[] Components { get; set; } = Array.Empty<OKXIndexComponent>();
 }
 
 /// <summary>
 /// Index component
 /// </summary>
+[SerializationModel]
 public record OKXIndexComponent
 {
     /// <summary>

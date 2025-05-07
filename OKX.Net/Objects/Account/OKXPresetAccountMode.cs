@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Attributes;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 using OKX.Net.Enums;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Account mode switch preset info
 /// </summary>
+[SerializationModel]
 public record OKXPresetAccountMode
 {
     /// <summary>

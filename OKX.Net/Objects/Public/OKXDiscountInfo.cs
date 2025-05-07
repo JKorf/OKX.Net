@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Public;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Discount info
 /// </summary>
+[SerializationModel]
 public record OKXDiscountInfo
 {
     /// <summary>
@@ -33,18 +35,19 @@ public record OKXDiscountInfo
     /// DEPRECATED, use DiscountDetails instead
     /// </summary>
     [JsonPropertyName("discountInfo")]
-    public IEnumerable<OKXPublicDiscountInfoDetail> Details { get; set; } = Array.Empty<OKXPublicDiscountInfoDetail>();
+    public OKXPublicDiscountInfoDetail[] Details { get; set; } = Array.Empty<OKXPublicDiscountInfoDetail>();
 
     /// <summary>
     /// Discount info
     /// </summary>
     [JsonPropertyName("details")]
-    public IEnumerable<OKXPublicDiscountDetails> DiscountDetails { get; set; } = Array.Empty<OKXPublicDiscountDetails>();
+    public OKXPublicDiscountDetails[] DiscountDetails { get; set; } = Array.Empty<OKXPublicDiscountDetails>();
 }
 
 /// <summary>
 /// Discount details
 /// </summary>
+[SerializationModel]
 public record OKXPublicDiscountInfoDetail
 {
     /// <summary>
@@ -69,6 +72,7 @@ public record OKXPublicDiscountInfoDetail
 /// <summary>
 /// Discount details
 /// </summary>
+[SerializationModel]
 public record OKXPublicDiscountDetails
 {
     /// <summary>

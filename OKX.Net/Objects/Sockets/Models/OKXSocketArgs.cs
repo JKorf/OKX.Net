@@ -1,11 +1,11 @@
-﻿using OKX.Net.Enums;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketArgs
 {
     [JsonPropertyName("channel")]
     public string Channel { get; set; } = string.Empty;
-    [JsonPropertyName("instType"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public InstrumentType? InstrumentType { get; set; }
     [JsonPropertyName("instFamily"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? InstrumentFamily { get; set; }

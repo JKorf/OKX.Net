@@ -1,4 +1,5 @@
-﻿using System;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,13 +8,14 @@ namespace OKX.Net.Objects.Public
     /// <summary>
     /// Announcements page
     /// </summary>
+    [SerializationModel]
     public record OKXAnnouncementsPage
     {
         /// <summary>
         /// Details
         /// </summary>
         [JsonPropertyName("details")]
-        public IEnumerable<OKXAnnouncement> Details { get; set; } = Array.Empty<OKXAnnouncement>();
+        public OKXAnnouncement[] Details { get; set; } = Array.Empty<OKXAnnouncement>();
         /// <summary>
         /// Total number of pages
         /// </summary>
@@ -24,6 +26,7 @@ namespace OKX.Net.Objects.Public
     /// <summary>
     /// Announcement
     /// </summary>
+    [SerializationModel]
     public record OKXAnnouncement
     {
         /// <summary>

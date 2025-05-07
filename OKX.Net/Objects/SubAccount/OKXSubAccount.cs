@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.SubAccount;
 
 /// <summary>
 /// Subaccount info
 /// </summary>
+[SerializationModel]
 public record OKXSubAccount
 {
     /// <summary>
@@ -52,7 +54,7 @@ public record OKXSubAccount
     /// <summary>
     /// Type
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public SubAccountType Type { get; set; }
 
     /// <summary>
@@ -65,5 +67,5 @@ public record OKXSubAccount
     /// Frozen functions
     /// </summary>
     [JsonPropertyName("frozenFunc")]
-    public IEnumerable<string> FrozenFunctions { get; set; } = Array.Empty<string>();
+    public string[] FrozenFunctions { get; set; } = Array.Empty<string>();
 }

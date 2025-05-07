@@ -1,8 +1,11 @@
-﻿namespace OKX.Net.Objects.Trade;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order placement response
 /// </summary>
+[SerializationModel]
 public record OKXOrderPlaceResponse
 {
     /// <summary>
@@ -15,7 +18,7 @@ public record OKXOrderPlaceResponse
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

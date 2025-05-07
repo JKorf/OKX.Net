@@ -1,4 +1,5 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,7 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Result of account switch pre-check
 /// </summary>
+[SerializationModel]
 public record OKXAccountSwitchCheckResult
 {
     /// <summary>
@@ -44,22 +46,23 @@ public record OKXAccountSwitchCheckResult
     /// Position tier check
     /// </summary>
     [JsonPropertyName("posTierCheck")]
-    public IEnumerable<OKXAccountSwitchPosTier>? PositionTierCheck { get; set; }
+    public OKXAccountSwitchPosTier[]? PositionTierCheck { get; set; }
     /// <summary>
     /// Positions
     /// </summary>
     [JsonPropertyName("posList")]
-    public IEnumerable<OKXAccountSwitchPosition>? Positions { get; set; }
+    public OKXAccountSwitchPosition[]? Positions { get; set; }
     /// <summary>
     /// Unmatched info check
     /// </summary>
     [JsonPropertyName("unmatchedInfoCheck")]
-    public IEnumerable<OKXAccountSwitchUnmatched> UnmatchedInfoCheck { get; set; } = Array.Empty<OKXAccountSwitchUnmatched>();
+    public OKXAccountSwitchUnmatched[] UnmatchedInfoCheck { get; set; } = Array.Empty<OKXAccountSwitchUnmatched>();
 }
 
 /// <summary>
 /// Unmatched info
 /// </summary>
+[SerializationModel]
 public record OKXAccountSwitchUnmatched
 {
     /// <summary>
@@ -76,12 +79,13 @@ public record OKXAccountSwitchUnmatched
     /// Positions
     /// </summary>
     [JsonPropertyName("posList")]
-    public IEnumerable<OKXAccountSwitchPosition>? Positions { get; set; }
+    public OKXAccountSwitchPosition[]? Positions { get; set; }
 }
 
 /// <summary>
 /// Position tier check info
 /// </summary>
+[SerializationModel]
 public record OKXAccountSwitchPosTier
 {
     /// <summary>
@@ -114,6 +118,7 @@ public record OKXAccountSwitchPosTier
 /// <summary>
 /// Margin info
 /// </summary>
+[SerializationModel]
 public record OKXAccountSwitchMargin
 {
     /// <summary>
@@ -131,6 +136,7 @@ public record OKXAccountSwitchMargin
 /// <summary>
 /// Position reference
 /// </summary>
+[SerializationModel]
 public record OKXAccountSwitchPosition
 {
     /// <summary>

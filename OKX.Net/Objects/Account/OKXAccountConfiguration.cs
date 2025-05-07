@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Account config
 /// </summary>
+[SerializationModel]
 public record OKXAccountConfiguration
 {
     /// <summary>
@@ -16,13 +18,13 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Account level
     /// </summary>
-    [JsonPropertyName("acctLv"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("acctLv")]
     public AccountLevel AccountLevel { get; set; }
 
     /// <summary>
     /// Position mode
     /// </summary>
-    [JsonPropertyName("posMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posMode")]
     public PositionMode PositionMode { get; set; }
 
     /// <summary>
@@ -34,7 +36,7 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Greeks type
     /// </summary>
-    [JsonPropertyName("greeksType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("greeksType")]
     public GreeksType GreeksType { get; set; }
 
     /// <summary>
@@ -52,20 +54,20 @@ public record OKXAccountConfiguration
     /// <summary>
     /// Account self trade prevention mode
     /// </summary>
-    [JsonPropertyName("acctStpMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("acctStpMode")]
     public SelfTradePreventionMode StpMode { get; set; }
 
     /// <summary>
     /// Contract isolated margin trading mode
     /// </summary>
-    [JsonPropertyName("ctIsoMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("ctIsoMode")]
     public MarginTransferMode ContractIsolatedMarginTradingMode { get; set; }
 
     /// <summary>
     /// Margin isolated trading mode
     /// </summary>
 
-    [JsonPropertyName("mgnIsoMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnIsoMode")]
     public MarginTransferMode MarginIsolatedMarginTradingMode { get; set; }
 
     /// <summary>
@@ -90,21 +92,20 @@ public record OKXAccountConfiguration
     /// Account role
     /// </summary>
     [JsonPropertyName("roleType")]
-    [JsonConverter(typeof(EnumConverter))]
+
     public AccountRoleType RoleType { get; set; }
 
     /// <summary>
     /// Spot account role
     /// </summary>
     [JsonPropertyName("spotRoleType")]
-    [JsonConverter(typeof(EnumConverter))]
+
     public AccountRoleType SpotRoleType { get; set; }
 
     /// <summary>
     /// Optional trading activation status
     /// </summary>
     [JsonPropertyName("opAuth")]
-    [JsonConverter (typeof(EnumConverter))]
     public OptionalTradingStatus OpAuth { get; set; }
 
     /// <summary>

@@ -1,16 +1,19 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Transaction info
 /// </summary>
+[SerializationModel]
 public record OKXTransaction
 {
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -35,7 +38,7 @@ public record OKXTransaction
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
@@ -77,19 +80,19 @@ public record OKXTransaction
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Order flow type
     /// </summary>
-    [JsonPropertyName("execType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("execType")]
     public OrderFlowType OrderFlowType { get; set; }
 
     /// <summary>

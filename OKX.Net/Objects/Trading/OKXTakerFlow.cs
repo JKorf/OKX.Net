@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Trading;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Trading;
 
 /// <summary>
 /// Take flow
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXTakerFlow, OKXSourceGenerationContext>))]
+[SerializationModel]
 public record OKXTakerFlow
 {
     /// <summary>

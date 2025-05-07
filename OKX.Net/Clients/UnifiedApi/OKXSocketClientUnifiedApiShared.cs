@@ -1,4 +1,4 @@
-﻿using OKX.Net;
+using OKX.Net;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Objects.Sockets;
@@ -9,6 +9,9 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedApi : IOKXSocketClientUnifiedApiShared
     {
+        private const string _topicSpotId = "OKXSpot";
+        private const string _topicFuturesId = "OKXFutures";
+
         public string Exchange => OKXExchange.ExchangeName;
         public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse };
 
@@ -24,7 +27,10 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(update.Data.Symbol, update.Data.LastPrice ?? 0, update.Data.HighPrice ?? 0, update.Data.LowPrice ?? 0, update.Data.Volume, update.Data.OpenPrice == null ? null: Math.Round((update.Data.LastPrice ?? 0) / update.Data.OpenPrice.Value * 100 - 100, 2)))), ct: ct).ConfigureAwait(false);
+            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.LastPrice ?? 0, update.Data.HighPrice ?? 0, update.Data.LowPrice ?? 0, update.Data.Volume, update.Data.OpenPrice == null ? null : Math.Round((update.Data.LastPrice ?? 0) / update.Data.OpenPrice.Value * 100 - 100, 2))
+            {
+                QuoteVolume = update.Data.QuoteVolume
+            })), ct: ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -33,14 +39,14 @@ namespace OKX.Net.Clients.UnifiedApi
         #region Trade client
 
         EndpointOptions<SubscribeTradeRequest> ITradeSocketClient.SubscribeTradeOptions { get; } = new EndpointOptions<SubscribeTradeRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedTrade>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> ITradeSocketClient.SubscribeToTradeUpdatesAsync(SubscribeTradeRequest request, Action<ExchangeEvent<SharedTrade[]>> handler, CancellationToken ct)
         {
             var validationError = ((ITradeSocketClient)this).SubscribeTradeOptions.ValidateRequest(Exchange, request, request.Symbol.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.SubscribeToTradeUpdatesAsync(symbol, update => handler(update.AsExchangeEvent<IEnumerable<SharedTrade>>(Exchange, new[] { new SharedTrade(update.Data.Quantity, update.Data.Price, update.Data.Time){
+            var result = await ExchangeData.SubscribeToTradeUpdatesAsync(symbol, update => handler(update.AsExchangeEvent<SharedTrade[]>(Exchange, new[] { new SharedTrade(update.Data.Quantity, update.Data.Price, update.Data.Time){
                 Side = update.Data.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             } })), ct).ConfigureAwait(false);
 
@@ -59,7 +65,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
             var symbol = request.Symbol.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(update.Data.BestAskPrice ?? 0, update.Data.BestAskQuantity ?? 0, update.Data.BestBidPrice ?? 0, update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
+            var result = await ExchangeData.SubscribeToTickerUpdatesAsync(symbol, update => handler(update.AsExchangeEvent(Exchange, new SharedBookTicker(ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.BestAskPrice ?? 0, update.Data.BestAskQuantity ?? 0, update.Data.BestBidPrice ?? 0, update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
@@ -116,18 +122,19 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Balance client
         EndpointOptions<SubscribeBalancesRequest> IBalanceSocketClient.SubscribeBalanceOptions { get; } = new EndpointOptions<SubscribeBalancesRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<IEnumerable<SharedBalance>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(SubscribeBalancesRequest request, Action<ExchangeEvent<SharedBalance[]>> handler, CancellationToken ct)
         {
             var validationError = ((IBalanceSocketClient)this).SubscribeBalanceOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
 
-            var result = await Account.SubscribeToAccountUpdatesAsync(null, false, 
-                update => {
+            var result = await Account.SubscribeToAccountUpdatesAsync(null, false,
+                update =>
+                {
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.AsExchangeEvent<IEnumerable<SharedBalance>>(Exchange, update.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray()));
+                    handler(update.AsExchangeEvent<SharedBalance[]>(Exchange, update.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray()));
                 },
                 ct: ct).ConfigureAwait(false);
 
@@ -138,31 +145,31 @@ namespace OKX.Net.Clients.UnifiedApi
         #region Spot Order client
 
         EndpointOptions<SubscribeSpotOrderRequest> ISpotOrderSocketClient.SubscribeSpotOrderOptions { get; } = new EndpointOptions<SubscribeSpotOrderRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedSpotOrder>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<ExchangeEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
         {
             var validationError = ((ISpotOrderSocketClient)this).SubscribeSpotOrderOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
             var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Spot, null, null,
-                update => handler(update.AsExchangeEvent<IEnumerable<SharedSpotOrder>>(Exchange, new[] {
+                update => handler(update.AsExchangeEvent<SharedSpotOrder[]>(Exchange, new[] {
                     new SharedSpotOrder(
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol),
                         update.Data.Symbol,
-                        update.Data.OrderId.ToString(),
+                        update.Data.OrderId.ToString()!,
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
                         update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                         update.Data.OrderState == Enums.OrderStatus.Canceled ? SharedOrderStatus.Canceled : (update.Data.OrderState == Enums.OrderStatus.Live || update.Data.OrderState == Enums.OrderStatus.PartiallyFilled) ? SharedOrderStatus.Open : SharedOrderStatus.Filled,
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId?.ToString(),
-                        Quantity = ParseQuantity(update.Data),
-                        QuantityFilled = update.Data.AccumulatedFillQuantity,
-                        QuoteQuantity = ParseQuoteQuantity(update.Data),
-                        AveragePrice = update.Data.AveragePrice,
+                        OrderQuantity = new SharedOrderQuantity(ParseQuantity(update.Data), ParseQuoteQuantity(update.Data)),
+                        QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
+                        AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol), update.Data.Symbol, update.Data.OrderId.ToString()!, update.Data.TradeId.ToString()!, update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = update.Data.FillFee,
                             FeeAsset = update.Data.FillFeeAsset,
@@ -179,25 +186,25 @@ namespace OKX.Net.Clients.UnifiedApi
         #region Futures Order client
 
         EndpointOptions<SubscribeFuturesOrderRequest> IFuturesOrderSocketClient.SubscribeFuturesOrderOptions { get; } = new EndpointOptions<SubscribeFuturesOrderRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<IEnumerable<SharedFuturesOrder>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<ExchangeEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderSocketClient)this).SubscribeFuturesOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
             var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null,
-                update => handler(update.AsExchangeEvent<IEnumerable<SharedFuturesOrder>>(Exchange, new[] {
+                update => handler(update.AsExchangeEvent<SharedFuturesOrder[]>(Exchange, new[] {
                     new SharedFuturesOrder(
+                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol),
                         update.Data.Symbol,
-                        update.Data.OrderId.ToString(),
+                        update.Data.OrderId.ToString()!,
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
                         update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                         update.Data.OrderState == Enums.OrderStatus.Canceled ? SharedOrderStatus.Canceled : (update.Data.OrderState == Enums.OrderStatus.Live || update.Data.OrderState == Enums.OrderStatus.PartiallyFilled) ? SharedOrderStatus.Open : SharedOrderStatus.Filled,
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId,
-                        Quantity = ParseQuantity(update.Data),// ((update.Data.QuantityType == null || update.Data.QuantityType == QuantityAsset.QuoteAsset) && update.Data.OrderType == Enums.OrderType.Market && update.Data.OrderSide == Enums.OrderSide.Buy) ? null : update.Data.QuantityType == Enums.QuantityAsset.QuoteAsset ? null : update.Data.Quantity,
-                        QuantityFilled = update.Data.AccumulatedFillQuantity,
-                        QuoteQuantity = ParseQuoteQuantity(update.Data),
+                        OrderQuantity = new SharedOrderQuantity(contractQuantity: update.Data.Quantity),
+                        QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
                         AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
@@ -206,7 +213,9 @@ namespace OKX.Net.Clients.UnifiedApi
                         PositionSide = update.Data.PositionSide == PositionSide.Net ? null : update.Data.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
                         FeeAsset = update.Data.FeeAsset,
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
-                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(update.Data.Symbol, update.Data.OrderId.ToString(), update.Data.TradeId.ToString(), update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
+                        StopLossPrice = update.Data.StopLossTriggerPrice,
+                        TakeProfitPrice = update.Data.TakeProfitTriggerPrice,
+                        LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol), update.Data.Symbol, update.Data.OrderId.ToString()!, update.Data.TradeId.ToString()!, update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
                             Fee = Math.Abs(update.Data.FillFee),
                             FeeAsset = update.Data.FillFeeAsset,
@@ -238,7 +247,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region User Trade client
         EndpointOptions<SubscribeUserTradeRequest> IUserTradeSocketClient.SubscribeUserTradeOptions { get; } = new EndpointOptions<SubscribeUserTradeRequest>(false);
-        async Task<ExchangeResult<UpdateSubscription>> IUserTradeSocketClient.SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<IEnumerable<SharedUserTrade>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IUserTradeSocketClient.SubscribeToUserTradeUpdatesAsync(SubscribeUserTradeRequest request, Action<ExchangeEvent<SharedUserTrade[]>> handler, CancellationToken ct)
         {
             var validationError = ((IUserTradeSocketClient)this).SubscribeUserTradeOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -246,8 +255,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
             var result = await Trading.SubscribeToUserTradeUpdatesAsync(
                 null,
-                update => handler(update.AsExchangeEvent<IEnumerable<SharedUserTrade>>(Exchange, new[] {
+                update => handler(update.AsExchangeEvent<SharedUserTrade[]>(Exchange, new[] {
                     new SharedUserTrade(
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol) ?? ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString(),
                         update.Data.TradeId.ToString(),
@@ -267,7 +277,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Position client
         EndpointOptions<SubscribePositionRequest> IPositionSocketClient.SubscribePositionOptions { get; } = new EndpointOptions<SubscribePositionRequest>(true);
-        async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(SubscribePositionRequest request, Action<ExchangeEvent<IEnumerable<SharedPosition>>> handler, CancellationToken ct)
+        async Task<ExchangeResult<UpdateSubscription>> IPositionSocketClient.SubscribeToPositionUpdatesAsync(SubscribePositionRequest request, Action<ExchangeEvent<SharedPosition[]>> handler, CancellationToken ct)
         {
             var validationError = ((IPositionSocketClient)this).SubscribePositionOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -284,7 +294,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.AsExchangeEvent<IEnumerable<SharedPosition>>(Exchange, update.Data.Select(x => new SharedPosition(x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
+                    handler(update.AsExchangeEvent<SharedPosition[]>(Exchange, update.Data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
                     {
                         AverageOpenPrice = x.AveragePrice,
                         PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity < 0 ? SharedPositionSide.Short : SharedPositionSide.Long) : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,

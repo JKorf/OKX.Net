@@ -1,10 +1,13 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Account bill info
 /// </summary>
+[SerializationModel]
 public record OKXAccountBill
 {
     /// <summary>
@@ -28,13 +31,13 @@ public record OKXAccountBill
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType? InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
@@ -76,13 +79,13 @@ public record OKXAccountBill
     /// <summary>
     /// From account
     /// </summary>
-    [JsonPropertyName("from"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("from")]
     public AccountType? FromAccount { get; set; }
 
     /// <summary>
     /// To account
     /// </summary>
-    [JsonPropertyName("to"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("to")]
     public AccountType? ToAccount { get; set; }
 
     /// <summary>
@@ -118,7 +121,7 @@ public record OKXAccountBill
     /// <summary>
     /// Sub type
     /// </summary>
-    [JsonPropertyName("subType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("subType")]
     public AccountBillSubType? SubType { get; set; }
 
     /// <summary>
@@ -137,7 +140,7 @@ public record OKXAccountBill
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

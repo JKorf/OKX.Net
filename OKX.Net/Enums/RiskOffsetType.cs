@@ -1,11 +1,11 @@
-﻿using CryptoExchange.Net.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+[JsonConverter(typeof(EnumConverter<RiskOffsetType>))]
 public enum RiskOffsetType
 {
     [Map("1")]

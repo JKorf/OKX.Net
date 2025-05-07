@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CryptoExchange.Net.Objects;
 using OKX.Net.Interfaces.Clients;
+using CryptoExchange.Net.Authentication;
 
 namespace OKX.Net.UnitTests
 {
@@ -76,7 +77,7 @@ namespace OKX.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new OKXAuthenticationProvider(
-                new OKXApiCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
+                new ApiCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
                 );
             var client = (RestApiClient)new OKXRestClient().UnifiedApi;
 
@@ -179,10 +180,10 @@ namespace OKX.Net.UnitTests
                 {
                     { "ApiCredentials:Key", "123" },
                     { "ApiCredentials:Secret", "456" },
-                    { "ApiCredentials:PassPhrase", "222" },
+                    { "ApiCredentials:Pass", "222" },
                     { "Socket:ApiCredentials:Key", "456" },
                     { "Socket:ApiCredentials:Secret", "789" },
-                    { "Socket:ApiCredentials:PassPhrase", "111" },
+                    { "Socket:ApiCredentials:Pass", "111" },
                     { "Rest:OutputOriginalData", "true" },
                     { "Socket:OutputOriginalData", "false" },
                     { "Rest:Proxy:Host", "host" },

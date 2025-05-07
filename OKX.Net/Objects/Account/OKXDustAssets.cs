@@ -1,4 +1,5 @@
-﻿using System;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,23 +8,25 @@ namespace OKX.Net.Objects.Account;
 /// <summary>
 /// Dust assets
 /// </summary>
+[SerializationModel]
 public record OKXDustAssets
 {
     /// <summary>
     /// Convertable assets
     /// </summary>
     [JsonPropertyName("fromData")]
-    public IEnumerable<OKXDustAsset> Convertable { get; set; } = Array.Empty<OKXDustAsset>();
+    public OKXDustAsset[] Convertable { get; set; } = Array.Empty<OKXDustAsset>();
     /// <summary>
     /// Available target assets
     /// </summary>
     [JsonPropertyName("toCcy")]
-    public IEnumerable<string> ToAssets { get; set; } = Array.Empty<string>();
+    public string[] ToAssets { get; set; } = Array.Empty<string>();
 }
 
 /// <summary>
 /// Dust asset 
 /// </summary>
+[SerializationModel]
 public record OKXDustAsset
 {
     /// <summary>

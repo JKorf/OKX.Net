@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.SubAccount;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.SubAccount;
 
 /// <summary>
 /// Account name
 /// </summary>
+[SerializationModel]
 public record OKXSubAccountName
 {
     /// <summary>

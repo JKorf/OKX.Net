@@ -1,12 +1,12 @@
-﻿using CryptoExchange.Net.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
 /// <summary>
 /// Unmatched info type
 /// </summary>
+[JsonConverter(typeof(EnumConverter<UnmatchedInfoType>))]
 public enum UnmatchedInfoType
 {
     /// <summary>

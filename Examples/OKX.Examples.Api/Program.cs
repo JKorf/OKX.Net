@@ -13,13 +13,10 @@ builder.Services.AddOKX();
 
 // OR to provide API credentials for accessing private endpoints, or setting other options:
 /*
-builder.Services.AddOKX(restOptions =>
-{
-    restOptions.ApiCredentials = new OKXApiCredentials("<APIKEY>", "<APISECRET>", "<PASS>");
-    restOptions.RequestTimeout = TimeSpan.FromSeconds(5);
-}, socketOptions =>
-{
-    socketOptions.ApiCredentials = new OKXApiCredentials("<APIKEY>", "<APISECRET>", "<PASS>");
+builder.Services.AddOKX(options =>
+{    
+   options.ApiCredentials = new ApiCredentials("<APIKEY>", "<APISECRET>", "<PASS>");
+   options.Rest.RequestTimeout = TimeSpan.FromSeconds(5);
 });
 */
 

@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Margin amount
 /// </summary>
+[SerializationModel]
 public record OKXMarginAmount
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXMarginAmount
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>
@@ -40,6 +42,6 @@ public record OKXMarginAmount
     /// <summary>
     /// Margin add reduce
     /// </summary>
-    [JsonPropertyName("type"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("type")]
     public MarginAddReduce? MarginAddReduce { get; set; }
 }

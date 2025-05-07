@@ -84,7 +84,7 @@ namespace OKX.Net.SymbolOrderBooks
             Status = OrderBookStatus.Syncing;
 
             var setResult = await WaitForSetOrderBookAsync(_initialDataTimeout, ct).ConfigureAwait(false);
-            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);            
+            return setResult ? result : new CallResult<UpdateSubscription>(setResult.Error!);
         }
 
         /// <inheritdoc />

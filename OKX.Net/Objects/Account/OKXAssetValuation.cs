@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Account;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Account asset valuation
 /// </summary>
+[SerializationModel]
 public record OKXAssetValuation
 {
     /// <summary>
@@ -25,6 +27,7 @@ public record OKXAssetValuation
 /// <summary>
 /// Valuation details
 /// </summary>
+[SerializationModel]
 public record OKXAssetValuationDetails
 {
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 using System.Collections.Generic;
 
 namespace OKX.Net.Objects.Public;
@@ -6,12 +7,13 @@ namespace OKX.Net.Objects.Public;
 /// <summary>
 /// Instrument
 /// </summary>
+[SerializationModel]
 public record OKXInstrument
 {
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
@@ -77,7 +79,7 @@ public record OKXInstrument
     /// <summary>
     /// Option type
     /// </summary>
-    [JsonPropertyName("optType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("optType")]
     public OptionType? OptionType { get; set; }
 
     /// <summary>
@@ -131,19 +133,19 @@ public record OKXInstrument
     /// <summary>
     /// Contract type
     /// </summary>
-    [JsonPropertyName("ctType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("ctType")]
     public ContractType? ContractType { get; set; }
 
     /// <summary>
     /// Alias
     /// </summary>
-    [JsonPropertyName("alias"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("alias")]
     public InstrumentAlias? Alias { get; set; }
 
     /// <summary>
     /// State
     /// </summary>
-    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state")]
     public InstrumentState State { get; set; }
 
     /// <summary>
