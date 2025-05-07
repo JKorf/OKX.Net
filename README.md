@@ -168,6 +168,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 2.16.1 - 07 May 2025
+    * Changed OKXInstrument decimal fields to nullable to fix deserialization error
+
 * Version 2.16.0 - 24 Mar 2025
     * Added restClient.UnifiedApi.ExchangeData.GetEstimatedFuturesSettlementPriceAsync endpoint
     * Added restClient.UnifiedApi.ExchangeData.GetSettlementHistoryAsync endpoint
