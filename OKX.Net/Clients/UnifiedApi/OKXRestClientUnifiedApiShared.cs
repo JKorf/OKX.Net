@@ -313,7 +313,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = new SharedOrderQuantity(order.Data.QuantityFilled),
                 TimeInForce = ParseTimeInForce(order.Data.OrderType),
                 UpdateTime = order.Data.UpdateTime,
-                AveragePrice = order.Data.AveragePrice,
+                AveragePrice = order.Data.AveragePrice == 0 ? null : order.Data.AveragePrice,
                 Fee = Math.Abs(order.Data.Fee ?? 0),
                 FeeAsset = order.Data.FeeAsset
             });
@@ -346,7 +346,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = new SharedOrderQuantity(x.QuantityFilled),
                 TimeInForce = ParseTimeInForce(x.OrderType),
                 UpdateTime = x.UpdateTime,
-                AveragePrice = x.AveragePrice,
+                AveragePrice = x.AveragePrice == 0 ? null : x.AveragePrice,
                 Fee = Math.Abs(x.Fee ?? 0),
                 FeeAsset = x.FeeAsset
             }).ToArray());
@@ -394,7 +394,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = new SharedOrderQuantity(x.QuantityFilled),
                 TimeInForce = ParseTimeInForce(x.OrderType),
                 UpdateTime = x.UpdateTime,
-                AveragePrice = x.AveragePrice,
+                AveragePrice = x.AveragePrice == 0 ? null : x.AveragePrice,
                 Fee = Math.Abs(x.Fee ?? 0),
                 FeeAsset = x.FeeAsset
             }).ToArray(), nextPageToken);
@@ -869,7 +869,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 order.Data.CreateTime)
             {
                 ClientOrderId = order.Data.ClientOrderId,
-                AveragePrice = order.Data.AveragePrice,
+                AveragePrice = order.Data.AveragePrice == 0 ? null : order.Data.AveragePrice,
                 OrderPrice = order.Data.Price,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.QuantityFilled),
@@ -913,7 +913,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.CreateTime)
             {
                 ClientOrderId = x.ClientOrderId,
-                AveragePrice = x.AveragePrice,
+                AveragePrice = x.AveragePrice == 0 ? null : x.AveragePrice,
                 OrderPrice = x.Price,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: x.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
@@ -985,7 +985,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.CreateTime)
             {
                 ClientOrderId = x.ClientOrderId,
-                AveragePrice = x.AveragePrice,
+                AveragePrice = x.AveragePrice == 0 ? null : x.AveragePrice,
                 OrderPrice = x.Price,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: x.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
@@ -1652,7 +1652,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityFilled = new SharedOrderQuantity(orderDetails?.QuantityFilled),
                 TimeInForce = orderDetails == null ? null : ParseTimeInForce(orderDetails.OrderType),
                 UpdateTime = order.Data.UpdateTime,
-                AveragePrice = orderDetails?.AveragePrice,
+                AveragePrice = orderDetails?.AveragePrice == 0 ? null : orderDetails?.AveragePrice,
                 Fee = Math.Abs(orderDetails?.Fee ?? 0),
                 FeeAsset = orderDetails?.FeeAsset,
                 ClientOrderId = order.Data.ClientOrderId
@@ -1768,7 +1768,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 order.Data.CreateTime)
             {
                 PlacedOrderId = order.Data.OrderIdList?.Any() == true ? order.Data.OrderIdList.First().ToString() : null,
-                AveragePrice = orderDetails?.AveragePrice,
+                AveragePrice = orderDetails?.AveragePrice == 0 ? null : orderDetails?.AveragePrice,
                 OrderPrice = order.Data.OrderPrice,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: orderDetails?.QuantityFilled),
@@ -1888,7 +1888,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 order.Data.CreateTime)
             {
                 ClientOrderId = order.Data.ClientOrderId,
-                AveragePrice = order.Data.AveragePrice,
+                AveragePrice = order.Data.AveragePrice == 0 ? null : order.Data.AveragePrice,
                 OrderPrice = order.Data.Price,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.QuantityFilled),
@@ -1942,7 +1942,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 order.Data.CreateTime)
             {
                 ClientOrderId = order.Data.ClientOrderId,
-                AveragePrice = order.Data.AveragePrice,
+                AveragePrice = order.Data.AveragePrice == 0 ? null : order.Data.AveragePrice,
                 OrderPrice = order.Data.Price,
                 OrderQuantity = new SharedOrderQuantity(contractQuantity: order.Data.Quantity),
                 QuantityFilled = new SharedOrderQuantity(contractQuantity: order.Data.QuantityFilled),

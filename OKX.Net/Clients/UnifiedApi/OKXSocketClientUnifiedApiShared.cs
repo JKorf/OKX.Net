@@ -164,7 +164,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         ClientOrderId = update.Data.ClientOrderId?.ToString(),
                         OrderQuantity = new SharedOrderQuantity(ParseQuantity(update.Data), ParseQuoteQuantity(update.Data)),
                         QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
-                        AveragePrice = update.Data.AveragePrice,
+                        AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
                         FeeAsset = update.Data.FeeAsset,
