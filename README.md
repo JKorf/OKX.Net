@@ -169,6 +169,39 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.0.0 - 13 May 2025
+    * Updated CryptoExchange.Net to version 9.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added support for Native AOT compilation
+    * Added RateLimitUpdated event
+    * Added SharedSymbol response property to all Shared interfaces response models returning a symbol name
+    * Added GenerateClientOrderId method to UnifiedApi Shared clients
+    * Added IBookTickerRestClient implementation to UnifiedApi Shared client
+    * Added ISpotTriggerOrderRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesTriggerOrderRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesTpSlRestClient implementation to UnifiedApi Shared client
+    * Added IFuturesOrderClientIdClient implementation to UnifiedApi Shared client
+    * Added ISpotOrderClientIdClient implementation to UnifiedApi Shared client
+    * Added TakeProfitPrice, StopLossPrice to SharedFuturesOrder model
+    * Added TakeProfitPrice, StopLossPrice to SharedPosition model
+    * Added MaxLongLeverage, MaxShortLeverage to SharedFuturesSymbol model
+    * Added QuoteVolume property mapping to SharedSpotTicker model
+    * Added OptionalExchangeParameters and Supported properties to EndpointOptions
+    * Added All property to retrieve all available environment on OKXEnvironment
+    * Added new Enum values to AccountBillSubType enum
+    * Refactored Shared clients quantity parameters and responses to use SharedQuantity
+    * Updated all IEnumerable response and model types to array response types
+    * Updated funding rate models
+    * Updated PlaceMultipleOrdersAsync endpoints to return a list of CallResult models and an error if all orders fail to place
+    * Updated OKXEnvironment.Europe name to `Europe`
+    * Replaced KucoinApiCredentials with ApiCredentials
+    * Removed Newtonsoft.Json dependency
+    * Removed legacy ISpotClient implementation
+    * Removed legacy AddOKX(restOptions, socketOptions) DI overload
+    * Fixed some typos
+    * Fixed incorrect DataTradeMode on certain Shared interface responses
+    * Fixed ratelimiting not respecting limits for different symbols
+    * Fixed AveragePrice being return 0 instead of null for Shared order updates
+
 * Version 3.0.0-beta3 - 01 May 2025
     * Updated CryptoExchange.Net version to 9.0.0-beta5
     * Added property to retrieve all available API environments
