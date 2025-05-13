@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Market;
 /// <summary>
 /// Order book row
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXOrderBookRow, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXOrderBookRow>))]
 [SerializationModel]
 public record OKXOrderBookRow : ISymbolOrderBookEntry
 {

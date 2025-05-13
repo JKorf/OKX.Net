@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Trading;
 /// <summary>
 /// Ratio
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXRatio, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXRatio>))]
 [SerializationModel]
 public record OKXRatio
 {

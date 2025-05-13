@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Trading;
 /// <summary>
 /// Take flow
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXTakerFlow, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXTakerFlow>))]
 [SerializationModel]
 public record OKXTakerFlow
 {

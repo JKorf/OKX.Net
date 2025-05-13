@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Trading;
 /// <summary>
 /// Put/Call ratio
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXPutCallRatio, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXPutCallRatio>))]
 [SerializationModel]
 public record OKXPutCallRatio
 {

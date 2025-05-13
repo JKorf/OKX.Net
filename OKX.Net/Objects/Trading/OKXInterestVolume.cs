@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Trading;
 /// <summary>
 /// Interest volume
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXInterestVolume, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXInterestVolume>))]
 [SerializationModel]
 public record OKXInterestVolume
 {

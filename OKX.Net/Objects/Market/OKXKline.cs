@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Market;
 /// <summary>
 /// Candlestick
 /// </summary>
-[JsonConverter(typeof(ArrayConverter<OKXKline, OKXSourceGenerationContext>))]
+[JsonConverter(typeof(ArrayConverter<OKXKline>))]
 [SerializationModel]
 public record OKXKline
 {
