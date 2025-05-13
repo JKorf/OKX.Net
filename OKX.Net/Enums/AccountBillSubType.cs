@@ -1,8 +1,11 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+[JsonConverter(typeof(EnumConverter<AccountBillSubType>))]
 public enum AccountBillSubType
 {
     [Map("1")]
@@ -185,4 +188,8 @@ public enum AccountBillSubType
     SimpleSell,
     [Map("355")]
     SettlementPnl,
+    [Map("376")]
+    CollateralBorrowAutoConversionBuy,
+    [Map("377")]
+    CollateralBorrowAutoConversionSell
 }

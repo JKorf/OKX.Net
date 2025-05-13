@@ -10,7 +10,7 @@ internal class OKXQuery : Query<OKXSocketResponse>
     public OKXQuery(OKXSocketRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
     {
         ListenerIdentifiers.Add("error");
-        foreach(var arg in request.Args)
+        foreach (var arg in request.Args)
         {
             ListenerIdentifiers.Add(request.Op + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());
             ListenerIdentifiers.Add("error" + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());

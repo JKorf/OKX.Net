@@ -1,10 +1,13 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Close position response
 /// </summary>
+[SerializationModel]
 public record OKXClosePositionResponse
 {
     /// <summary>
@@ -16,14 +19,14 @@ public record OKXClosePositionResponse
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

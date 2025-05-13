@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Account;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Withdrawal info
 /// </summary>
+[SerializationModel]
 public record OKXWithdrawalAmount
 {
     /// <summary>

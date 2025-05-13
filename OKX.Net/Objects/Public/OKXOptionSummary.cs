@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Option summary
 /// </summary>
+[SerializationModel]
 public record OKXOptionSummary
 {
     /// <summary>
@@ -16,7 +18,7 @@ public record OKXOptionSummary
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>

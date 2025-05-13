@@ -1,9 +1,12 @@
-﻿using CryptoExchange.Net.Attributes;
+using System.Text.Json.Serialization;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
 /// <summary>
 /// Quick margin type
 /// </summary>
+[JsonConverter(typeof(EnumConverter<QuickMarginType>))]
 public enum QuickMarginType
 {
     /// <summary>

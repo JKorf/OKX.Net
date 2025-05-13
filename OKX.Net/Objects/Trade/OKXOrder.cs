@@ -1,10 +1,13 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order info
 /// </summary>
+[SerializationModel]
 public record OKXOrder
 {
     /// <summary>
@@ -53,49 +56,49 @@ public record OKXOrder
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Position type
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>
     /// Order type
     /// </summary>
-    [JsonPropertyName("ordType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("ordType")]
     public OrderType OrderType { get; set; }
 
     /// <summary>
     /// Order side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
     /// Trade mode
     /// </summary>
-    [JsonPropertyName("tdMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tdMode")]
     public Enums.TradeMode TradeMode { get; set; }
 
     /// <summary>
     /// Order state
     /// </summary>
-    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state")]
     public OrderStatus OrderState { get; set; }
 
     /// <summary>
     /// Quantity type
     /// </summary>
-    [JsonPropertyName("tgtCcy"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("tgtCcy")]
     public QuantityAsset? QuantityType { get; set; }
 
     /// <summary>
@@ -216,20 +219,20 @@ public record OKXOrder
     /// Client-supplied Algo ID when placing order attaching TP/SL.
     /// </summary>
     [JsonPropertyName("attachAlgoClOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? AttachAlgoCllientOrderId { get; set; }
 
     /// <summary>
     /// Take profit trigger price type
     /// </summary>
-    [JsonConverter(typeof(EnumConverter))]
+
     [JsonPropertyName("tpTriggerPxType")]
     public TriggerPriceType? TakeProfitTriggerPriceType { get; set; }
 
     /// <summary>
     /// Stop loss trigger price type
     /// </summary>
-    [JsonConverter(typeof(EnumConverter))]
+
     [JsonPropertyName("slTriggerPxType")]
     public TriggerPriceType? StopLossTriggerPriceType { get; set; }
 
@@ -243,7 +246,7 @@ public record OKXOrder
     /// Self trade prevention mode
     /// </summary>
     [JsonPropertyName("stpMode")]
-    [JsonConverter(typeof(EnumConverter))]
+
     public SelfTradePreventionMode? SelfTradePreventionMode { get; set; }
 
     /// <summary>
@@ -268,7 +271,7 @@ public record OKXOrder
     /// Client algo order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
-    [JsonConverterCtor(typeof(ReplaceConverter), $"{OKXExchange.ClientOrderIdPrefix}->")]
+    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>
@@ -281,7 +284,7 @@ public record OKXOrder
     /// Quick Margin type
     /// </summary>
     [JsonPropertyName("quickMgnType")]
-    [JsonConverter(typeof(EnumConverter))]
+
     public QuickMarginType? QuickMarginType { get; set; }
 
     /// <summary>

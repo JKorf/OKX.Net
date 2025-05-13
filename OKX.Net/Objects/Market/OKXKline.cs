@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Candlestick
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXKline>))]
+[SerializationModel]
 public record OKXKline
 {
     /// <summary>
@@ -57,7 +60,7 @@ public record OKXKline
     /// </summary>
     [ArrayProperty(6)]
     public decimal VolumeCurrency { get; set; }
-    
+
     /// <summary>
     /// Trading volume, the value is the quantity in quote currency
     /// e.g. The unit is USDT for BTC-USDT and BTC-USDT-SWAP;

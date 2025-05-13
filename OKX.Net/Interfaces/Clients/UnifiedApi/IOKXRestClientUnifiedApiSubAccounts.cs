@@ -1,4 +1,4 @@
-﻿using OKX.Net.Enums;
+using OKX.Net.Enums;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.SubAccount;
 
@@ -21,7 +21,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXSubAccountBill>>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<OKXSubAccountBill[]>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get sub-account funding balance
@@ -32,7 +32,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXSubAccountFundingBalance>>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXSubAccountFundingBalance[]>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
@@ -45,7 +45,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<IEnumerable<OKXSubAccount>>> GetSubAccountsAsync(bool? enable = null, string? subAccountName = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<WebCallResult<OKXSubAccount[]>> GetSubAccountsAsync(bool? enable = null, string? subAccountName = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Query detailed balance info of Trading Account of a sub-account via the master account (applies to master accounts only)

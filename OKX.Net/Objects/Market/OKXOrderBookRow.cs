@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Order book row
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXOrderBookRow>))]
+[SerializationModel]
 public record OKXOrderBookRow : ISymbolOrderBookEntry
 {
     /// <summary>

@@ -61,14 +61,14 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
                 }
             });
 
-        SetDedicatedConnection(GetUri("/ws/v5/private"), true);        
+        SetDedicatedConnection(GetUri("/ws/v5/private"), true);
     }
     #endregion
 
     /// <inheritdoc />
-    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer();
+    protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
     /// <inheritdoc />
-    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor();
+    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
@@ -122,7 +122,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
                 new OKXSocketAuthArgs
                 {
                     ApiKey = okxAuthProvider.ApiKey,
-                    Passphrase = okxAuthProvider.Passphrase,
+                    Passphrase = okxAuthProvider.Pass!,
                     Timestamp = timestamp,
                     Sign = signature,
                 }
@@ -155,12 +155,12 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         return result.As(result.Data.Data.First());
     }
 
-    internal async Task<CallResult<IEnumerable<T>>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
+    internal async Task<CallResult<T[]>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
     {
-        var query = new OKXIdQuery<T>(operation, data, authenticated, weight);
+        var query = new OKXIdQuery<T>(operation, data.ToArray(), authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
-            return result.AsError<IEnumerable<T>>(result.Error!);
+            return result.AsError<T[]>(result.Error!);
 
         return result.As(result.Data.Data);
     }
@@ -169,7 +169,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     /// <inheritdoc />
     protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
-        => new OKXAuthenticationProvider((OKXApiCredentials)credentials);
+        => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />
     public override ReadOnlyMemory<byte> PreprocessStreamMessage(SocketConnection connection, WebSocketMessageType type, ReadOnlyMemory<byte> data)

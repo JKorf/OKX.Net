@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Account;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Available amount
 /// </summary>
+[SerializationModel]
 public record OKXMaximumAvailableAmount
 {
     /// <summary>

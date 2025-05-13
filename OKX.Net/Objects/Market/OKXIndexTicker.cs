@@ -1,8 +1,10 @@
-﻿namespace OKX.Net.Objects.Market;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Index ticker
 /// </summary>
+[SerializationModel]
 public record OKXIndexTicker
 {
     /// <summary>

@@ -57,7 +57,7 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     }
 
     /// <inheritdoc />
-    public virtual void SetApiCredentials(OKXApiCredentials credentials)
+    public virtual void SetApiCredentials(ApiCredentials credentials)
     {
         UnifiedApi.SetApiCredentials(credentials.Copy());
     }

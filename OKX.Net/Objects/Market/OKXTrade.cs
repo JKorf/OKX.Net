@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Market;
 
 /// <summary>
 /// Trade
 /// </summary>
+[SerializationModel]
 public record OKXTrade
 {
     /// <summary>
@@ -34,7 +36,7 @@ public record OKXTrade
     /// <summary>
     /// Side
     /// </summary>
-    [JsonPropertyName("side"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("side")]
     public OrderSide Side { get; set; }
 
     /// <summary>

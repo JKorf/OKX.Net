@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Position and balance update
 /// </summary>
+[SerializationModel]
 public record OKXPositionAndBalanceUpdate
 {
     /// <summary>
@@ -23,23 +25,24 @@ public record OKXPositionAndBalanceUpdate
     /// Balance data
     /// </summary>
     [JsonPropertyName("balData")]
-    public IEnumerable<OKXBalanceUpdate> BalanceData { get; set; } = Array.Empty<OKXBalanceUpdate>();
+    public OKXBalanceUpdate[] BalanceData { get; set; } = Array.Empty<OKXBalanceUpdate>();
 
     /// <summary>
     /// Position data
     /// </summary>
     [JsonPropertyName("posData")]
-    public IEnumerable<OKXAccountPositionUpdate> PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
+    public OKXAccountPositionUpdate[] PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
     /// <summary>
     /// Trades data
     /// </summary>
     [JsonPropertyName("trades")]
-    public IEnumerable<OKXTradeReference> TradeData { get; set; } = Array.Empty<OKXTradeReference>();
+    public OKXTradeReference[] TradeData { get; set; } = Array.Empty<OKXTradeReference>();
 }
 
 /// <summary>
 /// Balance info
 /// </summary>
+[SerializationModel]
 public record OKXBalanceUpdate
 {
     /// <summary>
@@ -65,6 +68,7 @@ public record OKXBalanceUpdate
 /// <summary>
 /// Position info
 /// </summary>
+[SerializationModel]
 public record OKXAccountPositionUpdate
 {
     /// <summary>
@@ -82,13 +86,13 @@ public record OKXAccountPositionUpdate
     /// <summary>
     /// Instrument type
     /// </summary>
-    [JsonPropertyName("instType"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
     /// Margin mode
     /// </summary>
-    [JsonPropertyName("mgnMode"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
@@ -124,7 +128,7 @@ public record OKXAccountPositionUpdate
     /// <summary>
     /// Position side
     /// </summary>
-    [JsonPropertyName("posSide"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
@@ -138,6 +142,7 @@ public record OKXAccountPositionUpdate
 /// <summary>
 /// Trade reference
 /// </summary>
+[SerializationModel]
 public record OKXTradeReference
 {
     /// <summary>

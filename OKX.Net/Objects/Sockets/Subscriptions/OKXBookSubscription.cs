@@ -17,7 +17,7 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         _args = args;
         _handler = handler;
 
-        ListenerIdentifiers = new HashSet<string>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() +  x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()));
+        ListenerIdentifiers = new HashSet<string>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()));
     }
 
     public override Query? GetSubQuery(SocketConnection connection)
@@ -38,14 +38,14 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         }, false);
     }
 
-    public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<IEnumerable<OKXOrderBook>>);
+    public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<OKXOrderBook[]>);
 
     public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
     {
-        var data = (OKXSocketUpdate<IEnumerable<OKXOrderBook>>)message.Data;
+        var data = (OKXSocketUpdate<OKXOrderBook[]>)message.Data;
         foreach (var item in data.Data)
             item.Action = data.Action!;
-        _handler.Invoke(message.As(data.Data.Single(), data.Arg.Channel, data.Arg.Symbol, string.Equals(data.Action, "snapshot", StringComparison.Ordinal) || data.Action == null ? SocketUpdateType.Snapshot: SocketUpdateType.Update));
-        return new CallResult(null);
+        _handler.Invoke(message.As(data.Data.Single(), data.Arg.Channel, data.Arg.Symbol, string.Equals(data.Action, "snapshot", StringComparison.Ordinal) || data.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+        return CallResult.SuccessResult;
     }
 }

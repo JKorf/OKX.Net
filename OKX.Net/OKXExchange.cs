@@ -1,6 +1,7 @@
 ﻿using CryptoExchange.Net.RateLimiting;
 using CryptoExchange.Net.RateLimiting.Interfaces;
 using CryptoExchange.Net.SharedApis;
+using OKX.Net.Converters;
 
 namespace OKX.Net
 {
@@ -44,6 +45,8 @@ namespace OKX.Net
         internal const string ClientOrderId = "1425d83a94fbBCDE";
         internal const string ClientOrderIdPrefix = ClientOrderId + LibraryHelpers.ClientOrderIdSeparator;
 
+        internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<OKXSourceGenerationContext>();
+
         /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 
         /// </summary>
@@ -79,6 +82,11 @@ namespace OKX.Net
         /// </summary>
         public event Action<RateLimitEvent> RateLimitTriggered;
 
+        /// <summary>
+        /// Event when the rate limit is updated. Note that it's only updated when a request is send, so there are no specific updates when the current usage is decaying.
+        /// </summary>
+        public event Action<RateLimitUpdateEvent> RateLimitUpdated;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         internal OKXRateLimiters()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -90,6 +98,7 @@ namespace OKX.Net
         {
             EndpointGate = new RateLimitGate("Endpoint Gate");
             EndpointGate.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
+            EndpointGate.RateLimitUpdated += (x) => RateLimitUpdated?.Invoke(x);
         }
 
 

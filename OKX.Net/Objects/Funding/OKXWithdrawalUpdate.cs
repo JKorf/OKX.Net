@@ -1,10 +1,12 @@
-﻿using OKX.Net.Enums;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Funding;
 
 /// <summary>
 /// Withdrawal update
 /// </summary>
+[SerializationModel]
 public record OKXWithdrawalUpdate
 {
     /// <summary>
@@ -22,7 +24,7 @@ public record OKXWithdrawalUpdate
     /// <summary>
     /// State
     /// </summary>
-    [JsonPropertyName("state"), JsonConverter(typeof(EnumConverter))]
+    [JsonPropertyName("state")]
     public WithdrawalState State { get; set; }
 
     /// <summary>

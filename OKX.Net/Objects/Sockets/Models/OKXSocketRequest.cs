@@ -1,4 +1,4 @@
-﻿namespace OKX.Net.Objects.Sockets.Models;
+namespace OKX.Net.Objects.Sockets.Models;
 internal class OKXSocketRequest
 {
     [JsonPropertyName("op")]
@@ -14,5 +14,5 @@ internal class OKXSocketIdRequest
     [JsonPropertyName("op")]
     public string Op { get; set; } = string.Empty;
     [JsonPropertyName("args")]
-    public IEnumerable<object> Args { get; set; } = Array.Empty<object>();
+    public object[] Args { get; set; } = Array.Empty<object>();
 }

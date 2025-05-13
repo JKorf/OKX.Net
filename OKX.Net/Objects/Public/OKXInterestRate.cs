@@ -1,33 +1,36 @@
-﻿namespace OKX.Net.Objects.Public;
+using CryptoExchange.Net.Converters.SystemTextJson;
+namespace OKX.Net.Objects.Public;
 
 /// <summary>
 /// Interest rate
 /// </summary>
+[SerializationModel]
 public record OKXInterestRate
 {
     /// <summary>
     /// Basic
     /// </summary>
     [JsonPropertyName("basic")]
-    public IEnumerable<OKXPublicInterestRateBasic> Basic { get; set; } = Array.Empty<OKXPublicInterestRateBasic>();
+    public OKXPublicInterestRateBasic[] Basic { get; set; } = Array.Empty<OKXPublicInterestRateBasic>();
 
     /// <summary>
     /// VIP
     /// </summary>
     [JsonPropertyName("vip")]
-    public IEnumerable<OKXPublicInterestRateVip> Vip { get; set; } = Array.Empty<OKXPublicInterestRateVip>();
+    public OKXPublicInterestRateVip[] Vip { get; set; } = Array.Empty<OKXPublicInterestRateVip>();
 
     /// <summary>
     /// Regular
     /// </summary>
     [JsonPropertyName("regular")]
-    public IEnumerable<OKXPublicInterestRateRegular> regular { get; set; } = Array.Empty<OKXPublicInterestRateRegular>();
+    public OKXPublicInterestRateRegular[] regular { get; set; } = Array.Empty<OKXPublicInterestRateRegular>();
 
 }
 
 /// <summary>
 /// Basic interest rate
 /// </summary>
+[SerializationModel]
 public record OKXPublicInterestRateBasic
 {
     /// <summary>
@@ -52,6 +55,7 @@ public record OKXPublicInterestRateBasic
 /// <summary>
 /// VIP interest rate
 /// </summary>
+[SerializationModel]
 public record OKXPublicInterestRateVip
 {
     /// <summary>
@@ -76,6 +80,7 @@ public record OKXPublicInterestRateVip
 /// <summary>
 /// Regular interest rate
 /// </summary>
+[SerializationModel]
 public record OKXPublicInterestRateRegular
 {
     /// <summary>

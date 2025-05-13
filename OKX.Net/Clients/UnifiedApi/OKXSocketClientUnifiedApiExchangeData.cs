@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Market;
@@ -24,7 +24,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     #endregion
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<IEnumerable<OKXInstrument>>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<OKXInstrument[]>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXInstrument>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
@@ -57,15 +57,15 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
     {
-        var symbolSubs = symbols.Select(symbol =>  
+        var symbolSubs = symbols.Select(symbol =>
             new Objects.Sockets.Models.OKXSocketArgs
-                {
-                    Channel = "tickers",
-                    Symbol = symbol
-                }
-        ).ToList(); 
+            {
+                Channel = "tickers",
+                Symbol = symbol
+            }
+        ).ToList();
 
-        var subscription = new OKXSubscription<OKXTicker>(_logger, symbolSubs , x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+        var subscription = new OKXSubscription<OKXTicker>(_logger, symbolSubs, x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -97,7 +97,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                     Symbol = symbol
                 }
             },
-            data => 
+            data =>
             {
                 data.Data.Symbol = symbol;
                 onData(data.WithDataTimestamp(data.Data.Time));
@@ -154,7 +154,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
         var subscription = new OKXSubscription<OKXMiniKline>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
@@ -201,7 +201,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<IEnumerable<OKXOptionSummary>>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<OKXOptionSummary[]>> onData, CancellationToken ct = default)
     {
         //TEST
         var subscription = new OKXSubscription<OKXOptionSummary>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
@@ -232,7 +232,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<IEnumerable<OKXMiniKline>>> onData, CancellationToken ct = default)
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
         var subscription = new OKXSubscription<OKXMiniKline>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>

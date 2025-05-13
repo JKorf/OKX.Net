@@ -1,9 +1,12 @@
-﻿namespace OKX.Net.Objects.Trading;
+using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Converters;
+namespace OKX.Net.Objects.Trading;
 
 /// <summary>
 /// Put/Call ratio
 /// </summary>
-[JsonConverter(typeof(ArrayConverter))]
+[JsonConverter(typeof(ArrayConverter<OKXPutCallRatio>))]
+[SerializationModel]
 public record OKXPutCallRatio
 {
     /// <summary>

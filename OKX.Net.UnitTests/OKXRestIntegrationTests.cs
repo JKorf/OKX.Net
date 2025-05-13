@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using OKX.Net.Objects.Options;
+using OKX.Net.SymbolOrderBooks;
 
 namespace OKX.Net.UnitTests
 {
@@ -34,7 +35,7 @@ namespace OKX.Net.UnitTests
             {
                 OutputOriginalData = true,
                 Environment = Authenticated ? OKXEnvironment.Europe : OKXEnvironment.Live,
-                ApiCredentials = Authenticated ? new OKXApiCredentials(key, sec, pass) : null
+                ApiCredentials = Authenticated ? new ApiCredentials(key, sec, pass) : null
             }));
         }
 
@@ -131,5 +132,10 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(Enums.AlgoOrderType.OCO, Enums.AlgoOrderState.Effective, default, default, default, default, default, 100, default), true);
         }
 
+        [Test]
+        public async Task TestOrderBooks()
+        {
+            await TestOrderBook(new OKXSymbolOrderBook("ETH-USDT"));
+        }
     }
 }

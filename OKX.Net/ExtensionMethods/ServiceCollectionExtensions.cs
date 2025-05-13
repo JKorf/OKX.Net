@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
             IConfiguration configuration)
         {
             var options = new OKXOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             configuration.Bind(options);
@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
             Action<OKXOptions>? optionsDelegate = null)
         {
             var options = new OKXOptions();
-            // Reset environment so we know if theyre overriden
+            // Reset environment so we know if they're overridden
             options.Rest.Environment = null!;
             options.Socket.Environment = null!;
             optionsDelegate?.Invoke(options);
@@ -83,21 +83,6 @@ namespace Microsoft.Extensions.DependencyInjection
             return AddOKXCore(services, options.SocketClientLifeTime);
         }
 
-        /// <summary>
-        /// DEPRECATED; use <see cref="AddOKX(IServiceCollection, Action{OKXOptions}?)" /> instead
-        /// </summary>
-        public static IServiceCollection AddOKX(
-            this IServiceCollection services,
-            Action<OKXRestOptions> restDelegate,
-            Action<OKXSocketOptions>? socketDelegate = null,
-            ServiceLifetime? socketClientLifeTime = null)
-        {
-            services.Configure<OKXRestOptions>((x) => { restDelegate?.Invoke(x); });
-            services.Configure<OKXSocketOptions>((x) => { socketDelegate?.Invoke(x); });
-
-            return AddOKXCore(services, socketClientLifeTime);
-        }
-
         private static IServiceCollection AddOKXCore(
             this IServiceCollection services,
             ServiceLifetime? socketClientLifeTime = null)
@@ -107,7 +92,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 var options = serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>().Value;
                 client.Timeout = options.RequestTimeout;
                 return new OKXRestClient(client, serviceProvider.GetRequiredService<ILoggerFactory>(), serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>());
-            }).ConfigurePrimaryHttpMessageHandler((serviceProvider) => {
+            }).ConfigurePrimaryHttpMessageHandler((serviceProvider) =>
+            {
                 var handler = new HttpClientHandler();
                 try
                 {
@@ -135,7 +121,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
             services.AddTransient<IOKXTrackerFactory, OKXTrackerFactory>();
-            services.AddTransient(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.CommonSpotClient);
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient);

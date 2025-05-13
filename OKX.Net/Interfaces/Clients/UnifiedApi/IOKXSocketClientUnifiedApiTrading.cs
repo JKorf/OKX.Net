@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Trade;
@@ -70,7 +70,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<DataEvent<IEnumerable<OKXPosition>>> onData, CancellationToken ct = default);
+    Task<CallResult<UpdateSubscription>> SubscribeToPositionUpdatesAsync(InstrumentType instrumentType, string? symbol, string? instrumentFamily, bool regularUpdates, Action<DataEvent<OKXPosition[]>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// This push channel is only used as a risk warning, and is not recommended as a risk judgment for strategic trading. In the case that the market is volatile, there may be the possibility that the position has been liquidated at the same time that this message is pushed. The warning is sent when a position is at risk of liquidation for isolated margin positions.The warning is sent when all the positions are at risk of liquidation for cross margin positions.
@@ -131,7 +131,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="orders">The orders to place</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderPlaceResponse>>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
+    Task<CallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel an incomplete order
@@ -151,7 +151,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="ordersToCancel">Orders to cancel</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderCancelResponse>>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default);
+    Task<CallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default);
 
     /// <summary>
     /// Edit an incomplete order.
@@ -171,7 +171,7 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? clientOrderId = null,
         string? requestId = null,
         decimal? newQuantity = null,
-        decimal? newPrice = null, 
+        decimal? newPrice = null,
         CancellationToken ct = default);
 
     /// <summary>
@@ -181,5 +181,5 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="ordersToCancel">Orders to cancel</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<IEnumerable<OKXOrderAmendResponse>>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel, CancellationToken ct = default);
+    Task<CallResult<OKXOrderAmendResponse[]>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel, CancellationToken ct = default);
 }
