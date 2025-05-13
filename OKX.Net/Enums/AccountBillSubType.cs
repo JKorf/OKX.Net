@@ -187,5 +187,9 @@ public enum AccountBillSubType
     [Map("320")]
     SimpleSell,
     [Map("355")]
-    SettlementPnl
+    SettlementPnl,
+    [Map("376")]
+    CollateralBorrowAutoConversionBuy,
+    [Map("377")]
+    CollateralBorrowAutoConversionSell
 }
