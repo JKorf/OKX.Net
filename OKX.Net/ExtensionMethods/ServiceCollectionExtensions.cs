@@ -121,6 +121,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
             services.AddTransient<IOKXTrackerFactory, OKXTrackerFactory>();
+            services.AddSingleton<IOKXUserClientProvider, OKXUserClientProvider>(x =>
+            new OKXUserClientProvider(
+                x.GetRequiredService<HttpClient>(),
+                x.GetRequiredService<ILoggerFactory>(),
+                x.GetRequiredService<IOptions<OKXRestOptions>>(),
+                x.GetRequiredService<IOptions<OKXSocketOptions>>()));
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient);
