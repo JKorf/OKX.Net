@@ -20,6 +20,12 @@ public record OKXDiscountInfo
     public decimal? Quantity { get; set; }
 
     /// <summary>
+    /// Platform level collateralized borrow restriction
+    /// </summary>
+    [JsonPropertyName("collateralRestrict")]
+    public bool CollateralRestricted { get; set; }
+
+    /// <summary>
     /// Discount level
     /// </summary>
     [JsonPropertyName("discountLv")]

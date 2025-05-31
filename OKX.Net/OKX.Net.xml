@@ -9516,6 +9516,11 @@
             Interest-free quota
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.CollateralRestricted">
+            <summary>
+            Platform level collateralized borrow restriction
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.DiscountLevel">
             <summary>
             Discount level
