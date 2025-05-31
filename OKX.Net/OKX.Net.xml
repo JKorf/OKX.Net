@@ -882,6 +882,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OpenType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.NullableOpenType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OptionalTradingStatus">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -3514,6 +3524,26 @@
         <member name="F:OKX.Net.Enums.MaintenanceType.SystemDisruption">
             <summary>
             Disruption
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.OpenType">
+            <summary>
+            Open type
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OpenType.FixPrice">
+            <summary>
+            Fix price
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OpenType.PreQuote">
+            <summary>
+            Prequote
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.OpenType.CallAuction">
+            <summary>
+            Call auction
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.OptionalTradingStatus">
@@ -9869,6 +9899,16 @@
         <member name="P:OKX.Net.Objects.Public.OKXInstrument.FutureSettlement">
             <summary>
             Whether daily settlement is enabled
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.ContinuousTradingSwitchTime">
+            <summary>
+            Continuous trading switch time. The switch time from call auction, prequote to continuous trading. Only applicable to SPOT/MARGIN that are listed through call auction or prequote
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.OpenType">
+            <summary>
+            Open type, only applicable to SPOT/MARGIN
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">

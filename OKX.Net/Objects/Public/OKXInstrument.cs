@@ -198,4 +198,14 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("futureSettlement")]
     public bool? FutureSettlement { get; set; }
+    /// <summary>
+    /// Continuous trading switch time. The switch time from call auction, prequote to continuous trading. Only applicable to SPOT/MARGIN that are listed through call auction or prequote
+    /// </summary>
+    [JsonPropertyName("contTdSwTime")]
+    public DateTime? ContinuousTradingSwitchTime { get; set; }
+    /// <summary>
+    /// Open type, only applicable to SPOT/MARGIN
+    /// </summary>
+    [JsonPropertyName("openType")]
+    public OpenType? OpenType { get; set; }
 }
