@@ -5887,6 +5887,11 @@
             Total equity
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalance.AvailableEquity">
+            <summary>
+            Available equity
+            </summary>
+        </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalance.IsolatedMarginEquity">
             <summary>
             Isolated margin equity
@@ -5979,7 +5984,7 @@
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.AvailableBalance">
             <summary>
-            Avilable balance
+            Available balance
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.FrozenBalance">
@@ -6145,6 +6150,11 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.CollateralEnabled">
             <summary>
             Collateral enabled for multi-currency margin
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.CollateralRestricted">
+            <summary>
+            Platform level collateralized borrow restriction
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">

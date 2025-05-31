@@ -20,6 +20,12 @@ public record OKXAccountBalance
     public decimal TotalEquity { get; set; }
 
     /// <summary>
+    /// Available equity
+    /// </summary>
+    [JsonPropertyName("availEq")]
+    public decimal AvailableEquity { get; set; }
+
+    /// <summary>
     /// Isolated margin equity
     /// </summary>
     [JsonPropertyName("isoEq")]
@@ -129,7 +135,7 @@ public record OKXAccountBalanceDetail
     public decimal? DiscountEquity { get; set; }
 
     /// <summary>
-    /// Avilable balance
+    /// Available balance
     /// </summary>
     [JsonPropertyName("availBal")]
     public decimal? AvailableBalance { get; set; }
@@ -331,4 +337,10 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonPropertyName("collateralEnabled")]
     public bool CollateralEnabled { get; set; }
+
+    /// <summary>
+    /// Platform level collateralized borrow restriction
+    /// </summary>
+    [JsonPropertyName("collateralRestrict")]
+    public bool CollateralRestricted { get; set; }
 }
