@@ -177,7 +177,7 @@ public enum AccountBillSubType
     [Map("309")]
     AutoRepay,
     [Map("312")]
-    AuotOffset,
+    AutoOffset,
     [Map("318")]
     ConvertIn,
     [Map("319")]
