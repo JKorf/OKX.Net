@@ -356,11 +356,11 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
     }
 
     /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXFundingRate[]>> GetFundingRatesAsync(string symbol, CancellationToken ct = default)
+    public virtual async Task<WebCallResult<OKXFundingRate[]>> GetFundingRatesAsync(string? symbol = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
         {
-            { "instId", symbol },
+            { "instId", symbol ?? "ANY" },
         };
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/public/funding-rate", OKXExchange.RateLimiter.EndpointGate, 1, false,

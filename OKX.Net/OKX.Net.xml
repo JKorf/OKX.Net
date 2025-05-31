@@ -4535,10 +4535,10 @@
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData.GetFundingRatesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-            Get funding rate for a symbol
+            Get funding rates
             <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-funding-rate" /></para>
             </summary>
-            <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
+            <param name="symbol">Symbol, for example `BTC-USD-SWAP`. If not provided funding rates for all SWAP symbols will be returned</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>

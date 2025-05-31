@@ -92,13 +92,13 @@ public interface IOKXRestClientUnifiedApiExchangeData
     Task<WebCallResult<OKXFundingRateHistory[]>> GetFundingRateHistoryAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
-    /// Get funding rate for a symbol
+    /// Get funding rates
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-funding-rate" /></para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
+    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`. If not provided funding rates for all SWAP symbols will be returned</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFundingRate[]>> GetFundingRatesAsync(string symbol, CancellationToken ct = default);
+    Task<WebCallResult<OKXFundingRate[]>> GetFundingRatesAsync(string? symbol = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the index component information data on the market

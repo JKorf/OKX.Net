@@ -31,7 +31,7 @@ public record OKXFundingRate
     /// Funding rate
     /// </summary>
     [JsonPropertyName("fundingRate")]
-    public decimal FundingRate { get; set; }
+    public decimal? FundingRate { get; set; }
 
     /// <summary>
     /// Next funding time
