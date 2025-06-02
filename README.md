@@ -169,6 +169,16 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.1.0 - 02 Jun 2025
+    * Updated CryptoExchange.Net to version 9.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added (I)OKXUserClientProvider allowing for easy client management when handling multiple users
+    * Added CollateralRestricted and AvailableEquity properties to OKXAccountBalance model
+    * Added ContinuousTradingSwitchTime and OpenType properties to OKXInstrument model
+    * Added CollateralRestricted to OKXDiscountInfo model
+    * Updated symbol parameter to be optional for restClient.UnifiedApi.ExchangeData.GetFundingRatesAsync
+    * Fixed typo in AccountBillSubType.AutoOffset enum value
+    * Fixed framework check for setting IsAotCompatible project flag
+
 * Version 3.0.0 - 13 May 2025
     * Updated CryptoExchange.Net to version 9.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
     * Added support for Native AOT compilation
