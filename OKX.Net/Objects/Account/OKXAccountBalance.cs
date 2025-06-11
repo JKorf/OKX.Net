@@ -23,7 +23,7 @@ public record OKXAccountBalance
     /// Available equity
     /// </summary>
     [JsonPropertyName("availEq")]
-    public decimal AvailableEquity { get; set; }
+    public decimal? AvailableEquity { get; set; }
 
     /// <summary>
     /// Isolated margin equity
