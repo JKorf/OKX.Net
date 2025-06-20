@@ -20,6 +20,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public IOKXRestClientUnifiedApiExchangeData ExchangeData { get; private set; }
     public IOKXRestClientUnifiedApiTrading Trading { get; private set; }
     public IOKXRestClientUnifiedApiSubAccounts SubAccounts { get; private set; }
+    public IOKXRestClientUnifiedApiCopyTrading CopyTrading { get; private set; }
 
     public string ExchangeName => "OKX";
 
@@ -32,6 +33,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
+        CopyTrading = new OKXRestClientUnifiedApiCopyTrading(this);
 
         if (options.Environment.Name == TradeEnvironmentNames.Testnet)
         {
