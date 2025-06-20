@@ -373,7 +373,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
         DateTime? startTime = null,
         DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
     {
-        if (limit < 1 || limit > 100)
+        if (limit < 1 || limit > 400)
             throw new ArgumentException("Limit can be between 1-100.");
 
         var parameters = new ParameterCollection

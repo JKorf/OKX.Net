@@ -86,7 +86,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="limit">Number of results per request. The maximum is 400; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXFundingRateHistory[]>> GetFundingRateHistoryAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);

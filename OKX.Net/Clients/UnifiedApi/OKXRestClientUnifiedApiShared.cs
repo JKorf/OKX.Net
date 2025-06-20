@@ -1378,7 +1378,7 @@ namespace OKX.Net.Clients.UnifiedApi
         #endregion
 
         #region Funding Rate client
-        GetFundingRateHistoryOptions IFundingRateRestClient.GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(SharedPaginationSupport.Descending, true, 100, false);
+        GetFundingRateHistoryOptions IFundingRateRestClient.GetFundingRateHistoryOptions { get; } = new GetFundingRateHistoryOptions(SharedPaginationSupport.Descending, true, 400, false);
 
         async Task<ExchangeWebResult<SharedFundingRate[]>> IFundingRateRestClient.GetFundingRateHistoryAsync(GetFundingRateHistoryRequest request, INextPageToken? pageToken, CancellationToken ct)
         {
@@ -1395,13 +1395,13 @@ namespace OKX.Net.Clients.UnifiedApi
                 request.Symbol.GetSymbol(FormatSymbol),
                 startTime: request.StartTime,
                 endTime: fromTime ?? request.EndTime,
-                limit: 100,
+                limit: 400,
                 ct: ct).ConfigureAwait(false);
             if (!result)
                 return result.AsExchangeResult<SharedFundingRate[]>(Exchange, null, default);
 
             DateTimeToken? nextToken = null;
-            if (result.Data.Count() == 100)
+            if (result.Data.Count() == 400)
                 nextToken = new DateTimeToken(result.Data.Min(x => x.FundingTime));
 
             // Return
