@@ -26,4 +26,10 @@ public enum WithdrawalState
     AwaitingTransfer,
     [Map("4", "5", "6", "8", "9", "12")]
     AwaitingManualReview,
+    [Map("15", "16")]
+    PendingTransactionValidation,
+    [Map("17")]
+    PendingTravelRule,
+    [Map("19")]
+    InsufficientHotWalletBalance
 }
