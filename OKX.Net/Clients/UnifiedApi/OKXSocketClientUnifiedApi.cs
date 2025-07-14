@@ -68,7 +68,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     /// <inheritdoc />
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
     /// <inheritdoc />
-    protected override IByteMessageAccessor CreateAccessor() => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
+    protected override IByteMessageAccessor CreateAccessor(WebSocketMessageType type) => new SystemTextJsonByteMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public IOKXSocketClientUnifiedApiShared SharedClient => this;
 
@@ -79,7 +79,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     /// <inheritdoc />
     public override string GetListenerIdentifier(IMessageAccessor message)
     {
-        if (!message.IsJson)
+        if (!message.IsValid)
             return "pong";
 
         var id = message.GetValue<string>(_idPath);

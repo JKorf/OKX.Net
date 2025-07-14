@@ -496,7 +496,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateSerializer">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAccessor">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAccessor(System.Net.WebSockets.WebSocketMessageType)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
