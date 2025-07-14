@@ -77,6 +77,17 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval period, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default);
 
     /// <summary>
+    /// Subscribe to kline/candlesticks updates of multiple symbols. Data will be pushed every 500 ms.
+    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-candlesticks-channel" /></para>
+    /// </summary>
+    /// <param name="symbols">Array of symbols, for example `ETH-USDT`,'BTC-USDT'</param>
+    /// <param name="period">Kline interval</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string[] symbols, KlineInterval period, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default);
+
+    /// <summary>
     /// Subscribe to the mark price updates. Data will be pushed every 200 ms when the mark price changes, and will be pushed every 10 seconds when the mark price does not change.
     /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-channel" /></para>
     /// </summary>

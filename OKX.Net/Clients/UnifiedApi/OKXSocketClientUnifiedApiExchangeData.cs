@@ -107,6 +107,26 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string[] symbols, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
+    {
+        var jc = EnumConverter.GetString(klineInterval);
+        var subscription = new OKXSubscription<OKXKline>(_logger,
+           symbols.Select(s =>
+              new Objects.Sockets.Models.OKXSocketArgs
+              {
+                 Channel = "candle" + jc,
+                 Symbol = s
+              }).ToList(),
+        data =>
+        {
+            data.Data.Symbol = data.Symbol ?? "";
+            onData(data.WithDataTimestamp(data.Data.Time));
+        }, null, false);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXTrade>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
