@@ -70,7 +70,7 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumWithdrawalsAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetsAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBalanceAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default), true);
+            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetValuationAsync(default, default), true);

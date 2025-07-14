@@ -187,7 +187,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.TransferAsync(System.String,System.Decimal,OKX.Net.Enums.TransferType,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFundingBillDetailsAsync(System.String,System.Nullable{OKX.Net.Enums.FundingBillType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFundingBillDetailsAsync(System.String,System.Nullable{OKX.Net.Enums.FundingBillType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetLightningDepositsAsync(System.String,System.Decimal,System.Nullable{OKX.Net.Enums.LightningDepositAccount},System.Threading.CancellationToken)">
@@ -4113,7 +4113,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFundingBillDetailsAsync(System.String,System.Nullable{OKX.Net.Enums.FundingBillType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFundingBillDetailsAsync(System.String,System.Nullable{OKX.Net.Enums.FundingBillType},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Nullable{System.Int64},System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <summary>
             Get billing records, you can get the latest 1 month historical data
             <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-asset-bills-details" /></para>
@@ -4123,6 +4123,8 @@
             <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
             <param name="endTime">Pagination of data to return records newer than the requested ts</param>
             <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+            <param name="startBillId">Filter by start bill id</param>
+            <param name="endBillId">Filter by end bill id</param>
             <param name="clientId">Client id</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
