@@ -11,6 +11,12 @@ namespace OKX.Net.Enums;
 public enum KlineInterval
 {
     /// <summary>
+    /// 1s
+    /// </summary>
+    [Map("1s")]
+    OneSecond = 1,
+
+    /// <summary>
     /// 1m
     /// </summary>
     [Map("1m")]
