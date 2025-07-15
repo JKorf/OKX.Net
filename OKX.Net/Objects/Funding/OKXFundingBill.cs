@@ -50,4 +50,10 @@ public record OKXFundingBill
     /// </summary>
     [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
+
+    /// <summary>
+    /// Notes
+    /// </summary>
+    [JsonPropertyName("notes")]
+    public string? Notes { get; set; }
 }

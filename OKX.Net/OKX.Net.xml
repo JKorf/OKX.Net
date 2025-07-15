@@ -8380,6 +8380,11 @@
             Client id
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Funding.OKXFundingBill.Notes">
+            <summary>
+            Notes
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Funding.OKXLightningDeposit">
             <summary>
             Lightning deposit
