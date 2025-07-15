@@ -171,6 +171,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.2.0 - 15 Jul 2025
+    * Updated CryptoExchange.Net to version 9.2.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added startBillId, endBillId parameters to restClient.UnifiedApi.AccountGetFundingBillDetailsAsync endpoint
+    * Added Notes property to OKXFundingBill response model
+    * Updated restClient.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync limit parameter max value to 400
+    * Updated WithdrawalState enum
+
 * Version 3.1.1 - 13 Jun 2025
     * Fixed deserialization issue client.UnifiedApi.Account.GetAccountBalanceAsync endpoint
 
