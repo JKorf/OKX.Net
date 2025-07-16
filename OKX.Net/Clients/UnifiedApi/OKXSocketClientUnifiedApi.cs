@@ -45,6 +45,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
 
+        ProcessUnparsableMessages = true;
+
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 
         RegisterPeriodicQuery(
