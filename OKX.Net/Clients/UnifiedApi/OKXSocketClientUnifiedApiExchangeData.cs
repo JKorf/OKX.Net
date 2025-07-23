@@ -88,14 +88,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXOpenInterest>(_logger,
+        var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "open-interest",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -125,7 +125,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
-        var subscription = new OKXSubscription<OKXKline>(_logger,
+        var subscription = new OKXSubscription<OKXKline[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -134,9 +134,9 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
               }).ToList(),
         data =>
         {
-            data.Data.Symbol = data.Symbol ?? "";
-            onData(data.WithDataTimestamp(data.Data.Time));
-        }, null, false);
+            data.Data.First().Symbol = data.Symbol ?? "";
+            onData(data.As(data.Data.First()).WithDataTimestamp(data.Data.First().Time));
+        }, false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
@@ -159,14 +159,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXTrade>(_logger,
+        var subscription = new OKXSubscription<OKXTrade[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "trades",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -206,14 +206,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXMarkPrice>(_logger,
+        var subscription = new OKXSubscription<OKXMarkPrice[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "mark-price",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -252,14 +252,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXLimitPrice>(_logger,
+        var subscription = new OKXSubscription<OKXLimitPrice[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "price-limit",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -334,14 +334,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXFundingRate>(_logger,
+        var subscription = new OKXSubscription<OKXFundingRate[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "funding-rate",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Timestamp)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Timestamp)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
@@ -380,14 +380,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXIndexTicker>(_logger,
+        var subscription = new OKXSubscription<OKXIndexTicker[]>(_logger,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
                   Channel = "index-tickers",
                   Symbol = s
               }).ToList(),
-            x => onData(x.WithDataTimestamp(x.Data.Time)), null, false);
+            x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }

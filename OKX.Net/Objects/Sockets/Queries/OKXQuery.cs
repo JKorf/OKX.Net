@@ -15,6 +15,8 @@ internal class OKXQuery : Query<OKXSocketResponse>
         }
 
         MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(ids, HandleMessage);
+
+        RequiredResponses = request.Args.Count;
     }
 
     public OKXQuery(OKXSocketAuthRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
