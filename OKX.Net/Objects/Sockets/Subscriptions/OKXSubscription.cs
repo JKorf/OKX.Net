@@ -7,18 +7,14 @@ namespace OKX.Net.Objects.Sockets.Subscriptions;
 internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketResponse>
 {
     private List<OKXSocketArgs> _args;
-    private Action<DataEvent<T>>? _singleHandler;
-    private Action<DataEvent<T[]>>? _arrayHandler;
+    private Action<DataEvent<T>> _handler;
 
-    public override HashSet<string> ListenerIdentifiers { get; set; }
-
-    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<T>>? singleHandler, Action<DataEvent<T[]>>? arrayHandler, bool authenticated) : base(logger, authenticated)
+    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<T>> handler, bool authenticated) : base(logger, authenticated)
     {
         _args = args;
-        _singleHandler = singleHandler;
-        _arrayHandler = arrayHandler;
+        _handler = handler;
 
-        ListenerIdentifiers = new HashSet<string>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()));
+        MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<T>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
     }
 
     public override Query? GetSubQuery(SocketConnection connection)
@@ -39,15 +35,9 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
         }, false);
     }
 
-    public override Type? GetMessageType(IMessageAccessor message) => typeof(OKXSocketUpdate<T[]>);
-
-    public override CallResult DoHandleMessage(SocketConnection connection, DataEvent<object> message)
+    public CallResult DoHandleMessage(SocketConnection connection, DataEvent<OKXSocketUpdate<T>> message)
     {
-        var data = (OKXSocketUpdate<T[]>)message.Data;
-        if (_singleHandler != null && data.Data.Any())
-            _singleHandler.Invoke(message.As(data.Data.Single(), data.Arg.Channel, data.Arg.Symbol, data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
-        else if (_arrayHandler != null)
-            _arrayHandler!.Invoke(message.As(data.Data, data.Arg.Channel, data.Arg.Symbol, data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+        _handler.Invoke(message.As(message.Data.Data, message.Data.Arg.Channel, message.Data.Arg.Symbol, message.Data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
         return CallResult.SuccessResult;
     }
 }

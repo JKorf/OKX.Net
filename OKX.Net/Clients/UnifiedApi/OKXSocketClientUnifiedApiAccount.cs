@@ -29,7 +29,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXAccountBalance>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAccountBalance>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAccountBalance[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -37,7 +37,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                     Asset = asset,
                     ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -47,13 +47,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXPositionAndBalanceUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPositionAndBalanceUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPositionAndBalanceUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "balance_and_position"
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.Time)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -63,13 +63,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXDepositUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXDepositUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXDepositUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "deposit-info"
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.PushTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().PushTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
@@ -77,13 +77,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXWithdrawalUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXWithdrawalUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "withdrawal-info"
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.PushTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().PushTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }

@@ -177,7 +177,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXPosition[]>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPosition>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPosition[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -187,7 +187,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentFamily = instrumentFamily,
                     ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
                 }
-            }, null, x => onData(x.WithDataTimestamp(x.Data.Any() ? x.Data.Max(x => x.UpdateTime) : default)), true);
+            }, x => onData(x.WithDataTimestamp(x.Data.Any() ? x.Data.Max(x => x.UpdateTime) : default)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -198,7 +198,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXPosition>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPosition>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPosition[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -206,7 +206,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentType = instrumentType,
                     InstrumentFamily = instrumentFamily
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -219,7 +219,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -228,7 +228,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentType = instrumentType,
                     InstrumentFamily = instrumentFamily,
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -239,14 +239,14 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXUserTradeUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXUserTradeUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXUserTradeUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
                     Channel = "fills",
                     Symbol = symbol
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.Timestamp)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Timestamp)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
@@ -259,7 +259,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAlgoOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -268,7 +268,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentType = instrumentType,
                     InstrumentFamily = instrumentFamily,
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
@@ -281,7 +281,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAlgoOrderUpdate>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -290,7 +290,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
                     InstrumentType = instrumentType,
                     AlgoId = algoId,
                 }
-            }, x => onData(x.WithDataTimestamp(x.Data.UpdateTime)), null, true);
+            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
