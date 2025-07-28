@@ -37,7 +37,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
                     Asset = asset,
                     ExtraParams = "{ \"updateInterval\": " + (regularUpdates ? 1 : 0) + " }"
                 }
-            }, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime)), true);
+            }, x =>
+            {
+                if (x.Data.Length == 0)
+                    return;
+
+                onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().UpdateTime));
+            }, true);
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
     }
