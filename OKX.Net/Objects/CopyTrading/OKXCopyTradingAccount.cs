@@ -28,5 +28,5 @@ public record OKXCopyTradingAccount
     /// Details
     /// </summary>
     [JsonPropertyName("details")]
-    public List<OKXCopyTradingAccountDetails> Details { get; set; } = [];
+    public OKXCopyTradingAccountDetails[] Details { get; set; } = [];
 }

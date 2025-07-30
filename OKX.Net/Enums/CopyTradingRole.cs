@@ -12,17 +12,17 @@ public enum CopyTradingRole
     /// General user
     /// </summary>
     [Map("0")]
-    GeneralUser = 0,
+    GeneralUser,
 
     /// <summary>
     /// Leading trader
     /// </summary>
     [Map("1")]
-    LeadingTrader = 1,
+    LeadingTrader,
 
     /// <summary>
     /// Copy trader
     /// </summary>
     [Map("2")]
-    CopyTrader = 2,
+    CopyTrader,
 }

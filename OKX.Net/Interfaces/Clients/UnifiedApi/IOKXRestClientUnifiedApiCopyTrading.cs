@@ -11,5 +11,7 @@ public interface IOKXRestClientUnifiedApiCopyTrading
     /// Retrieve current account configuration related to copy/lead tradingt.
     /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /></para>
     /// </summary>
-    Task<WebCallResult<OKXCopyTradingAccount>> GetAccountConfigurationAsync(string? asset = null, CancellationToken ct = default);
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXCopyTradingAccount>> GetAccountConfigurationAsync(CancellationToken ct = default);
 }
