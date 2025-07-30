@@ -14,13 +14,10 @@ internal class OKXRestClientUnifiedApiCopyTrading : IOKXRestClientUnifiedApiCopy
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXCopyTradingAccount>> GetAccountConfigurationAsync(string? asset = null, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCopyTradingAccount>> GetAccountConfigurationAsync(CancellationToken ct = default)
     {
-        var parameters = new ParameterCollection();
-        parameters.AddOptionalParameter("ccy", asset);
-
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/copytrading/config", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXCopyTradingAccount>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleAsync<OKXCopyTradingAccount>(request, null, ct).ConfigureAwait(false);
     }
 }
