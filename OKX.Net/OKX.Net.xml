@@ -259,6 +259,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -777,6 +780,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ConvertUnit">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.CopyTradingRole">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1521,6 +1529,26 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCopyTradingAccount">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCopyTradingAccountArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCopyTradingAccountDetails">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCopyTradingAccountDetailsArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponse">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1667,6 +1695,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXInviteeDetailsArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXCopyTradingAccountArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -3360,6 +3393,26 @@
             It is both quota currency before and after placing order
             </summary>
         </member>
+        <member name="T:OKX.Net.Enums.CopyTradingRole">
+            <summary>
+            Copy trading role
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CopyTradingRole.GeneralUser">
+            <summary>
+            General user
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CopyTradingRole.LeadingTrader">
+            <summary>
+            Leading trader
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CopyTradingRole.CopyTrader">
+            <summary>
+            Copy trader
+            </summary>
+        </member>
         <member name="T:OKX.Net.Enums.DepositType">
             <summary>
             Deposit type
@@ -3969,6 +4022,12 @@
             Get the shared rest requests client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
             </summary>
         </member>
+        <member name="P:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApi.CopyTrading">
+            <summary>
+            Endpoints related to copy trading
+            </summary>
+            <see cref="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading"/>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount">
             <summary>
             Unified account endpoints
@@ -4507,6 +4566,19 @@
             <param name="symbol">Filter by symbol, for example `ETH-USDT`</param>
             <param name="instrumentFamily">Instrument family</param>
             <param name="ct">Cancellation Token</param>
+        </member>
+        <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading">
+            <summary>
+            Copy trading endpoints
+            </summary>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieve current account configuration related to copy/lead tradingt.
+            <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /></para>
+            </summary>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData">
             <summary>
@@ -8033,6 +8105,62 @@
         <member name="P:OKX.Net.Objects.Affiliate.OKXInviteeDetails.AffiliateCode">
             <summary>
             Affiliate code
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccount">
+            <summary>
+            Copy trading account info
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccount.UniqueCode">
+            <summary>
+            User unique code
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccount.NickName">
+            <summary>
+            Nickname
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccount.PortraitLink">
+            <summary>
+            Portrait link
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccount.Details">
+            <summary>
+            Details
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails">
+            <summary>
+            Copy trading account details
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.InstrumentType">
+            <summary>
+            Instrument type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.RoleType">
+            <summary>
+            Role type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.ProfitSharingRatio">
+            <summary>
+            Profit sharing ratio.
+            Only applicable to lead trader, or it will be "". 0.1 represents 10%
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.MaximumCopyTraderNumber">
+            <summary>
+            Maximum number of copy traders
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.NumberOfCopyTraders">
+            <summary>
+            Current number of copy traders
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiError">
@@ -12551,11 +12679,7 @@
             Urls to the API documentation
             </summary>
         </member>
-        <member name="P:OKX.Net.OKXExchange.Type">
-            <summary>
-            Type of exchange
-            </summary>
-        </member>
+        <!-- Badly formed XML comment ignored for member "F:OKX.Net.OKXExchange.ClientOrderId" -->
         <member name="M:OKX.Net.OKXExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <summary>
             Format a base and quote asset to an OKX recognized symbol 

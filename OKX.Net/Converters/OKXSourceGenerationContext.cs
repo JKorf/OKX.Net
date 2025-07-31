@@ -2,6 +2,7 @@
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
+using OKX.Net.Objects.CopyTrading;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Funding;
 using OKX.Net.Objects.Market;
@@ -143,6 +144,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXRestApiResponse<OKXIndexComponents>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSupportCoins>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXTakerFlow>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKXCopyTradingAccount[]>))]
     [JsonSerializable(typeof(IDictionary<string, object>))]
     [JsonSerializable(typeof(OKXMiniKline[]))]
     [JsonSerializable(typeof(OKXAccountBalanceDetail[]))]
