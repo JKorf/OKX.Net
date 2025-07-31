@@ -259,7 +259,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Threading.CancellationToken)">
@@ -4541,11 +4541,13 @@
             Copy trading endpoints
             </summary>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
             <summary>
             Retrieve current account configuration related to copy/lead tradingt.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /></para>
             </summary>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
         </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiExchangeData">
             <summary>
