@@ -39,6 +39,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? priceUsd = null,
         decimal? priceVol = null,
         bool? banAmend = null,
+        string? tradeQuoteAsset = null,
 
         CancellationToken ct = default)
     {
@@ -60,6 +61,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("quickMgnType", quickMarginType);
         parameters.AddOptional("stpId", selfTradePreventionId);
         parameters.AddOptionalEnum("stpMode", selfTradePreventionMode);
+        parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
 
         if (attachedAlgoOrders != null)
         {
@@ -554,6 +556,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         ChaseType? maxChaseType = null,
         decimal? maxChaseValue = null,
 
+        string? tradeQuoteAsset = null,
+
         CancellationToken ct = default)
     {
         clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
@@ -601,6 +605,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalString("chaseVal", chaseValue);
         parameters.AddOptionalEnum("maxChaseType", maxChaseType);
         parameters.AddOptionalString("maxChaseVal", maxChaseValue);
+        parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

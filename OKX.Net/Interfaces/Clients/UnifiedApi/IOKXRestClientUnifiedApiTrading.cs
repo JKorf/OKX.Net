@@ -292,6 +292,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="chaseValue">Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
     /// <param name="maxChaseType">Max chase order value type</param>
     /// <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
+    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -328,6 +329,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? chaseValue = null,
         ChaseType? maxChaseType = null,
         decimal? maxChaseValue = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default);
 
     /// <summary>
@@ -362,6 +364,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="priceUsd">Place options orders in USD, only applicable to OPTIONS</param>
     /// <param name="priceVol">Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
     /// <param name="banAmend">Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
+    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -384,6 +387,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? priceUsd = null,
         decimal? priceVol = null,
         bool? banAmend = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default);
 
     /// <summary>

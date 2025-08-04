@@ -326,4 +326,10 @@ public record OKXAlgoOrder
     /// </summary>
     [JsonPropertyName("maxChaseVal")]
     public decimal? MaxChaseValue { get; set; }
+
+    /// <summary>
+    /// Trade quote asset
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcy")]
+    public string TradeQuoteAsset { get; set; } = string.Empty;
 }

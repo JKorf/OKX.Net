@@ -306,7 +306,7 @@ public record OKXOrder
     public decimal? PriceUsd { get; set; }
 
     /// <summary>
-    /// Implied volatiltiy for options
+    /// Implied volatility for options
     /// </summary>
     [JsonPropertyName("pxVol")]
     public decimal? ImpliedVolatility { get; set; }
@@ -316,5 +316,11 @@ public record OKXOrder
     /// </summary>
     [JsonPropertyName("lastPx")]
     public decimal? LastPrice { get; set; }
+
+    /// <summary>
+    /// Trade quote asset
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcy")]
+    public string TradeQuoteAsset { get; set; } = string.Empty;
 
 }

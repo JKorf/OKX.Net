@@ -40,6 +40,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default)
     {
         var parameters = new Dictionary<string, object>()
@@ -63,6 +64,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         parameters.AddOptionalParameter("quickMgnType", EnumConverter.GetString(quickMarginType));
         parameters.AddOptionalParameter("stpId", selfTradePreventionId);
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
+        parameters.AddOptionalParameter("tradeQuoteCcy", tradeQuoteAsset);
 
         var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1, ct).ConfigureAwait(false);
         if (!result)
