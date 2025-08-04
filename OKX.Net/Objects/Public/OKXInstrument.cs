@@ -213,4 +213,9 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("tradeQuoteCcyList")]
     public string[] TradeQuoteAssetList { get; set; } = [];
+    /// <summary>
+    /// Symbol code
+    /// </summary>
+    [JsonPropertyName("instIdCode")]
+    public int SymbolCode { get; set; }
 }

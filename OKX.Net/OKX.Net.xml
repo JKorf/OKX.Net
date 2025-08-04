@@ -10182,6 +10182,16 @@
             Open type, only applicable to SPOT/MARGIN
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.TradeQuoteAssetList">
+            <summary>
+            Trade quote asset list
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.SymbolCode">
+            <summary>
+            Symbol code
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund
@@ -11302,6 +11312,11 @@
             Max chase value
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TradeQuoteAsset">
+            <summary>
+            Trade quote asset
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse">
             <summary>
             Order amend response
@@ -11864,12 +11879,17 @@
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.ImpliedVolatility">
             <summary>
-            Implied volatiltiy for options
+            Implied volatility for options
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.LastPrice">
             <summary>
             Last price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.TradeQuoteAsset">
+            <summary>
+            Trade quote asset
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderAmendRequest">
