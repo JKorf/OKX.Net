@@ -20,4 +20,26 @@ internal class OKXRestClientUnifiedApiCopyTrading : IOKXRestClientUnifiedApiCopy
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXCopyTradingAccount>(request, null, ct).ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public async Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositions(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100, CancellationToken ct = default)
+    {
+        if (uniqueCode.Length != 16)
+            throw new Exception("uniqueCode all numbers and the length is 16 characters");
+        if (limit < 1)
+            limit = 1;
+        if (limit > 100)
+            limit = 100;
+
+        var parameters = new ParameterCollection();
+        parameters.AddOptionalParameter("instType", instType);
+        parameters.AddOptionalParameter("uniqueCode", uniqueCode);
+        parameters.AddOptionalParameter("after", after);
+        parameters.AddOptionalParameter("before", before);
+        parameters.AddOptionalParameter("limit", limit);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/copytrading/public-current-subpositions", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.Default));
+        return await _baseClient.SendAsync<OKXCurrentSubposition[]>(request, parameters, ct).ConfigureAwait(false);
+    }
 }
