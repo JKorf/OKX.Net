@@ -29,7 +29,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXAccountBalance>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAccountBalance[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAccountBalance[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -53,7 +53,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXPositionAndBalanceUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPositionAndBalanceUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPositionAndBalanceUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -69,7 +69,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
         Action<DataEvent<OKXDepositUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXDepositUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXDepositUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -83,7 +83,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXWithdrawalUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXWithdrawalUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {

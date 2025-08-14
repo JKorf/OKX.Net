@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using OKX.Net.Objects.Options;
 using OKX.Net.SymbolOrderBooks;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace OKX.Net.UnitTests
 {
@@ -48,7 +49,8 @@ namespace OKX.Net.UnitTests
             var result = await CreateClient().UnifiedApi.ExchangeData.GetKlinesAsync("TSTTST", Enums.KlineInterval.OneDay, default);
 
             Assert.That(result.Success, Is.False);
-            Assert.That(result.Error.Code, Is.EqualTo(51001));
+            Assert.That(result.Error.ErrorCode, Is.EqualTo("51001"));
+            Assert.That(result.Error.ErrorType, Is.EqualTo(ErrorType.UnknownSymbol));
         }
 
         [Test]

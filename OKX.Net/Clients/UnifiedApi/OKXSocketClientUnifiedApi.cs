@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Sockets;
@@ -26,6 +27,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     private static readonly MessagePath _instFamilyPath = MessagePath.Get().Property("arg").Property("instFamily");
 
     public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
+
+    protected override ErrorCollection ErrorMapping { get; } = OKXErrorMapping.ErrorMapping;
 
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiAccount Account { get; }
@@ -55,7 +58,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
             x => new OKXPingQuery(),
             (connection, result) =>
             {
-                if (result.Error?.Message.Equals("Query timeout") == true)
+                if (result.Error?.ErrorType == ErrorType.Timeout)
                 {
                     // Ping timeout, reconnect
                     _logger.LogWarning("[Sckt {SocketId}] Ping response timeout, reconnecting", connection.SocketId);
@@ -130,7 +133,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
                 }
             ]
         };
-        return Task.FromResult<Query?>(new OKXQuery(request, false));
+        return Task.FromResult<Query?>(new OKXQuery(this, request, false));
     }
 
     internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
@@ -149,7 +152,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight, CancellationToken ct = default)
     {
-        var query = new OKXIdQuery<T>(operation, new object[] { parameters }, authenticated, weight);
+        var query = new OKXIdQuery<T>(this, operation, new object[] { parameters }, authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<T>(result.Error!);
@@ -159,7 +162,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     internal async Task<CallResult<T[]>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
     {
-        var query = new OKXIdQuery<T>(operation, data.ToArray(), authenticated, weight);
+        var query = new OKXIdQuery<T>(this, operation, data.ToArray(), authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
         if (!result)
             return result.AsError<T[]>(result.Error!);

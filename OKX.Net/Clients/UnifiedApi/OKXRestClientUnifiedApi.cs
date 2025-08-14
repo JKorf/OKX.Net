@@ -1,10 +1,12 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
+using System;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
@@ -14,6 +16,8 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
 
     private static TimeSyncState _timeSyncState = new("Unified Api");
+
+    protected override ErrorCollection ErrorMapping { get; } = OKXErrorMapping.ErrorMapping;
     #endregion
 
     public IOKXRestClientUnifiedApiAccount Account { get; private set; }
@@ -62,7 +66,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     {
         var result = await base.SendAsync<OKXRestApiResponse<T>>(baseAddress, definition, parameters, cancellationToken, requestHeaders, weight, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
         if (!result.Success) return result.AsError<T>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<T>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+        if (result.Data.ErrorCode > 0) return result.AsError<T>(new ServerError(result.Data.ErrorCode, GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
 
         return result.As<T>(result.Data.Data);
     }
@@ -82,7 +86,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
             return result.As<T>(default);
 
         if (!result.Data.Any())
-            return result.AsError<T>(new ServerError("No response data"));
+            return result.AsError<T>(new ServerError(ErrorInfo.Unknown with { Message = "No response data" }));
 
         return result.As<T>(result.Data?.FirstOrDefault());
     }
@@ -100,21 +104,40 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         => _timeSyncState.TimeOffset;
 
     /// <inheritdoc />
+    protected override Error? TryParseError(KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+    {
+        if (!accessor.IsValid)
+            return new ServerError(ErrorInfo.Unknown);
+
+        var codePath = MessagePath.Get().Property("code");
+        var msgPath = MessagePath.Get().Property("msg");
+        var code = accessor.GetValue<string?>(codePath);
+        var msg = accessor.GetValue<string>(msgPath);
+        if (code == null || !int.TryParse(code, out var intCode))
+            return new ServerError(ErrorInfo.Unknown with { Message = msg });
+
+        if (intCode >= 50000)
+            return new ServerError(intCode, GetErrorInfo(intCode, msg));
+
+        return null;
+    }
+
+    /// <inheritdoc />
     protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
     {
         if (!accessor.IsValid)
-            return new ServerError(null, "Unknown request error", exception: exception);
+            return new ServerError(ErrorInfo.Unknown, exception: exception);
 
         var codePath = MessagePath.Get().Property("code");
         var msgPath = MessagePath.Get().Property("msg");
         var code = accessor.GetValue<string?>(codePath);
         var msg = accessor.GetValue<string>(msgPath);
         if (msg == null)
-            return new ServerError(null, "Unknown request error", exception: exception);
+            return new ServerError(ErrorInfo.Unknown, exception: exception);
 
         if (code == null || !int.TryParse(code, out var intCode))
-            return new ServerError(null, msg, exception);
+            return new ServerError(ErrorInfo.Unknown with { Message = msg }, exception);
 
-        return new ServerError(intCode, msg, exception);
+        return new ServerError(intCode, GetErrorInfo(intCode, msg), exception);
     }
 }
