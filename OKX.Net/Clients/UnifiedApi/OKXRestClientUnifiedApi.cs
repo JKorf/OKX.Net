@@ -17,7 +17,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
     private static TimeSyncState _timeSyncState = new("Unified Api");
 
-    protected override ErrorCollection ErrorMapping { get; } = OKXErrorMapping.ErrorMapping;
+    protected override ErrorCollection ErrorMapping => OKXErrors.ErrorMapping;
     #endregion
 
     public IOKXRestClientUnifiedApiAccount Account { get; private set; }
