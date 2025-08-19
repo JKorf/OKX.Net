@@ -1,3 +1,4 @@
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -71,7 +72,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
 
         return result;
     }
@@ -90,13 +91,13 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         foreach (var item in result.Data)
         {
             if (item.Code > 0)
-                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(new ServerError(item.Code, item.Message!)));
+                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item, null, new ServerError(item.Code, _client.GetErrorInfo(item.Code, item.Message!))));
             else
                 ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item));
         }
 
         if (ordersResult.All(x => !x.Success))
-            return result.AsErrorWithData(new ServerError("All errors failed"), ordersResult.ToArray());
+            return result.AsErrorWithData(new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, "All errors failed")), ordersResult.ToArray());
 
         return result.As(ordersResult.ToArray());
     }
@@ -120,7 +121,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
 
         return result;
     }
@@ -159,7 +160,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, result.Data.Message, null));
+            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
 
         return result;
     }
@@ -179,7 +180,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXPosition[]>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPosition[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPosition[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -200,7 +201,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXPosition>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXPosition[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXPosition[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -221,7 +222,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXOrderUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -241,7 +242,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXUserTradeUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXUserTradeUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXUserTradeUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -261,7 +262,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -283,7 +284,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         Action<DataEvent<OKXAlgoOrderUpdate>> onData,
         CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXAlgoOrderUpdate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {

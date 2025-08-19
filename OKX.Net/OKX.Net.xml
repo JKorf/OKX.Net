@@ -118,6 +118,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetTimeOffset">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.TryParseError(System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor,System.Exception)">
             <inheritdoc />
         </member>
@@ -8166,16 +8169,6 @@
         <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.NumberOfCopyTraders">
             <summary>
             Current number of copy traders
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.Core.OKXRestApiError">
-            <summary>
-            API error
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.Core.OKXRestApiError.#ctor(System.Nullable{System.Int32},System.String,System.Exception)">
-            <summary>
-            ctor
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse">

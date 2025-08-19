@@ -5,6 +5,7 @@ using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Public;
 using System.Drawing;
+using CryptoExchange.Net.Objects.Errors;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -39,7 +40,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
-                return new ExchangeWebResult<SharedKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IKlineRestClient)this).GetKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
@@ -292,7 +293,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedSpotOrder>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedSpotOrder>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedSpotOrder>(Exchange, ArgumentError.Invalid(nameof(GetOrderRequest), "Invalid order id"));
 
             var order = await Trading.GetOrderDetailsAsync(request.Symbol!.GetSymbol(FormatSymbol), orderId, ct: ct).ConfigureAwait(false);
             if (!order)
@@ -408,7 +409,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedUserTrade[]>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, ArgumentError.Invalid(nameof(GetOrderTradesRequest), "Invalid order id"));
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var order = await Trading.GetUserTradesAsync(InstrumentType.Spot, symbol, orderId: orderId, ct: ct).ConfigureAwait(false);
@@ -485,7 +486,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedId>(Exchange, ArgumentError.Invalid(nameof(CancelOrderRequest), "Invalid order id"));
 
             var order = await Trading.CancelOrderAsync(request.Symbol!.GetSymbol(FormatSymbol), orderId, ct: ct).ConfigureAwait(false);
             if (!order)
@@ -545,7 +546,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return assets.AsExchangeResult<SharedAsset>(Exchange, null, default);
 
             if (!assets.Data.Any())
-                return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError("Asset not found"));
+                return assets.AsExchangeError<SharedAsset>(Exchange, new ServerError(new ErrorInfo(ErrorType.UnknownAsset, "Asset not found")));
 
             return assets.AsExchangeResult<SharedAsset>(Exchange, TradingMode.Spot, new SharedAsset(request.Asset)
             {
@@ -724,9 +725,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (request.AddressTag != null)
                 target += ":" + request.AddressTag;
 
-            var fee = ExchangeParameters.GetValue<decimal?>(request.ExchangeParameters, Exchange, "fee");
-            if (fee == null)
-                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("OKX requires withdrawal fee parameter. Please pass it as exchangeParameter `fee`"));
+            var fee = ExchangeParameters.GetValue<decimal>(request.ExchangeParameters, Exchange, "withdrawFee");
 
             // Get data
             var withdrawal = await Account.WithdrawAsync(
@@ -734,7 +733,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 request.Quantity,
                 WithdrawalDestination.DigitalCurrencyAddress,
                 target,
-                fee.Value,
+                fee,
                 network: request.Network,
                 ct: ct).ConfigureAwait(false);
             if (!withdrawal)
@@ -853,7 +852,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedFuturesOrder>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedFuturesOrder>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedFuturesOrder>(Exchange, ArgumentError.Invalid(nameof(GetOrderRequest), "Invalid order id"));
 
             var order = await Trading.GetOrderDetailsAsync(request.Symbol!.GetSymbol(FormatSymbol), orderId, ct: ct).ConfigureAwait(false);
             if (!order)
@@ -1009,7 +1008,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedUserTrade[]>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedUserTrade[]>(Exchange, ArgumentError.Invalid(nameof(GetOrderTradesRequest), "Invalid order id"));
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             WebCallResult<OKXTransaction[]> orders;
@@ -1120,7 +1119,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return new ExchangeWebResult<SharedId>(Exchange, validationError);
 
             if (!long.TryParse(request.OrderId, out var orderId))
-                return new ExchangeWebResult<SharedId>(Exchange, new ArgumentError("Invalid order id"));
+                return new ExchangeWebResult<SharedId>(Exchange, ArgumentError.Invalid(nameof(CancelOrderRequest), "Invalid order id"));
 
             var order = await Trading.CancelOrderAsync(request.Symbol!.GetSymbol(FormatSymbol), orderId).ConfigureAwait(false);
             if (!order)
@@ -1204,7 +1203,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             var side = request.PositionSide == null ? result.Data.First() : result.Data.FirstOrDefault(d => d.PositionSide == (request.PositionSide == SharedPositionSide.Short ? PositionSide.Short : PositionSide.Long));
             if (side == null)
-                return result.AsExchangeError<SharedLeverage>(Exchange, new ServerError("Position not found"));
+                return result.AsExchangeError<SharedLeverage>(Exchange, new ServerError(new ErrorInfo(ErrorType.NoPosition, "Position not found")));
             
             return result.AsExchangeResult(Exchange, request.Symbol.TradingMode, new SharedLeverage(side.Leverage ?? 0)
             {
@@ -1250,7 +1249,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
-                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IIndexPriceKlineRestClient)this).GetIndexPriceKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
             if (validationError != null)
@@ -1306,7 +1305,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             var interval = (Enums.KlineInterval)request.Interval;
             if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
-                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, new ArgumentError("Interval not supported"));
+                return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IMarkPriceKlineRestClient)this).GetMarkPriceKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
             if (validationError != null)

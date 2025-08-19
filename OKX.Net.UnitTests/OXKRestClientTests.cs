@@ -25,7 +25,7 @@ namespace OKX.Net.UnitTests
             {
                 ErrorCode = 400001,
                 Data = default!,
-                ErrorMessage = "Error occured"
+                ErrorMessage = "Error occurred"
             };
 
             TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj));
@@ -36,8 +36,8 @@ namespace OKX.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.That(result.Error!.Code == 400001);
-            Assert.That(result.Error.Message == "Error occured");
+            Assert.That(result.Error!.ErrorCode == "400001");
+            Assert.That(result.Error.Message == "Error occurred");
         }
 
         [TestCase()]
@@ -60,7 +60,7 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occured\" }", System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occurred\" }", System.Net.HttpStatusCode.BadRequest);
 
             // act
             var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
@@ -68,8 +68,8 @@ namespace OKX.Net.UnitTests
             // assert
             ClassicAssert.IsFalse(result.Success);
             ClassicAssert.IsNotNull(result.Error);
-            Assert.That(result.Error!.Code == 400001);
-            Assert.That(result.Error.Message == "Error occured");
+            Assert.That(result.Error!.ErrorCode == "400001");
+            Assert.That(result.Error.Message == "Error occurred");
         }
 
 

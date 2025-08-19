@@ -1,3 +1,4 @@
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.ExtensionMethods;
@@ -76,7 +77,7 @@ internal class OKXRestClientUnifiedApiExchangeData : IOKXRestClientUnifiedApiExc
             return result.As<OKXOrderBook>(default);
 
         if (!result.Data.Any())
-            return result.AsError<OKXOrderBook>(new OKXRestApiError(null, "No data", null));
+            return result.AsError<OKXOrderBook>(new ServerError(new ErrorInfo(ErrorType.Unknown, "No data")));
 
         var orderbook = result.Data.First();
         orderbook.Symbol = symbol;

@@ -1,4 +1,5 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
@@ -6,11 +7,13 @@ using OKX.Net.Objects.Sockets.Queries;
 namespace OKX.Net.Objects.Sockets.Subscriptions;
 internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketResponse>
 {
+    private readonly SocketApiClient _client;
     private List<OKXSocketArgs> _args;
     private Action<DataEvent<T>> _handler;
 
-    public OKXSubscription(ILogger logger, List<OKXSocketArgs> args, Action<DataEvent<T>> handler, bool authenticated) : base(logger, authenticated)
+    public OKXSubscription(ILogger logger, SocketApiClient client, List<OKXSocketArgs> args, Action<DataEvent<T>> handler, bool authenticated) : base(logger, authenticated)
     {
+        _client = client;
         _args = args;
         _handler = handler;
 
@@ -19,7 +22,7 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
 
     public override Query? GetSubQuery(SocketConnection connection)
     {
-        return new OKXQuery(new OKXSocketRequest
+        return new OKXQuery(_client, new OKXSocketRequest
         {
             Op = "subscribe",
             Args = _args
@@ -28,7 +31,7 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
 
     public override Query? GetUnsubQuery()
     {
-        return new OKXQuery(new OKXSocketRequest
+        return new OKXQuery(_client, new OKXSocketRequest
         {
             Op = "unsubscribe",
             Args = _args
