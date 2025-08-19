@@ -14,46 +14,26 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
             throw new ArgumentNullException(nameof(ApiCredentials.Pass), "Passphrase is required for OKX authentication");
     }
 
-    public override void AuthenticateRequest(
-            RestApiClient apiClient,
-            Uri uri,
-            HttpMethod method,
-            ref IDictionary<string, object>? uriParameters,
-            ref IDictionary<string, object>? bodyParameters,
-            ref Dictionary<string, string>? headers,
-            bool auth,
-            ArrayParametersSerialization arraySerialization,
-            HttpMethodParameterPosition parameterPosition,
-            RequestBodyFormat requestBodyFormat)
+    public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
     {
-        if (!(auth || ((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests))
+        if (!request.Authenticated && !((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests)
             return;
 
-        // Set Parameters
-        if (uriParameters != null)
-            uri = uri.SetParameters(uriParameters, arraySerialization);
-
-        // Signature Body
         var time = GetTimestamp(apiClient).ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
-        var signtext = time + method.Method.ToUpper() + uri.PathAndQuery.Trim('?');
+        var queryString = request.GetQueryString(true);
+        if (!string.IsNullOrEmpty(queryString))
+            queryString = $"?{queryString}";
+        var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters.Any() ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
+        var signStr = time + request.Method + request.Path + queryString + body;
 
-        if (method == HttpMethod.Post)
-        {
-            if (bodyParameters?.Any() == true)
-                signtext += GetSerializedBody(_serializer, bodyParameters);
-            else
-                signtext += "{}";
-        }
+        var signature = SignHMACSHA256(signStr, SignOutputType.Base64);
+        request.Headers.Add("OK-ACCESS-KEY", _credentials.Key);
+        request.Headers.Add("OK-ACCESS-SIGN", signature);
+        request.Headers.Add("OK-ACCESS-TIMESTAMP", time);
+        request.Headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass!);
 
-        // Compute Signature
-        var signature = SignHMACSHA256(signtext, SignOutputType.Base64);
-
-        // Headers
-        headers ??= new Dictionary<string, string>();
-        headers.Add("OK-ACCESS-KEY", _credentials.Key);
-        headers.Add("OK-ACCESS-SIGN", signature);
-        headers.Add("OK-ACCESS-TIMESTAMP", time);
-        headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass!);
+        request.SetBodyContent(body);
+        request.SetQueryString(queryString);
     }
 
     public string SignWebsocket(string timestamp)

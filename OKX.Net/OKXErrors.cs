@@ -9,7 +9,7 @@ namespace OKX.Net
 {
     internal static class OKXErrors
     {
-        public static ErrorCollection ErrorMapping { get; } = new ErrorCollection([
+        public static ErrorMapping ErrorMapping { get; } = new ErrorMapping([
 
             new ErrorInfo(ErrorType.Unauthorized, false, "API key does not match the environment", "50101"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Passphrase invalid", "50105"),
@@ -115,6 +115,9 @@ namespace OKX.Net
             new ErrorInfo(ErrorType.InvalidStopParameters, false, "Trailing stop order quantity range invalid", "51312"),
 
             new ErrorInfo(ErrorType.NoPosition, false, "Position does not exist", "51023", "51043"),
+
+            new ErrorInfo(ErrorType.MaxPosition, false, "Position limit reached", "54031"),
+            new ErrorInfo(ErrorType.MaxPosition, false, "Value of orders and positions exceeds limit", "51004", "51105", "51106", "51107", "51129", "51187", "54030"),
 
             new ErrorInfo(ErrorType.IncorrectState, false, "Position frozen due to auto deleveraging", "50017"),
             new ErrorInfo(ErrorType.IncorrectState, false, "Asset frozen due to auto deleveraging", "50018"),

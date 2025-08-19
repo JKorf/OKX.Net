@@ -91,7 +91,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         foreach (var item in result.Data)
         {
             if (item.Code > 0)
-                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(new ServerError(item.Code, _client.GetErrorInfo(item.Code, item.Message!))));
+                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item, null, new ServerError(item.Code, _client.GetErrorInfo(item.Code, item.Message!))));
             else
                 ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item));
         }

@@ -28,7 +28,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
 
     public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
 
-    protected override ErrorCollection ErrorMapping => OKXErrors.ErrorMapping;
+    protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
 
     /// <inheritdoc />
     public IOKXSocketClientUnifiedApiAccount Account { get; }
