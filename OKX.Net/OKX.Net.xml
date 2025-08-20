@@ -265,6 +265,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositionsAsync(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1552,6 +1555,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCurrentSubposition">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXCurrentSubpositionArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponse">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1703,6 +1716,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXCopyTradingAccountArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXCurrentSubpositionArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -4582,6 +4600,19 @@
             Retrieve current account configuration related to copy/lead tradingt.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /></para>
             </summary>
+            <param name="ct">Cancellation Token</param>
+            <returns></returns>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositionsAsync(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get current leading positions of lead trader.
+            <para><a href="https://www.okx.com/docs-v5/zh/#order-book-trading-copy-trading-get-lead-trader-current-lead-positions" /></para>
+            </summary>
+            <param name="uniqueCode">Lead trader unique code. A combination of case-sensitive alphanumerics, all numbers and the length is 16 characters</param>
+            <param name="instType">Instrument type. SWAP, the default value.</param>
+            <param name="after">Pagination of data to return records earlier than the requested PositionId.</param>
+            <param name="before">Pagination of data to return records newer than the requested PositionId.</param>
+            <param name="limit">Number of results per request. Maximum is 100. Default is 100.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -8169,6 +8200,86 @@
         <member name="P:OKX.Net.Objects.CopyTrading.OKXCopyTradingAccountDetails.NumberOfCopyTraders">
             <summary>
             Current number of copy traders
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition">
+            <summary>
+            Lead trader current lead position
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.Asset">
+            <summary>
+            Currency
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.Symbol">
+            <summary>
+            Instrument ID, e.g. BTC-USDT-SWAP
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.InstrumentType">
+            <summary>
+            Instrument type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.Leverage">
+            <summary>
+            Leverage
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.Margin">
+            <summary>
+            Margin
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.MarkPrice">
+            <summary>
+            Latest mark price, only applicable to contract
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.MarginMode">
+            <summary>
+            Margin mode. cross isolated
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.OpenAveragePrice">
+            <summary>
+            Average open price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.OpenTimestamp">
+            <summary>
+            Open time
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.PositionSide">
+            <summary>
+            Position side
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.Quantity">
+            <summary>
+            Quantity of positions
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.PositionId">
+            <summary>
+            Lead position ID
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.UniqueCode">
+            <summary>
+            Lead trader unique code
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.UnrealizedPnl">
+            <summary>
+            Unrealized profit and loss
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.UnrealizedProfitAndLossRatio">
+            <summary>
+            Unrealized profit and loss ratio
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse">
