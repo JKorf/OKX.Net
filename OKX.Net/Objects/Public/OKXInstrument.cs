@@ -208,4 +208,14 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("openType")]
     public OpenType? OpenType { get; set; }
+    /// <summary>
+    /// Trade quote asset list
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcyList")]
+    public string[] TradeQuoteAssetList { get; set; } = [];
+    /// <summary>
+    /// Symbol code
+    /// </summary>
+    [JsonPropertyName("instIdCode")]
+    public int SymbolCode { get; set; }
 }

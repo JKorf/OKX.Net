@@ -118,6 +118,9 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetTimeOffset">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.TryParseError(System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor,System.Exception)">
             <inheritdoc />
         </member>
@@ -151,10 +154,10 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetLeverageAsync(System.Int32,OKX.Net.Enums.MarginMode,System.String,System.String,System.Nullable{OKX.Net.Enums.PositionSide},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Decimal},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Decimal},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumAvailableAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumAvailableAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetMarginAmountAsync(System.String,OKX.Net.Enums.PositionSide,OKX.Net.Enums.MarginAddReduce,System.Decimal,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
@@ -421,7 +424,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiSubAccounts.TransferBetweenSubAccountsAsync(System.String,System.Decimal,OKX.Net.Enums.AccountType,OKX.Net.Enums.AccountType,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CheckOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.TriggerPriceType},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
@@ -466,7 +469,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetUserTradesArchiveAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Nullable{System.Int64},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
@@ -616,7 +619,7 @@
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
@@ -4280,7 +4283,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Decimal},System.Nullable{System.Int32},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Decimal},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
             <summary>
             Get maximum buy/sell amount or open amount
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-buy-sell-amount-or-open-amount" /></para>
@@ -4290,10 +4293,11 @@
             <param name="asset">Asset</param>
             <param name="price">Price</param>
             <param name="leverage">Leverage</param>
+            <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumAvailableAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetMaximumAvailableAmountAsync(System.String,OKX.Net.Enums.TradeMode,System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Get Maximum Available Tradable Amount
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-tradable-amount" /></para>
@@ -4302,6 +4306,7 @@
             <param name="tradeMode">Trade Mode</param>
             <param name="asset">Currency</param>
             <param name="reduceOnly">Reduce Only</param>
+            <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -5426,7 +5431,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
             <summary>
             Place new algo order. The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /></para>
@@ -5464,6 +5469,7 @@
             <param name="chaseValue">Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
             <param name="maxChaseType">Max chase order value type</param>
             <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
+            <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -5476,7 +5482,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.TradeMode},System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAttachedAlgoOrder},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
@@ -5500,6 +5506,7 @@
             <param name="priceUsd">Place options orders in USD, only applicable to OPTIONS</param>
             <param name="priceVol">Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
             <param name="banAmend">Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
+            <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -5969,7 +5976,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
@@ -5988,6 +5995,7 @@
             <param name="selfTradePreventionId">Self trade prevention id</param>
             <param name="selfTradePreventionMode">Self trade prevention mode</param>
             <param name="quantityAsset">Asset of the quantity when placing market order</param>
+            <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
@@ -10288,6 +10296,16 @@
             Open type, only applicable to SPOT/MARGIN
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.TradeQuoteAssetList">
+            <summary>
+            Trade quote asset list
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.SymbolCode">
+            <summary>
+            Symbol code
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund
@@ -11408,6 +11426,11 @@
             Max chase value
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TradeQuoteAsset">
+            <summary>
+            Trade quote asset
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse">
             <summary>
             Order amend response
@@ -11970,12 +11993,17 @@
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.ImpliedVolatility">
             <summary>
-            Implied volatiltiy for options
+            Implied volatility for options
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrder.LastPrice">
             <summary>
             Last price
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrder.TradeQuoteAsset">
+            <summary>
+            Trade quote asset
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXOrderAmendRequest">
@@ -12188,7 +12216,7 @@
             Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.BanAmmend">
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.BanAmend">
             <summary>
             Whether to disallow the system from amending the size of the SPOT Market Order. If true, system will not amend and reject the market order if user does not have sufficient funds.
             </summary>
@@ -12196,6 +12224,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.StpMode">
             <summary>
             Self trade prevention mode
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.TradeQuoteAsset">
+            <summary>
+            The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.AttachedAlgoOrders">
@@ -12790,7 +12823,11 @@
             Urls to the API documentation
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:OKX.Net.OKXExchange.ClientOrderId" -->
+        <member name="P:OKX.Net.OKXExchange.Type">
+            <summary>
+            Type of exchange
+            </summary>
+        </member>
         <member name="M:OKX.Net.OKXExchange.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
             <summary>
             Format a base and quote asset to an OKX recognized symbol 

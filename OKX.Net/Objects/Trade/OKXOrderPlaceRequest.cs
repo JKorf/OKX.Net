@@ -98,13 +98,19 @@ public record OKXOrderPlaceRequest
     /// Whether to disallow the system from amending the size of the SPOT Market Order. If true, system will not amend and reject the market order if user does not have sufficient funds.
     /// </summary>
     [JsonPropertyName("banAmend"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public bool? BanAmmend { get; set; }
+    public bool? BanAmend { get; set; }
 
     /// <summary>
     /// Self trade prevention mode
     /// </summary>
     [JsonPropertyName("stpMode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public SelfTradePreventionMode? StpMode { get; set; }
+
+    /// <summary>
+    /// The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcy")]
+    public string? TradeQuoteAsset { get; set; }
 
     /// <summary>
     /// Attached take profit / stop loss orders

@@ -104,6 +104,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="selfTradePreventionId">Self trade prevention id</param>
     /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
     /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
+    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
@@ -122,6 +123,7 @@ public interface IOKXSocketClientUnifiedApiTrading
         QuantityAsset? quantityAsset = null,
         string? clientOrderId = null,
         bool? reduceOnly = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default);
 
     /// <summary>

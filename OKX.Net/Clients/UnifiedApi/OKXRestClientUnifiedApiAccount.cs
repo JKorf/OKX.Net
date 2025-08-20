@@ -226,6 +226,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? asset = null,
         decimal? price = null,
         int? leverage = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
@@ -235,6 +236,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("leverage", leverage?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("tradeQuoteCcy", tradeQuoteAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-size", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -247,6 +249,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         Enums.TradeMode tradeMode,
         string? asset = null,
         bool? reduceOnly = null,
+        string? tradeQuoteAsset = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection {
@@ -255,6 +258,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddEnum("tdMode", tradeMode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
+        parameters.AddOptionalParameter("tradeQuoteCcy", tradeQuoteAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/max-avail-size", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));

@@ -27,7 +27,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<OKXInstrument[]>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXInstrument[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXInstrument[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -42,7 +42,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXTicker[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXTicker[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -66,14 +66,14 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
             }
         ).ToList();
 
-        var subscription = new OKXSubscription<OKXTicker[]>(_logger, symbolSubs, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
+        var subscription = new OKXSubscription<OKXTicker[]>(_logger, _client, symbolSubs, x => onData(x.As(x.Data.First()).WithDataTimestamp(x.Data.First().Time)), false);
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/public"), subscription, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -89,6 +89,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger,
+           _client, 
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -104,7 +105,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
-        var subscription = new OKXSubscription<OKXKline[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXKline[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -126,6 +127,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     {
         var jc = EnumConverter.GetString(klineInterval);
         var subscription = new OKXSubscription<OKXKline[]>(_logger,
+            _client,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -144,7 +146,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXTrade[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXTrade[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -160,6 +162,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXTrade[]>(_logger,
+            _client,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -174,7 +177,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(InstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXEstimatedPrice[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXEstimatedPrice[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -191,7 +194,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXMarkPrice[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXMarkPrice[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -207,6 +210,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXMarkPrice[]>(_logger,
+            _client,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -222,7 +226,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
-        var subscription = new OKXSubscription<OKXMiniKline[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXMiniKline[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -237,7 +241,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXLimitPrice[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXLimitPrice[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -252,7 +256,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXLimitPrice[]>(_logger,
+        var subscription = new OKXSubscription<OKXLimitPrice[]>(_logger, _client,
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -268,7 +272,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(orderBookType);
-        var subscription = new OKXBookSubscription(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXBookSubscription(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -285,6 +289,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     {
         var jc = EnumConverter.GetString(orderBookType);
         var subscription = new OKXBookSubscription(_logger,
+           _client, 
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -304,7 +309,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<OKXOptionSummary[]>> onData, CancellationToken ct = default)
     {
         //TEST
-        var subscription = new OKXSubscription<OKXOptionSummary[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXOptionSummary[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -319,7 +324,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXFundingRate[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXFundingRate[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -335,6 +340,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXFundingRate[]>(_logger,
+           _client, 
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -350,7 +356,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(klineInterval);
-        var subscription = new OKXSubscription<OKXMiniKline[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXMiniKline[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -365,7 +371,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXIndexTicker[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXIndexTicker[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {
@@ -381,6 +387,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
     {
         var subscription = new OKXSubscription<OKXIndexTicker[]>(_logger,
+           _client, 
            symbols.Select(s =>
               new Objects.Sockets.Models.OKXSocketArgs
               {
@@ -395,7 +402,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     /// <inheritdoc />
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<OKXStatus>> onData, CancellationToken ct = default)
     {
-        var subscription = new OKXSubscription<OKXStatus[]>(_logger, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXStatus[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
             {
                 new Objects.Sockets.Models.OKXSocketArgs
                 {

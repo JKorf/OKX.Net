@@ -249,9 +249,17 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">Asset</param>
     /// <param name="price">Price</param>
     /// <param name="leverage">Leverage</param>
+    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMaximumAmount[]>> GetMaximumAmountAsync(string symbol, Enums.TradeMode tradeMode, string? asset = null, decimal? price = null, int? leverage = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXMaximumAmount[]>> GetMaximumAmountAsync(
+        string symbol,
+        Enums.TradeMode tradeMode,
+        string? asset = null,
+        decimal? price = null, 
+        int? leverage = null,
+        string? tradeQuoteAsset = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Get Maximum Available Tradable Amount
@@ -261,9 +269,16 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="asset">Currency</param>
     /// <param name="reduceOnly">Reduce Only</param>
+    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMaximumAvailableAmount[]>> GetMaximumAvailableAmountAsync(string symbol, Enums.TradeMode tradeMode, string? asset = null, bool? reduceOnly = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXMaximumAvailableAmount[]>> GetMaximumAvailableAmountAsync(
+        string symbol,
+        Enums.TradeMode tradeMode,
+        string? asset = null,
+        bool? reduceOnly = null, 
+        string? tradeQuoteAsset = null,
+        CancellationToken ct = default);
 
     /// <summary>
     /// Get the maximum loan of a instrument

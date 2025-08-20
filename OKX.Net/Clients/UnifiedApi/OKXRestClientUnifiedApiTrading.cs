@@ -1,3 +1,4 @@
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -39,6 +40,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? priceUsd = null,
         decimal? priceVol = null,
         bool? banAmend = null,
+        string? tradeQuoteAsset = null,
 
         CancellationToken ct = default)
     {
@@ -60,6 +62,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("quickMgnType", quickMarginType);
         parameters.AddOptional("stpId", selfTradePreventionId);
         parameters.AddOptionalEnum("stpMode", selfTradePreventionMode);
+        parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
 
         if (attachedAlgoOrders != null)
         {
@@ -85,9 +88,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (result.Data.ErrorCode > 0)
         {
             if (detailed != null)
-                return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(detailed.Code, detailed.Message, null));
+                return result.AsError<OKXOrderPlaceResponse>(new ServerError(detailed.Code, _baseClient.GetErrorInfo(detailed.Code, detailed.Message)));
 
-            return result.AsError<OKXOrderPlaceResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
         }
 
         return result.As(detailed!);
@@ -160,19 +163,19 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.As<CallResult<OKXOrderPlaceResponse>[]>(default);
 
         if (result.Data.ErrorCode > 0 && result.Data.Data?.Any() != true)
-            return result.AsError<CallResult<OKXOrderPlaceResponse>[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<CallResult<OKXOrderPlaceResponse>[]>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
         
         var ordersResult = new List<CallResult<OKXOrderPlaceResponse>>();
         foreach (var item in result.Data.Data!)
         {
             if (item.Code > 0)
-                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(new OKXRestApiError(item.Code, item.Message!, null)));
+                ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item, null, new ServerError(item.Code, _baseClient.GetErrorInfo(item.Code, item.Message!))));
             else
                 ordersResult.Add(new CallResult<OKXOrderPlaceResponse>(item));
         }
 
         if (ordersResult.All(x => !x.Success))
-            return result.AsErrorWithData(new ServerError("All orders failed"), ordersResult.ToArray());
+            return result.AsErrorWithData(new ServerError(new ErrorInfo(ErrorType.AllOrdersFailed, "All orders failed")), ordersResult.ToArray());
 
         return result.As(ordersResult.ToArray());
     }
@@ -224,7 +227,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             return result.AsError<OKXOrderCancelResponse[]>(result.Error!);
 
         if (result.Data.ErrorCode > 0 && result.Data.ErrorCode != 2)
-            return result.AsError<OKXOrderCancelResponse[]>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<OKXOrderCancelResponse[]>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
 
         return result.As<OKXOrderCancelResponse[]>(result.Data.Data);
     }
@@ -554,6 +557,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         ChaseType? maxChaseType = null,
         decimal? maxChaseValue = null,
 
+        string? tradeQuoteAsset = null,
+
         CancellationToken ct = default)
     {
         clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
@@ -601,6 +606,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalString("chaseVal", chaseValue);
         parameters.AddOptionalEnum("maxChaseType", maxChaseType);
         parameters.AddOptionalString("maxChaseVal", maxChaseValue);
+        parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
@@ -612,9 +618,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (result.Data.ErrorCode > 0)
         {
             if (detailed != null)
-                return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(detailed.Code, detailed.Message, null));
+                return result.AsError<OKXAlgoOrderResponse>(new ServerError(detailed.Code, _baseClient.GetErrorInfo(detailed.Code, detailed.Message)));
 
-            return result.AsError<OKXAlgoOrderResponse>(new OKXRestApiError(result.Data.ErrorCode, result.Data.ErrorMessage!, null));
+            return result.AsError<OKXAlgoOrderResponse>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
         }
 
         return result.As<OKXAlgoOrderResponse>(detailed);
