@@ -12382,6 +12382,11 @@
             Transaction type
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXTransaction.TradeQuoteAsset">
+            <summary>
+            Quote asset
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Trade.OKXUserTradeUpdate">
             <summary>
             Order info update
