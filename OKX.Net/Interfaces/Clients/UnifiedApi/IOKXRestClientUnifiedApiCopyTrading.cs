@@ -26,5 +26,5 @@ public interface IOKXRestClientUnifiedApiCopyTrading
     /// <param name="limit">Number of results per request. Maximum is 100. Default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositions(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100,  CancellationToken ct = default);
+    Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositionsAsync(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100,  CancellationToken ct = default);
 }

@@ -22,10 +22,10 @@ internal class OKXRestClientUnifiedApiCopyTrading : IOKXRestClientUnifiedApiCopy
     }
 
     /// <inheritdoc />
-    public async Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositions(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100, CancellationToken ct = default)
+    public async Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositionsAsync(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100, CancellationToken ct = default)
     {
         if (uniqueCode.Length != 16)
-            throw new Exception("uniqueCode all numbers and the length is 16 characters");
+            throw new ArgumentException("uniqueCode all numbers and the length is 16 characters");
         if (limit < 1)
             limit = 1;
         if (limit > 100)
