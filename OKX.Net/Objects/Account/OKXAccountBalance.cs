@@ -1,4 +1,5 @@
 using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 namespace OKX.Net.Objects.Account;
 
 /// <summary>
@@ -337,10 +338,9 @@ public record OKXAccountBalanceDetail
     /// </summary>
     [JsonPropertyName("collateralEnabled")]
     public bool CollateralEnabled { get; set; }
-
     /// <summary>
-    /// Platform level collateralized borrow restriction
+    /// Collateral restriction status
     /// </summary>
-    [JsonPropertyName("collateralRestrict")]
-    public bool CollateralRestricted { get; set; }
+    [JsonPropertyName("colRes")]
+    public CollateralRestrictionStatus CollateralRestrictionStatus { get; set; }
 }

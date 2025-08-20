@@ -1,4 +1,5 @@
 using CryptoExchange.Net.Converters.SystemTextJson;
+using OKX.Net.Enums;
 namespace OKX.Net.Objects.Public;
 
 /// <summary>
@@ -20,10 +21,10 @@ public record OKXDiscountInfo
     public decimal? Quantity { get; set; }
 
     /// <summary>
-    /// Platform level collateralized borrow restriction
+    /// Collateral restriction status
     /// </summary>
-    [JsonPropertyName("collateralRestrict")]
-    public bool CollateralRestricted { get; set; }
+    [JsonPropertyName("colRes")]
+    public CollateralRestrictionStatus CollateralRestrictionStatus { get; set; }
 
     /// <summary>
     /// Discount level

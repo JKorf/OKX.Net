@@ -767,6 +767,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.CollateralRestrictionStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.ContractType">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -3394,6 +3399,26 @@
         <member name="F:OKX.Net.Enums.CheckUnitType.QuoteBoth">
             <summary>
             It is both quota currency before and after placing order
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Enums.CollateralRestrictionStatus">
+            <summary>
+            Collateral restriction status
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CollateralRestrictionStatus.NoRestriction">
+            <summary>
+            The restriction is not enabled
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CollateralRestrictionStatus.NoRestrictionButCloseToLimit">
+            <summary>
+            The restriction is not enabled. But the crypto is close to the platform's collateral limit
+            </summary>
+        </member>
+        <member name="F:OKX.Net.Enums.CollateralRestrictionStatus.Restricted">
+            <summary>
+            The restriction is enabled. This crypto can't be used as margin for your new orders
             </summary>
         </member>
         <member name="T:OKX.Net.Enums.CopyTradingRole">
@@ -6350,9 +6375,9 @@
             Collateral enabled for multi-currency margin
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.CollateralRestricted">
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBalanceDetail.CollateralRestrictionStatus">
             <summary>
-            Platform level collateralized borrow restriction
+            Collateral restriction status
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBill">
@@ -9765,9 +9790,9 @@
             Interest-free quota
             </summary>
         </member>
-        <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.CollateralRestricted">
+        <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.CollateralRestrictionStatus">
             <summary>
-            Platform level collateralized borrow restriction
+            Collateral restriction status
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Public.OKXDiscountInfo.DiscountLevel">
