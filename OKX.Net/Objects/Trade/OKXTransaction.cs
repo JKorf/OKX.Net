@@ -154,4 +154,10 @@ public record OKXTransaction
     /// </summary>
     [JsonPropertyName("subType")]
     public string TransactionType { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Quote asset
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcy")]
+    public string TradeQuoteAsset { get; set; } = string.Empty;
 }
