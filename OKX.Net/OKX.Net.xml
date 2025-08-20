@@ -265,7 +265,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositions(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositionsAsync(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiExchangeData.GetTickersAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Threading.CancellationToken)">
@@ -4603,7 +4603,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositions(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading.GetLeadTraderCurrentLeadPositionsAsync(System.String,System.String,System.String,System.String,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get current leading positions of lead trader.
             <para><a href="https://www.okx.com/docs-v5/zh/#order-book-trading-copy-trading-get-lead-trader-current-lead-positions" /></para>
@@ -8280,16 +8280,6 @@
         <member name="P:OKX.Net.Objects.CopyTrading.OKXCurrentSubposition.UnrealizedProfitAndLossRatio">
             <summary>
             Unrealized profit and loss ratio
-            </summary>
-        </member>
-        <member name="T:OKX.Net.Objects.Core.OKXRestApiError">
-            <summary>
-            API error
-            </summary>
-        </member>
-        <member name="M:OKX.Net.Objects.Core.OKXRestApiError.#ctor(System.Nullable{System.Int32},System.String,System.Exception)">
-            <summary>
-            ctor
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Core.OKXRestApiResponse">
