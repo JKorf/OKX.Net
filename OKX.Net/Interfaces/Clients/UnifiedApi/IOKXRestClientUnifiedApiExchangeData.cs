@@ -176,7 +176,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="period">Kline interval</param>
     /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="limit">Number of results per request. The maximum is 300; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXKline[]>> GetKlineHistoryAsync(string symbol, KlineInterval period, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
