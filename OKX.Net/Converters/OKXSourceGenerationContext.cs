@@ -145,6 +145,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSupportCoins>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXTakerFlow>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXCopyTradingAccount[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKXCurrentSubposition[]>))]
     [JsonSerializable(typeof(IDictionary<string, object>))]
     [JsonSerializable(typeof(OKXMiniKline[]))]
     [JsonSerializable(typeof(OKXAccountBalanceDetail[]))]
