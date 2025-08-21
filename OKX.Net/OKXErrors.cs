@@ -14,7 +14,7 @@ namespace OKX.Net
             new ErrorInfo(ErrorType.Unauthorized, false, "API key does not match the environment", "50101"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Passphrase invalid", "50105"),
             new ErrorInfo(ErrorType.Unauthorized, false, "IP address not allowed", "50110"),
-            new ErrorInfo(ErrorType.Unauthorized, false, "API key invalid", "50111", "50119"),
+            new ErrorInfo(ErrorType.Unauthorized, false, "API key invalid", "50111", "50119", "60005"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Authorization invalid", "50114"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Insufficient permissions", "50120"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Not allowed", "51024"),
@@ -84,7 +84,7 @@ namespace OKX.Net
 
             new ErrorInfo(ErrorType.DuplicateClientOrderId, false, "Duplicate client order id", "50071", "51016", "51065", "52909", "70301"),
 
-            new ErrorInfo(ErrorType.UnknownSymbol, false, "Unknown symbol", "51001", "58009", "70004"),
+            new ErrorInfo(ErrorType.UnknownSymbol, false, "Unknown symbol", "51001", "58009", "70004", "60018"),
             new ErrorInfo(ErrorType.UnknownSymbol, false, "Symbol does not match instrument type", "51015"),
 
             new ErrorInfo(ErrorType.UnknownOrder, false, "Unknown order", "51063", "51603", "52907", "52908"),
