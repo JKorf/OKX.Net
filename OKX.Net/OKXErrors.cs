@@ -12,9 +12,9 @@ namespace OKX.Net
         public static ErrorMapping ErrorMapping { get; } = new ErrorMapping([
 
             new ErrorInfo(ErrorType.Unauthorized, false, "API key does not match the environment", "50101"),
-            new ErrorInfo(ErrorType.Unauthorized, false, "Passphrase invalid", "50105"),
+            new ErrorInfo(ErrorType.Unauthorized, false, "Passphrase invalid", "50105", "60024"),
             new ErrorInfo(ErrorType.Unauthorized, false, "IP address not allowed", "50110"),
-            new ErrorInfo(ErrorType.Unauthorized, false, "API key invalid", "50111", "50119", "60005"),
+            new ErrorInfo(ErrorType.Unauthorized, false, "API key invalid", "50111", "50119", "60005", "60032"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Authorization invalid", "50114"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Insufficient permissions", "50120"),
             new ErrorInfo(ErrorType.Unauthorized, false, "Not allowed", "51024"),
