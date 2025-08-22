@@ -54,6 +54,13 @@ namespace OKX.Net.Clients
         }
 
         /// <inheritdoc />
+        public void ClearUserClients(string userIdentifier)
+        {
+            _restClients.TryRemove(userIdentifier, out _);
+            _socketClients.TryRemove(userIdentifier, out _);
+        }
+
+        /// <inheritdoc />
         public IOKXRestClient GetRestClient(string userIdentifier, ApiCredentials? credentials = null, OKXEnvironment? environment = null)
         {
             if (!_restClients.TryGetValue(userIdentifier, out var client))
