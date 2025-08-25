@@ -91,6 +91,9 @@
         <member name="M:OKX.Net.Clients.OKXUserClientProvider.InitializeUserClient(System.String,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.OKXUserClientProvider.ClearUserClients(System.String)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.OKXUserClientProvider.GetRestClient(System.String,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
             <inheritdoc />
         </member>
@@ -118,7 +121,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.GetTimeOffset">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.TryParseError(System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.TryParseError(CryptoExchange.Net.Objects.RequestDefinition,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.ParseErrorResponse(System.Int32,System.Collections.Generic.KeyValuePair{System.String,System.String[]}[],CryptoExchange.Net.Interfaces.IMessageAccessor,System.Exception)">
@@ -4017,6 +4020,11 @@
             <param name="userIdentifier">The identifier for the user</param>
             <param name="credentials">The credentials for the user</param>
             <param name="environment">The environment to use</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.IOKXUserClientProvider.ClearUserClients(System.String)">
+            <summary>
+            Reset the cached clients for a user. This can be useful when a user changes API credentials.
+            </summary>
         </member>
         <member name="M:OKX.Net.Interfaces.Clients.IOKXUserClientProvider.GetRestClient(System.String,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
             <summary>

@@ -21,7 +21,7 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<OKXOrderBook[]>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
     }
 
-    public override Query? GetSubQuery(SocketConnection connection)
+    protected override Query? GetSubQuery(SocketConnection connection)
     {
         return new OKXQuery(_client, new OKXSocketRequest
         {
@@ -30,7 +30,7 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         }, false);
     }
 
-    public override Query? GetUnsubQuery()
+    protected override Query? GetUnsubQuery(SocketConnection connection)
     {
         return new OKXQuery(_client, new OKXSocketRequest
         {
