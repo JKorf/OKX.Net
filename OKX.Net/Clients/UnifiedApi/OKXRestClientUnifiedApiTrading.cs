@@ -194,12 +194,23 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendGetSingleAsync<OKXOrderCancelResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderCancelResponse[]>>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
 
         if (!result)
-            return result;
+            return result.As<OKXOrderCancelResponse>(default);
 
-        return result;
+        if (result.Data.ErrorCode != 1)
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage)));
+
+        var order = result.Data.Data?.FirstOrDefault();
+        if (order == null)
+            // Shouldn't happen with error code 1
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(ErrorInfo.Unknown));
+
+        if (order.Code != 0)
+            return result.AsErrorWithData<OKXOrderCancelResponse>(new ServerError(order.Code, _baseClient.GetErrorInfo(order.Code, order.Message)), order);
+
+        return result.As(result.Data.Data!.First());
     }
 
     /// <inheritdoc />
