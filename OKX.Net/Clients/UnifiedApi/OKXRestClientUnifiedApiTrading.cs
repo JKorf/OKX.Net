@@ -199,12 +199,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (!result)
             return result.As<OKXOrderCancelResponse>(default);
 
-        if (result.Data.ErrorCode != 1)
+        if (result.Data.ErrorCode != 0 && result.Data.ErrorCode != 1)
             return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage)));
 
         var order = result.Data.Data?.FirstOrDefault();
         if (order == null)
-            // Shouldn't happen with error code 1
+            // Shouldn't happen with error code 0/1
             return result.AsError<OKXOrderCancelResponse>(new ServerError(ErrorInfo.Unknown));
 
         if (order.Code != 0)
