@@ -10329,6 +10329,11 @@
             Symbol code
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.PreMarketSwitchTime">
+            <summary>
+            Timestamp the market is switched from pre-market mode to normal mode
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund

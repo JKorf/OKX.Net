@@ -218,4 +218,9 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("instIdCode")]
     public int SymbolCode { get; set; }
+    /// <summary>
+    /// Timestamp the market is switched from pre-market mode to normal mode
+    /// </summary>
+    [JsonPropertyName("preMktSwTime")]
+    public DateTime? PreMarketSwitchTime { get; set; }
 }
