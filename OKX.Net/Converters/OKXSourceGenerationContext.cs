@@ -15,6 +15,7 @@ using OKX.Net.Objects.Trading;
 
 namespace OKX.Net.Converters
 {
+    [JsonSerializable(typeof(OKXConnectionCount))]
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderPlaceResponse>))]
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderCancelResponse>))]
     [JsonSerializable(typeof(OKXSocketResponse<OKXOrderAmendResponse>))]

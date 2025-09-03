@@ -9,6 +9,7 @@ using OKX.Net.Objects;
 using OKX.Net.Objects.Options;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
+using OKX.Net.Objects.Sockets.Subscriptions;
 using System.IO;
 using System.IO.Compression;
 using System.Net.WebSockets;
@@ -51,6 +52,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         ProcessUnparsableMessages = true;
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
+
+        AddSystemSubscription(new OKXConnCountSubscription(_logger));
 
         RegisterPeriodicQuery(
             "Ping",
