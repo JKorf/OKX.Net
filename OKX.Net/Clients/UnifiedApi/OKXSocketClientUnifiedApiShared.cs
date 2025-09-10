@@ -183,7 +183,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         Fee = update.Data.Fee == null ? null : Math.Abs(update.Data.Fee.Value),
                         LastTrade = update.Data.TradeId == null ? null : new SharedUserTrade(ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol), update.Data.Symbol, update.Data.OrderId.ToString()!, update.Data.TradeId.ToString()!, update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,  update.Data.QuantityFilled!.Value, update.Data.FillPrice!.Value, update.Data.FillTime!.Value)
                         {
-                            Fee = update.Data.FillFee,
+                            Fee = Math.Abs(update.Data.FillFee),
                             FeeAsset = update.Data.FillFeeAsset,
                             Role = update.Data.ExecutionType == "T" ? SharedRole.Taker : SharedRole.Maker
                         }
