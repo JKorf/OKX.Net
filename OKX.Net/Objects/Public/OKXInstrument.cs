@@ -1,6 +1,4 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using OKX.Net.Enums;
-using System.Collections.Generic;
 
 namespace OKX.Net.Objects.Public;
 
@@ -217,7 +215,7 @@ public record OKXInstrument
     /// Symbol code
     /// </summary>
     [JsonPropertyName("instIdCode")]
-    public int SymbolCode { get; set; }
+    public long SymbolCode { get; set; }
     /// <summary>
     /// Timestamp the market is switched from pre-market mode to normal mode
     /// </summary>
