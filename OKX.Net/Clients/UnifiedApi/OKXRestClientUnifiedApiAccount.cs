@@ -803,7 +803,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddEnum("side", BorrowRepaySide);
         parameters.AddString("amt", quantity);
         var request = _definitions.GetOrCreate(HttpMethod.Post, "/api/v5/account/spot-manual-borrow-repay", OKXExchange.RateLimiter.EndpointGate, 1, true,
-            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(3), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendGetSingleAsync<OKXBorrowRepayResult>(request, parameters, ct).ConfigureAwait(false);
         return result;
     }
