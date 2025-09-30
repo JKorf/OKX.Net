@@ -173,6 +173,18 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.8.0 - 30 Sep 2025
+    * Updated CryptoExchange.Net version to 9.8.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
+    * Added ITrackerFactory to TrackerFactory implementation
+    * Added ContractAddress mapping in Shared IAssetClient implementation
+    * Added restClient.UnifiedApi.Account.SetSettleAssetAsync endpoint
+    * Added SettleAsset and SettleAssetList peroperties to OKXAccountConfiguration response model
+    * Added restClient.UnifiedApi.Account.SetFeeTypeAsync endpoint
+    * Added FeeType property to OKXAccountConfiguration response model
+    * Added EarnQuantity and EarnApr properties to OKXAccountBill response model
+    * Updated restClient.UnifiedApi.Account.ManualBorrowRepayAsync ratelimit
+    * Fixed deserialization error GetSymbolsAsync in Demo environment
+
 * Version 3.7.1 - 10 Sep 2025
     * Added socket system subscription for connection count message, resolving warning log
     * Fixed fee in Shared socket order update being negative value
