@@ -149,4 +149,10 @@ public record OKXAccountConfiguration
     /// </summary>
     [JsonPropertyName("type")]
     public UserAccountType AccountType { get; set; }
+
+    /// <summary>
+    /// Spot fee charging type
+    /// </summary>
+    [JsonPropertyName("feeType")]
+    public FeeType FeeType { get; set; }
 }
