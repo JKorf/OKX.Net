@@ -860,4 +860,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     #endregion
+
+    #region Get Symbols
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXFeeType>> SetFeeTypeAsync(FeeType feeType, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddEnum("feeType", feeType);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/account/set-fee-type", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXFeeType>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    #endregion
 }

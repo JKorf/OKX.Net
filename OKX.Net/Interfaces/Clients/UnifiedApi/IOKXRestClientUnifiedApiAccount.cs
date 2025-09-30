@@ -560,4 +560,11 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     Task<WebCallResult<Objects.Public.OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
+    /// <summary>
+    /// Set fee charge type for spot trading
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-fee-type" /></para>
+    /// </summary>
+    /// <param name="feeType">Fee type</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<OKXFeeType>> SetFeeTypeAsync(FeeType feeType, CancellationToken ct = default);
 }

@@ -43,6 +43,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXSocketUpdate<OKXAlgoOrderUpdate[]>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSettlementPrice[]>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSettlementInfo[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKXFeeType[]>))]
 
     // End manual defined attributes
 
