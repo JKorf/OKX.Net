@@ -202,4 +202,14 @@ public record OKXAccountBill
     /// </summary>
     [JsonPropertyName("fillTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? FillTime { get; set; }
+    /// <summary>
+    /// Earn quantity
+    /// </summary>
+    [JsonPropertyName("earnAmt")]
+    public decimal? EarnQuantity { get; set; }
+    /// <summary>
+    /// Earn APR
+    /// </summary>
+    [JsonPropertyName("earnApr")]
+    public decimal? EarnApr { get; set; }
 }
