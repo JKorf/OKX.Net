@@ -44,6 +44,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSettlementPrice[]>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXSettlementInfo[]>))]
     [JsonSerializable(typeof(OKXRestApiResponse<OKXFeeType[]>))]
+    [JsonSerializable(typeof(OKXRestApiResponse<OKXSettleAsset[]>))]
 
     // End manual defined attributes
 

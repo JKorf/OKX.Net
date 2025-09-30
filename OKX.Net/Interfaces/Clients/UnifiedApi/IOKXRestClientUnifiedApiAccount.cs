@@ -567,4 +567,12 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="feeType">Fee type</param>
     /// <param name="ct">Cancellation Token</param>
     Task<WebCallResult<OKXFeeType>> SetFeeTypeAsync(FeeType feeType, CancellationToken ct = default);
+
+    /// <summary>
+    /// Set settlement asset for USD contracts
+    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-settle-currency" /></para>
+    /// </summary>
+    /// <param name="settleAsset">The settlement asset</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<OKXSettleAsset>> SetSettleAssetAsync(string settleAsset, CancellationToken ct = default);
 }
