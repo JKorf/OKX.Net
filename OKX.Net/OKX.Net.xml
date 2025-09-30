@@ -265,6 +265,12 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetSymbolsAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetFeeTypeAsync(OKX.Net.Enums.FeeType,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.SetSettleAssetAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiCopyTrading.GetAccountConfigurationAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -824,6 +830,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.NullableFeeRateCategory">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.FeeType">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1393,6 +1404,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXFeeType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXFeeTypeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXFiatFee">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1509,6 +1530,16 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXPresetAccountModeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSettleAsset">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXSettleAssetArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1668,6 +1699,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXFeeTypeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXInterestAccruedArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1709,6 +1745,11 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXPresetAccountModeArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.OKXRestApiResponseOKXSettleAssetArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -4628,6 +4669,22 @@
             <param name="instrumentFamily">Instrument family</param>
             <param name="ct">Cancellation Token</param>
         </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetFeeTypeAsync(OKX.Net.Enums.FeeType,System.Threading.CancellationToken)">
+            <summary>
+            Set fee charge type for spot trading
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-fee-type" /></para>
+            </summary>
+            <param name="feeType">Fee type</param>
+            <param name="ct">Cancellation Token</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.SetSettleAssetAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Set settlement asset for USD contracts
+            <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-settle-currency" /></para>
+            </summary>
+            <param name="settleAsset">The settlement asset</param>
+            <param name="ct">Cancellation Token</param>
+        </member>
         <member name="T:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiCopyTrading">
             <summary>
             Copy trading endpoints
@@ -6120,25 +6177,6 @@
             Tracker factory
             </summary>
         </member>
-        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
-            <summary>
-            Create a new kline tracker
-            </summary>
-            <param name="symbol">The symbol</param>
-            <param name="interval">Kline interval</param>
-            <param name="limit">The max amount of klines to retain</param>
-            <param name="period">The max period the data should be retained</param>
-            <returns></returns>
-        </member>
-        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
-            <summary>
-            Create a new trade tracker for a symbol
-            </summary>
-            <param name="symbol">The symbol</param>
-            <param name="limit">The max amount of klines to retain</param>
-            <param name="period">The max period the data should be retained</param>
-            <returns></returns>
-        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBalance">
             <summary>
             Account balance
@@ -6589,6 +6627,16 @@
             Last fill time
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.EarnQuantity">
+            <summary>
+            Earn quantity
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountBill.EarnApr">
+            <summary>
+            Earn APR
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountConfiguration">
             <summary>
             Account config
@@ -6707,6 +6755,21 @@
         <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.AccountType">
             <summary>
             Account type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.FeeType">
+            <summary>
+            Spot fee charging type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.SettleAsset">
+            <summary>
+            The settlement asset for USD contracts
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXAccountConfiguration.SettleAssetList">
+            <summary>
+            Available settlement assets for USD contracts
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountGreeksType">
@@ -7272,6 +7335,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXFiatFee.MakerFeeRate">
             <summary>
             Maker fee
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXFeeType">
+            <summary>
+            Fee type
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXFeeType.FeeType">
+            <summary>
+            Fee type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXInterestAccrued">
@@ -8087,6 +8160,16 @@
         <member name="P:OKX.Net.Objects.Account.OKXPresetAccountMode.RiskOffsetType">
             <summary>
             Risk offset type
+            </summary>
+        </member>
+        <member name="T:OKX.Net.Objects.Account.OKXSettleAsset">
+            <summary>
+            Settlement asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Account.OKXSettleAsset.SettleAsset">
+            <summary>
+            Settlement asset
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Account.OKXWithdrawalAmount">
@@ -12909,6 +12992,12 @@
             ctor
             </summary>
             <param name="serviceProvider">Service provider for resolving logging and clients</param>
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CanCreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CanCreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol)">
+            <inheritdoc />
         </member>
         <member name="M:OKX.Net.OKXTrackerFactory.CreateKlineTracker(CryptoExchange.Net.SharedApis.SharedSymbol,CryptoExchange.Net.SharedApis.SharedKlineInterval,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <inheritdoc />

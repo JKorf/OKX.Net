@@ -557,7 +557,8 @@ namespace OKX.Net.Clients.UnifiedApi
                     DepositEnabled = x.AllowDeposit,
                     MinWithdrawQuantity = x.MinimumWithdrawalAmount,
                     WithdrawEnabled = x.AllowWithdrawal,
-                    WithdrawFee = x.MinimumWithdrawalFee
+                    WithdrawFee = x.MinimumWithdrawalFee,
+                    ContractAddress = x.ContractAddress,
                 }).ToArray()
             });
         }
@@ -582,7 +583,8 @@ namespace OKX.Net.Clients.UnifiedApi
                     DepositEnabled = x.AllowDeposit,
                     MinWithdrawQuantity = x.MinimumWithdrawalAmount,
                     WithdrawEnabled = x.AllowWithdrawal,
-                    WithdrawFee = x.MinimumWithdrawalFee
+                    WithdrawFee = x.MinimumWithdrawalFee,
+                    ContractAddress = x.ContractAddress,
                 }).ToArray()
             }).ToArray());
         }

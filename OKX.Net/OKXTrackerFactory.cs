@@ -32,6 +32,16 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
+        public bool CanCreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval)
+        {
+            var client = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient());
+            return client.UnifiedApi.SharedClient.SubscribeKlineOptions.IsSupported(interval);
+        }
+
+        /// <inheritdoc />
+        public bool CanCreateTradeTracker(SharedSymbol symbol) => true;
+
+        /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null)
         {
             var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedClient;

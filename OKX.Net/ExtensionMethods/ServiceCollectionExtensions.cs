@@ -104,6 +104,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
             services.AddTransient<IOKXTrackerFactory, OKXTrackerFactory>();
+            services.AddTransient<ITrackerFactory, OKXTrackerFactory>();
             services.AddSingleton<IOKXUserClientProvider, OKXUserClientProvider>(x =>
             new OKXUserClientProvider(
                 x.GetRequiredService<HttpClient>(),
