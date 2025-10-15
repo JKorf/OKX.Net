@@ -221,19 +221,31 @@ namespace OKX.Net.Clients.UnifiedApi
         #endregion
 
         #region Balance client
-        EndpointOptions<GetBalancesRequest> IBalanceRestClient.GetBalancesOptions { get; } = new EndpointOptions<GetBalancesRequest>(true);
+        GetBalancesOptions IBalanceRestClient.GetBalancesOptions { get; } = new GetBalancesOptions(
+            AccountTypeFilter.Funding, AccountTypeFilter.Spot, AccountTypeFilter.Futures, AccountTypeFilter.Margin, AccountTypeFilter.Option);
 
         async Task<ExchangeWebResult<SharedBalance[]>> IBalanceRestClient.GetBalancesAsync(GetBalancesRequest request, CancellationToken ct)
         {
-            var validationError = ((IBalanceRestClient)this).GetBalancesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
+            var validationError = ((IBalanceRestClient)this).GetBalancesOptions.ValidateRequest(Exchange, request, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeWebResult<SharedBalance[]>(Exchange, validationError);
 
-            var result = await Account.GetAccountBalanceAsync(ct: ct).ConfigureAwait(false);
-            if (!result)
-                return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
+            if (request.AccountType != SharedAccountType.Funding)
+            {
+                var result = await Account.GetAccountBalanceAsync(ct: ct).ConfigureAwait(false);
+                if (!result)
+                    return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
 
-            return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, result.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray());
+                return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, result.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray());
+            }
+            else
+            {
+                var result = await Account.GetFundingBalanceAsync(ct: ct).ConfigureAwait(false);
+                if (!result)
+                    return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
+
+                return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, result.Data.Select(x => new SharedBalance(x.Asset, x.Available, x.Balance)).ToArray());
+            }
         }
 
         #endregion
@@ -426,6 +438,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee.HasValue ? Math.Abs(x.Fee.Value) : null,
                 FeeAsset = x.FeeAsset,
                 Role = x.OrderFlowType == OrderFlowType.Maker ? SharedRole.Maker : SharedRole.Taker
@@ -472,6 +485,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee.HasValue ? Math.Abs(x.Fee.Value) : null,
                 FeeAsset = x.FeeAsset,
                 Role = x.OrderFlowType == OrderFlowType.Maker ? SharedRole.Maker : SharedRole.Taker
@@ -1044,6 +1058,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee == null ? null : Math.Abs(x.Fee.Value),
                 FeeAsset = x.FeeAsset,
                 Role = x.OrderFlowType == OrderFlowType.Maker ? SharedRole.Maker : SharedRole.Taker
@@ -1107,6 +1122,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
+                ClientOrderId = x.ClientOrderId,
                 Fee = x.Fee == null ? null : Math.Abs(x.Fee.Value),
                 FeeAsset = x.FeeAsset,
                 Role = x.OrderFlowType == OrderFlowType.Maker ? SharedRole.Maker : SharedRole.Taker
@@ -1969,5 +1985,44 @@ namespace OKX.Net.Clients.UnifiedApi
         }
         #endregion
 
+        #region Transfer client
+
+        TransferOptions ITransferRestClient.TransferOptions { get; } = new TransferOptions([
+            SharedAccountType.Funding,
+            SharedAccountType.Unified
+            ]);
+        async Task<ExchangeWebResult<SharedId>> ITransferRestClient.TransferAsync(TransferRequest request, CancellationToken ct)
+        {
+            var validationError = ((ITransferRestClient)this).TransferOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
+            if (validationError != null)
+                return new ExchangeWebResult<SharedId>(Exchange, validationError);
+
+            var fromType = GetTransferType(request.FromAccountType);
+            var toType = GetTransferType(request.ToAccountType);
+            if (fromType == null || toType == null)
+                return new ExchangeWebResult<SharedId>(Exchange, ArgumentError.Invalid("To/From AccountType", "invalid to/from account combination"));
+
+            // Get data
+            var transfer = await Account.TransferAsync(
+                request.Asset,
+                request.Quantity,
+                TransferType.TransferWithinAccount,
+                fromType.Value,
+                toType.Value,
+                ct: ct).ConfigureAwait(false);
+            if (!transfer)
+                return transfer.AsExchangeResult<SharedId>(Exchange, null, default);
+
+            return transfer.AsExchangeResult(Exchange, TradingMode.Spot, new SharedId(transfer.Data.TransferId?.ToString() ?? ""));
+        }
+
+        private AccountType? GetTransferType(SharedAccountType type)
+        {
+            if (type == SharedAccountType.Funding) return AccountType.Funding;
+            if (type == SharedAccountType.Unified) return AccountType.Trading;
+            return null;
+        }
+
+        #endregion
     }
 }
