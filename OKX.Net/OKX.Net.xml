@@ -10422,6 +10422,21 @@
             Timestamp the market is switched from pre-market mode to normal mode
             </summary>
         </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.PositionLimitQuantity">
+            <summary>
+            Maximum position value (USD) for this instrument at the user level, based on the notional value of all same-direction open positions and resting orders. The effective user limit is max(posLmtAmt, oiUSD × posLmtPct). Applicable to SWAP/FUTURES.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.PositionLimitPercentage">
+            <summary>
+            Maximum position ratio (e.g., 30 for 30%) a user may hold relative to the platform’s current total position value. The effective user limit is max(posLmtAmt, oiUSD × posLmtPct). Applicable to SWAP/FUTURES.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Public.OKXInstrument.PositionPlatformLimitQuantity">
+            <summary>
+            Platform-wide maximum position value (USD) for this instrument. If the global position limit switch is enabled and platform total open interest reaches or exceeds this value, all users’ new opening orders for this instrument are rejected; otherwise, orders pass.
+            </summary>
+        </member>
         <member name="T:OKX.Net.Objects.Public.OKXInsuranceFund">
             <summary>
             Insurance fund
