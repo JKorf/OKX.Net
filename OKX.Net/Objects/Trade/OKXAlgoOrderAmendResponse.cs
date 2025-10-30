@@ -18,7 +18,6 @@ public record OKXAlgoOrderAmendResponse
     /// Client order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

@@ -18,7 +18,6 @@ public record OKXOrderCancelResponse
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string ClientOrderId { get; set; } = string.Empty;
 
     /// <summary>

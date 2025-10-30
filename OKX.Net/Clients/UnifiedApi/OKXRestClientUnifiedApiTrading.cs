@@ -44,14 +44,13 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         CancellationToken ct = default)
     {
-        clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection {
             {"instId", symbol },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) },
-            {"tag", tag ?? OKXExchange.ClientOrderId },
-            {"clOrdId",  clientOrderId },
+            {"tag", !string.IsNullOrEmpty(tag) ? tag! : LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange) }
         };
+
+        parameters.AddOptional("clOrdId", clientOrderId);
         parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
@@ -67,7 +66,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if (attachedAlgoOrders != null)
         {
             foreach (var attachOrder in attachedAlgoOrders)
-                attachOrder.ClientOrderId = LibraryHelpers.ApplyBrokerId(attachOrder.ClientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
+                attachOrder.ClientOrderId = LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange);
         }
         parameters.AddOptional("attachAlgoOrds", attachedAlgoOrders?.ToArray());
 
@@ -147,11 +146,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     public virtual async Task<WebCallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
     {
         foreach (var order in orders)
-        {
-            var clientOrderId = LibraryHelpers.ApplyBrokerId(order.ClientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-            order.Tag = OKXExchange.ClientOrderId;
-            order.ClientOrderId = clientOrderId;
-        }
+            order.Tag = LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange);
 
         var parameters = new ParameterCollection();
         parameters.SetBody(orders.ToArray());
@@ -183,9 +178,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
     {
-        if (clientOrderId != null)
-            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection {
             {"instId", symbol },
         };
@@ -261,9 +253,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         TriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default)
     {
-        if (clientOrderId != null)
-            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection
         {
             { "instId", symbol },
@@ -309,13 +298,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? clientOrderId = null,
         CancellationToken ct = default)
     {
-        clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"tag", OKXExchange.ClientOrderId },
-            {"clOrdId", clientOrderId }
+            {"tag", LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange) }
         };
+        parameters.AddOptional("clOrdId", clientOrderId);
         parameters.AddEnum("mgnMode", marginMode);
         parameters.AddOptionalEnum("posSide", positionSide);
         parameters.AddOptionalParameter("ccy", asset);
@@ -333,9 +320,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? clientOrderId = null,
         CancellationToken ct = default)
     {
-        if (clientOrderId != null)
-            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection {
             {"instId", symbol },
         };
@@ -572,13 +556,11 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         CancellationToken ct = default)
     {
-        clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection {
             {"instId", symbol },
-            {"tag", OKXExchange.ClientOrderId },
-            {"clOrdId", clientOrderId }
+            {"tag", LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange) }
         };
+        parameters.AddOptional("clOrdId", clientOrderId);
         parameters.AddEnum("tdMode", tradeMode);
         parameters.AddEnum("side", orderSide);
         parameters.AddEnum("ordType", algoOrderType);
@@ -724,9 +706,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         if ((algoId == null) == (clientAlgoId == null))
             throw new ArgumentException("Either algoId or clientAlgoId needs to be provided");
 
-        if (clientAlgoId != null)
-            clientAlgoId = LibraryHelpers.ApplyBrokerId(clientAlgoId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new ParameterCollection();
         parameters.AddOptional("algoId", algoId);
         parameters.AddOptional("algoClOrdId", clientAlgoId);
@@ -754,9 +733,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     {
         if ((algoId == null) == (clientAlgoId == null))
             throw new ArgumentException("Either algoId or clientAlgoId needs to be provided");
-
-        if (clientAlgoId != null)
-            clientAlgoId = LibraryHelpers.ApplyBrokerId(clientAlgoId, OKXExchange.ClientOrderId, 32, _baseClient.ClientOptions.AllowAppendingClientOrderId);
 
         var parameters = new ParameterCollection
         {

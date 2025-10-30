@@ -44,7 +44,6 @@ public record OKXAlgoOrder
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
@@ -282,7 +281,6 @@ public record OKXAlgoOrder
     /// Client algo order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? AlgoClientOrderId { get; set; }
 
     /// <summary>

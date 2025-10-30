@@ -26,7 +26,6 @@ public record OKXClosePositionResponse
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

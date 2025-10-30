@@ -38,7 +38,6 @@ public record OKXTransaction
     /// Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
-    [JsonConverter(typeof(OKXClientIdConverter))]
     public string? ClientOrderId { get; set; }
 
     /// <summary>

@@ -53,11 +53,9 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
-        clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
-
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
-        parameters.AddOptionalParameter("tag", OKXExchange.ClientOrderId);
+        parameters.AddOptionalParameter("tag", LibraryHelpers.GetClientReference(() => _client.ClientOptions.BrokerId, _client.Exchange));
         parameters.AddOptionalParameter("posSide", EnumConverter.GetString(positionSide));
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
@@ -81,10 +79,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     public async Task<CallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default)
     {
         foreach (var order in orders)
-        {
-            order.Tag = OKXExchange.ClientOrderId;
-            order.ClientOrderId = LibraryHelpers.ApplyBrokerId(order.ClientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
-        }
+            order.Tag = LibraryHelpers.GetClientReference(() => _client.ClientOptions.BrokerId, _client.Exchange);        
 
         var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "batch-orders", orders.ToArray(), true, 1, ct).ConfigureAwait(false);
         var ordersResult = new List<CallResult<OKXOrderPlaceResponse>>();
@@ -105,9 +100,6 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     /// <inheritdoc />
     public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
     {
-        if (clientOrderId != null)
-            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new Dictionary<string, object>()
         {
             { "instId", symbol }
@@ -142,9 +134,6 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         decimal? newPrice = null,
         CancellationToken ct = default)
     {
-        if (clientOrderId != null)
-            clientOrderId = LibraryHelpers.ApplyBrokerId(clientOrderId, OKXExchange.ClientOrderId, 32, _client.ClientOptions.AllowAppendingClientOrderId);
-
         var parameters = new Dictionary<string, object>
         {
             { "instId", symbol },
