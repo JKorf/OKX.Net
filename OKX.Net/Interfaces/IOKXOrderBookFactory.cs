@@ -6,7 +6,7 @@ namespace OKX.Net.Interfaces;
 /// <summary>
 /// Order book factory
 /// </summary>
-public interface IOKXOrderBookFactory
+public interface IOKXOrderBookFactory : IExchangeService
 {
     /// <summary>
     /// Unified API order book factory methods

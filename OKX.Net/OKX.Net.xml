@@ -77,6 +77,9 @@
         <member name="T:OKX.Net.Clients.OKXUserClientProvider">
             <inheritdoc />
         </member>
+        <member name="P:OKX.Net.Clients.OKXUserClientProvider.ExchangeName">
+            <inheritdoc />
+        </member>
         <member name="M:OKX.Net.Clients.OKXUserClientProvider.#ctor(System.Action{OKX.Net.Objects.Options.OKXOptions})">
             <summary>
             ctor
@@ -13006,6 +13009,9 @@
             <inheritdoc />
         </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
+            <inheritdoc />
+        </member>
+        <member name="P:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.ExchangeName">
             <inheritdoc />
         </member>
         <member name="P:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory.Unified">

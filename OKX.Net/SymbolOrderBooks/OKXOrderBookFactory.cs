@@ -13,6 +13,9 @@ namespace OKX.Net.SymbolOrderBooks
         private readonly IServiceProvider _serviceProvider;
 
         /// <inheritdoc />
+        public string ExchangeName => OKXExchange.ExchangeName;
+
+        /// <inheritdoc />
         public IOrderBookFactory<OKXOrderBookOptions> Unified { get; }
 
         /// <summary>
