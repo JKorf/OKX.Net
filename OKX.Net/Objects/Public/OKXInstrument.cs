@@ -215,7 +215,7 @@ public record OKXInstrument
     /// Symbol code
     /// </summary>
     [JsonPropertyName("instIdCode")]
-    public long SymbolCode { get; set; }
+    public long? SymbolCode { get; set; }
     /// <summary>
     /// Timestamp the market is switched from pre-market mode to normal mode
     /// </summary>
