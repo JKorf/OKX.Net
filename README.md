@@ -175,6 +175,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 3.11.1 - 25 Nov 2025
+    * Fixed deserialization issue in restClient.UnifiedApi.ExchangeData.GetSymbolsAsync
+
 * Version 3.11.0 - 11 Nov 2025
     * Updated CryptoExchange.Net version to 9.13.0, see https://github.com/JKorf/CryptoExchange.Net/releases/
 
