@@ -1,12 +1,16 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
+using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
 using System;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
@@ -17,6 +21,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
     private static TimeSyncState _timeSyncState = new("Unified Api");
 
+    protected override IRestMessageHandler MessageHandler { get; } = new OKXRestMessageHandler(OKXErrors.ErrorMapping);
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
     #endregion
 
@@ -104,7 +109,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
         => _timeSyncState.TimeOffset;
 
     /// <inheritdoc />
-    protected override Error? TryParseError(RequestDefinition request, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
+    protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
     {
         if (!accessor.IsValid)
             return new ServerError(ErrorInfo.Unknown);
@@ -123,7 +128,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     }
 
     /// <inheritdoc />
-    protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
+    protected override Error ParseErrorResponse(int httpStatusCode, HttpResponseHeaders responseHeaders, IMessageAccessor accessor, Exception? exception)
     {
         if (!accessor.IsValid)
             return new ServerError(ErrorInfo.Unknown, exception: exception);

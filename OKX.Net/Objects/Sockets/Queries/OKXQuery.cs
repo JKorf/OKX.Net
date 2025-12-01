@@ -20,6 +20,7 @@ internal class OKXQuery : Query<OKXSocketResponse>
         }
 
         MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(ids, HandleMessage);
+        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketResponse>(request.Op + request.Args.First().Channel, request.Args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), HandleMessage);
 
         RequiredResponses = request.Args.Count;
     }
@@ -28,13 +29,14 @@ internal class OKXQuery : Query<OKXSocketResponse>
     {
         _client = client;
         MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(["login", "error"], HandleMessage);
+        MessageRouter = MessageRouter.CreateWithoutTopicFilter<OKXSocketResponse>(["login", "error"], HandleMessage);
     }
 
-    public CallResult<OKXSocketResponse> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse> message)
+    public CallResult<OKXSocketResponse> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketResponse message)
     {
-        if (string.Equals(message.Data.Event, "error", StringComparison.Ordinal))
-            return new CallResult<OKXSocketResponse>(new ServerError(message.Data.Code!.Value, _client.GetErrorInfo(message.Data.Code.Value, message.Data.Message!)), message.OriginalData);
+        if (string.Equals(message.Event, "error", StringComparison.Ordinal))
+            return new CallResult<OKXSocketResponse>(new ServerError(message.Code!.Value, _client.GetErrorInfo(message.Code.Value, message.Message!)), originalData);
 
-        return new CallResult<OKXSocketResponse>(message.Data, message.OriginalData, null);
+        return new CallResult<OKXSocketResponse>(message, originalData, null);
     }
 }

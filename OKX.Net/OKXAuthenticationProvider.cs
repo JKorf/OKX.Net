@@ -23,10 +23,11 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
         var queryString = request.GetQueryString(true);
         if (!string.IsNullOrEmpty(queryString))
             queryString = $"?{queryString}";
-        var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters.Any() ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
+        var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters?.Count > 0 ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
         var signStr = time + request.Method + request.Path + queryString + body;
 
         var signature = SignHMACSHA256(signStr, SignOutputType.Base64);
+        request.Headers ??= new Dictionary<string, string>();
         request.Headers.Add("OK-ACCESS-KEY", _credentials.Key);
         request.Headers.Add("OK-ACCESS-SIGN", signature);
         request.Headers.Add("OK-ACCESS-TIMESTAMP", time);

@@ -1,11 +1,15 @@
 ﻿using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Testing;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using OKX.Net.Clients;
 using OKX.Net.Objects;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Funding;
 using OKX.Net.Objects.Market;
+using OKX.Net.Objects.Options;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.System;
 using OKX.Net.Objects.Trade;
@@ -15,13 +19,19 @@ namespace OKX.Net.UnitTests
     [TestFixture]
     public class SocketSubscriptionTests
     {
-        [Test]
-        public async Task ValidateExchangeDataSubscriptions()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateExchangeDataSubscriptions(bool useUpdatedDeserialization)
         {
-            var client = new OKXSocketClient(opts =>
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new TraceLoggerProvider());
+
+            var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
-            });
+                UseUpdatedDeserialization = useUpdatedDeserialization,
+                OutputOriginalData = true,
+                ApiCredentials = new ApiCredentials("123", "456", "789")
+            }), loggerFactory);
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data");
             await tester.ValidateAsync<OKXInstrument[]>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync(Enums.InstrumentType.Spot, handler), "Symbol");
             await tester.ValidateAsync<OKXTicker>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", handler), "Ticker", useFirstUpdateItem: true);
@@ -40,13 +50,18 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXStatus>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSystemStatusUpdatesAsync(handler), "SystemStatus", useFirstUpdateItem: true);
         }
 
-        [Test]
-        public async Task ValidateAccountSubscriptions()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateAccountSubscriptions(bool useUpdatedDeserialization)
         {
-            var client = new OKXSocketClient(opts =>
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new TraceLoggerProvider());
+
+            var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
-            });
+                UseUpdatedDeserialization = useUpdatedDeserialization,
+                ApiCredentials = new ApiCredentials("123", "456", "789")
+            }), loggerFactory);
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:8443", "data");
             //await tester.ValidateAsync<OKXAccountBalance>((client, handler) => client.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(null, true, handler), "Balance", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXPositionAndBalanceUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToBalanceAndPositionUpdatesAsync(handler), "BalanceAndPosition", useFirstUpdateItem: true);
@@ -54,11 +69,13 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXWithdrawalUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler), "Withdrawal", useFirstUpdateItem: true, ignoreProperties: new List<string> { "addrEx" });
         }
 
-        [Test]
-        public async Task ValidateTradingSubscriptions()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateTradingSubscriptions(bool useUpdatedDeserialization)
         {
             var client = new OKXSocketClient(opts =>
             {
+                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
             });
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data");

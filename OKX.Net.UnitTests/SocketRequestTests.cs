@@ -17,30 +17,32 @@ namespace OKX.Net.UnitTests
     [TestFixture]
     public class SocketRequestTests
     {
-        private OKXSocketClient CreateClient()
+        private OKXSocketClient CreateClient(bool useUpdateDeserialization)
         {
             var fact = new LoggerFactory();
             fact.AddProvider(new TraceLoggerProvider());
             var client = new OKXSocketClient(Options.Create(new OKXSocketOptions
             {
                 OutputOriginalData = true,
+                UseUpdatedDeserialization = useUpdateDeserialization,
                 RequestTimeout = TimeSpan.FromSeconds(5),
                 ApiCredentials = new ApiCredentials("123", "123", "123")
             }), fact);
             return client;
         }
 
-        [Test]
-        public async Task ValidateExchangeApiCalls()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateExchangeApiCalls(bool useUpdateDeserialization)
         {
             var tester = new SocketRequestValidator<OKXSocketClient>("Socket/UnifiedApi");
 
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", OrderSide.Buy, OrderType.Limit, TradeMode.Cross, 0.01m), "PlaceOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.PlaceMultipleOrdersAsync([new OKXOrderPlaceRequest()]), "PlaceMultipleOrders", nestedJsonProperty: "data", skipResponseValidation: true);
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.CancelOrderAsync("ETH-USDT", "123"), "CancelOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.CancelMultipleOrdersAsync([new OKXOrderCancelRequest()]), "CancelMultipleOrders", nestedJsonProperty: "data", ignoreProperties: [ ]);
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.AmendOrderAsync("ETH-USDT", 123), "AmendOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
-            await tester.ValidateAsync(CreateClient(), client => client.UnifiedApi.Trading.AmendMultipleOrdersAsync([new OKXOrderAmendRequest()]), "AmendMultipleOrders", nestedJsonProperty: "data", ignoreProperties: [ ]);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", OrderSide.Buy, OrderType.Limit, TradeMode.Cross, 0.01m), "PlaceOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.PlaceMultipleOrdersAsync([new OKXOrderPlaceRequest()]), "PlaceMultipleOrders", nestedJsonProperty: "data", skipResponseValidation: true);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.CancelOrderAsync("ETH-USDT", "123"), "CancelOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.CancelMultipleOrdersAsync([new OKXOrderCancelRequest()]), "CancelMultipleOrders", nestedJsonProperty: "data", ignoreProperties: [ ]);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.AmendOrderAsync("ETH-USDT", 123), "AmendOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
+            await tester.ValidateAsync(CreateClient(useUpdateDeserialization), client => client.UnifiedApi.Trading.AmendMultipleOrdersAsync([new OKXOrderAmendRequest()]), "AmendMultipleOrders", nestedJsonProperty: "data", ignoreProperties: [ ]);
         }
     }
 }

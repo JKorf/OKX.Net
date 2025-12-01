@@ -9,15 +9,16 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
 {
     private readonly SocketApiClient _client;
     private List<OKXSocketArgs> _args;
-    private Action<DataEvent<T>> _handler;
+    private Action<DateTime, string?, OKXSocketUpdate<T>> _handler;
 
-    public OKXSubscription(ILogger logger, SocketApiClient client, List<OKXSocketArgs> args, Action<DataEvent<T>> handler, bool authenticated) : base(logger, authenticated)
+    public OKXSubscription(ILogger logger, SocketApiClient client, List<OKXSocketArgs> args, Action<DateTime, string?, OKXSocketUpdate<T>> handler, bool authenticated) : base(logger, authenticated)
     {
         _client = client;
         _args = args;
         _handler = handler;
 
         MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<T>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
+        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<T>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
 
     protected override Query? GetSubQuery(SocketConnection connection)
@@ -38,9 +39,10 @@ internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketRes
         }, false);
     }
 
-    public CallResult DoHandleMessage(SocketConnection connection, DataEvent<OKXSocketUpdate<T>> message)
+    public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketUpdate<T> message)
     {
-        _handler.Invoke(message.As(message.Data.Data, message.Data.Arg.Channel, message.Data.Arg.Symbol, message.Data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+        _handler.Invoke(receiveTime, originalData, message);
+        //_handler.Invoke(message.As(message.Data.Data, message.Data.Arg.Channel, message.Data.Arg.Symbol, message.Data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
         return CallResult.SuccessResult;
     }
 }

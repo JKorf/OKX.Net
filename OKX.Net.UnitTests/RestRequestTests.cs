@@ -12,14 +12,16 @@ namespace OKX.Net.UnitTests
     [TestFixture]
     public class RestRequestTests
     {
-        [Test]
-        public async Task ValidateAccountCalls()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateAccountCalls(bool useUpdatedDeserialization)
         {
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
+                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Account", "https://www.okx.com", IsAuthenticated, "data");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetAccountBalanceAsync(), "GetAccountBalance", useSingleArrayItem: true);
@@ -69,14 +71,16 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.PrecheckAccountModeSwitchAsync(AccountLevel.SingleCurrencyMargin), "PrecheckAccountModeSwitchAsync", nestedJsonProperty: "data");
         }
 
-        [Test]
-        public async Task ValidateExchangeDataCalls()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateExchangeDataCalls(bool useUpdatedDeserialization)
         {
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
+                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/ExchangeData", "https://www.okx.com", IsAuthenticated, "data");
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot), "GetTickers");
@@ -127,14 +131,16 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.ExchangeData.GetSettlementHistoryAsync("XRP-USDT-250307"), "GetSettlementHistory");
         }
 
-        [Test]
-        public async Task ValidateSubAccountCalls()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateSubAccountCalls(bool useUpdatedDeserialization)
         {
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
+                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/SubAccounts", "https://www.okx.com", IsAuthenticated, "data");
             await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.GetSubAccountsAsync(), "GetSubAccounts");
@@ -145,14 +151,16 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.SubAccounts.TransferBetweenSubAccountsAsync("ETH", 12m, Enums.AccountType.Funding, Enums.AccountType.Funding, "123", "456"), "TransferBetweenSubAccounts", useSingleArrayItem: true);
         }
 
-        [Test]
-        public async Task ValidateTradingCalls()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ValidateTradingCalls(bool useUpdatedDeserialization)
         {
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
+                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Trading", "https://www.okx.com", IsAuthenticated, "data");
             await tester.ValidateAsync(client => client.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", Enums.OrderSide.Buy, Enums.OrderType.Limit, 1), "PlaceOrder", useSingleArrayItem: true);
