@@ -5,7 +5,7 @@ using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net.Objects.Sockets.Subscriptions;
-internal class OKXSubscription<T> : Subscription<OKXSocketResponse, OKXSocketResponse>
+internal class OKXSubscription<T> : Subscription
 {
     private readonly SocketApiClient _client;
     private List<OKXSocketArgs> _args;

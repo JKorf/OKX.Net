@@ -35,12 +35,12 @@ namespace OKX.Net.Clients.MessageHandlers
             return new ServerError(okxResponse.ErrorCode, _errorMapping.GetErrorInfo(okxResponse.ErrorCode.ToString(), okxResponse.ErrorMessage));
         }
 
-        public override async ValueTask<Error> ParseErrorResponse(int httpStatusCode, object? state, HttpResponseHeaders responseHeaders, Stream responseStream)
+        public override async ValueTask<Error> ParseErrorResponse(int httpStatusCode, HttpResponseHeaders responseHeaders, Stream responseStream)
         {
             if (httpStatusCode == 401)
                 return new ServerError(new ErrorInfo(ErrorType.Unauthorized, "Unauthorized"));
 
-            var (parseError, document) = await GetJsonDocument(responseStream, state).ConfigureAwait(false);
+            var (parseError, document) = await GetJsonDocument(responseStream).ConfigureAwait(false);
             if (parseError != null)
                 return parseError;
 
