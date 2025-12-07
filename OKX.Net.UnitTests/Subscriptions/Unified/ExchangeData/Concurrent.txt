@@ -1,0 +1,7 @@
+>1 { "op": "subscribe", "args": [{ "channel": "candle1H", "instId": "ETH-USDT" }]}
+>2 { "op": "subscribe", "args": [{ "channel": "candle1D", "instId": "ETH-USDT" }]}
+<1 { "event": "subscribe", "arg": { "channel": "candle1D", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+<2 { "event": "subscribe", "arg": { "channel": "candle1H", "instId": "ETH-USDT" }, "connId": "a4d3ae55" }
+=1 { "arg": { "channel": "candle1D", "instId": "ETH-USDT" }, "data": [[ "1597026383085" ]]}
+=2 { "arg": { "channel": "candle1H", "instId": "ETH-USDT" }, "data": [[ "1597026383085" ]]}
+

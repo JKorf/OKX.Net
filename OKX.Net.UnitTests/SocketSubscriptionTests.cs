@@ -21,6 +21,27 @@ namespace OKX.Net.UnitTests
     {
         [TestCase(false)]
         [TestCase(true)]
+        public async Task ValidateConcurrentFuturesSubscriptions(bool newDeserialization)
+        {
+            var logger = new LoggerFactory();
+            logger.AddProvider(new TraceLoggerProvider());
+
+            var client = new OKXSocketClient(Options.Create(new OKXSocketOptions
+            {
+                OutputOriginalData = true,
+                UseUpdatedDeserialization = newDeserialization,
+                
+            }), logger);
+
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data");
+            await tester.ValidateConcurrentAsync<OKXKline>(
+                (client, handler) => client.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", Enums.KlineInterval.OneDay, handler),
+                (client, handler) => client.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", Enums.KlineInterval.OneHour, handler),
+                "Concurrent");
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
         public async Task ValidateExchangeDataSubscriptions(bool useUpdatedDeserialization)
         {
             var loggerFactory = new LoggerFactory();

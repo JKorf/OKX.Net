@@ -15,48 +15,43 @@ namespace OKX.Net.Clients.MessageHandlers
             AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol);
         }
 
-        protected override MessageEvaluator[] TypeEvaluators { get; } = [
+        protected override MessageTypeDefinition[] TypeEvaluators { get; } = [
 
-            new MessageEvaluator {
-                Priority = 1,
+            new MessageTypeDefinition {
                 ForceIfFound = true,
                 Fields = [
                     new PropertyFieldReference("id"),
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("id")!
+                TypeIdentifierCallback = x => x.FieldValue("id")!
             },
 
-            new MessageEvaluator {
-                Priority = 2,
+            new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("event") { Constraint = x => x!.Equals("error", StringComparison.Ordinal) },
+                    new PropertyFieldReference("event").WithEqualContstraint("error"),
                 ],
-                IdentifyMessageCallback = x => "error"! // TODO
+                TypeIdentifierCallback = x => "error"! // TODO
             },
 
-            new MessageEvaluator {
-                Priority = 3,
+            new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("event"),
                     new PropertyFieldReference("channel") { Depth = 2 },
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("event")! + x.FieldValue("channel")!
+                TypeIdentifierCallback = x => x.FieldValue("event")! + x.FieldValue("channel")!
             },
 
-            new MessageEvaluator {
-                Priority = 4,
+            new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("channel") { Depth = 2 },
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("channel")!
+                TypeIdentifierCallback = x => x.FieldValue("channel")!
             },
 
-            new MessageEvaluator {
-                Priority = 5,
+            new MessageTypeDefinition {
                 Fields = [
                     new PropertyFieldReference("event"),
                 ],
-                IdentifyMessageCallback = x => x.FieldValue("event")!
+                TypeIdentifierCallback = x => x.FieldValue("event")!
             },
         ];
 

@@ -12969,7 +12969,7 @@
         </member>
         <member name="T:OKX.Net.OKXRateLimiters">
             <summary>
-            Rate limiter configuration for the GateIo API
+            Rate limiter configuration for the OKX API
             </summary>
         </member>
         <member name="E:OKX.Net.OKXRateLimiters.RateLimitTriggered">
