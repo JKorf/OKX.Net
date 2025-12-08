@@ -4,7 +4,6 @@ using OKX.Net.Enums;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Public;
-using System.Drawing;
 using CryptoExchange.Net.Objects.Errors;
 
 namespace OKX.Net.Clients.UnifiedApi

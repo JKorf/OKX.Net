@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using OKX.Net.Clients.UnifiedApi;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using OKX.Net.Objects;
 using OKX.Net.Objects.Options;
 
 namespace OKX.Net.Clients;

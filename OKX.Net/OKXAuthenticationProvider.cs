@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Clients;
-using OKX.Net.Objects;
 using OKX.Net.Objects.Options;
 
 namespace OKX.Net;

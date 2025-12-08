@@ -1,4 +1,5 @@
-﻿using OKX.Net.Clients;
+﻿using CryptoExchange.Net.Interfaces.Clients;
+using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 
 namespace CryptoExchange.Net.Interfaces

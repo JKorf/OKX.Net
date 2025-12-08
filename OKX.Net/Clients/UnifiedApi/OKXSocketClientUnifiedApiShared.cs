@@ -1,4 +1,3 @@
-using OKX.Net;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Objects.Sockets;

@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Interfaces.Clients;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using OKX.Net;
@@ -7,7 +8,6 @@ using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
 using OKX.Net.SymbolOrderBooks;
-using System.Net;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

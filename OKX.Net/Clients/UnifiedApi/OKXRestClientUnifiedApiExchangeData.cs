@@ -3,7 +3,6 @@ using CryptoExchange.Net.RateLimiting.Guards;
 using OKX.Net.Enums;
 using OKX.Net.ExtensionMethods;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.Trading;

@@ -1,8 +1,4 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using OKX.Net.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OKX.Net.Objects.Account;
 

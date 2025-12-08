@@ -5,11 +5,8 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
-using System;
-using System.Net;
 using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
