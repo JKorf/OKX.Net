@@ -7,6 +7,8 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
 {
     private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
+    public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
+
     public OKXAuthenticationProvider(ApiCredentials credentials) : base(credentials)
     {
         if (string.IsNullOrEmpty(credentials.Pass))
