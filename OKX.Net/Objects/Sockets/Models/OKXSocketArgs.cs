@@ -1,7 +1,7 @@
 using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Sockets.Models;
-internal class OKXSocketArgs
+internal record OKXSocketArgs
 {
     [JsonPropertyName("channel")]
     public string Channel { get; set; } = string.Empty;

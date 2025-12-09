@@ -3,7 +3,7 @@
 /// <summary>
 /// Api addresses
 /// </summary>
-public class OKXApiAddresses
+public record OKXApiAddresses
 {
     /// <summary>
     /// Base rest address

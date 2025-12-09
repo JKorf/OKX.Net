@@ -1,6 +1,6 @@
 ﻿namespace OKX.Net.Objects.Sockets.Models;
 
-internal class OKXSocketUpdate
+internal record OKXSocketUpdate
 {
 
     [JsonPropertyName("arg")]
@@ -15,7 +15,7 @@ internal class OKXSocketUpdate
     public string? EventType { get; set; }
 }
 
-internal class OKXSocketUpdate<T>: OKXSocketUpdate
+internal record OKXSocketUpdate<T>: OKXSocketUpdate
 {
     [JsonPropertyName("data")]
     public T Data { get; set; } = default!;

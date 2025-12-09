@@ -1,5 +1,6 @@
 ﻿namespace OKX.Net.Objects.Sockets.Models;
-internal class OKXSocketResponse
+
+internal record OKXSocketResponse
 {
     [JsonPropertyName("op")]
     public string Op { get; set; } = string.Empty;
@@ -16,7 +17,7 @@ internal class OKXSocketResponse
     public int? Code { get; set; }
 }
 
-internal class OKXSocketResponse<T> : OKXSocketResponse
+internal record OKXSocketResponse<T> : OKXSocketResponse
 {
     [JsonPropertyName("data")]
     public T Data { get; set; } = default!;
