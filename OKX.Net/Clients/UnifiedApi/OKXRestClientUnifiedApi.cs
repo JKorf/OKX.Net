@@ -105,41 +105,4 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public override TimeSpan? GetTimeOffset()
         => _timeSyncState.TimeOffset;
 
-    /// <inheritdoc />
-    protected override Error? TryParseError(RequestDefinition request, HttpResponseHeaders responseHeaders, IMessageAccessor accessor)
-    {
-        if (!accessor.IsValid)
-            return new ServerError(ErrorInfo.Unknown);
-
-        var codePath = MessagePath.Get().Property("code");
-        var msgPath = MessagePath.Get().Property("msg");
-        var code = accessor.GetValue<string?>(codePath);
-        var msg = accessor.GetValue<string>(msgPath);
-        if (code == null || !int.TryParse(code, out var intCode))
-            return new ServerError(ErrorInfo.Unknown with { Message = msg });
-
-        if (intCode >= 50000)
-            return new ServerError(intCode, GetErrorInfo(intCode, msg));
-
-        return null;
-    }
-
-    /// <inheritdoc />
-    protected override Error ParseErrorResponse(int httpStatusCode, HttpResponseHeaders responseHeaders, IMessageAccessor accessor, Exception? exception)
-    {
-        if (!accessor.IsValid)
-            return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-        var codePath = MessagePath.Get().Property("code");
-        var msgPath = MessagePath.Get().Property("msg");
-        var code = accessor.GetValue<string?>(codePath);
-        var msg = accessor.GetValue<string>(msgPath);
-        if (msg == null)
-            return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-        if (code == null || !int.TryParse(code, out var intCode))
-            return new ServerError(ErrorInfo.Unknown with { Message = msg }, exception);
-
-        return new ServerError(intCode, GetErrorInfo(intCode, msg), exception);
-    }
 }
