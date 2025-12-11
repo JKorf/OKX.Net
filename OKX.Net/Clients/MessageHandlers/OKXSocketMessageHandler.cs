@@ -13,6 +13,7 @@ namespace OKX.Net.Clients.MessageHandlers
         public OKXSocketMessageHandler()
         {
             AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol);
+            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.Symbol ?? x.Arg?.Asset);
         }
 
         protected override MessageTypeDefinition[] TypeEvaluators { get; } = [
@@ -27,9 +28,21 @@ namespace OKX.Net.Clients.MessageHandlers
 
             new MessageTypeDefinition {
                 Fields = [
-                    new PropertyFieldReference("event").WithEqualContstraint("error"),
+                    new PropertyFieldReference("event").WithEqualConstraint("error"),
+                    new PropertyFieldReference("msg").WithStartsWithConstraint("Wrong URL or channel:"),
                 ],
-                TypeIdentifierCallback = x => "error"! // TODO
+                TypeIdentifierCallback = x => {
+                     var subParams = x.FieldValue("msg")!.Substring(21, x.FieldValue("msg")!.IndexOf(" doesn't exist") - 21);
+                     var subParamsSplit = subParams.Split(',');
+                    return $"error{string.Join("", subParamsSplit.Select(x => x.Split(':').Last()))}";
+                }
+            },
+
+            new MessageTypeDefinition {
+                Fields = [
+                    new PropertyFieldReference("event").WithEqualConstraint("error"),
+                ],
+                TypeIdentifierCallback = x => "error"!
             },
 
             new MessageTypeDefinition {

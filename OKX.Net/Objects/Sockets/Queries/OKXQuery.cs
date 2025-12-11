@@ -13,14 +13,18 @@ internal class OKXQuery : Query<OKXSocketResponse>
         _client = client;
 
         var ids = new List<string> { "error" };
+        var routes = new List<MessageRoute>();
         foreach (var arg in request.Args)
         {
             ids.Add(request.Op + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());
             ids.Add("error" + arg.Channel.ToLowerInvariant() + arg.InstrumentType?.ToString().ToLowerInvariant() + arg.InstrumentFamily?.ToString().ToLowerInvariant() + arg.Symbol?.ToLowerInvariant());
+
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithTopicFilter(request.Op + arg.Channel, arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
         }
 
         MessageMatcher = MessageMatcher.Create<OKXSocketResponse>(ids, HandleMessage);
-        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketResponse>(request.Op + request.Args.First().Channel, request.Args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), HandleMessage);
+        MessageRouter = MessageRouter.Create(routes.ToArray());
 
         RequiredResponses = request.Args.Count;
     }
