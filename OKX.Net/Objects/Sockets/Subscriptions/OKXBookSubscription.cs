@@ -19,6 +19,8 @@ internal class OKXBookSubscription : Subscription
         _args = args;
         _handler = handler;
 
+        IndividualSubscriptionCount = args.Count;
+
         MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<OKXOrderBook[]>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
         MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<OKXOrderBook[]>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
