@@ -49,7 +49,7 @@ internal class OKXBookSubscription : Subscription
             item.Action = message.Action!;
 
         _handler.Invoke(
-                new DataEvent<OKXOrderBook>(message.Data.Single(), receiveTime, originalData)
+                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, message.Data.Single(), receiveTime, originalData)
                     .WithStreamId(message.Arg.Channel)
                     .WithSymbol(message.Arg.Symbol)
                     .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)

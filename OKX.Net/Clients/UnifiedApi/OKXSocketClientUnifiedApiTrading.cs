@@ -173,7 +173,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXPosition[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXPosition[]>(data.Data, receiveTime, originalData)
+                new DataEvent<OKXPosition[]>(OKXExchange.ExchangeName, data.Data, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.Length > 0 ? data.Data.Max(x => x.UpdateTime) : null)
                     .WithStreamId(data.Arg.Channel)
@@ -205,7 +205,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXPosition[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXPosition>(data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXPosition>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.First().UpdateTime)
                     .WithStreamId(data.Arg.Channel)
@@ -237,7 +237,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXOrderUpdate>(data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.First().UpdateTime)
                     .WithStreamId(data.Arg.Channel)
@@ -268,7 +268,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXUserTradeUpdate[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXUserTradeUpdate>(data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXUserTradeUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.First().Timestamp)
                     .WithStreamId(data.Arg.Channel)
@@ -299,7 +299,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXAlgoOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXAlgoOrderUpdate>(data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.First().UpdateTime)
                     .WithStreamId(data.Arg.Channel)
@@ -332,7 +332,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXAlgoOrderUpdate[]>>((receiveTime, originalData, data) =>
         {
             onData(
-                new DataEvent<OKXAlgoOrderUpdate>(data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXAlgoOrderUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                     .WithDataTimestamp(data.Data.First().UpdateTime)
                     .WithStreamId(data.Arg.Channel)
