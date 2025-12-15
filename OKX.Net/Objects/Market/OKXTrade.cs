@@ -45,6 +45,12 @@ public record OKXTrade
     public DateTime Time { get; set; }
 
     /// <summary>
+    /// Is ELP order
+    /// </summary>
+    [JsonPropertyName("source")]
+    public bool ElpOrder { get; set; }
+
+    /// <summary>
     /// Number of trades if it is an aggregated trade
     /// </summary>
     [JsonPropertyName("count")]
