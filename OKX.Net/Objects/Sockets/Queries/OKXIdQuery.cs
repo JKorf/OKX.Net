@@ -1,6 +1,6 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Objects.Sockets.Models;
 
 namespace OKX.Net.Objects.Sockets.Queries;
@@ -12,13 +12,14 @@ internal class OKXIdQuery<T> : Query<OKXSocketResponse<T[]>>
     {
         _client = client;
         MessageMatcher = MessageMatcher.Create<OKXSocketResponse<T[]>>(((OKXSocketIdRequest)Request).Id, HandleMessage);
+        MessageRouter = MessageRouter.CreateWithoutTopicFilter<OKXSocketResponse<T[]>>(((OKXSocketIdRequest)Request).Id, HandleMessage);
     }
 
-    public CallResult<OKXSocketResponse<T[]>> HandleMessage(SocketConnection connection, DataEvent<OKXSocketResponse<T[]>> message)
+    public CallResult<OKXSocketResponse<T[]>> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketResponse<T[]> message)
     {
-        if (string.Equals(message.Data.Event, "error", StringComparison.Ordinal))
-            return new CallResult<OKXSocketResponse<T[]>>(new ServerError(message.Data.Code!.Value, _client.GetErrorInfo(message.Data.Code.Value, message.Data.Message!)), message.OriginalData);
+        if (string.Equals(message.Event, "error", StringComparison.Ordinal))
+            return new CallResult<OKXSocketResponse<T[]>>(new ServerError(message.Code!.Value, _client.GetErrorInfo(message.Code.Value, message.Message!)), originalData);
 
-        return new CallResult<OKXSocketResponse<T[]>>(message.Data, message.OriginalData, null);
+        return new CallResult<OKXSocketResponse<T[]>>(message, originalData, null);
     }
 }

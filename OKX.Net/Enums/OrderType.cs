@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
@@ -24,4 +22,6 @@ public enum OrderType
     MarketMakerProtection,
     [Map("mmp_and_post_only")]
     MarketMakerProtectionPostOnly,
+    [Map("elp")]
+    Elp
 }

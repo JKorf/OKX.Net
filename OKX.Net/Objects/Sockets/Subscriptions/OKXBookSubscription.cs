@@ -1,12 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net.Objects.Sockets.Subscriptions;
-internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketResponse>
+internal class OKXBookSubscription : Subscription
 {
     private readonly SocketApiClient _client;
     private List<OKXSocketArgs> _args;
@@ -18,7 +19,10 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         _args = args;
         _handler = handler;
 
+        IndividualSubscriptionCount = args.Count;
+
         MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<OKXOrderBook[]>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
+        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<OKXOrderBook[]>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
 
     protected override Query? GetSubQuery(SocketConnection connection)
@@ -39,11 +43,17 @@ internal class OKXBookSubscription : Subscription<OKXSocketResponse, OKXSocketRe
         }, false);
     }
 
-    public CallResult DoHandleMessage(SocketConnection connection, DataEvent<OKXSocketUpdate<OKXOrderBook[]>> message)
+    public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketUpdate<OKXOrderBook[]> message)
     {
-        foreach (var item in message.Data.Data)
-            item.Action = message.Data.Action!;
-        _handler.Invoke(message.As(message.Data.Data.Single(), message.Data.Arg.Channel, message.Data.Arg.Symbol, string.Equals(message.Data.Action, "snapshot", StringComparison.Ordinal) || message.Data.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
+        foreach (var item in message.Data)
+            item.Action = message.Action!;
+
+        _handler.Invoke(
+                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, message.Data.Single(), receiveTime, originalData)
+                    .WithStreamId(message.Arg.Channel)
+                    .WithSymbol(message.Arg.Symbol)
+                    .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+            );
         return CallResult.SuccessResult;
     }
 }

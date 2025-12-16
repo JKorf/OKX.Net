@@ -6,7 +6,7 @@ namespace OKX.Net.Objects.CopyTrading;
 /// Copy trading account details
 /// </summary>
 [SerializationModel]
-public class OKXCopyTradingAccountDetails
+public record OKXCopyTradingAccountDetails
 {
     /// <summary>
     /// Instrument type

@@ -1,6 +1,6 @@
-﻿using CryptoExchange.Net.Objects.Options;
+﻿using CryptoExchange.Net.Interfaces.Clients;
+using CryptoExchange.Net.Objects.Options;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using OKX.Net.Objects;
 
 namespace OKX.Net.Interfaces.Clients;
 

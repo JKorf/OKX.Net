@@ -1,4 +1,3 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using OKX.Net.Enums;
 
 namespace OKX.Net.Objects.Market;
@@ -44,6 +43,12 @@ public record OKXTrade
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
+
+    /// <summary>
+    /// Is ELP order
+    /// </summary>
+    [JsonPropertyName("source")]
+    public bool ElpOrder { get; set; }
 
     /// <summary>
     /// Number of trades if it is an aggregated trade

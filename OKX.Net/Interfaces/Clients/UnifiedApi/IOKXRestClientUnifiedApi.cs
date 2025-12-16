@@ -1,4 +1,6 @@
-﻿namespace OKX.Net.Interfaces.Clients.UnifiedApi;
+﻿using CryptoExchange.Net.Interfaces.Clients;
+
+namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
 /// <summary>
 /// Unified API endpoints

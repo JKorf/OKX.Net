@@ -19,7 +19,7 @@ namespace OKX.Net.UnitTests
     [NonParallelizable]
     internal class OKXRestIntegrationTests : RestIntegrationTest<OKXRestClient>
     {
-        public override bool Run { get; set; }
+        public override bool Run { get; set; } = false;
 
         public OKXRestIntegrationTests()
         {

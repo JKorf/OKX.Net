@@ -4,8 +4,6 @@ using CryptoExchange.Net.Trackers.Trades;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
 using OKX.Net.Clients;
 
 namespace OKX.Net

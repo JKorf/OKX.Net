@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-using CryptoExchange.Net.Converters.SystemTextJson;
 using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums;
@@ -17,5 +15,7 @@ public enum OrderBookType
     [Map("books-l2-tbt")]
     OrderBook_l2_TBT,
     [Map("bbo-tbt")]
-    BBO_TBT
+    BBO_TBT,
+    [Map("books-elp")]
+    OrderBookElp
 }

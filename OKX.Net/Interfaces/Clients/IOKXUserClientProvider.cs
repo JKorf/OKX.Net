@@ -1,6 +1,4 @@
-﻿using CryptoExchange.Net.Authentication;
-
-namespace OKX.Net.Interfaces.Clients
+﻿namespace OKX.Net.Interfaces.Clients
 {
     /// <summary>
     /// Provider for clients with credentials for specific users

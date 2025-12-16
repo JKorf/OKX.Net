@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OKX.Net.Objects.Public
+﻿namespace OKX.Net.Objects.Public
 {
     /// <summary>
     /// Settlement info

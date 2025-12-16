@@ -84,7 +84,7 @@ namespace OKX.Net
     }
 
     /// <summary>
-    /// Rate limiter configuration for the GateIo API
+    /// Rate limiter configuration for the OKX API
     /// </summary>
     public class OKXRateLimiters
     {

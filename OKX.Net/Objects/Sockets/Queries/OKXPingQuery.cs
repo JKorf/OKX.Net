@@ -7,5 +7,6 @@ internal class OKXPingQuery : Query<string>
     {
         RequestTimeout = TimeSpan.FromSeconds(5);
         MessageMatcher = MessageMatcher.Create<string>("pong");
+        MessageRouter = MessageRouter.CreateWithoutHandler<string>("pong");
     }
 }

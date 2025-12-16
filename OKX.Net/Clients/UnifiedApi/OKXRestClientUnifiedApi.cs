@@ -1,12 +1,13 @@
 ﻿using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Converters.MessageParsing;
+using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
+using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
-using OKX.Net.Objects;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
-using System;
+using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
@@ -17,6 +18,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
 
     private static TimeSyncState _timeSyncState = new("Unified Api");
 
+    protected override IRestMessageHandler MessageHandler { get; } = new OKXRestMessageHandler(OKXErrors.ErrorMapping);
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
     #endregion
 
@@ -103,41 +105,4 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     public override TimeSpan? GetTimeOffset()
         => _timeSyncState.TimeOffset;
 
-    /// <inheritdoc />
-    protected override Error? TryParseError(RequestDefinition request, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor)
-    {
-        if (!accessor.IsValid)
-            return new ServerError(ErrorInfo.Unknown);
-
-        var codePath = MessagePath.Get().Property("code");
-        var msgPath = MessagePath.Get().Property("msg");
-        var code = accessor.GetValue<string?>(codePath);
-        var msg = accessor.GetValue<string>(msgPath);
-        if (code == null || !int.TryParse(code, out var intCode))
-            return new ServerError(ErrorInfo.Unknown with { Message = msg });
-
-        if (intCode >= 50000)
-            return new ServerError(intCode, GetErrorInfo(intCode, msg));
-
-        return null;
-    }
-
-    /// <inheritdoc />
-    protected override Error ParseErrorResponse(int httpStatusCode, KeyValuePair<string, string[]>[] responseHeaders, IMessageAccessor accessor, Exception? exception)
-    {
-        if (!accessor.IsValid)
-            return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-        var codePath = MessagePath.Get().Property("code");
-        var msgPath = MessagePath.Get().Property("msg");
-        var code = accessor.GetValue<string?>(codePath);
-        var msg = accessor.GetValue<string>(msgPath);
-        if (msg == null)
-            return new ServerError(ErrorInfo.Unknown, exception: exception);
-
-        if (code == null || !int.TryParse(code, out var intCode))
-            return new ServerError(ErrorInfo.Unknown with { Message = msg }, exception);
-
-        return new ServerError(intCode, GetErrorInfo(intCode, msg), exception);
-    }
 }

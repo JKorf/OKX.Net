@@ -1,6 +1,4 @@
-using CryptoExchange.Net.Converters.SystemTextJson;
 using OKX.Net.Enums;
-using System;
 
 namespace OKX.Net.Objects.Trade;
 
