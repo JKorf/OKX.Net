@@ -44,7 +44,6 @@ internal class OKXSubscription<T> : Subscription
     public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketUpdate<T> message)
     {
         _handler.Invoke(receiveTime, originalData, message);
-        //_handler.Invoke(message.As(message.Data.Data, message.Data.Arg.Channel, message.Data.Arg.Symbol, message.Data.EventType == "snapshot" ? SocketUpdateType.Snapshot : SocketUpdateType.Update));
         return CallResult.SuccessResult;
     }
 }
