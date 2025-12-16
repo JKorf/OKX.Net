@@ -176,6 +176,18 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.0.0 - 16 Dec 2025
+    * Added Net10.0 target framework
+    * Updated CryptoExchange.Net version to 10.0.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Improved performance across the board, biggest gains in websocket message processing
+    * Updated REST message response handling
+    * Updated WebSocket message handling
+    * Added UseUpdatedDeserialization socket client options to toggle by new and old message handling
+    * Added SocketIndividualSubscriptionCombineTarget socket client option
+    * Added ELP value to OrderType Enum
+    * Added OrderBookElp to OrderBookType enum
+    * Updated Shared API's subscription update types from ExchangeEvent to DataEvent
+
 * Version 3.11.1 - 25 Nov 2025
     * Fixed deserialization issue in restClient.UnifiedApi.ExchangeData.GetSymbolsAsync
 
