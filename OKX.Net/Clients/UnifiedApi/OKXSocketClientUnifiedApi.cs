@@ -194,4 +194,13 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         deflateStream.CopyTo(decompressedStream);
         return new ReadOnlyMemory<byte>(decompressedStream.GetBuffer(), 0, (int)decompressedStream.Length);
     }
+
+    /// <inheritdoc />
+    public override ReadOnlySpan<byte> PreprocessStreamMessage(SocketConnection connection, WebSocketMessageType type, ReadOnlySpan<byte> data)
+    {
+        if (type != WebSocketMessageType.Binary)
+            return data;
+
+        return data.DecompressGzip();
+    }
 }
