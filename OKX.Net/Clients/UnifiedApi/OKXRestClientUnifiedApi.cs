@@ -16,8 +16,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     #region Internal Fields
     public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
 
-    private static TimeSyncState _timeSyncState = new("Unified Api");
-
     protected override IRestMessageHandler MessageHandler { get; } = new OKXRestMessageHandler(OKXErrors.ErrorMapping);
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
     #endregion
@@ -96,13 +94,5 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     /// <inheritdoc />
     protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
         => ExchangeData.GetServerTimeAsync();
-
-    /// <inheritdoc />
-    public override TimeSyncInfo? GetTimeSyncInfo()
-        => new(_logger, ClientOptions.AutoTimestamp, ClientOptions.TimestampRecalculationInterval, _timeSyncState);
-
-    /// <inheritdoc />
-    public override TimeSpan? GetTimeOffset()
-        => _timeSyncState.TimeOffset;
 
 }

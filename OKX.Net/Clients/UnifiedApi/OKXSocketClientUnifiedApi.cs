@@ -120,29 +120,6 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
         return $"{evnt}{channel?.ToLowerInvariant()}{instType?.ToLowerInvariant()}{instFamily?.ToLowerInvariant()}{instId?.ToLowerInvariant()}";
     }
 
-    /// <inheritdoc />
-    protected override Task<Query?> GetAuthenticationRequestAsync(SocketConnection connection)
-    {
-        var okxAuthProvider = (OKXAuthenticationProvider)AuthenticationProvider!;
-        var timestamp = (DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow) / 1000).Value.ToString(CultureInfo.InvariantCulture);
-        var signature = okxAuthProvider.SignWebsocket(timestamp);
-        var request = new OKXSocketAuthRequest
-        {
-            Op = "login",
-            Args =
-            [
-                new OKXSocketAuthArgs
-                {
-                    ApiKey = okxAuthProvider.ApiKey,
-                    Passphrase = okxAuthProvider.Pass!,
-                    Timestamp = timestamp,
-                    Sign = signature,
-                }
-            ]
-        };
-        return Task.FromResult<Query?>(new OKXQuery(this, request, false));
-    }
-
     internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
     {
         return SubscribeAsync(url, subscription, ct);

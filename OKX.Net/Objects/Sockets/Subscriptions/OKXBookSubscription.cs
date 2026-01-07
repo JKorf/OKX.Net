@@ -48,10 +48,14 @@ internal class OKXBookSubscription : Subscription
         foreach (var item in message.Data)
             item.Action = message.Action!;
 
+        var book = message.Data.Single();
+        _client.UpdateTimeOffset(book.Time);
+
         _handler.Invoke(
-                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, message.Data.Single(), receiveTime, originalData)
+                new DataEvent<OKXOrderBook>(OKXExchange.ExchangeName, book, receiveTime, originalData)
                     .WithStreamId(message.Arg.Channel)
                     .WithSymbol(message.Arg.Symbol)
+                    .WithDataTimestamp(book.Time, _client.GetTimeOffset())
                     .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
             );
         return CallResult.SuccessResult;

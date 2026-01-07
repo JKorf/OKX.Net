@@ -1,5 +1,9 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Sockets;
+using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Objects.Options;
+using OKX.Net.Objects.Sockets.Models;
+using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net;
 
@@ -38,9 +42,25 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
         request.SetQueryString(queryString);
     }
 
-    public string SignWebsocket(string timestamp)
+    public override Query? GetAuthenticationQuery(SocketApiClient apiClient, SocketConnection connection, Dictionary<string, object?>? context = null)
     {
-        var signtext = timestamp + "GET" + "/users/self/verify";
-        return SignHMACSHA256(signtext, SignOutputType.Base64);
+        var timestamp = (GetMillisecondTimestampLong(apiClient) / 1000).ToString(CultureInfo.InvariantCulture);
+        var signText = timestamp + "GET" + "/users/self/verify";
+        var signature = SignHMACSHA256(signText, SignOutputType.Base64);
+        var request = new OKXSocketAuthRequest
+        {
+            Op = "login",
+            Args =
+            [
+                new OKXSocketAuthArgs
+                {
+                    ApiKey = ApiKey,
+                    Passphrase = Pass!,
+                    Timestamp = timestamp,
+                    Sign = signature,
+                }
+            ]
+        };
+        return new OKXQuery(apiClient, request, false);
     }
 }

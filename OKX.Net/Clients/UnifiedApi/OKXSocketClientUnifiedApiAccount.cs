@@ -35,10 +35,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
             if (!data.Data.Any())
                 return;
 
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.UpdateTime);
+
             onData(
-                new DataEvent<OKXAccountBalance>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXAccountBalance>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().UpdateTime)
+                    .WithDataTimestamp(item.UpdateTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -64,10 +67,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXPositionAndBalanceUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.Time);
+
             onData(
-                new DataEvent<OKXPositionAndBalanceUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXPositionAndBalanceUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().Time)
+                    .WithDataTimestamp(item.Time, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -91,10 +97,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXDepositUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.PushTime);
+
             onData(
-                new DataEvent<OKXDepositUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXDepositUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().PushTime)
+                    .WithDataTimestamp(item.PushTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );
@@ -116,10 +125,13 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXWithdrawalUpdate[]>>((receiveTime, originalData, data) =>
         {
+            var item = data.Data.First();
+            _client.UpdateTimeOffset(item.PushTime);
+
             onData(
-                new DataEvent<OKXWithdrawalUpdate>(OKXExchange.ExchangeName, data.Data.First(), receiveTime, originalData)
+                new DataEvent<OKXWithdrawalUpdate>(OKXExchange.ExchangeName, item, receiveTime, originalData)
                     .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
-                    .WithDataTimestamp(data.Data.First().PushTime)
+                    .WithDataTimestamp(item.PushTime, _client.GetTimeOffset())
                     .WithStreamId(data.Arg.Channel)
                     .WithSymbol(data.Arg.Symbol)
                 );

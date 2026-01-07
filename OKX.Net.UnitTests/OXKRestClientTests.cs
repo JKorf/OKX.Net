@@ -97,7 +97,7 @@ namespace OKX.Net.UnitTests
                     { "lever", "5" },
                     { "mgnMode", "isolated" }
                 },
-                time: new DateTime(2020, 12, 08, 09, 08, 57, 715, DateTimeKind.Utc));
+                time: new DateTime(2020, 12, 08, 09, 08, 58, 715, DateTimeKind.Utc));
         }
 
         [Test]
