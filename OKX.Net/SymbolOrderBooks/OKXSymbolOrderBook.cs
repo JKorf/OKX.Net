@@ -48,7 +48,7 @@ namespace OKX.Net.SymbolOrderBooks
                 optionsDelegate(options);
             Initialize(options);
 
-            _sequencesAreConsecutive = false;
+            _sequencesAreConsecutive = true;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
             _levels = options?.Limit;
@@ -95,14 +95,14 @@ namespace OKX.Net.SymbolOrderBooks
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-            if (!_initialSnapshotDone || _snapshots)
+            if (data.UpdateType == SocketUpdateType.Snapshot)
             {
-                SetInitialOrderBook(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
                 _initialSnapshotDone = true;
             }
             else
             {
-                UpdateOrderBook(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                UpdateOrderBook(data.Data.PreviousSequenceId!.Value + 1, data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
                 //AddChecksum((int)data.Data.Checksum!);
             }
         }
