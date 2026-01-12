@@ -15,9 +15,7 @@ namespace OKX.Net.SymbolOrderBooks
     {
         private readonly IOKXSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private int? _levels;
-        private bool _snapshots;
         private OrderBookType _type;
         private readonly TimeSpan _initialDataTimeout;
 
@@ -48,7 +46,7 @@ namespace OKX.Net.SymbolOrderBooks
                 optionsDelegate(options);
             Initialize(options);
 
-            _sequencesAreConsecutive = false;
+            _sequencesAreConsecutive = true;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
             _levels = options?.Limit;
@@ -63,8 +61,6 @@ namespace OKX.Net.SymbolOrderBooks
                 _type = OrderBookType.OrderBook_5;
             else if (_levels == 400 || _levels == null)
                 _type = OrderBookType.OrderBook;
-
-            _snapshots = _type == OrderBookType.OrderBook_5 || _type == OrderBookType.BBO_TBT;
         }
 
         /// <inheritdoc />
@@ -90,19 +86,17 @@ namespace OKX.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override void DoReset()
         {
-            _initialSnapshotDone = false;
         }
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-            if (!_initialSnapshotDone || _snapshots)
+            if (data.UpdateType == SocketUpdateType.Snapshot)
             {
-                SetInitialOrderBook(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
-                _initialSnapshotDone = true;
+                SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
             else
             {
-                UpdateOrderBook(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                UpdateOrderBook(data.Data.PreviousSequenceId!.Value + 1, data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
                 //AddChecksum((int)data.Data.Checksum!);
             }
         }

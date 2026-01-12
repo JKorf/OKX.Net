@@ -56,6 +56,7 @@ internal class OKXBookSubscription : Subscription
                     .WithStreamId(message.Arg.Channel)
                     .WithSymbol(message.Arg.Symbol)
                     .WithDataTimestamp(book.Time, _client.GetTimeOffset())
+                    .WithSequenceNumber(book.SequenceId)
                     .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
             );
         return CallResult.SuccessResult;
