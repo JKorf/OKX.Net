@@ -15,9 +15,7 @@ namespace OKX.Net.SymbolOrderBooks
     {
         private readonly IOKXSocketClient _socketClient;
         private readonly bool _clientOwner;
-        private bool _initialSnapshotDone;
         private int? _levels;
-        private bool _snapshots;
         private OrderBookType _type;
         private readonly TimeSpan _initialDataTimeout;
 
@@ -63,8 +61,6 @@ namespace OKX.Net.SymbolOrderBooks
                 _type = OrderBookType.OrderBook_5;
             else if (_levels == 400 || _levels == null)
                 _type = OrderBookType.OrderBook;
-
-            _snapshots = _type == OrderBookType.OrderBook_5 || _type == OrderBookType.BBO_TBT;
         }
 
         /// <inheritdoc />
@@ -90,7 +86,6 @@ namespace OKX.Net.SymbolOrderBooks
         /// <inheritdoc />
         protected override void DoReset()
         {
-            _initialSnapshotDone = false;
         }
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
@@ -98,7 +93,6 @@ namespace OKX.Net.SymbolOrderBooks
             if (data.UpdateType == SocketUpdateType.Snapshot)
             {
                 SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
-                _initialSnapshotDone = true;
             }
             else
             {
