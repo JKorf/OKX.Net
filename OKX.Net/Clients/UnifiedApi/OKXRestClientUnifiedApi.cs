@@ -49,9 +49,6 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     }
 
     /// <inheritdoc />
-    protected override IStreamMessageAccessor CreateAccessor() => new SystemTextJsonStreamMessageAccessor(SerializerOptions.WithConverters(OKXExchange._serializerContext));
-
-    /// <inheritdoc />
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     /// <inheritdoc />

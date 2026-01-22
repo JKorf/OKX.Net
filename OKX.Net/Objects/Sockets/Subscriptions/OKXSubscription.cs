@@ -19,7 +19,6 @@ internal class OKXSubscription<T> : Subscription
 
         IndividualSubscriptionCount = args.Count;
 
-        MessageMatcher = MessageMatcher.Create<OKXSocketUpdate<T>>(args.Select(x => x.Channel.ToLowerInvariant() + x.InstrumentType?.ToString().ToLowerInvariant() + x.InstrumentFamily?.ToString().ToLowerInvariant() + x.Symbol?.ToLowerInvariant()), DoHandleMessage);
         MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<T>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
 

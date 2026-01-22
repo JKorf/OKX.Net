@@ -16,7 +16,7 @@ namespace OKX.Net.UnitTests
         {
         }
 
-        public override OKXSocketClient GetClient(ILoggerFactory loggerFactory, bool useUpdatedDeserialization)
+        public override OKXSocketClient GetClient(ILoggerFactory loggerFactory)
         {
             var key = Environment.GetEnvironmentVariable("APIKEY");
             var sec = Environment.GetEnvironmentVariable("APISECRET");
@@ -26,17 +26,15 @@ namespace OKX.Net.UnitTests
             return new OKXSocketClient(Options.Create(new OKXSocketOptions
             {
                 OutputOriginalData = true,
-                UseUpdatedDeserialization = useUpdatedDeserialization,
                 ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec, pass) : null
             }), loggerFactory);
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task TestSubscriptions(bool useUpdatedDeserialization)
+        [Test]
+        public async Task TestSubscriptions()
         {
-            await RunAndCheckUpdate<OKXTicker>(useUpdatedDeserialization , (client, updateHandler) => client.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(default, default, default, default), false, true);
-            await RunAndCheckUpdate<OKXTicker>(useUpdatedDeserialization , (client, updateHandler) => client.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", updateHandler, default), true, false);
+            await RunAndCheckUpdate<OKXTicker>((client, updateHandler) => client.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(default, default, default, default), false, true);
+            await RunAndCheckUpdate<OKXTicker>((client, updateHandler) => client.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", updateHandler, default), true, false);
         } 
     }
 }

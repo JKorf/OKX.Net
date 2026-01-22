@@ -19,9 +19,8 @@ namespace OKX.Net.UnitTests
     [TestFixture]
     public class SocketSubscriptionTests
     {
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateConcurrentFuturesSubscriptions(bool newDeserialization)
+        [Test]
+        public async Task ValidateConcurrentFuturesSubscriptions()
         {
             var logger = new LoggerFactory();
             logger.AddProvider(new TraceLoggerProvider());
@@ -29,7 +28,6 @@ namespace OKX.Net.UnitTests
             var client = new OKXSocketClient(Options.Create(new OKXSocketOptions
             {
                 OutputOriginalData = true,
-                UseUpdatedDeserialization = newDeserialization,
                 
             }), logger);
 
@@ -40,16 +38,14 @@ namespace OKX.Net.UnitTests
                 "Concurrent");
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateExchangeDataSubscriptions(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateExchangeDataSubscriptions()
         {
             var loggerFactory = new LoggerFactory();
             loggerFactory.AddProvider(new TraceLoggerProvider());
 
             var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
-                UseUpdatedDeserialization = useUpdatedDeserialization,
                 OutputOriginalData = true,
                 ApiCredentials = new ApiCredentials("123", "456", "789")
             }), loggerFactory);
@@ -71,16 +67,14 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXStatus>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSystemStatusUpdatesAsync(handler), "SystemStatus", useFirstUpdateItem: true);
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateAccountSubscriptions(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateAccountSubscriptions()
         {
             var loggerFactory = new LoggerFactory();
             loggerFactory.AddProvider(new TraceLoggerProvider());
 
             var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
-                UseUpdatedDeserialization = useUpdatedDeserialization,
                 ApiCredentials = new ApiCredentials("123", "456", "789")
             }), loggerFactory);
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:8443", "data");
@@ -90,13 +84,11 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXWithdrawalUpdate>((client, handler) => client.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler), "Withdrawal", useFirstUpdateItem: true, ignoreProperties: new List<string> { "addrEx" });
         }
 
-        [TestCase(false)]
-        [TestCase(true)]
-        public async Task ValidateTradingSubscriptions(bool useUpdatedDeserialization)
+        [Test]
+        public async Task ValidateTradingSubscriptions()
         {
             var client = new OKXSocketClient(opts =>
             {
-                opts.UseUpdatedDeserialization = useUpdatedDeserialization;
                 opts.ApiCredentials = new ApiCredentials("123", "456", "789");
             });
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data");

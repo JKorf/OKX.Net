@@ -11,6 +11,19 @@ namespace OKX.Net
     public static class OKXExchange
     {
         /// <summary>
+        /// Platform metadata
+        /// </summary>
+        public static PlatformInfo Metadata { get; } = new PlatformInfo(
+                "OKX",
+                "OKX",
+                "https://raw.githubusercontent.com/JKorf/OKX.Net/master/OKX.Net/Icon/icon.png",
+                "https://www.okx.com",
+                ["https://www.okx.com/docs-v5/en/"],
+                PlatformType.CryptoCurrencyExchange,
+                CentralizationType.Centralized
+                );
+
+        /// <summary>
         /// Exchange name
         /// </summary>
         public static string ExchangeName => "OKX";

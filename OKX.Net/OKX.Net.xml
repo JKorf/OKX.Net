@@ -103,9 +103,6 @@
         <member name="M:OKX.Net.Clients.OKXUserClientProvider.GetSocketClient(System.String,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.CreateAccessor">
-            <inheritdoc />
-        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApi.CreateSerializer">
             <inheritdoc />
         </member>
@@ -505,22 +502,13 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateSerializer">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAccessor(System.Net.WebSockets.WebSocketMessageType)">
-            <inheritdoc />
-        </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
-            <inheritdoc />
-        </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetListenerIdentifier(CryptoExchange.Net.Interfaces.IMessageAccessor)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.GetConnectionUrlAsync(System.String,System.Boolean)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.CreateAuthenticationProvider(CryptoExchange.Net.Authentication.ApiCredentials)">
-            <inheritdoc />
-        </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.PreprocessStreamMessage(CryptoExchange.Net.Sockets.Default.SocketConnection,System.Net.WebSockets.WebSocketMessageType,System.ReadOnlyMemory{System.Byte})">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApi.PreprocessStreamMessage(CryptoExchange.Net.Sockets.Default.SocketConnection,System.Net.WebSockets.WebSocketMessageType,System.ReadOnlySpan{System.Byte})">
@@ -12908,6 +12896,11 @@
         <member name="T:OKX.Net.OKXExchange">
             <summary>
             OKX exchange information and configuration
+            </summary>
+        </member>
+        <member name="P:OKX.Net.OKXExchange.Metadata">
+            <summary>
+            Platform metadata
             </summary>
         </member>
         <member name="P:OKX.Net.OKXExchange.ExchangeName">
