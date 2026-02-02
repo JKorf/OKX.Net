@@ -311,6 +311,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     handler(update.ToType<SharedPosition[]>(update.Data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), x.Symbol, x.PositionsQuantity ?? 0, x.UpdateTime)
                     {
                         AverageOpenPrice = x.AveragePrice,
+                        PositionMode = x.PositionSide == PositionSide.Net ? SharedPositionMode.OneWay : SharedPositionMode.HedgeMode,
                         PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity < 0 ? SharedPositionSide.Short : SharedPositionSide.Long) : x.PositionSide == PositionSide.Long ? SharedPositionSide.Long : SharedPositionSide.Short,
                         UnrealizedPnl = x.UnrealizedPnl,
                         Leverage = x.Leverage
