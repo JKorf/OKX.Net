@@ -714,7 +714,15 @@ namespace OKX.Net.Clients.UnifiedApi
             if (deposits.Data.Count() == (request.Limit ?? 100))
                 nextToken = new DateTimeToken(deposits.Data.Min(x => x.Time).AddMilliseconds(-1));
 
-            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Select(x => new SharedDeposit(x.Asset, x.Quantity, x.State == DepositState.Successful, x.Time)
+            return deposits.AsExchangeResult<SharedDeposit[]>(Exchange, TradingMode.Spot, deposits.Data.Select(x => 
+            new SharedDeposit(
+                x.Asset,
+                x.Quantity,
+                x.State == DepositState.Successful,
+                x.Time,
+                x.State == DepositState.Successful ? SharedTransferStatus.Completed
+                : x.State == DepositState.Pending || x.State == DepositState.Credited || x.State == DepositState.WaitingForConfirmation ? SharedTransferStatus.InProgress
+                : SharedTransferStatus.Failed)
             {
                 Network = x.Network,
                 TransactionId = x.TransactionId
