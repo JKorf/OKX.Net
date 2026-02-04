@@ -6156,6 +6156,36 @@
             Tracker factory
             </summary>
         </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+            <summary>
+            Create a new Spot user data tracker
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <summary>
+            Create a new spot user data tracker
+            </summary>
+            <param name="config">Configuration</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+            <summary>
+            Create a new futures user data tracker
+            </summary>
+            <param name="userIdentifier">User identifier</param>
+            <param name="config">Configuration</param>
+            <param name="credentials">Credentials</param>
+            <param name="environment">Environment</param>
+        </member>
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <summary>
+            Create a new futures user data tracker
+            </summary>
+            <param name="config">Configuration</param>
+        </member>
         <member name="T:OKX.Net.Objects.Account.OKXAccountBalance">
             <summary>
             Account balance
@@ -12993,6 +13023,37 @@
         </member>
         <member name="M:OKX.Net.OKXTrackerFactory.CreateTradeTracker(CryptoExchange.Net.SharedApis.SharedSymbol,System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <inheritdoc />
+        </member>
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+            <inheritdoc />
+        </member>
+        <member name="T:OKX.Net.OKXUserSpotDataTracker">
+            <inheritdoc/>
+        </member>
+        <member name="M:OKX.Net.OKXUserSpotDataTracker.#ctor(Microsoft.Extensions.Logging.ILogger{OKX.Net.OKXUserSpotDataTracker},OKX.Net.Interfaces.Clients.IOKXRestClient,OKX.Net.Interfaces.Clients.IOKXSocketClient,System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
+            <summary>
+            ctor
+            </summary>
+        </member>
+        <member name="T:OKX.Net.OKXUserFuturesDataTracker">
+            <inheritdoc/>
+        </member>
+        <member name="P:OKX.Net.OKXUserFuturesDataTracker.WebsocketPositionUpdatesAreFullSnapshots">
+            <inheritdoc/>
+        </member>
+        <member name="M:OKX.Net.OKXUserFuturesDataTracker.#ctor(Microsoft.Extensions.Logging.ILogger{OKX.Net.OKXUserFuturesDataTracker},OKX.Net.Interfaces.Clients.IOKXRestClient,OKX.Net.Interfaces.Clients.IOKXSocketClient,System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
+            <summary>
+            ctor
+            </summary>
         </member>
         <member name="T:OKX.Net.SymbolOrderBooks.OKXOrderBookFactory">
             <inheritdoc />
