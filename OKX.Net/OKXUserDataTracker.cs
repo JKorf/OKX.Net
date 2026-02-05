@@ -17,7 +17,7 @@ namespace OKX.Net
             IOKXRestClient restClient,
             IOKXSocketClient socketClient,
             string? userIdentifier,
-            SpotUserDataTrackerConfig config) : base(
+            SpotUserDataTrackerConfig? config) : base(
                 logger,
                 restClient.UnifiedApi.SharedClient,
                 null,
@@ -27,7 +27,7 @@ namespace OKX.Net
                 socketClient.UnifiedApi.SharedClient,
                 socketClient.UnifiedApi.SharedClient,
                 userIdentifier,
-                config)
+                config ?? new SpotUserDataTrackerConfig())
         {
         }
     }
@@ -46,7 +46,7 @@ namespace OKX.Net
             IOKXRestClient restClient,
             IOKXSocketClient socketClient,
             string? userIdentifier,
-            FuturesUserDataTrackerConfig config) : base(logger,
+            FuturesUserDataTrackerConfig? config) : base(logger,
                 restClient.UnifiedApi.SharedClient,
                 null,
                 restClient.UnifiedApi.SharedClient,
@@ -56,7 +56,7 @@ namespace OKX.Net
                 socketClient.UnifiedApi.SharedClient,
                 socketClient.UnifiedApi.SharedClient,
                 userIdentifier,
-                config)
+                config ?? new FuturesUserDataTrackerConfig())
         {
         }
     }

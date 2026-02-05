@@ -77,7 +77,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig config)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig? config = null)
         {
             var restClient = _serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient();
@@ -91,7 +91,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, SpotUserDataTrackerConfig config, ApiCredentials credentials, OKXEnvironment? environment = null)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
@@ -106,7 +106,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig config)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null)
         {
             var restClient = _serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient();
             var socketClient = _serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient();
@@ -120,7 +120,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, FuturesUserDataTrackerConfig config, ApiCredentials credentials, OKXEnvironment? environment = null)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);

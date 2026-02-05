@@ -6156,7 +6156,7 @@
             Tracker factory
             </summary>
         </member>
-        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,OKX.Net.OKXEnvironment)">
             <summary>
             Create a new Spot user data tracker
             </summary>
@@ -6171,7 +6171,7 @@
             </summary>
             <param name="config">Configuration</param>
         </member>
-        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+        <member name="M:OKX.Net.Interfaces.IOKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,OKX.Net.OKXEnvironment)">
             <summary>
             Create a new futures user data tracker
             </summary>
@@ -13027,13 +13027,13 @@
         <member name="M:OKX.Net.OKXTrackerFactory.CreateUserSpotDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserSpotDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.SpotUserDataTrackerConfig,OKX.Net.OKXEnvironment)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.OKXTrackerFactory.CreateUserFuturesDataTracker(CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,CryptoExchange.Net.Authentication.ApiCredentials,OKX.Net.OKXEnvironment)">
+        <member name="M:OKX.Net.OKXTrackerFactory.CreateUserFuturesDataTracker(System.String,CryptoExchange.Net.Authentication.ApiCredentials,CryptoExchange.Net.Trackers.UserData.Objects.FuturesUserDataTrackerConfig,OKX.Net.OKXEnvironment)">
             <inheritdoc />
         </member>
         <member name="T:OKX.Net.OKXUserSpotDataTracker">
