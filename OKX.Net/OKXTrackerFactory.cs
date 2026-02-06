@@ -1,10 +1,13 @@
 ﻿using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Trackers.Klines;
 using CryptoExchange.Net.Trackers.Trades;
+using CryptoExchange.Net.Trackers.UserData.Interfaces;
+using CryptoExchange.Net.Trackers.UserData.Objects;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using OKX.Net.Clients;
 using OKX.Net.Interfaces;
 using OKX.Net.Interfaces.Clients;
-using Microsoft.Extensions.DependencyInjection;
-using OKX.Net.Clients;
 
 namespace OKX.Net
 {
@@ -55,6 +58,7 @@ namespace OKX.Net
                 period
                 );
         }
+
         /// <inheritdoc />
         public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null)
         {
@@ -69,6 +73,64 @@ namespace OKX.Net
                 symbol,
                 limit,
                 period
+                );
+        }
+
+        /// <inheritdoc />
+        public IUserSpotDataTracker CreateUserSpotDataTracker(SpotUserDataTrackerConfig? config = null)
+        {
+            var restClient = _serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient();
+            var socketClient = _serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient();
+            return new OKXUserSpotDataTracker(
+                _serviceProvider?.GetRequiredService<ILogger<OKXUserSpotDataTracker>>() ?? new NullLogger<OKXUserSpotDataTracker>(),
+                restClient,
+                socketClient,
+                null,
+                config
+                );
+        }
+
+        /// <inheritdoc />
+        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
+        {
+            var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
+            var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
+            var socketClient = clientProvider.GetSocketClient(userIdentifier, credentials, environment);
+            return new OKXUserSpotDataTracker(
+                _serviceProvider?.GetRequiredService<ILogger<OKXUserSpotDataTracker>>() ?? new NullLogger<OKXUserSpotDataTracker>(),
+                restClient,
+                socketClient,
+                userIdentifier,
+                config
+                );
+        }
+
+        /// <inheritdoc />
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(FuturesUserDataTrackerConfig? config = null)
+        {
+            var restClient = _serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient();
+            var socketClient = _serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient();
+            return new OKXUserFuturesDataTracker(
+                _serviceProvider?.GetRequiredService<ILogger<OKXUserFuturesDataTracker>>() ?? new NullLogger<OKXUserFuturesDataTracker>(),
+                restClient,
+                socketClient,
+                null,
+                config
+                );
+        }
+
+        /// <inheritdoc />
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
+        {
+            var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
+            var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
+            var socketClient = clientProvider.GetSocketClient(userIdentifier, credentials, environment);
+            return new OKXUserFuturesDataTracker(
+                _serviceProvider?.GetRequiredService<ILogger<OKXUserFuturesDataTracker>>() ?? new NullLogger<OKXUserFuturesDataTracker>(),
+                restClient,
+                socketClient,
+                userIdentifier,
+                config
                 );
         }
     }

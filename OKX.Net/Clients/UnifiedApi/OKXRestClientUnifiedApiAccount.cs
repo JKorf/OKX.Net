@@ -683,7 +683,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<WebCallResult<OKXDustConvertEntry[]>> EasyConvertDustAsync(IEnumerable<string> assets, string targetAsset, AccountType? sourceAccount = null, CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
-        parameters.AddParameter("ccy", assets.ToArray());
+        parameters.AddParameter("fromCcy", assets.ToArray());
         parameters.AddParameter("toCcy", targetAsset);
         if (sourceAccount != null)
             parameters.AddParameter("source", sourceAccount == AccountType.Funding ? "2" : "1");
