@@ -13,7 +13,7 @@ namespace OKX.Net.Clients.MessageHandlers
         public OKXSocketMessageHandler()
         {
             AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol);
-            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.Symbol ?? x.Arg?.Asset);
+            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.InstrumentType + x.Arg?.InstrumentFamily + (x.Arg?.Symbol ?? x.Arg?.Asset));
         }
 
         protected override MessageTypeDefinition[] TypeEvaluators { get; } = [

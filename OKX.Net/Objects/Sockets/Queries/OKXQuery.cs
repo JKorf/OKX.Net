@@ -15,8 +15,9 @@ internal class OKXQuery : Query<OKXSocketResponse>
         var routes = new List<MessageRoute>();
         foreach (var arg in request.Args)
         {
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithTopicFilter(request.Op + arg.Channel, arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + arg.InstrumentType + arg.InstrumentFamily + arg.Symbol, HandleMessage));
+            var topic = arg.InstrumentType + arg.InstrumentFamily + arg.Symbol;
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithOptionalTopicFilter(request.Op + arg.Channel, string.IsNullOrEmpty(topic) ? null : topic, HandleMessage));
+            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + topic, HandleMessage));
         }
 
         MessageRouter = MessageRouter.Create(routes.ToArray());

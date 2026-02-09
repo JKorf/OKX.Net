@@ -19,7 +19,16 @@ internal class OKXSubscription<T> : Subscription
 
         IndividualSubscriptionCount = args.Count;
 
-        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<T>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
+        MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<OKXSocketUpdate<T>>(args.First().Channel, GetTopicFilters(args), DoHandleMessage);
+    }
+
+    private IEnumerable<string>? GetTopicFilters(List<OKXSocketArgs> args)
+    {
+        var ids = args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol).ToArray();
+        if (ids.Length == 1 && string.IsNullOrEmpty(ids[0]))
+            return null;
+
+        return ids!;
     }
 
     protected override Query? GetSubQuery(SocketConnection connection)
