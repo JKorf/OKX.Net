@@ -26,7 +26,8 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     #endregion
 
     /// <inheritdoc />
-    public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string symbol,
+    public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
+        string? symbol,
         OrderSide side,
         OrderType type,
         Enums.TradeMode tradeMode,
@@ -43,17 +44,23 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         string? clientOrderId = null,
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
+
+        long? symbolCode = null,
         CancellationToken ct = default)
     {
+        if (symbol == null && symbolCode == null)
+            throw new ArgumentException("Either symbol or symbolCode parameter should be provided. symbol parameter will be deprecated");
+
         var parameters = new Dictionary<string, object>()
         {
-            { "instId", symbol },
             { "tdMode", EnumConverter.GetString(tradeMode) },
             { "side", EnumConverter.GetString(side) },
             { "ordType", EnumConverter.GetString(type) },
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
+        parameters.AddOptionalParameter("instIdCode", symbolCode);
+        parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("tag", LibraryHelpers.GetClientReference(() => _client.ClientOptions.BrokerId, _client.Exchange));
@@ -99,13 +106,11 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
     }
 
     /// <inheritdoc />
-    public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default)
+    public async Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string? symbol, string? orderId = null, string? clientOrderId = null, long? symbolCode = null, CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>()
-        {
-            { "instId", symbol }
-        };
-
+        var parameters = new Dictionary<string, object>();
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ordId", orderId);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
@@ -127,18 +132,18 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
 
     /// <inheritdoc />
     public virtual async Task<CallResult<OKXOrderAmendResponse>> AmendOrderAsync(
-        string symbol,
+        string? symbol,
         long? orderId = null,
         string? clientOrderId = null,
         string? requestId = null,
         decimal? newQuantity = null,
         decimal? newPrice = null,
+        long? symbolCode = null,
         CancellationToken ct = default)
     {
-        var parameters = new Dictionary<string, object>
-        {
-            { "instId", symbol },
-        };
+        var parameters = new Dictionary<string, object>();
+        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddOptionalParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ordId", orderId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("reqId", requestId);

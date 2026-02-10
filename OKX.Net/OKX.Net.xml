@@ -607,19 +607,19 @@
         <member name="T:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.PlaceMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderPlaceRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.CancelMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderCancelRequest},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXSocketClientUnifiedApiTrading.AmendMultipleOrdersAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXOrderAmendRequest},System.Threading.CancellationToken)">
@@ -6062,12 +6062,13 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.PlaceOrderAsync(System.String,OKX.Net.Enums.OrderSide,OKX.Net.Enums.OrderType,OKX.Net.Enums.TradeMode,System.Decimal,System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuickMarginType},System.Nullable{System.Int32},System.Nullable{OKX.Net.Enums.SelfTradePreventionMode},System.String,System.Nullable{OKX.Net.Enums.QuantityAsset},System.String,System.Nullable{System.Boolean},System.String,System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <summary>
             Place a new order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
             </summary>
-            <param name="symbol">Symbol, for example `ETH-USDT`</param>
+            <param name="symbol">Deprecated, use symbolCode parameter instead</param>
+            <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
             <param name="tradeMode">Trade Mode</param>
             <param name="side">Order Side</param>
             <param name="positionSide">Position Side</param>
@@ -6094,12 +6095,13 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.CancelOrderAsync(System.String,System.String,System.String,System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <summary>
             Cancel an incomplete order
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /></para>
             </summary>
-            <param name="symbol">The symbol, for example `ETH-USDT`</param>
+            <param name="symbol">Deprecated, use symbolCode parameter instead</param>
+            <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
             <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
             <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
             <param name="ct">Cancellation token</param>
@@ -6114,12 +6116,13 @@
             <param name="ct">Cancellation token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXSocketClientUnifiedApiTrading.AmendOrderAsync(System.String,System.Nullable{System.Int64},System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Threading.CancellationToken)">
             <summary>
             Edit an incomplete order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /></para>
             </summary>
-            <param name="symbol">Symbol, for example `ETH-USDT`</param>
+            <param name="symbol">Deprecated, use symbolCode parameter instead</param>
+            <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
             <param name="orderId">Amend by order id. This or clientOrderId should be provided</param>
             <param name="clientOrderId">Amend by client order id. This or orderId should be provided</param>
             <param name="requestId">Request id</param>
@@ -12170,7 +12173,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendRequest.Symbol">
             <summary>
-            Symbol
+            Deprecated, use SymbolCode parameter instead
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendRequest.SymbolCode">
+            <summary>
+            Symbol code
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderAmendRequest.CancelOnFail">
@@ -12235,7 +12243,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelRequest.Symbol">
             <summary>
-            Symbol
+            Deprecated, use SymbolCode parameter instead
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelRequest.SymbolCode">
+            <summary>
+            Symbol code
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderCancelRequest.OrderId">
@@ -12290,7 +12303,12 @@
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.Symbol">
             <summary>
-            Symbol
+            Deprecated, use SymbolCode parameter instead
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.SymbolCode">
+            <summary>
+            Symbol code
             </summary>
         </member>
         <member name="P:OKX.Net.Objects.Trade.OKXOrderPlaceRequest.TradeMode">

@@ -332,6 +332,6 @@ public record OKXAlgoOrder
     /// <summary>
     /// Advanced trigger order type
     /// </summary>
-    [JsonPropertyName("tradeQuoteCcy")]
+    [JsonPropertyName("advanceOrdType")]
     public AdvancedOrderType? AdvancedOrderType { get; set; }
 }
