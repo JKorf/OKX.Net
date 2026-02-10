@@ -157,7 +157,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetMaximumLoanAmountAsync(OKX.Net.Enums.MarginMode,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiAccount.GetInterestAccruedAsync(System.String,System.String,System.Nullable{OKX.Net.Enums.MarginMode},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Threading.CancellationToken)">
@@ -466,7 +466,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetUserTradesArchiveAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Nullable{System.Int64},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Nullable{OKX.Net.Enums.AdvancedOrderType},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.CancelAlgoOrderAsync(System.Collections.Generic.IEnumerable{OKX.Net.Objects.Trade.OKXAlgoOrderRequest},System.Threading.CancellationToken)">
@@ -699,6 +699,16 @@
             </summary>
         </member>
         <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.NullableAccountType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.AdvancedOrderType">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Converters.OKXSourceGenerationContext.NullableAdvancedOrderType">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -4258,7 +4268,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiAccount.GetFeeRatesAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.String,System.Nullable{OKX.Net.Enums.SymbolRuleType},System.String,System.Threading.CancellationToken)">
             <summary>
             Get Fee Rates
             <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /></para>
@@ -4268,6 +4278,7 @@
             <param name="underlying">Underlying</param>
             <param name="instrumentFamily">Instrument family</param>
             <param name="ruleType">Rule type</param>
+            <param name="groupId">Instrument trading fee group id</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -5505,7 +5516,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.PlaceAlgoOrderAsync(System.String,OKX.Net.Enums.TradeMode,OKX.Net.Enums.OrderSide,OKX.Net.Enums.AlgoOrderType,System.Nullable{System.Decimal},System.String,System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.PositionSide},System.Nullable{OKX.Net.Enums.QuantityAsset},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.AlgoPriceType},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.PriceVariance},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Int64},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{OKX.Net.Enums.QuickMarginType},System.String,System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.Nullable{OKX.Net.Enums.ChaseType},System.Nullable{System.Decimal},System.String,System.Nullable{OKX.Net.Enums.AdvancedOrderType},System.Threading.CancellationToken)">
             <summary>
             Place new algo order. The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /></para>
@@ -5544,6 +5555,7 @@
             <param name="maxChaseType">Max chase order value type</param>
             <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
             <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+            <param name="advancedOrderType">Advanced order type for trigger orders</param>
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
@@ -11554,6 +11566,11 @@
         <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.TradeQuoteAsset">
             <summary>
             Trade quote asset
+            </summary>
+        </member>
+        <member name="P:OKX.Net.Objects.Trade.OKXAlgoOrder.AdvancedOrderType">
+            <summary>
+            Advanced trigger order type
             </summary>
         </member>
         <member name="T:OKX.Net.Objects.Trade.OKXAlgoOrderAmendResponse">

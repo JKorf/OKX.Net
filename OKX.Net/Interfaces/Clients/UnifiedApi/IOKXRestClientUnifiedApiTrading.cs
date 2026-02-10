@@ -293,6 +293,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="maxChaseType">Max chase order value type</param>
     /// <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
     /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+    /// <param name="advancedOrderType">Advanced order type for trigger orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -330,6 +331,7 @@ public interface IOKXRestClientUnifiedApiTrading
         ChaseType? maxChaseType = null,
         decimal? maxChaseValue = null,
         string? tradeQuoteAsset = null,
+        AdvancedOrderType? advancedOrderType = null,
         CancellationToken ct = default);
 
     /// <summary>

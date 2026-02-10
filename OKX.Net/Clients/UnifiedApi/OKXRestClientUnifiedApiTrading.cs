@@ -553,6 +553,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? maxChaseValue = null,
 
         string? tradeQuoteAsset = null,
+        AdvancedOrderType? advancedOrderType = null,
 
         CancellationToken ct = default)
     {
@@ -580,6 +581,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         parameters.AddOptionalParameter("triggerPx", triggerPrice?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("orderPx", orderPrice?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalEnum("advanceOrdType", advancedOrderType);
 
         parameters.AddOptionalEnum("pxVar", pxVar);
         parameters.AddOptionalParameter("pxSpread", priceRatio?.ToString(CultureInfo.InvariantCulture));

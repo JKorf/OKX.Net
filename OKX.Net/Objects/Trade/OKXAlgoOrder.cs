@@ -328,4 +328,10 @@ public record OKXAlgoOrder
     /// </summary>
     [JsonPropertyName("tradeQuoteCcy")]
     public string TradeQuoteAsset { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Advanced trigger order type
+    /// </summary>
+    [JsonPropertyName("tradeQuoteCcy")]
+    public AdvancedOrderType? AdvancedOrderType { get; set; }
 }
