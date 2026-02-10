@@ -177,6 +177,15 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.5.0 - 10 Feb 2026
+    * Updated CryptoExchange.Net to version 10.5.1, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Added groupId parameter to restClient.UnifiedApi.Account.GetFeeRatesAsync endpoint
+    * Added advancedOrderType parameter to PlaceAlgoOrderAsync endpoints
+    * Added AdvancedOrderType to OKXAlgoOrder model
+    * Updated websocket order endpoints to support symbolCode parameter, marked symbol parameter as deprecated
+    * Updated UserClientProvider internal client cache to non-static to prevent cleanup issues
+    * Fixed websocket query response topic mapping
+
 * Version 4.4.0 - 06 Feb 2026
     * Updated CryptoExchange.Net to version 10.4.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
     * Added OKXUserSpotDataTracker and OKXUserFuturesDataTracker
