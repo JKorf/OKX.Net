@@ -316,6 +316,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         string? underlying = null,
         string? instrumentFamily = null,
         SymbolRuleType? ruleType = null,
+        string? groupId = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection();
@@ -323,6 +324,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
+        parameters.AddOptional("groupId", groupId);
         parameters.AddOptionalEnum("ruleType", ruleType);
 
         var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/trade-fee", OKXExchange.RateLimiter.EndpointGate, 1, true,
