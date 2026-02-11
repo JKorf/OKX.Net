@@ -46,7 +46,6 @@ namespace OKX.Net.SymbolOrderBooks
                 optionsDelegate(options);
             Initialize(options);
 
-            _sequencesAreConsecutive = true;
             _strictLevels = true;
             _initialDataTimeout = options?.InitialDataTimeout ?? TimeSpan.FromSeconds(30);
             _levels = options?.Limit;
@@ -61,6 +60,9 @@ namespace OKX.Net.SymbolOrderBooks
                 _type = OrderBookType.OrderBook_5;
             else if (_levels == 400 || _levels == null)
                 _type = OrderBookType.OrderBook;
+
+            _sequencesAreConsecutive = _type == OrderBookType.OrderBook;
+
         }
 
         /// <inheritdoc />
@@ -90,14 +92,21 @@ namespace OKX.Net.SymbolOrderBooks
 
         private void ProcessUpdate(DataEvent<OKXOrderBook> data)
         {
-            if (data.UpdateType == SocketUpdateType.Snapshot)
+            if (_type == OrderBookType.OrderBook_5)
             {
                 SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
             }
             else
             {
-                UpdateOrderBook(data.Data.PreviousSequenceId!.Value + 1, data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
-                //AddChecksum((int)data.Data.Checksum!);
+                if (data.UpdateType == SocketUpdateType.Snapshot)
+                {
+                    SetSnapshot(data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                }
+                else
+                {
+                    UpdateOrderBook(data.Data.PreviousSequenceId!.Value + 1, data.Data.SequenceId!.Value, data.Data.Bids, data.Data.Asks, data.DataTime, data.DataTimeLocal);
+                    //AddChecksum((int)data.Data.Checksum!);
+                }
             }
         }
 
