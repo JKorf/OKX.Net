@@ -177,6 +177,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.6.0 - 16 Feb 2026
+    * Updated CryptoExchange.Net to version 10.6.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Fixed SymbolOrderBook websocket subscription not getting closed if when waiting for initial data times out
+    * Fixed OKXSymbolOrderBook when using Limit = 5
+
 * Version 4.5.0 - 10 Feb 2026
     * Updated CryptoExchange.Net to version 10.5.1, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
     * Added groupId parameter to restClient.UnifiedApi.Account.GetFeeRatesAsync endpoint
