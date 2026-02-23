@@ -397,21 +397,21 @@ namespace OKX.Net.Clients.UnifiedApi
             }).ToArray());
         }
 
-        GetClosedOrdersOptions ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new GetClosedOrdersOptions(false, true, true, 100);
+        GetClosedOrdersOptions ISpotOrderRestClient.GetClosedSpotOrdersOptions { get; } = new GetClosedOrdersOptions(false, true, true, 100)
+        {
+            MaxAge = TimeSpan.FromDays(90)
+        };
         async Task<ExchangeWebResult<SharedSpotOrder[]>> ISpotOrderRestClient.GetClosedSpotOrdersAsync(GetClosedOrdersRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetClosedSpotOrdersOptions.ValidateRequest(Exchange, request, request.TradingMode, new[] { TradingMode.Spot });
             if (validationError != null)
                 return new ExchangeWebResult<SharedSpotOrder[]>(Exchange, validationError);
 
-#warning max age 3 months
-
             // Determine page token
             int limit = request.Limit ?? 100;
             var direction = DataDirection.Descending;
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
-#warning toId ok?
             var result = await Trading.GetOrderArchiveAsync(
                 InstrumentType.Spot,
                 symbol: request.Symbol!.GetSymbol(FormatSymbol),
@@ -429,7 +429,8 @@ namespace OKX.Net.Clients.UnifiedApi
                          result.Data.Select(x => x.CreateTime),
                          request.StartTime,
                          request.EndTime ?? DateTime.UtcNow,
-                         pageParams);
+                         pageParams,
+                         maxAge: TimeSpan.FromDays(90));
 
             return result.AsExchangeResult(
                 Exchange,
@@ -490,7 +491,10 @@ namespace OKX.Net.Clients.UnifiedApi
             }).ToArray());
         }
 
-        GetUserTradesOptions ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new GetUserTradesOptions(false, true, true, 100);
+        GetUserTradesOptions ISpotOrderRestClient.GetSpotUserTradesOptions { get; } = new GetUserTradesOptions(false, true, true, 100)
+        {
+            MaxAge = TimeSpan.FromDays(3)
+        };
         async Task<ExchangeWebResult<SharedUserTrade[]>> ISpotOrderRestClient.GetSpotUserTradesAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((ISpotOrderRestClient)this).GetSpotUserTradesOptions.ValidateRequest(Exchange, request, request.TradingMode, new[] { TradingMode.Spot });
@@ -521,7 +525,8 @@ namespace OKX.Net.Clients.UnifiedApi
                          result.Data.Select(x => x.Time),
                          request.StartTime,
                          request.EndTime ?? DateTime.UtcNow,
-                         pageParams);
+                         pageParams,
+                         maxAge: TimeSpan.FromDays(3));
 
             return result.AsExchangeResult(
                 Exchange,
@@ -1059,7 +1064,10 @@ namespace OKX.Net.Clients.UnifiedApi
             }).ToArray());
         }
 
-        GetClosedOrdersOptions IFuturesOrderRestClient.GetClosedFuturesOrdersOptions { get; } = new GetClosedOrdersOptions(false, true, true, 100);
+        GetClosedOrdersOptions IFuturesOrderRestClient.GetClosedFuturesOrdersOptions { get; } = new GetClosedOrdersOptions(false, true, true, 100)
+        {
+            MaxAge = TimeSpan.FromDays(90)
+        };
         async Task<ExchangeWebResult<SharedFuturesOrder[]>> IFuturesOrderRestClient.GetClosedFuturesOrdersAsync(GetClosedOrdersRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).GetClosedFuturesOrdersOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
@@ -1076,7 +1084,7 @@ namespace OKX.Net.Clients.UnifiedApi
             WebCallResult<OKXOrder[]> result;
             if (request.Symbol.TradingMode.IsPerpetual())
             {
-                result = await Trading.GetOrderHistoryAsync(
+                result = await Trading.GetOrderArchiveAsync(
                     InstrumentType.Swap,
                     symbol: symbol,
                     startTime: pageParams.StartTime,
@@ -1087,7 +1095,7 @@ namespace OKX.Net.Clients.UnifiedApi
             }
             else
             {
-                result = await Trading.GetOrderHistoryAsync(
+                result = await Trading.GetOrderArchiveAsync(
                     InstrumentType.Futures,
                     symbol: symbol,
                     startTime: pageParams.StartTime,
@@ -1106,7 +1114,8 @@ namespace OKX.Net.Clients.UnifiedApi
                          result.Data.Select(x => x.CreateTime),
                          request.StartTime,
                          request.EndTime ?? DateTime.UtcNow,
-                         pageParams);
+                         pageParams,
+                         TimeSpan.FromDays(90));
 
             return result.AsExchangeResult(
                 Exchange,
@@ -1189,7 +1198,10 @@ namespace OKX.Net.Clients.UnifiedApi
             }).ToArray());
         }
 
-        GetUserTradesOptions IFuturesOrderRestClient.GetFuturesUserTradesOptions { get; } = new GetUserTradesOptions(false, true, true, 100);
+        GetUserTradesOptions IFuturesOrderRestClient.GetFuturesUserTradesOptions { get; } = new GetUserTradesOptions(false, true, true, 100)
+        {
+            MaxAge = TimeSpan.FromDays(3)
+        };
         async Task<ExchangeWebResult<SharedUserTrade[]>> IFuturesOrderRestClient.GetFuturesUserTradesAsync(GetUserTradesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var validationError = ((IFuturesOrderRestClient)this).GetFuturesUserTradesOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
@@ -1237,7 +1249,8 @@ namespace OKX.Net.Clients.UnifiedApi
                          result.Data.Select(x => x.Time),
                          request.StartTime,
                          request.EndTime ?? DateTime.UtcNow,
-                         pageParams);
+                         pageParams,
+                         maxAge: TimeSpan.FromDays(3));
 
             return result.AsExchangeResult(
                 Exchange,
