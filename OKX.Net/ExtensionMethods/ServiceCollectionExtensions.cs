@@ -90,8 +90,8 @@ namespace Microsoft.Extensions.DependencyInjection
             }).ConfigurePrimaryHttpMessageHandler((serviceProvider) =>
             {
                 var options = serviceProvider.GetRequiredService<IOptions<OKXRestOptions>>().Value;
-                return LibraryHelpers.CreateHttpClientMessageHandler(options.Proxy, options.HttpKeepAliveInterval);
-            });
+                return LibraryHelpers.CreateHttpClientMessageHandler(options);
+            }).SetHandlerLifetime(Timeout.InfiniteTimeSpan);
             services.Add(new ServiceDescriptor(typeof(IOKXSocketClient), x => { return new OKXSocketClient(x.GetRequiredService<IOptions<OKXSocketOptions>>(), x.GetRequiredService<ILoggerFactory>()); }, socketClientLifeTime ?? ServiceLifetime.Singleton));
 
 
@@ -102,7 +102,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient<ITrackerFactory, OKXTrackerFactory>();
             services.AddSingleton<IOKXUserClientProvider, OKXUserClientProvider>(x =>
             new OKXUserClientProvider(
-                x.GetRequiredService<HttpClient>(),
+                x.GetRequiredService<IHttpClientFactory>().CreateClient(typeof(IOKXRestClient).Name),
                 x.GetRequiredService<ILoggerFactory>(),
                 x.GetRequiredService<IOptions<OKXRestOptions>>(),
                 x.GetRequiredService<IOptions<OKXSocketOptions>>()));
