@@ -338,8 +338,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? underlying = null,
         OrderType? orderType = null,
         OrderStatus? state = null,
-        DateTime? startTime = null,
-        DateTime? endTime = null,
+        string? fromId = null,
+        string? toId = null,
         int limit = 100,
         string? instrumentFamily = null,
         CancellationToken ct = default)
@@ -350,8 +350,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection();
         parameters.AddOptionalParameter("instId", symbol);
         parameters.AddOptionalParameter("uly", underlying);
-        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("before", fromId);
+        parameters.AddOptionalParameter("after", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
