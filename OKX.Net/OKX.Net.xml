@@ -451,7 +451,7 @@
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetOrderDetailsAsync(System.String,System.Nullable{System.Int64},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetOrdersAsync(System.Nullable{OKX.Net.Enums.InstrumentType},System.String,System.String,System.Nullable{OKX.Net.Enums.OrderType},System.Nullable{OKX.Net.Enums.OrderStatus},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetOrdersAsync(System.Nullable{OKX.Net.Enums.InstrumentType},System.String,System.String,System.Nullable{OKX.Net.Enums.OrderType},System.Nullable{OKX.Net.Enums.OrderStatus},System.String,System.String,System.Int32,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:OKX.Net.Clients.UnifiedApi.OKXRestClientUnifiedApiTrading.GetOrderHistoryAsync(OKX.Net.Enums.InstrumentType,System.String,System.String,System.Nullable{OKX.Net.Enums.OrderType},System.Nullable{OKX.Net.Enums.OrderStatus},System.Nullable{OKX.Net.Enums.OrderCategory},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.String,System.String,System.Threading.CancellationToken)">
@@ -5463,7 +5463,7 @@
             <param name="ct">Cancellation Token</param>
             <returns></returns>
         </member>
-        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetOrdersAsync(System.Nullable{OKX.Net.Enums.InstrumentType},System.String,System.String,System.Nullable{OKX.Net.Enums.OrderType},System.Nullable{OKX.Net.Enums.OrderStatus},System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:OKX.Net.Interfaces.Clients.UnifiedApi.IOKXRestClientUnifiedApiTrading.GetOrdersAsync(System.Nullable{OKX.Net.Enums.InstrumentType},System.String,System.String,System.Nullable{OKX.Net.Enums.OrderType},System.Nullable{OKX.Net.Enums.OrderStatus},System.String,System.String,System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Get all incomplete orders under the current account.
             <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-list" /></para>
@@ -5473,8 +5473,8 @@
             <param name="underlying">Underlying</param>
             <param name="orderType">Order Type</param>
             <param name="state">State</param>
-            <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-            <param name="endTime">Pagination of data to return records newer than the requested ts</param>
+            <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
+            <param name="toId">Pagination of data to return records newer than the requested ordId</param>
             <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
             <param name="instrumentFamily">Instrument family</param>
             <param name="ct">Cancellation Token</param>
