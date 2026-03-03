@@ -12,7 +12,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 {
     /// <summary>
     /// Subscribe to advance algo orders (includes iceberg order and twap order) updates. Data will be pushed when first subscribed. Data will be pushed when triggered by events such as placing/canceling order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-advance-algo-orders-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-advance-algo-orders-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: algo-advance)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -24,7 +29,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Subscribe to algo orders (includes trigger order, oco order, conditional order) updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-algo-orders-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-ws-algo-orders-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: orders-algo)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -36,7 +46,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Subscribe to order information updates. Data will not be pushed when first subscribed. Data will only be pushed when triggered by events such as placing/canceling order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-order-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-order-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: orders)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -48,7 +63,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Subscribe to user trade updates. Note that this subscription is only available to VIP5 accounts or above.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-fills-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-fills-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: fills)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Filter updates by symbol</param>
     /// <param name="onData">On Data Handler</param>
@@ -61,7 +81,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Subscribe to position information updates. Initial snapshot will be pushed according to subscription granularity. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-positions-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-positions-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: positions)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
@@ -74,7 +99,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// This push channel is only used as a risk warning, and is not recommended as a risk judgment for strategic trading. In the case that the market is volatile, there may be the possibility that the position has been liquidated at the same time that this message is pushed. The warning is sent when a position is at risk of liquidation for isolated margin positions.The warning is sent when all the positions are at risk of liquidation for cross margin positions.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-position-risk-warning" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-position-risk-warning" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: liquidation-warning)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">The instrument type</param>
     /// <param name="instrumentFamily">Optional instrument family</param>
@@ -88,7 +118,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Place a new order
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-order" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: order)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
@@ -130,7 +165,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Place orders in a batch. Maximum 20 orders can be placed per request
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-place-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: batch-orders)
+    /// </para>
     /// </summary>
     /// <param name="orders">The orders to place</param>
     /// <param name="ct">Cancellation token</param>
@@ -139,7 +179,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel an incomplete order
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-order" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: cancel-order)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
@@ -151,7 +196,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled per request.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-cancel-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: batch-cancel-orders)
+    /// </para>
     /// </summary>
     /// <param name="ordersToCancel">Orders to cancel</param>
     /// <param name="ct">Cancellation token</param>
@@ -160,7 +210,12 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Edit an incomplete order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-order" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: amend-order)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
@@ -183,10 +238,19 @@ public interface IOKXSocketClientUnifiedApiTrading
 
     /// <summary>
     /// Edit incomplete orders in batches. Maximum 20 orders can be amended per request.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-ws-amend-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// REQUEST /ws/v5/private (op: batch-amend-orders)
+    /// </para>
     /// </summary>
     /// <param name="ordersToCancel">Orders to cancel</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderAmendResponse[]>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> ordersToCancel, CancellationToken ct = default);
 }
+
+
+
+

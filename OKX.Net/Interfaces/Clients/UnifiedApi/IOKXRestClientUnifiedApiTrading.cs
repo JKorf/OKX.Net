@@ -10,7 +10,12 @@ public interface IOKXRestClientUnifiedApiTrading
 {
     /// <summary>
     /// Edit incomplete orders in batches. Maximum 20 orders can be amended at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/amend-batch-orders
+    /// </para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -19,7 +24,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Edit an incomplete order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-amend-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/amend-order
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
@@ -56,7 +66,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel unfilled algo orders(iceberg order and twap order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-advance-algo-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-advance-algo-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/cancel-advance-algos
+    /// </para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -65,7 +80,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel unfilled algo orders(trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/cancel-algos
+    /// </para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -74,7 +94,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel all pending orders after a certain time. Recalling this endpoint resets the timeout. Sending TimeSpan.Zero disables the countdown
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-all-after" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-all-after" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/cancel-all-after
+    /// </para>
     /// </summary>
     /// <param name="timeout">Timeout, between 10 and 120 seconds. TimeSpan.Zero disables timeout</param>
     /// <param name="tag">Only cancel orders with this Tag</param>
@@ -84,7 +109,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/cancel-batch-orders
+    /// </para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -93,7 +123,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Cancel an incomplete order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-cancel-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/cancel-order
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
@@ -104,7 +139,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Close all positions of an instrument via a market order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-close-positions" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-close-positions" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/close-position
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
@@ -118,7 +158,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get a list of untriggered Algo orders under the current account.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/orders-algo-history
+    /// </para>
     /// </summary>
     /// <param name="algoOrderType">Algo Order Type</param>
     /// <param name="algoOrderState">Algo Order State</param>
@@ -134,7 +179,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get a list of untriggered Algo orders under the current account.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-list" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/orders-algo-pending
+    /// </para>
     /// </summary>
     /// <param name="algoOrderType">Algo Order Type</param>
     /// <param name="algoId">Algo ID</param>
@@ -149,7 +199,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get the completed order data of the last 3 months, and the incomplete orders that have been canceled are only reserved for 2 hours.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-3-months" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-3-months" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/orders-history-archive
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -169,7 +224,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get order details.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-details" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-details" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/order
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderId">Order ID</param>
@@ -180,7 +240,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get the completed order data for the last 7 days, and the incomplete orders that have been cancelled are only reserved for 2 hours.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-7-days" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-history-last-7-days" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/orders-history
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -204,7 +269,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get all incomplete orders under the current account.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-list" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-order-list" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/orders-pending
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -221,7 +291,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get recently-filled transaction details in the last 3 months.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-months" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-months" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/fills-history
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -239,7 +314,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get recently-filled transaction details in the last 3 day.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-days" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-transaction-details-last-3-days" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/fills
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -257,7 +337,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Place new algo order. The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-place-algo-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/order-algo
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
@@ -336,7 +421,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Place orders in batches. Maximum 20 orders can be placed at a time.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-multiple-orders" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-multiple-orders" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/batch-orders
+    /// </para>
     /// </summary>
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
@@ -345,7 +435,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Place a new order
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/order
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">Trade Mode</param>
@@ -434,7 +529,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Get a specific algo order
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-get-algo-order-details" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/order-algo
+    /// </para>
     /// </summary>
     /// <param name="algoId">Algo id, this or clientAlgoId should be provided</param>
     /// <param name="clientAlgoId">Client algo order id, this or algoId should be provided</param>
@@ -444,7 +544,12 @@ public interface IOKXRestClientUnifiedApiTrading
 
     /// <summary>
     /// Edit an incomplete algo order.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-amend-algo-order" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/amend-algos
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="algoId">Algo ID</param>
@@ -475,3 +580,4 @@ public interface IOKXRestClientUnifiedApiTrading
         TriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default);
 }
+

@@ -14,7 +14,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// <summary>
     /// Subscribe to the estimated delivery/exercise price of FUTURES contracts and OPTION updates.
     /// Only the estimated delivery/exercise price will be pushed an hour before delivery/exercise, and will be pushed if there is any price change.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-estimated-delivery-exercise-price-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-estimated-delivery-exercise-price-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: estimated-price)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="instrumentFamily">Instrument family. Required if symbol is not set</param>
@@ -26,7 +31,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to funding rate updates. Data will be pushed every minute.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-funding-rate-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-funding-rate-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: funding-rate)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="onData">On Data Handler</param>
@@ -36,7 +46,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to funding rate updates. Data will be pushed every minute.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-funding-rate-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-funding-rate-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: funding-rate)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `ETH-USDT-SWAP`,'BTC-USDT-SWAP'</param>
     /// <param name="onData">On Data Handler</param>
@@ -46,7 +61,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the index klime/candlesticks updates. Data will be pushed every 500 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-candlesticks-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-candlesticks-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: index-candle)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD`</param>
     /// <param name="period">Period</param>
@@ -57,7 +77,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to index tickers data updates
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-tickers-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-tickers-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: index-tickers)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD`</param>
     /// <param name="onData">On Data Handler</param>
@@ -67,7 +92,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to index tickers data updates
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-tickers-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-index-tickers-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: index-tickers)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `ETH-USDT`,'BTC-USDT'</param>
     /// <param name="onData">On Data Handler</param>
@@ -77,7 +107,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the open interest updates. Data will by pushed every 3 seconds.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-open-interest-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-open-interest-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: open-interest)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="onData">On Data Handler</param>
@@ -87,7 +122,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the open interest updates. Data will by pushed every 3 seconds.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-open-interest-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-open-interest-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: open-interest)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `ETH-USDT-SWAP`,'BTC-USDT-SWAP'</param>
     /// <param name="onData">On Data Handler</param>
@@ -97,7 +137,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to kline/candlesticks updates of a symbol. Data will be pushed every 500 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-candlesticks-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-candlesticks-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: candle)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="period">Kline interval</param>
@@ -108,7 +153,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to kline/candlesticks updates of multiple symbols. Data will be pushed every 500 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-candlesticks-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-candlesticks-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: candle)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `ETH-USDT`,'BTC-USDT'</param>
     /// <param name="period">Kline interval</param>
@@ -119,7 +169,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the mark price updates. Data will be pushed every 200 ms when the mark price changes, and will be pushed every 10 seconds when the mark price does not change.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: mark-price)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="onData">On Data Handler</param>
@@ -129,7 +184,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the mark price updates. Data will be pushed every 200 ms when the mark price changes, and will be pushed every 10 seconds when the mark price does not change.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: mark-price)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `BTC-USD-SWAP`, `ETH-USD-SWAP` </param>
     /// <param name="onData">On Data Handler</param>
@@ -139,7 +199,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to mark price kline/candlesticks updates. Data will be pushed every 500 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-candlesticks-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-mark-price-candlesticks-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: mark-price-candle)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
     /// <param name="period">Kline interval</param>
@@ -150,7 +215,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to detailed pricing information updates of all OPTION contracts. Data will be pushed at once.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-option-summary-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-option-summary-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: opt-summary)
+    /// </para>
     /// </summary>
     /// <param name="instrumentFamily">Instrument family</param>
     /// <param name="onData">On Data Handler</param>
@@ -165,7 +235,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// OrderBookType.OrderBook_5: 5 depth levels will be pushed every time.Data will be pushed every 200 ms when there is change in order book.<br />
     /// OrderBookType.OrderBook_50_l2_TBT: 50 depth levels will be pushed in the initial full snapshot. Incremental data will be pushed tick by tick, i.e.whenever there is change in order book.<br />
     /// OrderBookType.OrderBook_l2_TBT: 400 depth levels will be pushed in the initial full snapshot. Incremental data will be pushed tick by tick, i.e.whenever there is change in order book.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-order-book-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-order-book-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="orderBookType">Order Book Type</param>
@@ -181,7 +256,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     /// OrderBookType.OrderBook_5: 5 depth levels will be pushed every time.Data will be pushed every 200 ms when there is change in order book.<br />
     /// OrderBookType.OrderBook_50_l2_TBT: 50 depth levels will be pushed in the initial full snapshot. Incremental data will be pushed tick by tick, i.e.whenever there is change in order book.<br />
     /// OrderBookType.OrderBook_l2_TBT: 400 depth levels will be pushed in the initial full snapshot. Incremental data will be pushed tick by tick, i.e.whenever there is change in order book.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-order-book-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-order-book-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `BTC-USD`, `ETH-USD` </param>
     /// <param name="orderBookType">Order Book Type</param>
@@ -192,7 +272,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the maximum buy price and minimum sell price of the instrument updates. Data will be pushed every 5 seconds when there are changes in limits, and will not be pushed when there is no changes on limit.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-price-limit-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-price-limit-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: price-limit)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="onData">On Data Handler</param>
@@ -202,7 +287,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the maximum buy price and minimum sell price of the instrument updates. Data will be pushed every 5 seconds when there are changes in limits, and will not be pushed when there is no changes on limit.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-price-limit-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-price-limit-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: price-limit)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `BTC-USD`, `ETH-USD` </param>
     /// <param name="onData">On Data Handler</param>
@@ -212,7 +302,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to symbols updates. The instruments will be pushed if there's any change to the instrument’s state (such as delivery of FUTURES, exercise of OPTION, listing of new contracts / trading pairs, trading suspension, etc.).
-    /// <para><a href="https://www.okx.com/docs-v5/en/#public-data-websocket-instruments-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-websocket-instruments-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: instruments)
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="onData">On Data Handler</param>
@@ -222,7 +317,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to status updates of system maintenance and push when the system maintenance status changes. First subscription: "Push the latest change data"; every time there is a state change, push the changed content
-    /// <para><a href="https://www.okx.com/docs-v5/en/#status-ws-status-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#status-ws-status-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: status)
+    /// </para>
     /// </summary>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -231,7 +331,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the last traded price updates, bid price, ask price and 24-hour trading volume of instruments. Data will be pushed every 100 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-tickers-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-tickers-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: tickers)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="onData">On Data Handler</param>
@@ -241,7 +346,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the last traded price updates, bid price, ask price and 24-hour trading volume of instruments. Data will be pushed every 100 ms.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-tickers-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-tickers-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: tickers)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `BTC-USD`, `ETH-USD` </param>
     /// <param name="onData">On Data Handler</param>
@@ -251,7 +361,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: trades)
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="onData">On Data Handler</param>
@@ -261,7 +376,12 @@ public interface IOKXSocketClientUnifiedApiExchangeData
 
     /// <summary>
     /// Subscribe to the recent trades data updates. Data will be pushed whenever there is a trade.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-ws-trades-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/public (channel: trades)
+    /// </para>
     /// </summary>
     /// <param name="symbols">Array of symbols, for example `BTC-USD`, `ETH-USD` </param>
     /// <param name="onData">On Data Handler</param>
@@ -270,3 +390,4 @@ public interface IOKXSocketClientUnifiedApiExchangeData
     Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default);
 
 }
+
