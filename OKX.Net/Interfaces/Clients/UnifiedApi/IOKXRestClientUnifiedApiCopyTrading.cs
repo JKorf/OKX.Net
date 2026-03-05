@@ -9,7 +9,12 @@ public interface IOKXRestClientUnifiedApiCopyTrading
 {
     /// <summary>
     /// Retrieve current account configuration related to copy/lead tradingt.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-copy-trading-get-account-configuration" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/copytrading/config
+    /// </para>
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -17,7 +22,12 @@ public interface IOKXRestClientUnifiedApiCopyTrading
 
     /// <summary>
     /// Get current leading positions of lead trader.
-    /// <para><a href="https://www.okx.com/docs-v5/zh/#order-book-trading-copy-trading-get-lead-trader-current-lead-positions" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/zh/#order-book-trading-copy-trading-get-lead-trader-current-lead-positions" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/copytrading/public-current-subpositions
+    /// </para>
     /// </summary>
     /// <param name="uniqueCode">Lead trader unique code. A combination of case-sensitive alphanumerics, all numbers and the length is 16 characters</param>
     /// <param name="instType">Instrument type. SWAP, the default value.</param>
@@ -28,3 +38,4 @@ public interface IOKXRestClientUnifiedApiCopyTrading
     /// <returns></returns>
     Task<WebCallResult<OKXCurrentSubposition[]>> GetLeadTraderCurrentLeadPositionsAsync(string uniqueCode, string instType = "SWAP", string? after = null, string? before = null, int limit = 100,  CancellationToken ct = default);
 }
+

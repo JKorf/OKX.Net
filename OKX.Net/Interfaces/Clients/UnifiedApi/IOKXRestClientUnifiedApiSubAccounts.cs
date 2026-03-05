@@ -11,7 +11,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
 {
     /// <summary>
     /// applies to master accounts only
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-history-of-sub-account-transfer" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-history-of-sub-account-transfer" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/subaccount/bills
+    /// </para>
     /// </summary>
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="asset">Asset, for example `ETH`</param>
@@ -26,7 +31,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <summary>
     /// Get sub-account funding balance
     /// Query detailed balance info of Funding Account of a sub-account via the master account (applies to master accounts only)
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-funding-balance" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-funding-balance" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/subaccount/balances
+    /// </para>
     /// </summary>
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
@@ -36,7 +46,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
 
     /// <summary>
     /// applies to master accounts only
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-list" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-list" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/users/subaccount/list
+    /// </para>
     /// </summary>
     /// <param name="enable">Sub-account status，true: Normal ; false: Frozen</param>
     /// <param name="subAccountName">Sub Account Name</param>
@@ -49,7 +64,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
 
     /// <summary>
     /// Query detailed balance info of Trading Account of a sub-account via the master account (applies to master accounts only)
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-trading-balance" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-get-sub-account-trading-balance" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/subaccount/balances
+    /// </para>
     /// </summary>
     /// <param name="subAccountName">Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
@@ -58,7 +78,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
 
     /// <summary>
     /// applies to master accounts only
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-reset-the-api-key-of-a-sub-account" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-reset-the-api-key-of-a-sub-account" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/users/subaccount/modify-apikey
+    /// </para>
     /// </summary>
     /// <param name="readPermission">Read permission</param>
     /// <param name="subAccountName">Sub Account Name</param>
@@ -72,7 +97,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
 
     /// <summary>
     /// applies to master accounts only
-    /// <para><a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-master-accounts-manage-the-transfers-between-sub-accounts" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#sub-account-rest-api-master-accounts-manage-the-transfers-between-sub-accounts" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/asset/subaccount/transfer
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
@@ -84,3 +114,4 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
 }
+

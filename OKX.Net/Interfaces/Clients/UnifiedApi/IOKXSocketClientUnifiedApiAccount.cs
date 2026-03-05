@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.Objects.Sockets;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Funding;
 
@@ -11,7 +11,12 @@ public interface IOKXSocketClientUnifiedApiAccount
 {
     /// <summary>
     /// Subscribe to account information updates. Data will be pushed when triggered by events such as placing/canceling order, and will also be pushed in regular interval according to subscription granularity.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: account)
+    /// </para>
     /// </summary>
     /// <param name="asset">Only receive updates for this asset, for example `BTC`</param>
     /// <param name="regularUpdates">If true will send updates regularly even if nothing has changed. If false only send update on change</param>
@@ -22,7 +27,12 @@ public interface IOKXSocketClientUnifiedApiAccount
 
     /// <summary>
     /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-balance-and-position-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-balance-and-position-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private (channel: balance_and_position)
+    /// </para>
     /// </summary>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -31,7 +41,12 @@ public interface IOKXSocketClientUnifiedApiAccount
 
     /// <summary>
     /// Subscribe to deposit updates
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-deposit-info-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-deposit-info-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: deposit-info)
+    /// </para>
     /// </summary>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
@@ -40,10 +55,16 @@ public interface IOKXSocketClientUnifiedApiAccount
 
     /// <summary>
     /// Subscribe to withdrawal updates
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-withdrawal-info-channel" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-websocket-withdrawal-info-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/business (channel: withdrawal-info)
+    /// </para>
     /// </summary>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default);
 }
+

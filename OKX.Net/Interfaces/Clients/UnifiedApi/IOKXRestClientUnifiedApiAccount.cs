@@ -12,7 +12,12 @@ public interface IOKXRestClientUnifiedApiAccount
 {
     /// <summary>
     /// Cancel withdrawal. You can cancel normal withdrawal requests, but you cannot cancel withdrawal requests on Lightning.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-cancel-withdrawal" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-cancel-withdrawal" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/asset/cancel-withdrawal
+    /// </para>
     /// </summary>
     /// <param name="withdrawalId">Withdrawal ID</param>
     /// <param name="ct">Cancellation Token</param>
@@ -21,7 +26,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get a list of assets (with non-zero balance), remaining balance, and available amount in the account.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-balance" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-balance" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/balance
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
@@ -30,7 +40,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get current account configuration.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-configuration" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-configuration" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/config
+    /// </para>
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
@@ -38,7 +53,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get Leverage
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-leverage" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-leverage" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/leverage-info
+    /// </para>
     /// </summary>
     /// <param name="symbols">Single symbol or multiple symbols (no more than 20) separated with comma, for example `BTC-USD-SWAP`</param>
     /// <param name="marginMode">Margin Mode</param>
@@ -49,7 +69,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the updated position data for the last 3 months. Return in reverse chronological order using utime.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/positions-history
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument type</param>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
@@ -65,7 +90,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get account and position risk
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-and-position-risk" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-and-position-risk" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/account-position-risk
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="ct">Cancellation Token</param>
@@ -75,7 +105,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get position info. When the account is in net mode, net positions will be displayed, and when the account is in long/short mode, long or short positions will be displayed.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-positions" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/positions
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
@@ -86,7 +121,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-3-months" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-3-months" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/bills-archive
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="asset">Asset, for example `ETH`</param>
@@ -105,7 +145,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-7-days" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-bills-details-last-7-days" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/bills
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="asset">Asset, for example `ETH`</param>
@@ -124,7 +169,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get a list of all assets. Not all assets can be traded. Assets that have not been defined in ISO 4217 may use a custom symbol.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-currencies" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-currencies" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/currencies
+    /// </para>
     /// </summary>
     /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
@@ -133,7 +183,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the deposit addresses of assets, including previously-used addresses.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-address" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/deposit-address
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
@@ -142,7 +197,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Retrieve the deposit history of all assets, up to 100 recent records in a year.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-deposit-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/deposit-history
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="transactionId">Transaction ID</param>
@@ -159,7 +219,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get Fee Rates
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-fee-rates" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/trade-fee
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
@@ -180,7 +245,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the balances of all the assets, and the amount that is available or on hold.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-balance" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-balance" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/balances
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
@@ -189,7 +259,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get billing records, you can get the latest 1 month historical data
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-asset-bills-details" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-asset-bills-details" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/bills
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="type">Bill type</param>
@@ -205,7 +280,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get interest-accrued
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-accrued-data" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-accrued-data" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/interest-accrued
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="asset">Asset</param>
@@ -219,7 +299,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the user's current leveraged currency borrowing interest rate
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-rate" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-interest-rate" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/interest-rate
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
@@ -228,7 +313,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get lightning deposits. Users can create up to 10,000 different invoices within 24 hours.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-deposits" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-deposits" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/deposit-lightning
+    /// </para>
     /// </summary>
     /// <param name="currency">Currency</param>
     /// <param name="amount">deposit amount between 0.000001 - 0.1</param>
@@ -239,7 +329,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get a lightning withdrawal. The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-withdrawals" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-withdrawals" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/withdrawal-lightning
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset. Currently only BTC is supported.</param>
     /// <param name="invoice">Invoice text</param>
@@ -250,7 +345,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get maximum buy/sell amount or open amount
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-buy-sell-amount-or-open-amount" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-buy-sell-amount-or-open-amount" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/max-size
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="tradeMode">Trade Mode</param>
@@ -271,7 +371,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get Maximum Available Tradable Amount
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-tradable-amount" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-tradable-amount" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/max-avail-size
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="tradeMode">Trade Mode</param>
@@ -290,7 +395,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the maximum loan of a instrument
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/max-loan
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example 'ETH-USDT'</param>
     /// <param name="asset">Applicable to get Max loan of manual borrow for the currency in Spot mode (enabled borrowing)</param>
@@ -302,7 +412,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the maximum transferable amount.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-withdrawals" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-withdrawals" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/max-withdrawal
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
@@ -311,7 +426,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get saving balances. Only the assets in the funding account can be used for saving.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#financial-product-savings-get-saving-balance" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#financial-product-savings-get-saving-balance" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/finance/savings/balance
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
@@ -320,7 +440,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-withdrawal-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-withdrawal-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/withdrawal-history
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example 'ETH'</param>
     /// <param name="transactionId">Transaction ID</param>
@@ -336,7 +461,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Purchase or redeem saving shares
-    /// <para><a href="https://www.okx.com/docs-v5/en/#financial-product-simple-earn-flexible-post-savings-purchase-redemption" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#financial-product-simple-earn-flexible-post-savings-purchase-redemption" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/finance/savings/purchase-redempt
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
@@ -352,7 +482,12 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Set leverage for cross MARGIN in Single-currency margin at pairs level.<br />
     /// Set leverage for cross MARGIN in Multi-currency margin at currency level.<br />
     /// Set leverage for cross/isolated FUTURES/SWAP at underlying/contract level.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-leverage" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-leverage" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-leverage
+    /// </para>
     /// </summary>
     /// <param name="leverage">Leverage</param>
     /// <param name="asset">Asset, for example `ETH`</param>
@@ -365,7 +500,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set position mode. FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-position-mode" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-position-mode" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-position-mode
+    /// </para>
     /// </summary>
     /// <param name="positionMode">Position mode</param>
     /// <param name="ct">Cancellation Token</param>
@@ -374,7 +514,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set the display type of Greeks.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-greeks-pa-bs" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-greeks-pa-bs" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-greeks
+    /// </para>
     /// </summary>
     /// <param name="greeksType">Display type of Greeks.</param>
     /// <param name="ct">Cancellation Token</param>
@@ -383,7 +528,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Increase or decrease the margin of the isolated position.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-increase-decrease-margin" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-increase-decrease-margin" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/position/margin-balance
+    /// </para>
     /// </summary>
     /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
     /// <param name="positionSide">Position Side</param>
@@ -397,7 +547,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Transfer asset. This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-funds-transfer" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-funds-transfer" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/asset/transfer
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
@@ -416,7 +571,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Withdraw an asset
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-withdrawal" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-withdrawal" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/asset/withdrawal
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset, for example `ETH`</param>
     /// <param name="amount">Amount</param>
@@ -432,7 +592,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get assets available for dust conversion
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-currency-list" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-currency-list" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/easy-convert-currency-list
+    /// </para>
     /// </summary>
     /// <param name="sourceAccount">Source account type</param>
     /// <param name="ct">Cancellation token</param>
@@ -440,7 +605,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Convert small assets in funding account to a target asset
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-easy-convert" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-place-easy-convert" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/easy-convert
+    /// </para>
     /// </summary>
     /// <param name="assets">Assets to convert, for example `ETH`</param>
     /// <param name="targetAsset">Target asset</param>
@@ -451,7 +621,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get easy dust convert history
-    /// <para><a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-easy-convert-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/easy-convert-history
+    /// </para>
     /// </summary>
     /// <param name="startTime">Filter by start time</param>
     /// <param name="endTime">Filter by end time</param>
@@ -461,7 +636,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set isolated margin mode for the Margin or Contracts instrument type
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-isolated-margin-trading-settings" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-isolated-margin-trading-settings" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-isolated-mode
+    /// </para>
     /// </summary>
     /// <param name="instumentType">Instrument type, only Margin and Contracts supported</param>
     /// <param name="isolatedMarginMode">Isolated margin mode</param>
@@ -471,7 +651,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get info on a transfer
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-funds-transfer-state" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-funds-transfer-state" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/transfer-state
+    /// </para>
     /// </summary>
     /// <param name="transferId">Transfer id, either this or clientTransferId needs to be provided</param>
     /// <param name="clientTransferId">Client transfer id, either this or transferId needs to be provided</param>
@@ -482,7 +667,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Preset info for switching account mode
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-preset-account-mode-switch" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-preset-account-mode-switch" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/account-level-switch-preset
+    /// </para>
     /// </summary>
     /// <param name="mode">Account mode</param>
     /// <param name="leverage">Leverage, required when switching from Portfolio margin mode to Spot and futures mode or Multi-currency margin mode, and the user holds cross-margin positions.</param>
@@ -493,7 +683,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Run a pre-check for account mode switching
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-precheck-account-mode-switch" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-precheck-account-mode-switch" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/set-account-switch-precheck
+    /// </para>
     /// </summary>
     /// <param name="mode">Account mode</param>
     /// <param name="ct">Cancellation Token</param>
@@ -502,7 +697,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set the account mode
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-account-mode" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-account-mode" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-account-level
+    /// </para>
     /// </summary>
     /// <param name="mode">New account mode</param>
     /// <param name="ct">Cancellation Token</param>
@@ -511,7 +711,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get details of an affiliate invitee
-    /// <para><a href="https://www.okx.com/docs-v5/en/#affiliate-rest-api-get-the-invitee-39-s-detail" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#affiliate-rest-api-get-the-invitee-39-s-detail" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/affiliate/invitee/detail
+    /// </para>
     /// </summary>
     /// <param name="userId">User id</param>
     /// <param name="ct">Cancellation token</param>
@@ -520,7 +725,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get asset valuation
-    /// <para><a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-account-asset-valuation" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-get-account-asset-valuation" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/asset-valuation
+    /// </para>
     /// </summary>
     /// <param name="asset">The asset to denote the value in, defaults to BTC</param>
     /// <param name="ct"></param>
@@ -529,7 +739,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Manually borrow / repay. Only applicable to Spot mode
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-manual-borrow-repay" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-manual-borrow-repay" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/spot-manual-borrow-repay
+    /// </para>
     /// </summary>
     /// <param name="asset">Asset name</param>
     /// <param name="BorrowRepaySide">Borrow or repay</param>
@@ -539,7 +754,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set auto repay. Only applicable to Spot mode
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-auto-repay" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-auto-repay" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-auto-repay
+    /// </para>
     /// </summary>
     /// <param name="autoRepay">Auto repay enabled or not</param>
     /// <param name="ct">Cancellation token</param>
@@ -547,7 +767,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get borrow/repay history
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-borrow-repay-history" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-borrow-repay-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/spot-borrow-repay-history
+    /// </para>
     /// </summary>
     /// <param name="asset">Filter by asset</param>
     /// <param name="type">Filter by type</param>
@@ -559,7 +784,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Get a list of instruments that are available to the user
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-instruments" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/instruments
+    /// </para>
     /// </summary>
     /// <param name="instrumentType">Instrument Type</param>
     /// <param name="underlying">Underlying</param>
@@ -570,7 +800,12 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set fee charge type for spot trading
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-fee-type" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-fee-type" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-fee-type
+    /// </para>
     /// </summary>
     /// <param name="feeType">Fee type</param>
     /// <param name="ct">Cancellation Token</param>
@@ -578,9 +813,15 @@ public interface IOKXRestClientUnifiedApiAccount
 
     /// <summary>
     /// Set settlement asset for USD contracts
-    /// <para><a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-settle-currency" /></para>
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-set-settle-currency" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/set-settle-currency
+    /// </para>
     /// </summary>
     /// <param name="settleAsset">The settlement asset</param>
     /// <param name="ct">Cancellation Token</param>
     Task<WebCallResult<OKXSettleAsset>> SetSettleAssetAsync(string settleAsset, CancellationToken ct = default);
 }
+
