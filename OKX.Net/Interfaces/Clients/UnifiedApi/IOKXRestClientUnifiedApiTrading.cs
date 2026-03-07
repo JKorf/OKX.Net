@@ -31,20 +31,20 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/amend-order
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="orderId">Order ID</param>
-    /// <param name="clientOrderId">Client Order ID</param>
-    /// <param name="requestId">Request ID</param>
-    /// <param name="cancelOnFail">Cancel On Fail</param>
-    /// <param name="newQuantity">New Quantity</param>
-    /// <param name="newPrice">New Price</param>
-    /// <param name="newTriggerPrice">New trigger price</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="orderId">["<c>ordId</c>"] Order ID</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
+    /// <param name="requestId">["<c>reqId</c>"] Request ID</param>
+    /// <param name="cancelOnFail">["<c>cxlOnFail</c>"] Cancel On Fail</param>
+    /// <param name="newQuantity">["<c>newSz</c>"] New Quantity</param>
+    /// <param name="newPrice">["<c>newPx</c>"] New Price</param>
+    /// <param name="newTriggerPrice">["<c>newTpTriggerPx</c>"] New trigger price</param>
     /// <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
-    /// <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
-    /// <param name="newTakeProfitOrderPrice">New take profit order price</param>
-    /// <param name="newStopLossOrderPrice">New stop loss order price</param>
-    /// <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
-    /// <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
+    /// <param name="newStopLossTriggerPrice">["<c>newSlTriggerPx</c>"] New stop loss trigger price</param>
+    /// <param name="newTakeProfitOrderPrice">["<c>newTpOrdPx</c>"] New take profit order price</param>
+    /// <param name="newStopLossOrderPrice">["<c>newSlOrdPx</c>"] New stop loss order price</param>
+    /// <param name="newTakeProfitPriceTriggerType">["<c>newTpTriggerPxType</c>"] New take profit price trigger type</param>
+    /// <param name="newStopLossPriceTriggerType">["<c>newSlTriggerPxType</c>"] New stop loss price trigger type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderAmendResponse>> AmendOrderAsync(
@@ -101,8 +101,8 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/cancel-all-after
     /// </para>
     /// </summary>
-    /// <param name="timeout">Timeout, between 10 and 120 seconds. TimeSpan.Zero disables timeout</param>
-    /// <param name="tag">Only cancel orders with this Tag</param>
+    /// <param name="timeout">["<c>timeOut</c>"] Timeout, between 10 and 120 seconds. TimeSpan.Zero disables timeout</param>
+    /// <param name="tag">["<c>tag</c>"] Only cancel orders with this Tag</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXCancelAllAfterResponse>> CancelAllAfterAsync(TimeSpan timeout, string? tag = null, CancellationToken ct = default);
@@ -130,9 +130,9 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/cancel-order
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="orderId">Order ID</param>
-    /// <param name="clientOrderId">Client Order ID</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="orderId">["<c>ordId</c>"] Order ID</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
@@ -146,12 +146,12 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/close-position
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `BTC-USD-SWAP`</param>
-    /// <param name="marginMode">Margin Mode</param>
-    /// <param name="positionSide">Position Side</param>
-    /// <param name="asset">Asset, for example `USDT`</param>
-    /// <param name="autoCancel">Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
-    /// <param name="clientOrderId">Client order id</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `BTC-USD-SWAP`</param>
+    /// <param name="marginMode">["<c>mgnMode</c>"] Margin Mode</param>
+    /// <param name="positionSide">["<c>posSide</c>"] Position Side</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset, for example `USDT`</param>
+    /// <param name="autoCancel">["<c>autoCxl</c>"] Whether any pending orders for closing out needs to be automatically canceled when close position via a market order.</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client order id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, MarginMode marginMode, PositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, string? clientOrderId = null, CancellationToken ct = default);
@@ -165,14 +165,14 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/orders-algo-history
     /// </para>
     /// </summary>
-    /// <param name="algoOrderType">Algo Order Type</param>
-    /// <param name="algoOrderState">Algo Order State</param>
-    /// <param name="algoId">Algo ID</param>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="algoOrderType">["<c>ordType</c>"] Algo Order Type</param>
+    /// <param name="algoOrderState">["<c>state</c>"] Algo Order State</param>
+    /// <param name="algoId">["<c>algoId</c>"] Algo ID</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="startTime">["<c>before</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>after</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderHistoryAsync(AlgoOrderType algoOrderType, AlgoOrderState? algoOrderState = null, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
@@ -186,13 +186,13 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/orders-algo-pending
     /// </para>
     /// </summary>
-    /// <param name="algoOrderType">Algo Order Type</param>
-    /// <param name="algoId">Algo ID</param>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="algoOrderType">["<c>ordType</c>"] Algo Order Type</param>
+    /// <param name="algoId">["<c>algoId</c>"] Algo ID</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="startTime">["<c>before</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>after</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderListAsync(AlgoOrderType algoOrderType, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
@@ -206,18 +206,18 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/orders-history-archive
     /// </para>
     /// </summary>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="underlying">Underlying</param>
-    /// <param name="orderType">Order Type</param>
-    /// <param name="state">State</param>
-    /// <param name="category">Category</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
-    /// <param name="instrumentFamily">Instrument family</param>
-    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
-    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="underlying">["<c>uly</c>"] Underlying</param>
+    /// <param name="orderType">["<c>ordType</c>"] Order Type</param>
+    /// <param name="state">["<c>state</c>"] State</param>
+    /// <param name="category">["<c>category</c>"] Category</param>
+    /// <param name="startTime">["<c>begin</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>end</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
+    /// <param name="fromId">["<c>after</c>"] Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrder[]>> GetOrderArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? fromId = null, string? toId = null, string? instrumentFamily = null, CancellationToken ct = default);
@@ -231,9 +231,9 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/order
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="orderId">Order ID</param>
-    /// <param name="clientOrderId">Client Order ID</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="orderId">["<c>ordId</c>"] Order ID</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrder>> GetOrderDetailsAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
@@ -247,18 +247,18 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/orders-history
     /// </para>
     /// </summary>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="underlying">Underlying</param>
-    /// <param name="orderType">Order Type</param>
-    /// <param name="state">State</param>
-    /// <param name="category">Category</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
-    /// <param name="instrumentFamily">Instrument family</param>
-    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
-    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="underlying">["<c>uly</c>"] Underlying</param>
+    /// <param name="orderType">["<c>ordType</c>"] Order Type</param>
+    /// <param name="state">["<c>state</c>"] State</param>
+    /// <param name="category">["<c>category</c>"] Category</param>
+    /// <param name="startTime">["<c>begin</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>end</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
+    /// <param name="fromId">["<c>after</c>"] Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrder[]>> GetOrderHistoryAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100,
@@ -276,15 +276,15 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/orders-pending
     /// </para>
     /// </summary>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="underlying">Underlying</param>
-    /// <param name="orderType">Order Type</param>
-    /// <param name="state">State</param>
-    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
-    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
-    /// <param name="instrumentFamily">Instrument family</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="underlying">["<c>uly</c>"] Underlying</param>
+    /// <param name="orderType">["<c>ordType</c>"] Order Type</param>
+    /// <param name="state">["<c>state</c>"] State</param>
+    /// <param name="fromId">["<c>before</c>"] Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">["<c>after</c>"] Pagination of data to return records newer than the requested ordId</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrder[]>> GetOrdersAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, string? fromId = null, string? toId = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
@@ -298,16 +298,16 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/fills-history
     /// </para>
     /// </summary>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="underlying">Underlying</param>
-    /// <param name="orderId">Order ID</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
-    /// <param name="instrumentFamily">Instrument family</param>
-    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
-    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="underlying">["<c>uly</c>"] Underlying</param>
+    /// <param name="orderId">["<c>ordId</c>"] Order ID</param>
+    /// <param name="startTime">["<c>begin</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>end</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
+    /// <param name="fromId">["<c>after</c>"] Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXTransaction[]>> GetUserTradesArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
@@ -321,16 +321,16 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/fills
     /// </para>
     /// </summary>
-    /// <param name="instrumentType">Instrument Type</param>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="underlying">Underlying</param>
-    /// <param name="orderId">Order ID</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
-    /// <param name="instrumentFamily">Instrument family</param>
-    /// <param name="fromId">Pagination of data to return records earlier than the requested ordId</param>
-    /// <param name="toId">Pagination of data to return records newer than the requested ordId</param>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="underlying">["<c>uly</c>"] Underlying</param>
+    /// <param name="orderId">["<c>ordId</c>"] Order ID</param>
+    /// <param name="startTime">["<c>begin</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>end</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
+    /// <param name="fromId">["<c>after</c>"] Pagination of data to return records earlier than the requested ordId</param>
+    /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXTransaction[]>> GetUserTradesAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
@@ -344,41 +344,41 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/order-algo
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="tradeMode">Trade Mode</param>
-    /// <param name="orderSide">Order Side</param>
-    /// <param name="algoOrderType">Algo Order Type</param>
-    /// <param name="quantity">Quantity</param>
-    /// <param name="asset">Asset</param>
-    /// <param name="reduceOnly">Reduce Only</param>
-    /// <param name="positionSide">Position Side</param>
-    /// <param name="quantityType">Quantity Type</param>
-    /// <param name="tpTriggerPxType">Take-profit trigger price type</param>
-    /// <param name="tpTriggerPrice">Take Profit Trigger Price</param>
-    /// <param name="tpOrderPrice">Take Profit Order Price</param>
-    /// <param name="slTriggerPxType">Stop-loss trigger price. If you fill in this parameter, you should fill in the stop-loss order price.</param>
-    /// <param name="slTriggerPrice">Stop Loss Trigger Price</param>
-    /// <param name="slOrderPrice">Stop Loss Order Price</param>
-    /// <param name="triggerPrice">Trigger Price</param>
-    /// <param name="orderPrice">Order Price</param>
-    /// <param name="pxVar">Price Variance</param>
-    /// <param name="priceRatio">Price Ratio</param>
-    /// <param name="sizeLimit">Size Limit</param>
-    /// <param name="priceLimit">Price Limit</param>
-    /// <param name="callbackRatio">Callback ratio</param>
-    /// <param name="callbackSpread">Callback spread</param>
-    /// <param name="activePx">Active price</param>
-    /// <param name="timeInterval">Time Interval</param>
-    /// <param name="closeFraction">Fraction of position to be closed when the algo order is triggered. Currently the system supports fully closing the position only so the only accepted value is 1.</param>
-    /// <param name="cancelOnClose">Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
-    /// <param name="quickMarginType">Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
-    /// <param name="clientOrderId">Client order id</param>
-    /// <param name="chaseType">Chase order value type</param>
-    /// <param name="chaseValue">Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
-    /// <param name="maxChaseType">Max chase order value type</param>
-    /// <param name="maxChaseValue">Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
-    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
-    /// <param name="advancedOrderType">Advanced order type for trigger orders</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="tradeMode">["<c>tdMode</c>"] Trade Mode</param>
+    /// <param name="orderSide">["<c>side</c>"] Order Side</param>
+    /// <param name="algoOrderType">["<c>ordType</c>"] Algo Order Type</param>
+    /// <param name="quantity">["<c>sz</c>"] Quantity</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset</param>
+    /// <param name="reduceOnly">["<c>reduceOnly</c>"] Reduce Only</param>
+    /// <param name="positionSide">["<c>posSide</c>"] Position Side</param>
+    /// <param name="quantityType">["<c>tgtCcy</c>"] Quantity Type</param>
+    /// <param name="tpTriggerPxType">["<c>tpTriggerPxType</c>"] Take-profit trigger price type</param>
+    /// <param name="tpTriggerPrice">["<c>tpTriggerPx</c>"] Take Profit Trigger Price</param>
+    /// <param name="tpOrderPrice">["<c>tpOrdPx</c>"] Take Profit Order Price</param>
+    /// <param name="slTriggerPxType">["<c>slTriggerPxType</c>"] Stop-loss trigger price. If you fill in this parameter, you should fill in the stop-loss order price.</param>
+    /// <param name="slTriggerPrice">["<c>slTriggerPx</c>"] Stop Loss Trigger Price</param>
+    /// <param name="slOrderPrice">["<c>slOrdPx</c>"] Stop Loss Order Price</param>
+    /// <param name="triggerPrice">["<c>triggerPx</c>"] Trigger Price</param>
+    /// <param name="orderPrice">["<c>orderPx</c>"] Order Price</param>
+    /// <param name="pxVar">["<c>pxVar</c>"] Price Variance</param>
+    /// <param name="priceRatio">["<c>pxSpread</c>"] Price Ratio</param>
+    /// <param name="sizeLimit">["<c>szLimit</c>"] Size Limit</param>
+    /// <param name="priceLimit">["<c>pxLimit</c>"] Price Limit</param>
+    /// <param name="callbackRatio">["<c>callbackRatio</c>"] Callback ratio</param>
+    /// <param name="callbackSpread">["<c>callbackSpread</c>"] Callback spread</param>
+    /// <param name="activePx">["<c>activePx</c>"] Active price</param>
+    /// <param name="timeInterval">["<c>timeInterval</c>"] Time Interval</param>
+    /// <param name="closeFraction">["<c>closeFraction</c>"] Fraction of position to be closed when the algo order is triggered. Currently the system supports fully closing the position only so the only accepted value is 1.</param>
+    /// <param name="cancelOnClose">["<c>cxlOnClosePos</c>"] Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
+    /// <param name="quickMarginType">["<c>quickMgnType</c>"] Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client order id</param>
+    /// <param name="chaseType">["<c>chaseType</c>"] Chase order value type</param>
+    /// <param name="chaseValue">["<c>chaseVal</c>"] Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
+    /// <param name="maxChaseType">["<c>maxChaseType</c>"] Max chase order value type</param>
+    /// <param name="maxChaseValue">["<c>maxChaseVal</c>"] Max chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
+    /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+    /// <param name="advancedOrderType">["<c>advanceOrdType</c>"] Advanced order type for trigger orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
@@ -442,26 +442,26 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/order
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="tradeMode">Trade Mode</param>
-    /// <param name="side">Order Side</param>
-    /// <param name="positionSide">Position Side</param>
-    /// <param name="type">Order Type</param>
-    /// <param name="quantity">Quantity</param>
-    /// <param name="price">Price</param>
-    /// <param name="asset">Asset</param>
-    /// <param name="attachedAlgoOrders">Attached take profit / stop loss orders</param>
-    /// <param name="clientOrderId">Client Order ID</param>
-    /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
-    /// <param name="quickMarginType">Quick margin type</param>
-    /// <param name="selfTradePreventionId">Self trade prevention id</param>
-    /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
-    /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
-    /// <param name="tag">Order tag</param>
-    /// <param name="priceUsd">Place options orders in USD, only applicable to OPTIONS</param>
-    /// <param name="priceVol">Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
-    /// <param name="banAmend">Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
-    /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="tradeMode">["<c>tdMode</c>"] Trade Mode</param>
+    /// <param name="side">["<c>side</c>"] Order Side</param>
+    /// <param name="positionSide">["<c>posSide</c>"] Position Side</param>
+    /// <param name="type">["<c>ordType</c>"] Order Type</param>
+    /// <param name="quantity">["<c>sz</c>"] Quantity</param>
+    /// <param name="price">["<c>px</c>"] Price</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset</param>
+    /// <param name="attachedAlgoOrders">["<c>attachAlgoOrds</c>"] Attached take profit / stop loss orders</param>
+    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
+    /// <param name="reduceOnly">["<c>reduceOnly</c>"] Whether to reduce position only or not, true false, the default is false.</param>
+    /// <param name="quickMarginType">["<c>quickMgnType</c>"] Quick margin type</param>
+    /// <param name="selfTradePreventionId">["<c>stpId</c>"] Self trade prevention id</param>
+    /// <param name="selfTradePreventionMode">["<c>stpMode</c>"] Self trade prevention mode</param>
+    /// <param name="quantityAsset">["<c>tgtCcy</c>"] Asset of the quantity when placing market order</param>
+    /// <param name="tag">["<c>tag</c>"] Order tag</param>
+    /// <param name="priceUsd">["<c>pxUsd</c>"] Place options orders in USD, only applicable to OPTIONS</param>
+    /// <param name="priceVol">["<c>pxVol</c>"] Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
+    /// <param name="banAmend">["<c>banAmend</c>"] Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
+    /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -490,21 +490,21 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <summary>
     /// Check the results of an order, returns account info before and after the order would be completed
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="tradeMode">Trade Mode</param>
-    /// <param name="side">Order Side</param>
-    /// <param name="positionSide">Position Side</param>
-    /// <param name="type">Order Type</param>
-    /// <param name="quantity">Quantity</param>
-    /// <param name="price">Price</param>
-    /// <param name="reduceOnly">Whether to reduce position only or not, true false, the default is false.</param>
-    /// <param name="takeProfitTriggerPrice">Take profit trigger price</param>
-    /// <param name="stopLossTriggerPrice">Stop loss trigger price</param>
-    /// <param name="takeProfitOrderPrice">Take profit order price</param>
-    /// <param name="stopLossOrderPrice">Stop loss order price</param>
-    /// <param name="takeProfitTriggerPriceType">Take profit price type</param>
-    /// <param name="stopLossTriggerPriceType">Stop loss price type</param>
-    /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="tradeMode">["<c>tdMode</c>"] Trade Mode</param>
+    /// <param name="side">["<c>side</c>"] Order Side</param>
+    /// <param name="positionSide">["<c>posSide</c>"] Position Side</param>
+    /// <param name="type">["<c>ordType</c>"] Order Type</param>
+    /// <param name="quantity">["<c>sz</c>"] Quantity</param>
+    /// <param name="price">["<c>px</c>"] Price</param>
+    /// <param name="reduceOnly">["<c>reduceOnly</c>"] Whether to reduce position only or not, true false, the default is false.</param>
+    /// <param name="takeProfitTriggerPrice">["<c>tpTriggerPx</c>"] Take profit trigger price</param>
+    /// <param name="stopLossTriggerPrice">["<c>slTriggerPx</c>"] Stop loss trigger price</param>
+    /// <param name="takeProfitOrderPrice">["<c>tpOrdPx</c>"] Take profit order price</param>
+    /// <param name="stopLossOrderPrice">["<c>slOrdPx</c>"] Stop loss order price</param>
+    /// <param name="takeProfitTriggerPriceType">["<c>tpTriggerPxType</c>"] Take profit price type</param>
+    /// <param name="stopLossTriggerPriceType">["<c>slTriggerPxType</c>"] Stop loss price type</param>
+    /// <param name="quantityAsset">["<c>tgtCcy</c>"] Asset of the quantity when placing market order</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXCheckOrderResponse>> CheckOrderAsync(
@@ -536,8 +536,8 @@ public interface IOKXRestClientUnifiedApiTrading
     /// GET /api/v5/trade/order-algo
     /// </para>
     /// </summary>
-    /// <param name="algoId">Algo id, this or clientAlgoId should be provided</param>
-    /// <param name="clientAlgoId">Client algo order id, this or algoId should be provided</param>
+    /// <param name="algoId">["<c>algoId</c>"] Algo id, this or clientAlgoId should be provided</param>
+    /// <param name="clientAlgoId">["<c>algoClOrdId</c>"] Client algo order id, this or algoId should be provided</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default);
@@ -551,18 +551,18 @@ public interface IOKXRestClientUnifiedApiTrading
     /// POST /api/v5/trade/amend-algos
     /// </para>
     /// </summary>
-    /// <param name="symbol">Symbol, for example `ETH-USDT`</param>
-    /// <param name="algoId">Algo ID</param>
-    /// <param name="clientAlgoId">Client Algo Order ID</param>
-    /// <param name="requestId">Request ID</param>
-    /// <param name="cancelOnFail">Cancel On Fail</param>
-    /// <param name="newQuantity">New Quantity</param>
-    /// <param name="newTakeProfitTriggerPrice">New take profit trigger price</param>
-    /// <param name="newStopLossTriggerPrice">New stop loss trigger price</param>
-    /// <param name="newTakeProfitOrderPrice">New take profit order price</param>
-    /// <param name="newStopLossOrderPrice">New stop loss order price</param>
-    /// <param name="newTakeProfitPriceTriggerType">New take profit price trigger type</param>
-    /// <param name="newStopLossPriceTriggerType">New stop loss price trigger type</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
+    /// <param name="algoId">["<c>algoId</c>"] Algo ID</param>
+    /// <param name="clientAlgoId">["<c>algoClOrdId</c>"] Client Algo Order ID</param>
+    /// <param name="requestId">["<c>reqId</c>"] Request ID</param>
+    /// <param name="cancelOnFail">["<c>cxlOnFail</c>"] Cancel On Fail</param>
+    /// <param name="newQuantity">["<c>newSz</c>"] New Quantity</param>
+    /// <param name="newTakeProfitTriggerPrice">["<c>newTpTriggerPx</c>"] New take profit trigger price</param>
+    /// <param name="newStopLossTriggerPrice">["<c>newSlTriggerPx</c>"] New stop loss trigger price</param>
+    /// <param name="newTakeProfitOrderPrice">["<c>newTpOrdPx</c>"] New take profit order price</param>
+    /// <param name="newStopLossOrderPrice">["<c>newSlOrdPx</c>"] New stop loss order price</param>
+    /// <param name="newTakeProfitPriceTriggerType">["<c>newTpTriggerPxType</c>"] New take profit price trigger type</param>
+    /// <param name="newStopLossPriceTriggerType">["<c>newSlTriggerPxType</c>"] New stop loss price trigger type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderAmendResponse>> AmendAlgoOrderAsync(

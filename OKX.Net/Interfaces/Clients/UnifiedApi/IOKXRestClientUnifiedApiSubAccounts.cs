@@ -18,12 +18,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// GET /api/v5/asset/subaccount/bills
     /// </para>
     /// </summary>
-    /// <param name="subAccountName">Sub Account Name</param>
-    /// <param name="asset">Asset, for example `ETH`</param>
-    /// <param name="type">Transfer type</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
+    /// <param name="type">["<c>type</c>"] Transfer type</param>
+    /// <param name="startTime">["<c>before</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>after</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccountBill[]>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
@@ -38,8 +38,8 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// GET /api/v5/asset/subaccount/balances
     /// </para>
     /// </summary>
-    /// <param name="subAccountName">Sub Account Name</param>
-    /// <param name="asset">Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
+    /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
+    /// <param name="asset">["<c>ccy</c>"] Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccountFundingBalance[]>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
@@ -53,11 +53,11 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// GET /api/v5/users/subaccount/list
     /// </para>
     /// </summary>
-    /// <param name="enable">Sub-account status，true: Normal ; false: Frozen</param>
-    /// <param name="subAccountName">Sub Account Name</param>
-    /// <param name="startTime">Pagination of data to return records earlier than the requested ts</param>
-    /// <param name="endTime">Pagination of data to return records newer than the requested ts</param>
-    /// <param name="limit">Number of results per request. The maximum is 100; the default is 100.</param>
+    /// <param name="enable">["<c>enable</c>"] Sub-account status，true: Normal ; false: Frozen</param>
+    /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
+    /// <param name="startTime">["<c>before</c>"] Pagination of data to return records earlier than the requested ts</param>
+    /// <param name="endTime">["<c>after</c>"] Pagination of data to return records newer than the requested ts</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccount[]>> GetSubAccountsAsync(bool? enable = null, string? subAccountName = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
@@ -71,7 +71,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// GET /api/v5/account/subaccount/balances
     /// </para>
     /// </summary>
-    /// <param name="subAccountName">Sub Account Name</param>
+    /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
@@ -85,12 +85,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// POST /api/v5/users/subaccount/modify-apikey
     /// </para>
     /// </summary>
-    /// <param name="readPermission">Read permission</param>
-    /// <param name="subAccountName">Sub Account Name</param>
-    /// <param name="apiKey">APIKey note</param>
-    /// <param name="apiLabel">APIKey note</param>
-    /// <param name="tradePermission">Trade permission</param>
-    /// <param name="ipAddresses">Link IP addresses, separate with commas if more than one. Support up to 20 IP addresses.</param>
+    /// <param name="readPermission">["<c>perm</c>"] Read permission</param>
+    /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
+    /// <param name="apiKey">["<c>apiKey</c>"] APIKey note</param>
+    /// <param name="apiLabel">["<c>label</c>"] APIKey note</param>
+    /// <param name="tradePermission">["<c>perm</c>"] Trade permission</param>
+    /// <param name="ipAddresses">["<c>ip</c>"] Link IP addresses, separate with commas if more than one. Support up to 20 IP addresses.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccountApiKey>> ResetSubAccountApiKeyAsync(string subAccountName, string apiKey, string? apiLabel = null, bool? readPermission = null, bool? tradePermission = null, string? ipAddresses = null, CancellationToken ct = default);
@@ -104,12 +104,12 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// POST /api/v5/asset/subaccount/transfer
     /// </para>
     /// </summary>
-    /// <param name="asset">Asset, for example `ETH`</param>
-    /// <param name="amount">Amount</param>
-    /// <param name="fromAccount">From account type</param>
-    /// <param name="toAccount">To account type</param>
-    /// <param name="fromSubAccountName">Sub-account name of the account that transfers funds out.</param>
-    /// <param name="toSubAccountName">Sub-account name of the account that transfers funds in.</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
+    /// <param name="amount">["<c>amt</c>"] Amount</param>
+    /// <param name="fromAccount">["<c>from</c>"] From account type</param>
+    /// <param name="toAccount">["<c>to</c>"] To account type</param>
+    /// <param name="fromSubAccountName">["<c>fromSubAccount</c>"] Sub-account name of the account that transfers funds out.</param>
+    /// <param name="toSubAccountName">["<c>toSubAccount</c>"] Sub-account name of the account that transfers funds in.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
