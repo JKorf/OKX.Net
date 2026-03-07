@@ -9,25 +9,25 @@ namespace OKX.Net.Objects.Account;
 public record OKXLeverage
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Margin mode
+    /// ["<c>mgnMode</c>"] Margin mode
     /// </summary>
     [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
-    /// Position side
+    /// ["<c>posSide</c>"] Position side
     /// </summary>
     [JsonPropertyName("posSide")]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>
-    /// Leverage
+    /// ["<c>lever</c>"] Leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public decimal? Leverage { get; set; }

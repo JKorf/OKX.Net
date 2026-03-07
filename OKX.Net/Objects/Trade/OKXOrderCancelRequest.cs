@@ -7,24 +7,24 @@ namespace OKX.Net.Objects.Trade;
 public record OKXOrderCancelRequest
 {
     /// <summary>
-    /// Deprecated, use SymbolCode parameter instead
+    /// ["<c>instId</c>"] Deprecated, use SymbolCode parameter instead
     /// </summary>
     [JsonPropertyName("instId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Symbol { get; set; }
     /// <summary>
-    /// Symbol code
+    /// ["<c>instIdCode</c>"] Symbol code
     /// </summary>
     [JsonPropertyName("instIdCode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public long? SymbolCode { get; set; }
 
     /// <summary>
-    /// Order id
+    /// ["<c>ordId</c>"] Order id
     /// </summary>
     [JsonPropertyName("ordId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? OrderId { get; set; }
 
     /// <summary>
-    /// Client order id
+    /// ["<c>clOrdId</c>"] Client order id
     /// </summary>
     [JsonPropertyName("clOrdId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ClientOrderId { get; set; }

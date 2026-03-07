@@ -9,61 +9,61 @@ namespace OKX.Net.Objects.Market;
 public record OKXBlockTrade
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Trade id
+    /// ["<c>tradeId</c>"] Trade id
     /// </summary>
     [JsonPropertyName("tradeId")]
     public long TradeId { get; set; }
 
     /// <summary>
-    /// Price
+    /// ["<c>px</c>"] Price
     /// </summary>
     [JsonPropertyName("px")]
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>sz</c>"] Quantity
     /// </summary>
     [JsonPropertyName("sz")]
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// Implied volatility (Options only)
+    /// ["<c>fillVol</c>"] Implied volatility (Options only)
     /// </summary>
     [JsonPropertyName("fillVol")]
     public decimal? ImpliedVolatility { get; set; }
 
     /// <summary>
-    /// Index price (Options only)
+    /// ["<c>idxPx</c>"] Index price (Options only)
     /// </summary>
     [JsonPropertyName("idxPx")]
     public decimal? IndexPrice { get; set; }
 
     /// <summary>
-    /// Forward price (Options only)
+    /// ["<c>fwdPx</c>"] Forward price (Options only)
     /// </summary>
     [JsonPropertyName("fwdPx")]
     public decimal? ForwardPrice { get; set; }
 
     /// <summary>
-    /// Mark price
+    /// ["<c>markPx</c>"] Mark price
     /// </summary>
     [JsonPropertyName("markPx")]
     public decimal? MarkPrice { get; set; }
 
     /// <summary>
-    /// Side
+    /// ["<c>side</c>"] Side
     /// </summary>
     [JsonPropertyName("side")]
     public OrderSide Side { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

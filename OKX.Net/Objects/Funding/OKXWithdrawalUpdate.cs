@@ -9,127 +9,127 @@ namespace OKX.Net.Objects.Funding;
 public record OKXWithdrawalUpdate
 {
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Withdrawal id
+    /// ["<c>wdId</c>"] Withdrawal id
     /// </summary>
     [JsonPropertyName("wdId")]
     public long WithdrawalId { get; set; }
 
     /// <summary>
-    /// State
+    /// ["<c>state</c>"] State
     /// </summary>
     [JsonPropertyName("state")]
     public WithdrawalState State { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Network
+    /// ["<c>chain</c>"] Network
     /// </summary>
     [JsonPropertyName("chain")]
     public string Network { get; set; } = string.Empty;
 
     /// <summary>
-    /// Transaction id
+    /// ["<c>txId</c>"] Transaction id
     /// </summary>
     [JsonPropertyName("txId")]
     public string TransactionId { get; set; } = string.Empty;
 
     /// <summary>
-    /// From
+    /// ["<c>from</c>"] From
     /// </summary>
     [JsonPropertyName("from")]
     public string From { get; set; } = string.Empty;
 
     /// <summary>
-    /// To
+    /// ["<c>to</c>"] To
     /// </summary>
     [JsonPropertyName("to")]
     public string To { get; set; } = string.Empty;
 
     /// <summary>
-    /// Fee
+    /// ["<c>fee</c>"] Fee
     /// </summary>
     [JsonPropertyName("fee")]
     public decimal Fee { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// Client id
+    /// ["<c>clientId</c>"] Client id
     /// </summary>
     [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// Area code for the phone number
+    /// ["<c>areaCodeFrom</c>"] Area code for the phone number
     /// </summary>
     [JsonPropertyName("areaCodeFrom")]
     public string? AreaCodeFrom { get; set; }
 
     /// <summary>
-    /// Area code for the phone number
+    /// ["<c>areaCodeTo</c>"] Area code for the phone number
     /// </summary>
     [JsonPropertyName("areaCodeTo")]
     public string? AreaCodeTo { get; set; }
 
     /// <summary>
-    /// Sub account name
+    /// ["<c>subAcct</c>"] Sub account name
     /// </summary>
     [JsonPropertyName("subAcct")]
     public string? SubAccount { get; set; }
 
     /// <summary>
-    /// User Identifier of the message producer
+    /// ["<c>uid</c>"] User Identifier of the message producer
     /// </summary>
     [JsonPropertyName("uid")]
     public string? Uid { get; set; }
 
     /// <summary>
-    /// Fee asset
+    /// ["<c>feeCcy</c>"] Fee asset
     /// </summary>
     [JsonPropertyName("feeCcy")]
     public string FeeAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Withdrawal memo
+    /// ["<c>memo</c>"] Withdrawal memo
     /// </summary>
     [JsonPropertyName("memo")]
     public string? Memo { get; set; }
 
     /// <summary>
-    /// Payment id
+    /// ["<c>pmtId</c>"] Payment id
     /// </summary>
     [JsonPropertyName("pmtId")]
     public string? PaymentId { get; set; }
 
     /// <summary>
-    /// Tag
+    /// ["<c>tag</c>"] Tag
     /// </summary>
     [JsonPropertyName("tag")]
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Whether it is a non-tradable asset or not
+    /// ["<c>nonTradableAsset</c>"] Whether it is a non-tradable asset or not
     /// </summary>
     [JsonPropertyName("nonTradableAsset")]
     public bool? IsNonTradableAsset { get; set; }
 
     /// <summary>
-    /// Push time
+    /// ["<c>pTime</c>"] Push time
     /// </summary>
     [JsonPropertyName("pTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime PushTime { get; set; }

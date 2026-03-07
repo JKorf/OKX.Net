@@ -9,30 +9,30 @@ namespace OKX.Net.Objects.Account;
 public record OKXPositionAndBalanceUpdate
 {
     /// <summary>
-    /// Trigger event type
+    /// ["<c>eventType</c>"] Trigger event type
     /// </summary>
     [JsonPropertyName("eventType")]
     public string EventType { get; set; } = string.Empty;
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>pTime</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("pTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Balance data
+    /// ["<c>balData</c>"] Balance data
     /// </summary>
     [JsonPropertyName("balData")]
     public OKXBalanceUpdate[] BalanceData { get; set; } = Array.Empty<OKXBalanceUpdate>();
 
     /// <summary>
-    /// Position data
+    /// ["<c>posData</c>"] Position data
     /// </summary>
     [JsonPropertyName("posData")]
     public OKXAccountPositionUpdate[] PositionData { get; set; } = Array.Empty<OKXAccountPositionUpdate>();
     /// <summary>
-    /// Trades data
+    /// ["<c>trades</c>"] Trades data
     /// </summary>
     [JsonPropertyName("trades")]
     public OKXTradeReference[] TradeData { get; set; } = Array.Empty<OKXTradeReference>();
@@ -45,19 +45,19 @@ public record OKXPositionAndBalanceUpdate
 public record OKXBalanceUpdate
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Cash balance
+    /// ["<c>cashBal</c>"] Cash balance
     /// </summary>
     [JsonPropertyName("cashBal")]
     public decimal? CashBalance { get; set; }
 
     /// <summary>
-    /// Update time
+    /// ["<c>uTime</c>"] Update time
     /// </summary>
     [JsonPropertyName("uTime")]
     [JsonConverter(typeof(DateTimeConverter))]
@@ -71,67 +71,67 @@ public record OKXBalanceUpdate
 public record OKXAccountPositionUpdate
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Margin mode
+    /// ["<c>mgnMode</c>"] Margin mode
     /// </summary>
     [JsonPropertyName("mgnMode")]
     public MarginMode MarginMode { get; set; }
 
     /// <summary>
-    /// Position quantity
+    /// ["<c>pos</c>"] Position quantity
     /// </summary>
     [JsonPropertyName("pos")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
-    /// Average open price
+    /// ["<c>avgPx</c>"] Average open price
     /// </summary>
     [JsonPropertyName("avgPx")]
     public decimal? AverageOpenPrice { get; set; }
 
     /// <summary>
-    /// Position asset
+    /// ["<c>posCcy</c>"] Position asset
     /// </summary>
     [JsonPropertyName("posCcy")]
     public string PositionAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Last trade ID
+    /// ["<c>tradeId</c>"] Last trade ID
     /// </summary>
     [JsonPropertyName("tradeId")]
     public string? TradeId { get; set; }
 
     /// <summary>
-    /// Position id
+    /// ["<c>posId</c>"] Position id
     /// </summary>
     [JsonPropertyName("posId")]
     public long PositionId { get; set; }
 
     /// <summary>
-    /// Position side
+    /// ["<c>posSide</c>"] Position side
     /// </summary>
     [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
-    /// Update time
+    /// ["<c>uTime</c>"] Update time
     /// </summary>
     [JsonPropertyName("uTime")]
     [JsonConverter(typeof(DateTimeConverter))]
@@ -145,12 +145,12 @@ public record OKXAccountPositionUpdate
 public record OKXTradeReference
 {
     /// <summary>
-    /// Symbol name
+    /// ["<c>instId</c>"] Symbol name
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
     /// <summary>
-    /// Trade id
+    /// ["<c>tradeId</c>"] Trade id
     /// </summary>
     [JsonPropertyName("tradeId")]
     public string TradeId { get; set; } = string.Empty;

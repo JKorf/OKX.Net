@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Public;
 public record OKXInterestRate
 {
     /// <summary>
-    /// Basic
+    /// ["<c>basic</c>"] Basic
     /// </summary>
     [JsonPropertyName("basic")]
     public OKXPublicInterestRateBasic[] Basic { get; set; } = Array.Empty<OKXPublicInterestRateBasic>();
 
     /// <summary>
-    /// VIP
+    /// ["<c>vip</c>"] VIP
     /// </summary>
     [JsonPropertyName("vip")]
     public OKXPublicInterestRateVip[] Vip { get; set; } = Array.Empty<OKXPublicInterestRateVip>();
 
     /// <summary>
-    /// Regular
+    /// ["<c>regular</c>"] Regular
     /// </summary>
     [JsonPropertyName("regular")]
     public OKXPublicInterestRateRegular[] regular { get; set; } = Array.Empty<OKXPublicInterestRateRegular>();
@@ -33,19 +33,19 @@ public record OKXInterestRate
 public record OKXPublicInterestRateBasic
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quota
+    /// ["<c>quota</c>"] Quota
     /// </summary>
     [JsonPropertyName("quota")]
     public decimal? Quota { get; set; }
 
     /// <summary>
-    /// Rate
+    /// ["<c>rate</c>"] Rate
     /// </summary>
     [JsonPropertyName("rate")]
     public decimal? Rate { get; set; }
@@ -58,19 +58,19 @@ public record OKXPublicInterestRateBasic
 public record OKXPublicInterestRateVip
 {
     /// <summary>
-    /// Interest rate discount
+    /// ["<c>irDiscount</c>"] Interest rate discount
     /// </summary>
     [JsonPropertyName("irDiscount")]
     public decimal? InterestRateDiscount { get; set; }
 
     /// <summary>
-    /// Loan quota coef
+    /// ["<c>loanQuotaCoef</c>"] Loan quota coef
     /// </summary>
     [JsonPropertyName("loanQuotaCoef")]
     public decimal? LoanQuotaCoef { get; set; }
 
     /// <summary>
-    /// Level
+    /// ["<c>level</c>"] Level
     /// </summary>
     [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;
@@ -83,19 +83,19 @@ public record OKXPublicInterestRateVip
 public record OKXPublicInterestRateRegular
 {
     /// <summary>
-    /// Interest rate discount
+    /// ["<c>irDiscount</c>"] Interest rate discount
     /// </summary>
     [JsonPropertyName("irDiscount")]
     public decimal? InterestRateDiscount { get; set; }
 
     /// <summary>
-    /// Loan quota coef
+    /// ["<c>loanQuotaCoef</c>"] Loan quota coef
     /// </summary>
     [JsonPropertyName("loanQuotaCoef")]
     public decimal? LoanQuotaCoef { get; set; }
 
     /// <summary>
-    /// Level
+    /// ["<c>level</c>"] Level
     /// </summary>
     [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;

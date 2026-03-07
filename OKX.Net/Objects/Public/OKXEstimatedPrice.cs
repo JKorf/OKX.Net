@@ -9,25 +9,25 @@ namespace OKX.Net.Objects.Public;
 public record OKXEstimatedPrice
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Estimated price
+    /// ["<c>settlePx</c>"] Estimated price
     /// </summary>
     [JsonPropertyName("settlePx")]
     public decimal EstimatedPrice { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

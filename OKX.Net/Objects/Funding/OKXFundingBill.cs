@@ -9,49 +9,49 @@ namespace OKX.Net.Objects.Funding;
 public record OKXFundingBill
 {
     /// <summary>
-    /// Bill id
+    /// ["<c>billId</c>"] Bill id
     /// </summary>
     [JsonPropertyName("billId")]
     public long? BillId { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Balance
+    /// ["<c>bal</c>"] Balance
     /// </summary>
     [JsonPropertyName("bal")]
     public decimal? Balance { get; set; }
 
     /// <summary>
-    /// Balance change
+    /// ["<c>balChg</c>"] Balance change
     /// </summary>
     [JsonPropertyName("balChg")]
     public decimal? BalanceChange { get; set; }
 
     /// <summary>
-    /// Type
+    /// ["<c>type</c>"] Type
     /// </summary>
     [JsonPropertyName("type")]
     public FundingBillType Type { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Client id
+    /// ["<c>clientId</c>"] Client id
     /// </summary>
     [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// Notes
+    /// ["<c>notes</c>"] Notes
     /// </summary>
     [JsonPropertyName("notes")]
     public string? Notes { get; set; }

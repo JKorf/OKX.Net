@@ -9,37 +9,37 @@ namespace OKX.Net.Objects.Account;
 public record OKXMaximumLoanAmount
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Margin mode
+    /// ["<c>mgnMode</c>"] Margin mode
     /// </summary>
     [JsonPropertyName("mgnMode")]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
-    /// Margin asset
+    /// ["<c>mgnCcy</c>"] Margin asset
     /// </summary>
     [JsonPropertyName("mgnCcy")]
     public string MarginAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Maximum loan
+    /// ["<c>maxLoan</c>"] Maximum loan
     /// </summary>
     [JsonPropertyName("maxLoan")]
     public decimal? MaximumLoan { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Order side
+    /// ["<c>side</c>"] Order side
     /// </summary>
     [JsonPropertyName("side")]
     public OrderSide? OrderSide { get; set; }

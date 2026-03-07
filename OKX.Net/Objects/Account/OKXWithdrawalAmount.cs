@@ -7,31 +7,31 @@ namespace OKX.Net.Objects.Account;
 public record OKXWithdrawalAmount
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Maximum withdrawal amount
+    /// ["<c>maxWd</c>"] Maximum withdrawal amount
     /// </summary>
     [JsonPropertyName("maxWd")]
     public decimal? MaximumWithdrawal { get; set; }
 
     /// <summary>
-    /// Max withdrawal (including borrowed assets under Multi-currency margin/Portfolio margin)
+    /// ["<c>maxWdEx</c>"] Max withdrawal (including borrowed assets under Multi-currency margin/Portfolio margin)
     /// </summary>
     [JsonPropertyName("maxWdEx")]
     public decimal? MaximumWithdrawalIncl { get; set; }
 
     /// <summary>
-    /// Max withdrawal under Spot-Derivatives risk offset mode (excluding borrowed assets under Portfolio margin)
+    /// ["<c>spotOffsetMaxWd</c>"] Max withdrawal under Spot-Derivatives risk offset mode (excluding borrowed assets under Portfolio margin)
     /// </summary>
     [JsonPropertyName("spotOffsetMaxWd")]
     public decimal? MaximumWithdrawalSpotOffset { get; set; }
 
     /// <summary>
-    ///	Max withdrawal under Spot-Derivatives risk offset mode (including borrowed assets under Portfolio margin)
+    ///	["<c>spotOffsetMaxWdEx</c>"] Max withdrawal under Spot-Derivatives risk offset mode (including borrowed assets under Portfolio margin)
     /// </summary>
     [JsonPropertyName("spotOffsetMaxWdEx")]
     public decimal? MaximumWithdrawalSpotOffsetIncl { get; set; }

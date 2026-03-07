@@ -9,49 +9,49 @@ namespace OKX.Net.Objects.Market;
 public record OKXTrade
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Trade id
+    /// ["<c>tradeId</c>"] Trade id
     /// </summary>
     [JsonPropertyName("tradeId")]
     public long TradeId { get; set; }
 
     /// <summary>
-    /// Price
+    /// ["<c>px</c>"] Price
     /// </summary>
     [JsonPropertyName("px")]
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>sz</c>"] Quantity
     /// </summary>
     [JsonPropertyName("sz")]
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// Side
+    /// ["<c>side</c>"] Side
     /// </summary>
     [JsonPropertyName("side")]
     public OrderSide Side { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Is ELP order
+    /// ["<c>source</c>"] Is ELP order
     /// </summary>
     [JsonPropertyName("source")]
     public bool ElpOrder { get; set; }
 
     /// <summary>
-    /// Number of trades if it is an aggregated trade
+    /// ["<c>count</c>"] Number of trades if it is an aggregated trade
     /// </summary>
     [JsonPropertyName("count")]
     public int? TradeCount { get; set; }

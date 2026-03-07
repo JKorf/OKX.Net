@@ -7,25 +7,25 @@ namespace OKX.Net.Objects.Trade;
 public record OKXOrderUpdate : OKXOrder
 {
     /// <summary>
-    /// The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)
+    /// ["<c>amendResult</c>"] The result of amending the order. -1: failure, 0: success, 1: Automatic cancel(due to failed amendment)
     /// </summary>
     [JsonPropertyName("amendResult")]
     public string? AmendResult { get; set; }
 
     /// <summary>
-    /// Source of the order amendation. 1: Order amended by user, 2: Order amended by user, but the order quantity is overriden by system due to reduce-only, 3: New order placed by user, but the order quantity is overriden by system due to reduce-only, 4: Order amended by system due to other pending orders
+    /// ["<c>amendSource</c>"] Source of the order amendation. 1: Order amended by user, 2: Order amended by user, but the order quantity is overriden by system due to reduce-only, 3: New order placed by user, but the order quantity is overriden by system due to reduce-only, 4: Order amended by system due to other pending orders
     /// </summary>
     [JsonPropertyName("amendSource")]
     public string? AmendSource { get; set; }
 
     /// <summary>
-    /// Liquidity taker or maker of the last filled, T: taker M: maker
+    /// ["<c>execType</c>"] Liquidity taker or maker of the last filled, T: taker M: maker
     /// </summary>
     [JsonPropertyName("execType")]
     public string? ExecutionType { get; set; }
 
     /// <summary>
-    /// Last filled fee amount or rebate amount:
+    /// ["<c>fillFee</c>"] Last filled fee amount or rebate amount:
     /// Negative number represents the user transaction fee charged by the platform;
     /// Positive number represents rebate
     /// </summary>
@@ -33,61 +33,61 @@ public record OKXOrderUpdate : OKXOrder
     public decimal FillFee { get; set; }
 
     /// <summary>
-    /// Last filled fee currency or rebate currency.
+    /// ["<c>fillFeeCcy</c>"] Last filled fee currency or rebate currency.
     /// </summary>
     [JsonPropertyName("fillFeeCcy")]
     public string FillFeeAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Filled notional value in USD of order
+    /// ["<c>fillNotionalUsd</c>"] Filled notional value in USD of order
     /// </summary>
     [JsonPropertyName("fillNotionalUsd")]
     public decimal? FillNotionalUsd { get; set; }
 
     /// <summary>
-    /// Last filled profit and loss
+    /// ["<c>fillPnl</c>"] Last filled profit and loss
     /// </summary>
     [JsonPropertyName("fillPnl")]
     public decimal FillPnl { get; set; }
 
     /// <summary>
-    /// Estimated national value in USD of order
+    /// ["<c>notionalUsd</c>"] Estimated national value in USD of order
     /// </summary>
     [JsonPropertyName("notionalUsd")]
     public decimal? NotionalUsd { get; set; }
 
     /// <summary>
-    /// Client Request ID as assigned by the client for order amendment
+    /// ["<c>reqId</c>"] Client Request ID as assigned by the client for order amendment
     /// </summary>
     [JsonPropertyName("reqId")]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Implied volitality for options
+    /// ["<c>fillPxVol</c>"] Implied volitality for options
     /// </summary>
     [JsonPropertyName("fillPxVol")]
     public decimal? LastTradeImpliedVolatility { get; set; }
 
     /// <summary>
-    /// Usd fill price for options
+    /// ["<c>fillPxUsd</c>"] Usd fill price for options
     /// </summary>
     [JsonPropertyName("fillPxUsd")]
     public decimal? LastTradeUsdPrice { get; set; }
 
     /// <summary>
-    /// Mark volatility when filled for options
+    /// ["<c>fillMarkVol</c>"] Mark volatility when filled for options
     /// </summary>
     [JsonPropertyName("fillMarkVol")]
     public decimal? LastTradeMarkVolatility { get; set; }
 
     /// <summary>
-    /// Forward price when filled for options
+    /// ["<c>fillFwdPx</c>"] Forward price when filled for options
     /// </summary>
     [JsonPropertyName("fillFwdPx")]
     public decimal? LastTradeForwardPrice { get; set; }
 
     /// <summary>
-    /// Mark price when filled
+    /// ["<c>fillMarkPx</c>"] Mark price when filled
     /// </summary>
     [JsonPropertyName("fillMarkPx")]
     public decimal? LastTradeMarkPrice { get; set; }

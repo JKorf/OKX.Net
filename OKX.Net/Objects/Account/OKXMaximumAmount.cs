@@ -7,25 +7,25 @@ namespace OKX.Net.Objects.Account;
 public record OKXMaximumAmount
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Maximum buy
+    /// ["<c>maxBuy</c>"] Maximum buy
     /// </summary>
     [JsonPropertyName("maxBuy")]
     public decimal? MaximumBuy { get; set; }
 
     /// <summary>
-    /// Maximum sell
+    /// ["<c>maxSell</c>"] Maximum sell
     /// </summary>
     [JsonPropertyName("maxSell")]
     public decimal? MaximumSell { get; set; }

@@ -7,13 +7,13 @@ namespace OKX.Net.Objects.Trade;
 public record OKXAlgoOrderRequest
 {
     /// <summary>
-    /// Algo order id
+    /// ["<c>algoId</c>"] Algo order id
     /// </summary>
     [JsonPropertyName("algoId")]
     public string AlgoOrderId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;

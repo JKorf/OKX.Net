@@ -7,7 +7,7 @@ namespace OKX.Net.Objects.SubAccount;
 public record OKXSubAccountTransfer
 {
     /// <summary>
-    /// Transfer id
+    /// ["<c>transId</c>"] Transfer id
     /// </summary>
     [JsonPropertyName("transId")]
     public long? TransferId { get; set; }

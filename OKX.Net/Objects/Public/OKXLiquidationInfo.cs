@@ -9,31 +9,31 @@ namespace OKX.Net.Objects.Public;
 public record OKXLiquidationInfo
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Total loss
+    /// ["<c>totalLoss</c>"] Total loss
     /// </summary>
     [JsonPropertyName("totalLoss")]
     public decimal? TotalLoss { get; set; }
 
     /// <summary>
-    /// Underlying
+    /// ["<c>uly</c>"] Underlying
     /// </summary>
     [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
-    /// Details
+    /// ["<c>details</c>"] Details
     /// </summary>
     [JsonPropertyName("details")]
     public OKXPublicLiquidationInfoDetail[] Details { get; set; } = Array.Empty<OKXPublicLiquidationInfoDetail>();
@@ -46,43 +46,43 @@ public record OKXLiquidationInfo
 public record OKXPublicLiquidationInfoDetail
 {
     /// <summary>
-    /// Order side
+    /// ["<c>side</c>"] Order side
     /// </summary>
     [JsonPropertyName("side")]
     public OrderSide OrderSide { get; set; }
 
     /// <summary>
-    /// Position side
+    /// ["<c>posSide</c>"] Position side
     /// </summary>
     [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
-    /// Bankruptcy price
+    /// ["<c>bkPx</c>"] Bankruptcy price
     /// </summary>
     [JsonPropertyName("bkPx")]
     public decimal? BankruptcyPrice { get; set; }
 
     /// <summary>
-    /// Number of liquidations
+    /// ["<c>sz</c>"] Number of liquidations
     /// </summary>
     [JsonPropertyName("sz")]
     public decimal? NumberOfLiquidations { get; set; }
 
     /// <summary>
-    /// Number of losses
+    /// ["<c>bkLoss</c>"] Number of losses
     /// </summary>
     [JsonPropertyName("bkLoss")]
     public decimal? NumberOfLosses { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

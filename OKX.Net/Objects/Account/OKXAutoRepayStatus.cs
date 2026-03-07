@@ -7,7 +7,7 @@ namespace OKX.Net.Objects.Account;
 public record OKXAutoRepayStatus
 {
     /// <summary>
-    /// Auto repay enabled or not
+    /// ["<c>autoRepay</c>"] Auto repay enabled or not
     /// </summary>
     [JsonPropertyName("autoRepay")]
     public bool AutoRepay { get; set; }

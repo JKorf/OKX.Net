@@ -7,43 +7,43 @@ namespace OKX.Net.Objects.Funding;
 public record OKXSavingBalance
 {
     /// <summary>
-    /// Earnings
+    /// ["<c>earnings</c>"] Earnings
     /// </summary>
     [JsonPropertyName("earnings")]
     public decimal? Earnings { get; set; }
 
     /// <summary>
-    /// Redemption amount
+    /// ["<c>redemptAmt</c>"] Redemption amount
     /// </summary>
     [JsonPropertyName("redemptAmt")]
     public decimal? RedemptingAmount { get; set; }
 
     /// <summary>
-    /// Lending rate
+    /// ["<c>rate</c>"] Lending rate
     /// </summary>
     [JsonPropertyName("rate")]
     public decimal? LendingRate { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
-    /// Loan amount
+    /// ["<c>loanAmt</c>"] Loan amount
     /// </summary>
     [JsonPropertyName("loanAmt")]
     public decimal? LoanAmount { get; set; }
 
     /// <summary>
-    /// Pending amount
+    /// ["<c>pendingAmt</c>"] Pending amount
     /// </summary>
     [JsonPropertyName("pendingAmt")]
     public decimal? PendingAmount { get; set; }

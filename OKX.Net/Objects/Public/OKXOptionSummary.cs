@@ -9,115 +9,115 @@ namespace OKX.Net.Objects.Public;
 public record OKXOptionSummary
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Underlying
+    /// ["<c>uly</c>"] Underlying
     /// </summary>
     [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Delta
+    /// ["<c>delta</c>"] Delta
     /// </summary>
     [JsonPropertyName("delta")]
     public decimal Delta { get; set; }
 
     /// <summary>
-    /// Gamma
+    /// ["<c>gamma</c>"] Gamma
     /// </summary>
     [JsonPropertyName("gamma")]
     public decimal Gamma { get; set; }
 
     /// <summary>
-    /// Vega
+    /// ["<c>vega</c>"] Vega
     /// </summary>
     [JsonPropertyName("vega")]
     public decimal Vega { get; set; }
 
     /// <summary>
-    /// Theta
+    /// ["<c>theta</c>"] Theta
     /// </summary>
     [JsonPropertyName("theta")]
     public decimal Theta { get; set; }
 
     /// <summary>
-    /// Delta BS
+    /// ["<c>deltaBS</c>"] Delta BS
     /// </summary>
     [JsonPropertyName("deltaBS")]
     public decimal DeltaBS { get; set; }
 
     /// <summary>
-    /// Gamme BS
+    /// ["<c>gammaBS</c>"] Gamme BS
     /// </summary>
     [JsonPropertyName("gammaBS")]
     public decimal GammaBS { get; set; }
 
     /// <summary>
-    /// Vega BS
+    /// ["<c>vegaBS</c>"] Vega BS
     /// </summary>
     [JsonPropertyName("vegaBS")]
     public decimal VegaBS { get; set; }
 
     /// <summary>
-    /// Theta BS
+    /// ["<c>thetaBS</c>"] Theta BS
     /// </summary>
     [JsonPropertyName("thetaBS")]
     public decimal ThetaBS { get; set; }
 
     /// <summary>
-    /// Leverage
+    /// ["<c>lever</c>"] Leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public decimal Leverage { get; set; }
 
     /// <summary>
-    /// Mark volatility
+    /// ["<c>markVol</c>"] Mark volatility
     /// </summary>
     [JsonPropertyName("markVol")]
     public decimal? MarkVolatility { get; set; }
 
     /// <summary>
-    /// Bit volatitlity
+    /// ["<c>bidVol</c>"] Bit volatitlity
     /// </summary>
     [JsonPropertyName("bidVol")]
     public decimal? BidVolatility { get; set; }
 
     /// <summary>
-    /// Ask volatility
+    /// ["<c>askVol</c>"] Ask volatility
     /// </summary>
     [JsonPropertyName("askVol")]
     public decimal? AskVolatility { get; set; }
 
     /// <summary>
-    /// Real volatitlity
+    /// ["<c>realVol</c>"] Real volatitlity
     /// </summary>
     [JsonPropertyName("realVol")]
     public decimal? RealVolatility { get; set; }
 
     /// <summary>
-    /// Implied volatility of at-the-money options
+    /// ["<c>volLv</c>"] Implied volatility of at-the-money options
     /// </summary>
     [JsonPropertyName("volLv")]
     public decimal? ImpliedVolatility { get; set; }
 
     /// <summary>
-    /// Forward price
+    /// ["<c>fwdPx</c>"] Forward price
     /// </summary>
     [JsonPropertyName("fwdPx")]
     public decimal? ForwardPrice { get; set; }

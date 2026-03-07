@@ -9,25 +9,25 @@ namespace OKX.Net.Objects.Trade;
 public record OKXClosePositionResponse
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Position side
+    /// ["<c>posSide</c>"] Position side
     /// </summary>
     [JsonPropertyName("posSide")]
     public PositionSide PositionSide { get; set; }
 
     /// <summary>
-    /// Client order id
+    /// ["<c>clOrdId</c>"] Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
-    /// Tag
+    /// ["<c>tag</c>"] Tag
     /// </summary>
     [JsonPropertyName("tag")]
     public string? Tag { get; set; }

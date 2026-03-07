@@ -9,85 +9,85 @@ namespace OKX.Net.Objects.Account;
 public record OKXFeeRate
 {
     /// <summary>
-    /// Category
+    /// ["<c>category</c>"] Category
     /// </summary>
     [JsonPropertyName("category")]
     public FeeRateCategory? Category { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Level
+    /// ["<c>level</c>"] Level
     /// </summary>
     [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;
 
     /// <summary>
-    /// Maker
+    /// ["<c>maker</c>"] Maker
     /// </summary>
     [JsonPropertyName("maker")]
     public decimal? Maker { get; set; }
 
     /// <summary>
-    /// Maker fee rate of USDT-margined contracts
+    /// ["<c>makerU</c>"] Maker fee rate of USDT-margined contracts
     /// </summary>
     [JsonPropertyName("makerU")]
     public decimal? MakerUsdtMarginContracts { get; set; }
 
     /// <summary>
-    /// Taker fee rate of USDT-margined contracts
+    /// ["<c>takerU</c>"] Taker fee rate of USDT-margined contracts
     /// </summary>
     [JsonPropertyName("takerU")]
     public decimal? TakerUsdtMarginContracts { get; set; }
 
     /// <summary>
-    /// Maker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
+    /// ["<c>makerUSDC</c>"] Maker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
     /// </summary>
     [JsonPropertyName("makerUSDC")]
     public decimal? MakerFeeUsdc { get; set; }
 
     /// <summary>
-    /// Taker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
+    /// ["<c>takerUSDC</c>"] Taker fee rate for the USDC trading pairs(SPOT/MARGIN) and contracts(FUTURES/SWAP)
     /// </summary>
     [JsonPropertyName("takerUSDC")]
     public decimal? TakerFeeUsdc { get; set; }
 
     /// <summary>
-    /// Taker
+    /// ["<c>taker</c>"] Taker
     /// </summary>
     [JsonPropertyName("taker")]
     public decimal? Taker { get; set; }
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Delivery
+    /// ["<c>delivery</c>"] Delivery
     /// </summary>
     [JsonPropertyName("delivery")]
     public decimal? Delivery { get; set; }
 
     /// <summary>
-    /// Exercise
+    /// ["<c>exercise</c>"] Exercise
     /// </summary>
     [JsonPropertyName("exercise")]
     public decimal? Exercise { get; set; }
 
     /// <summary>
-    /// Rule type this applies to
+    /// ["<c>ruleType</c>"] Rule type this applies to
     /// </summary>
     [JsonPropertyName("ruleType")]
     public SymbolRuleType? RuleType { get; set; }
 
     /// <summary>
-    /// Fiat fees
+    /// ["<c>fiat</c>"] Fiat fees
     /// </summary>
     [JsonPropertyName("fiat")]
     public OKXFiatFee[] Fiat { get; set; } = Array.Empty<OKXFiatFee>();
@@ -100,17 +100,17 @@ public record OKXFeeRate
 public record OKXFiatFee
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
     /// <summary>
-    /// Taker fee
+    /// ["<c>taker</c>"] Taker fee
     /// </summary>
     [JsonPropertyName("taker")]
     public decimal TakerFeeRate { get; set; }
     /// <summary>
-    /// Maker fee
+    /// ["<c>maker</c>"] Maker fee
     /// </summary>
     [JsonPropertyName("maker")]
     public decimal MakerFeeRate { get; set; }

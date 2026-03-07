@@ -9,56 +9,56 @@ namespace OKX.Net.Objects.Funding;
 public record OKXTransferInfo
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Transfer id
+    /// ["<c>transId</c>"] Transfer id
     /// </summary>
     [JsonPropertyName("transId")]
     public long? TransferId { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// From account
+    /// ["<c>from</c>"] From account
     /// </summary>
     [JsonPropertyName("from")]
     public AccountType? From { get; set; }
 
     /// <summary>
-    /// To account
+    /// ["<c>to</c>"] To account
     /// </summary>
     [JsonPropertyName("to")]
     public AccountType? To { get; set; }
 
     /// <summary>
-    /// Client id
+    /// ["<c>clientId</c>"] Client id
     /// </summary>
     [JsonPropertyName("clientId")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// Type of transfer
+    /// ["<c>type</c>"] Type of transfer
     /// </summary>
     [JsonPropertyName("type")]
 
     public TransferType Type { get; set; }
 
     /// <summary>
-    /// Name of the sub account
+    /// ["<c>subAcct</c>"] Name of the sub account
     /// </summary>
     [JsonPropertyName("subAcct")]
     public string? SubAccountName { get; set; }
 
     /// <summary>
-    /// Type of transfer
+    /// ["<c>state</c>"] Type of transfer
     /// </summary>
     [JsonPropertyName("state")]
     public TransferStatus Status { get; set; }

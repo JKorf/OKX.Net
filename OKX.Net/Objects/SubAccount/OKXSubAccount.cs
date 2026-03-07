@@ -9,61 +9,61 @@ namespace OKX.Net.Objects.SubAccount;
 public record OKXSubAccount
 {
     /// <summary>
-    /// Enabled
+    /// ["<c>enable</c>"] Enabled
     /// </summary>
     [JsonPropertyName("enable")]
     public bool Enable { get; set; }
 
     /// <summary>
-    /// Google auth enabled
+    /// ["<c>gAuth</c>"] Google auth enabled
     /// </summary>
     [JsonPropertyName("gAuth")]
     public bool GoogleAuth { get; set; }
 
     /// <summary>
-    /// Subaccount name
+    /// ["<c>subAcct</c>"] Subaccount name
     /// </summary>
     [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Label
+    /// ["<c>label</c>"] Label
     /// </summary>
     [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
-    /// Mobile
+    /// ["<c>mobile</c>"] Mobile
     /// </summary>
     [JsonPropertyName("mobile")]
     public string Mobile { get; set; } = string.Empty;
 
     /// <summary>
-    /// Can transfer out
+    /// ["<c>canTransOut</c>"] Can transfer out
     /// </summary>
     [JsonPropertyName("canTransOut")]
     public bool CanTransOut { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Type
+    /// ["<c>type</c>"] Type
     /// </summary>
     [JsonPropertyName("type")]
     public SubAccountType Type { get; set; }
 
     /// <summary>
-    /// Id
+    /// ["<c>uid</c>"] Id
     /// </summary>
     [JsonPropertyName("uid")]
     public string Uid { get; set; } = string.Empty;
 
     /// <summary>
-    /// Frozen functions
+    /// ["<c>frozenFunc</c>"] Frozen functions
     /// </summary>
     [JsonPropertyName("frozenFunc")]
     public string[] FrozenFunctions { get; set; } = Array.Empty<string>();

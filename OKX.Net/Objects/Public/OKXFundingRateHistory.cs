@@ -9,42 +9,42 @@ namespace OKX.Net.Objects.Public;
 public record OKXFundingRateHistory
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Funding time
+    /// ["<c>fundingTime</c>"] Funding time
     /// </summary>
     [JsonPropertyName("fundingTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime FundingTime { get; set; }
 
     /// <summary>
-    /// Funding rate
+    /// ["<c>fundingRate</c>"] Funding rate
     /// </summary>
     [JsonPropertyName("fundingRate")]
     public decimal FundingRate { get; set; }
 
     /// <summary>
-    /// Realized rate
+    /// ["<c>realizedRate</c>"] Realized rate
     /// </summary>
     [JsonPropertyName("realizedRate")]
     public decimal RealizedRate { get; set; }
 
     /// <summary>
-    /// Funding rate mechanism
+    /// ["<c>method</c>"] Funding rate mechanism
     /// </summary>
     [JsonPropertyName("method")]
     public string Method { get; set; } = string.Empty;
     /// <summary>
-    /// Formula type
+    /// ["<c>formulaType</c>"] Formula type
     /// </summary>
     [JsonPropertyName("formulaType")]
     public FundingRateFormula FormulaType { get; set; }

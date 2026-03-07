@@ -7,12 +7,12 @@ namespace OKX.Net.Objects.Public
     public record OKXAnnouncementsPage
     {
         /// <summary>
-        /// Details
+        /// ["<c>details</c>"] Details
         /// </summary>
         [JsonPropertyName("details")]
         public OKXAnnouncement[] Details { get; set; } = Array.Empty<OKXAnnouncement>();
         /// <summary>
-        /// Total number of pages
+        /// ["<c>totalPage</c>"] Total number of pages
         /// </summary>
         [JsonPropertyName("totalPage")]
         public decimal TotalPage { get; set; }
@@ -25,22 +25,22 @@ namespace OKX.Net.Objects.Public
     public record OKXAnnouncement
     {
         /// <summary>
-        /// Announcement type
+        /// ["<c>annType</c>"] Announcement type
         /// </summary>
         [JsonPropertyName("annType")]
         public string? AnnouncementType { get; set; }
         /// <summary>
-        /// Publish time
+        /// ["<c>pTime</c>"] Publish time
         /// </summary>
         [JsonPropertyName("pTime")]
         public DateTime PublishTime { get; set; }
         /// <summary>
-        /// Title
+        /// ["<c>title</c>"] Title
         /// </summary>
         [JsonPropertyName("title")]
         public string Title { get; set; } = string.Empty;
         /// <summary>
-        /// Url
+        /// ["<c>url</c>"] Url
         /// </summary>
         [JsonPropertyName("url")]
         public string Url { get; set; } = string.Empty;

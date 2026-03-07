@@ -9,13 +9,13 @@ namespace OKX.Net.Objects.Public;
 public record OKXDeliveryExerciseHistory
 {
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Details
+    /// ["<c>details</c>"] Details
     /// </summary>
     [JsonPropertyName("details")]
     public OKXPublicDeliveryExerciseHistoryDetail[] Details { get; set; } = Array.Empty<OKXPublicDeliveryExerciseHistoryDetail>();
@@ -28,19 +28,19 @@ public record OKXDeliveryExerciseHistory
 public record OKXPublicDeliveryExerciseHistoryDetail
 {
     /// <summary>
-    /// Type
+    /// ["<c>type</c>"] Type
     /// </summary>
     [JsonPropertyName("type")]
     public DeliveryExerciseHistoryType Type { get; set; }
 
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Price
+    /// ["<c>px</c>"] Price
     /// </summary>
     [JsonPropertyName("px")]
     public decimal Price { get; set; }

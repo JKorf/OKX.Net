@@ -7,13 +7,13 @@ namespace OKX.Net.Objects.Account;
 public record OKXAccountInterestRate
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Interest rate
+    /// ["<c>interestRate</c>"] Interest rate
     /// </summary>
     [JsonPropertyName("interestRate")]
     public decimal? InterestRate { get; set; }

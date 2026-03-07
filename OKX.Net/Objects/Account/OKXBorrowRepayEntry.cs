@@ -9,27 +9,27 @@ namespace OKX.Net.Objects.Account;
 public record OKXBorrowRepayEntry
 {
     /// <summary>
-    /// Accumelated borrow quantity
+    /// ["<c>accBorrowed</c>"] Accumelated borrow quantity
     /// </summary>
     [JsonPropertyName("accBorrowed")]
     public decimal TotalBorrowQuantity { get; set; }
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts")]
     public DateTime Timestamp { get; set; }
     /// <summary>
-    /// Borrow/repay type
+    /// ["<c>type</c>"] Borrow/repay type
     /// </summary>
     [JsonPropertyName("type")]
     public BorrowRepayType BorrowRepayType { get; set; }

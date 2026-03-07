@@ -9,47 +9,47 @@ namespace OKX.Net.Objects.Account;
 public record OKXAccountSwitchCheckResult
 {
     /// <summary>
-    /// Requested account mode
+    /// ["<c>acctLv</c>"] Requested account mode
     /// </summary>
     [JsonPropertyName("acctLv")]
     public AccountLevel NewAccountMode { get; set; }
     /// <summary>
-    /// Current account mode
+    /// ["<c>curAcctLv</c>"] Current account mode
     /// </summary>
     [JsonPropertyName("curAcctLv")]
     public AccountLevel CurrentAccountMode { get; set; }
     /// <summary>
-    /// Margin after
+    /// ["<c>mgnAft</c>"] Margin after
     /// </summary>
     [JsonPropertyName("mgnAft")]
     public OKXAccountSwitchMargin? MarginAfter { get; set; }
     /// <summary>
-    /// Margin before
+    /// ["<c>mgnBf</c>"] Margin before
     /// </summary>
     [JsonPropertyName("mgnBf")]
     public OKXAccountSwitchMargin? MarginBefore { get; set; }
     /// <summary>
-    /// Risk offset type
+    /// ["<c>riskOffsetType</c>"] Risk offset type
     /// </summary>
     [JsonPropertyName("riskOffsetType")]
     public RiskOffsetType? RiskOffsetType { get; set; }
     /// <summary>
-    /// Result of the check
+    /// ["<c>sCode</c>"] Result of the check
     /// </summary>
     [JsonPropertyName("sCode")]
     public AccountSwitchCheckResult ResultStatus { get; set; }
     /// <summary>
-    /// Position tier check
+    /// ["<c>posTierCheck</c>"] Position tier check
     /// </summary>
     [JsonPropertyName("posTierCheck")]
     public OKXAccountSwitchPosTier[]? PositionTierCheck { get; set; }
     /// <summary>
-    /// Positions
+    /// ["<c>posList</c>"] Positions
     /// </summary>
     [JsonPropertyName("posList")]
     public OKXAccountSwitchPosition[]? Positions { get; set; }
     /// <summary>
-    /// Unmatched info check
+    /// ["<c>unmatchedInfoCheck</c>"] Unmatched info check
     /// </summary>
     [JsonPropertyName("unmatchedInfoCheck")]
     public OKXAccountSwitchUnmatched[] UnmatchedInfoCheck { get; set; } = Array.Empty<OKXAccountSwitchUnmatched>();
@@ -62,17 +62,17 @@ public record OKXAccountSwitchCheckResult
 public record OKXAccountSwitchUnmatched
 {
     /// <summary>
-    /// Total asset
+    /// ["<c>totalAsset</c>"] Total asset
     /// </summary>
     [JsonPropertyName("totalAsset")]
     public decimal? TotalAsset { get; set; }
     /// <summary>
-    /// Unmatched info type
+    /// ["<c>type</c>"] Unmatched info type
     /// </summary>
     [JsonPropertyName("type")]
     public UnmatchedInfoType? Type { get; set; }
     /// <summary>
-    /// Positions
+    /// ["<c>posList</c>"] Positions
     /// </summary>
     [JsonPropertyName("posList")]
     public OKXAccountSwitchPosition[]? Positions { get; set; }
@@ -85,27 +85,27 @@ public record OKXAccountSwitchUnmatched
 public record OKXAccountSwitchPosTier
 {
     /// <summary>
-    /// Symbol family
+    /// ["<c>instFamily</c>"] Symbol family
     /// </summary>
     [JsonPropertyName("instFamily")]
     public string InstrumentFamily { get; set; } = string.Empty;
     /// <summary>
-    /// Symbol type
+    /// ["<c>instType</c>"] Symbol type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
     /// <summary>
-    /// Position quantity
+    /// ["<c>pos</c>"] Position quantity
     /// </summary>
     [JsonPropertyName("pos")]
     public decimal PositionQuantity { get; set; }
     /// <summary>
-    /// Position leverage
+    /// ["<c>lever</c>"] Position leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public decimal Leverage { get; set; }
     /// <summary>
-    /// Max size
+    /// ["<c>maxSz</c>"] Max size
     /// </summary>
     [JsonPropertyName("maxSz")]
     public decimal MaxSize { get; set; }
@@ -118,12 +118,12 @@ public record OKXAccountSwitchPosTier
 public record OKXAccountSwitchMargin
 {
     /// <summary>
-    /// Account available equity in USD
+    /// ["<c>acctAvailEq</c>"] Account available equity in USD
     /// </summary>
     [JsonPropertyName("acctAvailEq")]
     public decimal availableEquity { get; set; }
     /// <summary>
-    /// Margin ratio in USD
+    /// ["<c>mgnRatio</c>"] Margin ratio in USD
     /// </summary>
     [JsonPropertyName("mgnRatio")]
     public decimal MarginRatio { get; set; }
@@ -136,12 +136,12 @@ public record OKXAccountSwitchMargin
 public record OKXAccountSwitchPosition
 {
     /// <summary>
-    /// Position id
+    /// ["<c>posId</c>"] Position id
     /// </summary>
     [JsonPropertyName("posId")]
     public string PositionId { get; set; } = string.Empty;
     /// <summary>
-    /// Leverage
+    /// ["<c>lever</c>"] Leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public decimal Leverage { get; set; }

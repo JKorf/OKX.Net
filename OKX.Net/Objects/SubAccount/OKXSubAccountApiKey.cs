@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.SubAccount;
 public record OKXSubAccountApiKey
 {
     /// <summary>
-    /// Subaccount name
+    /// ["<c>subAcct</c>"] Subaccount name
     /// </summary>
     [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Label
+    /// ["<c>label</c>"] Label
     /// </summary>
     [JsonPropertyName("label")]
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
-    /// Key
+    /// ["<c>apiKey</c>"] Key
     /// </summary>
     [JsonPropertyName("apiKey")]
     public string apiKey { get; set; } = string.Empty;
@@ -36,19 +36,19 @@ public record OKXSubAccountApiKey
     */
 
     /// <summary>
-    /// Permissions
+    /// ["<c>perm</c>"] Permissions
     /// </summary>
     [JsonPropertyName("perm")]
     public string Permissions { get; set; } = string.Empty;
 
     /// <summary>
-    /// IP addresses
+    /// ["<c>ip</c>"] IP addresses
     /// </summary>
     [JsonPropertyName("ip")]
     public string IpAddresses { get; set; } = string.Empty;
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

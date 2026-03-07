@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Market;
 public record OKX24HourVolume
 {
     /// <summary>
-    /// Usd volume
+    /// ["<c>volUsd</c>"] Usd volume
     /// </summary>
     [JsonPropertyName("volUsd")]
     public decimal VolumeUsd { get; set; }
 
     /// <summary>
-    /// Volume
+    /// ["<c>volCny</c>"] Volume
     /// </summary>
     [JsonPropertyName("volCny")]
     public decimal VolumeCny { get; set; }
 
     /// <summary>
-    /// Data timestamp
+    /// ["<c>ts</c>"] Data timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

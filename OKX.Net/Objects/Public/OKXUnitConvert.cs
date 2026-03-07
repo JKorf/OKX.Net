@@ -9,31 +9,31 @@ namespace OKX.Net.Objects.Public;
 public record OKXUnitConvert
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Price
+    /// ["<c>px</c>"] Price
     /// </summary>
     [JsonPropertyName("px")]
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>sz</c>"] Quantity
     /// </summary>
     [JsonPropertyName("sz")]
     public decimal Quantity { get; set; }
 
     /// <summary>
-    /// Type
+    /// ["<c>type</c>"] Type
     /// </summary>
     [JsonPropertyName("type")]
     public ConvertType Type { get; set; }
 
     /// <summary>
-    /// Unit
+    /// ["<c>unit</c>"] Unit
     /// </summary>
     [JsonPropertyName("unit")]
     public ConvertUnit Unit { get; set; }

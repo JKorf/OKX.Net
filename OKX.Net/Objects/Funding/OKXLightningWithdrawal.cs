@@ -7,13 +7,13 @@ namespace OKX.Net.Objects.Funding;
 public record OKXLightningWithdrawal
 {
     /// <summary>
-    /// Timestamp
+    /// ["<c>cTime</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Withdrawal id
+    /// ["<c>wdId</c>"] Withdrawal id
     /// </summary>
     [JsonPropertyName("wdId")]
     public string WithdrawalId { get; set; } = string.Empty;

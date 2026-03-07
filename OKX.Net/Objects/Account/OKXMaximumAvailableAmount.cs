@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Account;
 public record OKXMaximumAvailableAmount
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Available buy
+    /// ["<c>availBuy</c>"] Available buy
     /// </summary>
     [JsonPropertyName("availBuy")]
     public decimal? AvailableBuy { get; set; }
 
     /// <summary>
-    /// Available sell
+    /// ["<c>availSell</c>"] Available sell
     /// </summary>
     [JsonPropertyName("availSell")]
     public decimal? AvailableSell { get; set; }

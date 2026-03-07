@@ -7,17 +7,17 @@ namespace OKX.Net.Objects.Account;
 public record OKXAssetValuation
 {
     /// <summary>
-    /// Valuation details
+    /// ["<c>details</c>"] Valuation details
     /// </summary>
     [JsonPropertyName("details")]
     public OKXAssetValuationDetails Valuations { get; set; } = null!;
     /// <summary>
-    /// Total balance
+    /// ["<c>totalBal</c>"] Total balance
     /// </summary>
     [JsonPropertyName("totalBal")]
     public decimal TotalBalance { get; set; }
     /// <summary>
-    /// Data timestamp
+    /// ["<c>ts</c>"] Data timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Timestamp { get; set; }
@@ -30,17 +30,17 @@ public record OKXAssetValuation
 public record OKXAssetValuationDetails
 {
     /// <summary>
-    /// Earn balance
+    /// ["<c>earn</c>"] Earn balance
     /// </summary>
     [JsonPropertyName("earn")]
     public decimal Earn { get; set; }
     /// <summary>
-    /// Funding balance
+    /// ["<c>funding</c>"] Funding balance
     /// </summary>
     [JsonPropertyName("funding")]
     public decimal Funding { get; set; }
     /// <summary>
-    /// Trading balance
+    /// ["<c>trading</c>"] Trading balance
     /// </summary>
     [JsonPropertyName("trading")]
     public decimal Trading { get; set; }

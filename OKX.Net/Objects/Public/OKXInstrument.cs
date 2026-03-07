@@ -9,230 +9,230 @@ namespace OKX.Net.Objects.Public;
 public record OKXInstrument
 {
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Instrument ID, e.g. BTC-USD-SWAP
+    /// ["<c>instId</c>"] Instrument ID, e.g. BTC-USD-SWAP
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Instrument family, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
+    /// ["<c>instFamily</c>"] Instrument family, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
     [JsonPropertyName("instFamily")]
     public string InstrumentFamily { get; set; } = string.Empty;
 
     /// <summary>
-    /// Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
+    /// ["<c>uly</c>"] Underlying, e.g. BTC-USD. Only applicable to FUTURES/SWAP/OPTION
     /// </summary>
     [JsonPropertyName("uly")]
     public string Underlying { get; set; } = string.Empty;
 
     /// <summary>
-    /// Category
+    /// ["<c>category</c>"] Category
     /// </summary>
     [JsonPropertyName("category")]
     public string Category { get; set; } = string.Empty;
 
     /// <summary>
-    /// Base asset
+    /// ["<c>baseCcy</c>"] Base asset
     /// </summary>
     [JsonPropertyName("baseCcy")]
     public string BaseAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quote asset
+    /// ["<c>quoteCcy</c>"] Quote asset
     /// </summary>
     [JsonPropertyName("quoteCcy")]
     public string QuoteAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// settlement asset
+    /// ["<c>settleCcy</c>"] settlement asset
     /// </summary>
     [JsonPropertyName("settleCcy")]
     public string SettlementAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Contract value
+    /// ["<c>ctVal</c>"] Contract value
     /// </summary>
     [JsonPropertyName("ctVal")]
     public decimal? ContractValue { get; set; }
 
     /// <summary>
-    /// Contract multiplier
+    /// ["<c>ctMult</c>"] Contract multiplier
     /// </summary>
     [JsonPropertyName("ctMult")]
     public decimal? ContractMultiplier { get; set; }
 
     /// <summary>
-    /// Contract value asset
+    /// ["<c>ctValCcy</c>"] Contract value asset
     /// </summary>
     [JsonPropertyName("ctValCcy")]
     public string ContractValueAsset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Option type
+    /// ["<c>optType</c>"] Option type
     /// </summary>
     [JsonPropertyName("optType")]
     public OptionType? OptionType { get; set; }
 
     /// <summary>
-    /// Strike price
+    /// ["<c>stk</c>"] Strike price
     /// </summary>
     [JsonPropertyName("stk")]
     public decimal? StrikePrice { get; set; }
 
     /// <summary>
-    /// Listing time
+    /// ["<c>listTime</c>"] Listing time
     /// </summary>
     [JsonPropertyName("listTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? ListingTime { get; set; }
 
     /// <summary>
-    /// The end time of call auction, only applicable to SPOT that are listed through call auctions
+    /// ["<c>auctionEndTime</c>"] The end time of call auction, only applicable to SPOT that are listed through call auctions
     /// </summary>
     [JsonPropertyName("auctionEndTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? AuctionEndTime { get; set; }
 
     /// <summary>
-    /// Expiry time
+    /// ["<c>expTime</c>"] Expiry time
     /// </summary>
     [JsonPropertyName("expTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? ExpiryTime { get; set; }
 
     /// <summary>
-    /// Maximum leverage
+    /// ["<c>lever</c>"] Maximum leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public int? MaximumLeverage { get; set; }
 
     /// <summary>
-    /// Tick size
+    /// ["<c>tickSz</c>"] Tick size
     /// </summary>
     [JsonPropertyName("tickSz")]
     public decimal? TickSize { get; set; }
 
     /// <summary>
-    /// Lot size
+    /// ["<c>lotSz</c>"] Lot size
     /// </summary>
     [JsonPropertyName("lotSz")]
     public decimal? LotSize { get; set; }
 
     /// <summary>
-    /// Minimum order size
+    /// ["<c>minSz</c>"] Minimum order size
     /// </summary>
     [JsonPropertyName("minSz")]
     public decimal? MinimumOrderSize { get; set; }
 
     /// <summary>
-    /// Contract type
+    /// ["<c>ctType</c>"] Contract type
     /// </summary>
     [JsonPropertyName("ctType")]
     public ContractType? ContractType { get; set; }
 
     /// <summary>
-    /// Alias
+    /// ["<c>alias</c>"] Alias
     /// </summary>
     [JsonPropertyName("alias")]
     public InstrumentAlias? Alias { get; set; }
 
     /// <summary>
-    /// State
+    /// ["<c>state</c>"] State
     /// </summary>
     [JsonPropertyName("state")]
     public InstrumentState State { get; set; }
 
     /// <summary>
-    /// The maximum order quantity of the contract or spot limit order.
+    /// ["<c>maxLmtSz</c>"] The maximum order quantity of the contract or spot limit order.
     /// </summary>
     [JsonPropertyName("maxLmtSz")]
     public decimal? MaxLimitQuantity { get; set; }
     /// <summary>
-    /// The maximum order quantity of the contract or spot market order.
+    /// ["<c>maxMktSz</c>"] The maximum order quantity of the contract or spot market order.
     /// </summary>
     [JsonPropertyName("maxMktSz")]
     public decimal? MaxMarketQuantity { get; set; }
     /// <summary>
-    /// The maximum USD order value for limit orders
+    /// ["<c>maxLmtAmt</c>"] The maximum USD order value for limit orders
     /// </summary>
     [JsonPropertyName("maxLmtAmt")]
     public decimal? MaxLimitValue { get; set; }
     /// <summary>
-    /// The maximum USD order value for market orders
+    /// ["<c>maxMktAmt</c>"] The maximum USD order value for market orders
     /// </summary>
     [JsonPropertyName("maxMktAmt")]
     public decimal? MaxMarketValue { get; set; }
     /// <summary>
-    /// The maximum order quantity of the contract or spot twap order.
+    /// ["<c>maxTwapSz</c>"] The maximum order quantity of the contract or spot twap order.
     /// </summary>
     [JsonPropertyName("maxTwapSz")]
     public decimal? MaxTwapQuantity { get; set; }
     /// <summary>
-    /// The maximum order quantity of the contract or spot iceBerg order.
+    /// ["<c>maxIcebergSz</c>"] The maximum order quantity of the contract or spot iceBerg order.
     /// </summary>
     [JsonPropertyName("maxIcebergSz")]
     public decimal? MaxIcebergQuantity { get; set; }
     /// <summary>
-    /// The maximum order quantity of the contract or spot trigger order.
+    /// ["<c>maxTriggerSz</c>"] The maximum order quantity of the contract or spot trigger order.
     /// </summary>
     [JsonPropertyName("maxTriggerSz")]
     public decimal? MaxTriggerQuantity { get; set; }
     /// <summary>
-    /// The maximum order quantity of the contract or spot stop market order.
+    /// ["<c>maxStopSz</c>"] The maximum order quantity of the contract or spot stop market order.
     /// </summary>
     [JsonPropertyName("maxStopSz")]
     public decimal? MaxStopQuantity { get; set; }
     /// <summary>
-    /// Trading rule type
+    /// ["<c>ruleType</c>"] Trading rule type
     /// </summary>
     [JsonPropertyName("ruleType")]
     public SymbolRuleType? RuleType { get; set; }
     /// <summary>
-    /// Whether daily settlement is enabled
+    /// ["<c>futureSettlement</c>"] Whether daily settlement is enabled
     /// </summary>
     [JsonPropertyName("futureSettlement")]
     public bool? FutureSettlement { get; set; }
     /// <summary>
-    /// Continuous trading switch time. The switch time from call auction, prequote to continuous trading. Only applicable to SPOT/MARGIN that are listed through call auction or prequote
+    /// ["<c>contTdSwTime</c>"] Continuous trading switch time. The switch time from call auction, prequote to continuous trading. Only applicable to SPOT/MARGIN that are listed through call auction or prequote
     /// </summary>
     [JsonPropertyName("contTdSwTime")]
     public DateTime? ContinuousTradingSwitchTime { get; set; }
     /// <summary>
-    /// Open type, only applicable to SPOT/MARGIN
+    /// ["<c>openType</c>"] Open type, only applicable to SPOT/MARGIN
     /// </summary>
     [JsonPropertyName("openType")]
     public OpenType? OpenType { get; set; }
     /// <summary>
-    /// Trade quote asset list
+    /// ["<c>tradeQuoteCcyList</c>"] Trade quote asset list
     /// </summary>
     [JsonPropertyName("tradeQuoteCcyList")]
     public string[] TradeQuoteAssetList { get; set; } = [];
     /// <summary>
-    /// Symbol code
+    /// ["<c>instIdCode</c>"] Symbol code
     /// </summary>
     [JsonPropertyName("instIdCode")]
     public long? SymbolCode { get; set; }
     /// <summary>
-    /// Timestamp the market is switched from pre-market mode to normal mode
+    /// ["<c>preMktSwTime</c>"] Timestamp the market is switched from pre-market mode to normal mode
     /// </summary>
     [JsonPropertyName("preMktSwTime")]
     public DateTime? PreMarketSwitchTime { get; set; }
     /// <summary>
-    /// Maximum position value (USD) for this instrument at the user level, based on the notional value of all same-direction open positions and resting orders. The effective user limit is max(posLmtAmt, oiUSD × posLmtPct). Applicable to SWAP/FUTURES.
+    /// ["<c>posLmtAmt</c>"] Maximum position value (USD) for this instrument at the user level, based on the notional value of all same-direction open positions and resting orders. The effective user limit is max(posLmtAmt, oiUSD ï¿½ posLmtPct). Applicable to SWAP/FUTURES.
     /// </summary>
     [JsonPropertyName("posLmtAmt")]
     public decimal? PositionLimitQuantity { get; set; }
     /// <summary>
-    /// Maximum position ratio (e.g., 30 for 30%) a user may hold relative to the platform’s current total position value. The effective user limit is max(posLmtAmt, oiUSD × posLmtPct). Applicable to SWAP/FUTURES.
+    /// ["<c>posLmtPct</c>"] Maximum position ratio (e.g., 30 for 30%) a user may hold relative to the platformï¿½s current total position value. The effective user limit is max(posLmtAmt, oiUSD ï¿½ posLmtPct). Applicable to SWAP/FUTURES.
     /// </summary>
     [JsonPropertyName("posLmtPct")]
     public decimal? PositionLimitPercentage { get; set; }
     /// <summary>
-    /// Platform-wide maximum position value (USD) for this instrument. If the global position limit switch is enabled and platform total open interest reaches or exceeds this value, all users’ new opening orders for this instrument are rejected; otherwise, orders pass.
+    /// ["<c>maxPlatOILmt</c>"] Platform-wide maximum position value (USD) for this instrument. If the global position limit switch is enabled and platform total open interest reaches or exceeds this value, all usersï¿½ new opening orders for this instrument are rejected; otherwise, orders pass.
     /// </summary>
     [JsonPropertyName("maxPlatOILmt")]
     public decimal? PositionPlatformLimitQuantity { get; set; }

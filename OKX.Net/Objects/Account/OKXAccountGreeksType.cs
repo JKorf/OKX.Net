@@ -9,7 +9,7 @@ namespace OKX.Net.Objects.Account;
 public record OKXAccountGreeksType
 {
     /// <summary>
-    /// Greeks type
+    /// ["<c>greeksType</c>"] Greeks type
     /// </summary>
     [JsonPropertyName("greeksType")]
     public GreeksType GreeksType { get; set; }

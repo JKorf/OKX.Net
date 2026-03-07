@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Trading;
 public record OKXSupportCoins
 {
     /// <summary>
-    /// Contracts
+    /// ["<c>contract</c>"] Contracts
     /// </summary>
     [JsonPropertyName("contract")]
     public string[] Contract { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// Options
+    /// ["<c>option</c>"] Options
     /// </summary>
     [JsonPropertyName("option")]
     public string[] Option { get; set; } = Array.Empty<string>();
 
     /// <summary>
-    /// Spot
+    /// ["<c>spot</c>"] Spot
     /// </summary>
     [JsonPropertyName("spot")]
     public string[] Spot { get; set; } = Array.Empty<string>();

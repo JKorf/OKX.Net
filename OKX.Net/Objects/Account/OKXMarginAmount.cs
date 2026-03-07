@@ -9,37 +9,37 @@ namespace OKX.Net.Objects.Account;
 public record OKXMarginAmount
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Position side
+    /// ["<c>posSide</c>"] Position side
     /// </summary>
     [JsonPropertyName("posSide")]
     public PositionSide? PositionSide { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string? Asset { get; set; }
 
     /// <summary>
-    /// Real leverage after the margin adjustment
+    /// ["<c>leverage</c>"] Real leverage after the margin adjustment
     /// </summary>
     [JsonPropertyName("leverage")]
     public string? Leverage { get; set; }
 
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
-    /// Margin add reduce
+    /// ["<c>type</c>"] Margin add reduce
     /// </summary>
     [JsonPropertyName("type")]
     public MarginAddReduce? MarginAddReduce { get; set; }

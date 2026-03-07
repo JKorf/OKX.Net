@@ -9,47 +9,47 @@ using OKX.Net.Enums;
 public record OKXUserTradeUpdate
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
     /// <summary>
-    /// Trade quantity
+    /// ["<c>fillSz</c>"] Trade quantity
     /// </summary>
     [JsonPropertyName("fillSz")]
     public decimal Quantity { get; set; }
     /// <summary>
-    /// Trade price
+    /// ["<c>fillPx</c>"] Trade price
     /// </summary>
     [JsonPropertyName("fillPx")]
     public decimal Price { get; set; }
     /// <summary>
-    /// Side
+    /// ["<c>side</c>"] Side
     /// </summary>
     [JsonPropertyName("side")]
     public OrderSide Side { get; set; }
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts")]
     public DateTime Timestamp { get; set; }
     /// <summary>
-    /// Order id
+    /// ["<c>ordId</c>"] Order id
     /// </summary>
     [JsonPropertyName("ordId")]
     public string OrderId { get; set; } = string.Empty;
     /// <summary>
-    /// Trade id
+    /// ["<c>tradeId</c>"] Trade id
     /// </summary>
     [JsonPropertyName("tradeId")]
     public string TradeId { get; set; } = string.Empty;
     /// <summary>
-    /// Role
+    /// ["<c>execType</c>"] Role
     /// </summary>
     [JsonPropertyName("execType")]
     public OrderFlowType Role { get; set; }
     /// <summary>
-    /// Aggregated trade count
+    /// ["<c>count</c>"] Aggregated trade count
     /// </summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }

@@ -7,31 +7,31 @@ namespace OKX.Net.Objects.Trade;
 public record OKXAlgoOrderResponse
 {
     /// <summary>
-    /// Algo order id
+    /// ["<c>algoId</c>"] Algo order id
     /// </summary>
     [JsonPropertyName("algoId")]
     public string? AlgoOrderId { get; set; }
 
     /// <summary>
-    /// Client order id
+    /// ["<c>clOrdId</c>"] Client order id
     /// </summary>
     [JsonPropertyName("clOrdId")]
     public string? ClientOrderId { get; set; }
 
     /// <summary>
-    /// Algo client order id
+    /// ["<c>algoClOrdId</c>"] Algo client order id
     /// </summary>
     [JsonPropertyName("algoClOrdId")]
     public string? AgloClientOrderId { get; set; }
 
     /// <summary>
-    /// Code
+    /// ["<c>sCode</c>"] Code
     /// </summary>
     [JsonPropertyName("sCode")]
     public int Code { get; set; }
 
     /// <summary>
-    /// Message
+    /// ["<c>sMsg</c>"] Message
     /// </summary>
     [JsonPropertyName("sMsg")]
     public string Message { get; set; } = string.Empty;

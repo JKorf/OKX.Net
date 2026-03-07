@@ -9,7 +9,7 @@ namespace OKX.Net.Objects.Account;
 public record OKXAccountPositionMode
 {
     /// <summary>
-    /// Position mode
+    /// ["<c>posMode</c>"] Position mode
     /// </summary>
     [JsonPropertyName("posMode")]
     public PositionMode PositionMode { get; set; }

@@ -7,25 +7,25 @@ namespace OKX.Net.Objects.Public;
 public record OKXVipInterestRate
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quota
+    /// ["<c>quota</c>"] Quota
     /// </summary>
     [JsonPropertyName("quota")]
     public decimal? Quota { get; set; }
 
     /// <summary>
-    /// Rate
+    /// ["<c>rate</c>"] Rate
     /// </summary>
     [JsonPropertyName("rate")]
     public decimal? Rate { get; set; }
 
     /// <summary>
-    /// Level list
+    /// ["<c>levelList</c>"] Level list
     /// </summary>
     [JsonPropertyName("levelList")]
     public OKXVipInterestRateLevel[] LevelList { get; set; } = Array.Empty<OKXVipInterestRateLevel>();
@@ -38,13 +38,13 @@ public record OKXVipInterestRate
 public record OKXVipInterestRateLevel
 {
     /// <summary>
-    /// Level
+    /// ["<c>level</c>"] Level
     /// </summary>
     [JsonPropertyName("level")]
     public string Level { get; set; } = string.Empty;
 
     /// <summary>
-    /// Loan quota
+    /// ["<c>loanQuota</c>"] Loan quota
     /// </summary>
     [JsonPropertyName("loanQuota")]
     public decimal? LoanQuota { get; set; }

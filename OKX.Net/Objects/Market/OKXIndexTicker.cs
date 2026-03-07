@@ -7,49 +7,49 @@ namespace OKX.Net.Objects.Market;
 public record OKXIndexTicker
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Index price
+    /// ["<c>idxPx</c>"] Index price
     /// </summary>
     [JsonPropertyName("idxPx")]
     public decimal? IndexPrice { get; set; }
 
     /// <summary>
-    /// High price
+    /// ["<c>high24h</c>"] High price
     /// </summary>
     [JsonPropertyName("high24h")]
     public decimal? HighPrice { get; set; }
 
     /// <summary>
-    /// Low price
+    /// ["<c>low24h</c>"] Low price
     /// </summary>
     [JsonPropertyName("low24h")]
     public decimal? LowPrice { get; set; }
 
     /// <summary>
-    /// Open price
+    /// ["<c>open24h</c>"] Open price
     /// </summary>
     [JsonPropertyName("open24h")]
     public decimal? OpenPrice { get; set; }
 
     /// <summary>
-    /// Open price UTC 0
+    /// ["<c>sodUtc0</c>"] Open price UTC 0
     /// </summary>
     [JsonPropertyName("sodUtc0")]
     public decimal? OpenPriceUtc0 { get; set; }
 
     /// <summary>
-    /// Open price UTC 8
+    /// ["<c>sodUtc8</c>"] Open price UTC 8
     /// </summary>
     [JsonPropertyName("sodUtc8")]
     public decimal? OpenPriceUtc8 { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

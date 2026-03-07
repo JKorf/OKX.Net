@@ -1,4 +1,4 @@
-﻿namespace OKX.Net.Objects.Account;
+namespace OKX.Net.Objects.Account;
 
 /// <summary>
 /// Settlement asset
@@ -6,7 +6,7 @@
 public record OKXSettleAsset
 {
     /// <summary>
-    /// Settlement asset
+    /// ["<c>settleCcy</c>"] Settlement asset
     /// </summary>
     [JsonPropertyName("settleCcy")]
     public string SettleAsset { get; set; } = string.Empty;

@@ -6,12 +6,12 @@ namespace OKX.Net.Objects.Public;
 public record OKXAnnouncementType
 {
     /// <summary>
-    /// Announcement type
+    /// ["<c>annType</c>"] Announcement type
     /// </summary>
     [JsonPropertyName("annType")]
     public string AnnouncementType { get; set; } = string.Empty;
     /// <summary>
-    /// Announcement type description
+    /// ["<c>annTypeDesc</c>"] Announcement type description
     /// </summary>
     [JsonPropertyName("annTypeDesc")]
     public string Description { get; set; } = string.Empty;

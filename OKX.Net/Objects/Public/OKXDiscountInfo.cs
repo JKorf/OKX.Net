@@ -8,43 +8,43 @@ namespace OKX.Net.Objects.Public;
 public record OKXDiscountInfo
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Interest-free quota
+    /// ["<c>amt</c>"] Interest-free quota
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }
 
     /// <summary>
-    /// Collateral restriction status
+    /// ["<c>colRes</c>"] Collateral restriction status
     /// </summary>
     [JsonPropertyName("colRes")]
     public CollateralRestrictionStatus CollateralRestrictionStatus { get; set; }
 
     /// <summary>
-    /// Discount level
+    /// ["<c>discountLv</c>"] Discount level
     /// </summary>
     [JsonPropertyName("discountLv")]
     public int? DiscountLevel { get; set; }
 
     /// <summary>
-    /// Minimal discount rate
+    /// ["<c>minDiscountRate</c>"] Minimal discount rate
     /// </summary>
     [JsonPropertyName("minDiscountRate")]
     public decimal? MinDiscountRate { get; set; }
 
     /// <summary>
-    /// DEPRECATED, use DiscountDetails instead
+    /// ["<c>discountInfo</c>"] DEPRECATED, use DiscountDetails instead
     /// </summary>
     [JsonPropertyName("discountInfo")]
     public OKXPublicDiscountInfoDetail[] Details { get; set; } = Array.Empty<OKXPublicDiscountInfoDetail>();
 
     /// <summary>
-    /// Discount info
+    /// ["<c>details</c>"] Discount info
     /// </summary>
     [JsonPropertyName("details")]
     public OKXPublicDiscountDetails[] DiscountDetails { get; set; } = Array.Empty<OKXPublicDiscountDetails>();
@@ -57,19 +57,19 @@ public record OKXDiscountInfo
 public record OKXPublicDiscountInfoDetail
 {
     /// <summary>
-    /// Discount rate
+    /// ["<c>discountRate</c>"] Discount rate
     /// </summary>
     [JsonPropertyName("discountRate")]
     public decimal? DiscountRate { get; set; }
 
     /// <summary>
-    /// Max amount
+    /// ["<c>maxAmt</c>"] Max amount
     /// </summary>
     [JsonPropertyName("maxAmt")]
     public decimal? MaximumAmount { get; set; }
 
     /// <summary>
-    /// Min amount
+    /// ["<c>minAmt</c>"] Min amount
     /// </summary>
     [JsonPropertyName("minAmt")]
     public decimal? MinimumAmount { get; set; }
@@ -82,37 +82,37 @@ public record OKXPublicDiscountInfoDetail
 public record OKXPublicDiscountDetails
 {
     /// <summary>
-    /// Discount rate
+    /// ["<c>discountRate</c>"] Discount rate
     /// </summary>
     [JsonPropertyName("discountRate")]
     public decimal? DiscountRate { get; set; }
 
     /// <summary>
-    /// Max amount
+    /// ["<c>maxAmt</c>"] Max amount
     /// </summary>
     [JsonPropertyName("maxAmt")]
     public decimal? MaximumAmount { get; set; }
 
     /// <summary>
-    /// Min amount
+    /// ["<c>minAmt</c>"] Min amount
     /// </summary>
     [JsonPropertyName("minAmt")]
     public decimal? MinimumAmount { get; set; }
 
     /// <summary>
-    /// Tier
+    /// ["<c>tier</c>"] Tier
     /// </summary>
     [JsonPropertyName("tier")]
     public string? Tier { get; set; }
 
     /// <summary>
-    /// Liquidation penalty rate
+    /// ["<c>liqPenaltyRate</c>"] Liquidation penalty rate
     /// </summary>
     [JsonPropertyName("liqPenaltyRate")]
     public decimal? LiquidationPenaltyRate { get; set; }
 
     /// <summary>
-    /// Discount equity in currency for quick calculation if your equity is the MaximumAmount
+    /// ["<c>disCcyEq</c>"] Discount equity in currency for quick calculation if your equity is the MaximumAmount
     /// </summary>
     [JsonPropertyName("disCcyEq")]
     public decimal? DiscountAssetEquity { get; set; }

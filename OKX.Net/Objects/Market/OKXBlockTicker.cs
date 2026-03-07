@@ -9,31 +9,31 @@ namespace OKX.Net.Objects.Market;
 public record OKXBlockTicker
 {
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quote Volume
+    /// ["<c>vol24h</c>"] Quote Volume
     /// </summary>
     [JsonPropertyName("vol24h")]
     public decimal Volume { get; set; }
 
     /// <summary>
-    /// Base Volume
+    /// ["<c>volCcy24h</c>"] Base Volume
     /// </summary>
     [JsonPropertyName("volCcy24h")]
     public decimal BaseVolume { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

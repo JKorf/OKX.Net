@@ -9,37 +9,37 @@ namespace OKX.Net.Objects.SubAccount;
 public record OKXSubAccountBill
 {
     /// <summary>
-    /// Bill id
+    /// ["<c>billId</c>"] Bill id
     /// </summary>
     [JsonPropertyName("billId")]
     public long BillId { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Type
+    /// ["<c>type</c>"] Type
     /// </summary>
     [JsonPropertyName("type")]
     public SubAccountTransferType Type { get; set; }
 
     /// <summary>
-    /// asset
+    /// ["<c>ccy</c>"] asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Subaccount name
+    /// ["<c>subAcct</c>"] Subaccount name
     /// </summary>
     [JsonPropertyName("subAcct")]
     public string SubAccountName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Quantity
+    /// ["<c>amt</c>"] Quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal? Quantity { get; set; }

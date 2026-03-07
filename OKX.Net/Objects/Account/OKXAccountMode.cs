@@ -9,7 +9,7 @@ namespace OKX.Net.Objects.Account;
 public record OKXAccountMode
 {
     /// <summary>
-    /// Account mode
+    /// ["<c>acctLv</c>"] Account mode
     /// </summary>
     [JsonPropertyName("acctLv")]
     public AccountLevel Mode { get; set; }

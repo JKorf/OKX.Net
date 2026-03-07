@@ -12,43 +12,43 @@ public record OKXOrderBook
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// List of asks
+    /// ["<c>asks</c>"] List of asks
     /// </summary>
     [JsonPropertyName("asks")]
     public OKXOrderBookRow[] Asks { get; set; } = [];
 
     /// <summary>
-    /// List of bids
+    /// ["<c>bids</c>"] List of bids
     /// </summary>
     [JsonPropertyName("bids")]
     public OKXOrderBookRow[] Bids { get; set; } = [];
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Action
+    /// ["<c>action</c>"] Action
     /// </summary>
     [JsonPropertyName("action")]
     public string Action { get; set; } = string.Empty;
 
     /// <summary>
-    /// Checksum
+    /// ["<c>checksum</c>"] Checksum
     /// </summary>
     [JsonPropertyName("checksum")]
     public long? Checksum { get; set; }
 
     /// <summary>
-    /// Update sequence id
+    /// ["<c>seqId</c>"] Update sequence id
     /// </summary>
     [JsonPropertyName("seqId")]
     public long? SequenceId { get; set; }
 
     /// <summary>
-    /// Previous sequence id
+    /// ["<c>prevSeqId</c>"] Previous sequence id
     /// </summary>
     [JsonPropertyName("prevSeqId")]
     public long? PreviousSequenceId { get; set; }

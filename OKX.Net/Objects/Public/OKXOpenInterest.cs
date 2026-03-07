@@ -9,37 +9,37 @@ namespace OKX.Net.Objects.Public;
 public record OKXOpenInterest
 {
     /// <summary>
-    /// Instrument type
+    /// ["<c>instType</c>"] Instrument type
     /// </summary>
     [JsonPropertyName("instType")]
     public InstrumentType InstrumentType { get; set; }
 
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Open interest
+    /// ["<c>oi</c>"] Open interest
     /// </summary>
     [JsonPropertyName("oi")]
     public decimal? OpenInterest { get; set; }
 
     /// <summary>
-    /// Open interest asset
+    /// ["<c>oiCcy</c>"] Open interest asset
     /// </summary>
     [JsonPropertyName("oiCcy")]
     public decimal? OpenInterestAsset { get; set; }
 
     /// <summary>
-    /// Open interest in USD
+    /// ["<c>oiUsd</c>"] Open interest in USD
     /// </summary>
     [JsonPropertyName("oiUsd")]
     public decimal? OpenInterestUsd { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }

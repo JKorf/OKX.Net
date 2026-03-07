@@ -1,4 +1,4 @@
-﻿namespace OKX.Net.Objects.CopyTrading;
+namespace OKX.Net.Objects.CopyTrading;
 
 /// <summary>
 /// Copy trading account info
@@ -7,25 +7,25 @@
 public record OKXCopyTradingAccount
 {
     /// <summary>
-    /// User unique code
+    /// ["<c>uniqueCode</c>"] User unique code
     /// </summary>
     [JsonPropertyName("uniqueCode")]
     public string UniqueCode { get; set; } = string.Empty;
 
     /// <summary>
-    /// Nickname
+    /// ["<c>nickName</c>"] Nickname
     /// </summary>
     [JsonPropertyName("nickName")]
     public string NickName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Portrait link
+    /// ["<c>portLink</c>"] Portrait link
     /// </summary>
     [JsonPropertyName("portLink")]
     public string PortraitLink { get; set; } = string.Empty;
 
     /// <summary>
-    /// Details
+    /// ["<c>details</c>"] Details
     /// </summary>
     [JsonPropertyName("details")]
     public OKXCopyTradingAccountDetails[] Details { get; set; } = [];

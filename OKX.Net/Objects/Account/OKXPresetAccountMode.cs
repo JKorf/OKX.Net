@@ -9,24 +9,24 @@ namespace OKX.Net.Objects.Account;
 public record OKXPresetAccountMode
 {
     /// <summary>
-    /// Current account mode
+    /// ["<c>acctLv</c>"] Current account mode
     /// </summary>
     [JsonPropertyName("acctLv")]
     public AccountLevel CurrentAccountMode { get; set; }
     /// <summary>
-    /// New account mode
+    /// ["<c>curAcctLv</c>"] New account mode
     /// </summary>
     [JsonPropertyName("curAcctLv")]
     public AccountLevel NewAccountMode { get; set; }
 
     /// <summary>
-    /// Leverage
+    /// ["<c>lever</c>"] Leverage
     /// </summary>
     [JsonPropertyName("lever")]
     public decimal? Leverage { get; set; }
 
     /// <summary>
-    /// Risk offset type
+    /// ["<c>riskOffsetType</c>"] Risk offset type
     /// </summary>
     [JsonPropertyName("riskOffsetType")]
     public RiskOffsetType? RiskOffsetType { get; set; }

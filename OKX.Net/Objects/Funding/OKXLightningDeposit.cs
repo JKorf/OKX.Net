@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Funding;
 public record OKXLightningDeposit
 {
     /// <summary>
-    /// Timestamp
+    /// ["<c>cTime</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("cTime"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Invoice
+    /// ["<c>invoice</c>"] Invoice
     /// </summary>
     [JsonPropertyName("invoice")]
     public string Invoice { get; set; } = string.Empty;
 
     /// <summary>
-    /// Verified name for recipient
+    /// ["<c>verifiedName</c>"] Verified name for recipient
     /// </summary>
     [JsonPropertyName("verifiedName")]
     public string RecepientName { get; set; } = string.Empty;

@@ -7,25 +7,25 @@ namespace OKX.Net.Objects.SubAccount;
 public record OKXSubAccountFundingBalance
 {
     /// <summary>
-    /// Available balance
+    /// ["<c>availBal</c>"] Available balance
     /// </summary>
     [JsonPropertyName("availBal")]
     public decimal? AvailableBalance { get; set; }
 
     /// <summary>
-    /// Balance
+    /// ["<c>bal</c>"] Balance
     /// </summary>
     [JsonPropertyName("bal")]
     public decimal? Balance { get; set; }
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Frozen balance
+    /// ["<c>frozenBal</c>"] Frozen balance
     /// </summary>
     [JsonPropertyName("frozenBal")]
     public decimal? FrozenBalance { get; set; }

@@ -8,17 +8,17 @@ namespace OKX.Net.Objects.Account;
 public record OKXBorrowRepayResult
 {
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
     /// <summary>
-    /// Side
+    /// ["<c>side</c>"] Side
     /// </summary>
     [JsonPropertyName("side")]
     public BorrowRepaySide BorrowRepaySide { get; set; }
     /// <summary>
-    /// Actual quantity
+    /// ["<c>amt</c>"] Actual quantity
     /// </summary>
     [JsonPropertyName("amt")]
     public decimal Quantity { get; set; }

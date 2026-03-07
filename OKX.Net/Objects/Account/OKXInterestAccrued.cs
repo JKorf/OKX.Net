@@ -9,49 +9,49 @@ namespace OKX.Net.Objects.Account;
 public record OKXInterestAccrued
 {
     /// <summary>
-    /// Symbol
+    /// ["<c>instId</c>"] Symbol
     /// </summary>
     [JsonPropertyName("instId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
-    /// Asset
+    /// ["<c>ccy</c>"] Asset
     /// </summary>
     [JsonPropertyName("ccy")]
     public string Asset { get; set; } = string.Empty;
 
     /// <summary>
-    /// Margin mode
+    /// ["<c>mgnMode</c>"] Margin mode
     /// </summary>
     [JsonPropertyName("mgnMode")]
     public MarginMode? MarginMode { get; set; }
 
     /// <summary>
-    /// Interest
+    /// ["<c>interest</c>"] Interest
     /// </summary>
     [JsonPropertyName("interest")]
     public decimal? Interest { get; set; }
 
     /// <summary>
-    /// Interest rate
+    /// ["<c>interestRate</c>"] Interest rate
     /// </summary>
     [JsonPropertyName("interestRate")]
     public decimal? InterestRate { get; set; }
 
     /// <summary>
-    /// Liabilities
+    /// ["<c>liab</c>"] Liabilities
     /// </summary>
     [JsonPropertyName("liab")]
     public decimal? Liabilities { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// Loan type
+    /// ["<c>type</c>"] Loan type
     /// </summary>
     [JsonPropertyName("type")]
 

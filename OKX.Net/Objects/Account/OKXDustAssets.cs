@@ -7,12 +7,12 @@ namespace OKX.Net.Objects.Account;
 public record OKXDustAssets
 {
     /// <summary>
-    /// Convertable assets
+    /// ["<c>fromData</c>"] Convertable assets
     /// </summary>
     [JsonPropertyName("fromData")]
     public OKXDustAsset[] Convertable { get; set; } = Array.Empty<OKXDustAsset>();
     /// <summary>
-    /// Available target assets
+    /// ["<c>toCcy</c>"] Available target assets
     /// </summary>
     [JsonPropertyName("toCcy")]
     public string[] ToAssets { get; set; } = Array.Empty<string>();
@@ -25,12 +25,12 @@ public record OKXDustAssets
 public record OKXDustAsset
 {
     /// <summary>
-    /// Quantity available for conversion
+    /// ["<c>fromAmt</c>"] Quantity available for conversion
     /// </summary>
     [JsonPropertyName("fromAmt")]
     public decimal Quantity { get; set; }
     /// <summary>
-    /// Asset
+    /// ["<c>fromCcy</c>"] Asset
     /// </summary>
     [JsonPropertyName("fromCcy")]
     public string Asset { get; set; } = string.Empty;

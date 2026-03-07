@@ -7,19 +7,19 @@ namespace OKX.Net.Objects.Trade;
 public record OKXCancelAllAfterResponse
 {
     /// <summary>
-    /// Trigger time
+    /// ["<c>triggerTime</c>"] Trigger time
     /// </summary>
     [JsonPropertyName("triggerTime")]
     public DateTime? TriggerTime { get; set; }
 
     /// <summary>
-    /// Tag
+    /// ["<c>tag</c>"] Tag
     /// </summary>
     [JsonPropertyName("tag")]
     public string? Tag { get; set; }
 
     /// <summary>
-    /// Timestamp
+    /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts")]
     public DateTime Timestamp { get; set; }
