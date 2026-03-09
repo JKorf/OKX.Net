@@ -17,4 +17,9 @@ public enum SymbolRuleType
     /// </summary>
     [Map("pre_market")]
     PreMarket,
+    /// <summary>
+    /// Pre-market rebase contract
+    /// </summary>
+    [Map("rebase_contract")]
+    RebaseContract,
 }
