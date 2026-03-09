@@ -14,4 +14,6 @@ public enum InstrumentState
     PreOpen,
     [Map("test")]
     Test,
+    [Map("rebase")]
+    Rebase
 }
