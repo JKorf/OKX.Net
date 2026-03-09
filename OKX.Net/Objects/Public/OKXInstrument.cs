@@ -236,4 +236,9 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("maxPlatOILmt")]
     public decimal? PositionPlatformLimitQuantity { get; set; }
+    /// <summary>
+    /// ["<c>instCategory</c>"] Symbol category
+    /// </summary>
+    [JsonPropertyName("instCategory")]
+    public SymbolCategory SymbolCategory { get; set; }
 }
