@@ -9,17 +9,17 @@ namespace OKX.Net.Enums;
 public enum MaintenanceType
 {
     /// <summary>
-    /// Scheduled
+    /// ["<c>1</c>"] Scheduled
     /// </summary>
     [Map("1")]
     ScheduledMaintenance,
     /// <summary>
-    /// Unscheduled
+    /// ["<c>2</c>"] Unscheduled
     /// </summary>
     [Map("2")]
     UnscheduledMaintenance,
     /// <summary>
-    /// Disruption
+    /// ["<c>3</c>"] Disruption
     /// </summary>
     [Map("3")]
     SystemDisruption

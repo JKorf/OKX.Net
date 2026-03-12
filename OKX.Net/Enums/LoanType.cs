@@ -9,12 +9,12 @@ namespace OKX.Net.Enums;
 public enum LoanType
 {
     /// <summary>
-    /// VIP loans
+    /// ["<c>1</c>"] VIP loans
     /// </summary>
     [Map("1")]
     VIPLoans,
     /// <summary>
-    /// Market loans
+    /// ["<c>2</c>"] Market loans
     /// </summary>
     [Map("2")]
     MarketLoans

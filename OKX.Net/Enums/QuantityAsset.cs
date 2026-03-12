@@ -8,12 +8,12 @@ namespace OKX.Net.Enums;
 public enum QuantityAsset
 {
     /// <summary>
-    /// Quantity in base asset
+    /// ["<c>base_ccy</c>"] Quantity in base asset
     /// </summary>
     [Map("base_ccy")]
     BaseAsset,
     /// <summary>
-    /// Quantity in quote asset
+    /// ["<c>quote_ccy</c>"] Quantity in quote asset
     /// </summary>
     [Map("quote_ccy")]
     QuoteAsset

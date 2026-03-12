@@ -9,17 +9,17 @@ namespace OKX.Net.Enums;
 public enum TransferStatus
 {
     /// <summary>
-    /// Success
+    /// ["<c>success</c>"] Success
     /// </summary>
     [Map("success")]
     Success,
     /// <summary>
-    /// Pending transfer
+    /// ["<c>pending</c>"] Pending transfer
     /// </summary>
     [Map("pending")]
     Pending,
     /// <summary>
-    /// Transfer failed
+    /// ["<c>failed</c>"] Transfer failed
     /// </summary>
     [Map("failed")]
     Failed

@@ -9,32 +9,32 @@ namespace OKX.Net.Enums
     public enum UserAccountType
     {
         /// <summary>
-        /// Main account
+        /// ["<c>0</c>"] Main account
         /// </summary>
         [Map("0")]
         Main,
         /// <summary>
-        /// Standard sub account
+        /// ["<c>1</c>"] Standard sub account
         /// </summary>
         [Map("1")]
         StandardSubAccount,
         /// <summary>
-        /// Managed trading sub account
+        /// ["<c>2</c>"] Managed trading sub account
         /// </summary>
         [Map("2")]
         ManagedSubAccount,
         /// <summary>
-        /// Custody trading sub-account - Copper
+        /// ["<c>5</c>"] Custody trading sub-account - Copper
         /// </summary>
         [Map("5")]
         CustodySubAccountCopper,
         /// <summary>
-        /// Managed trading sub-account - Copper
+        /// ["<c>9</c>"] Managed trading sub-account - Copper
         /// </summary>
         [Map("9")]
         ManagedSubAccountCopper,
         /// <summary>
-        /// Custody trading sub-account - Komainu
+        /// ["<c>12</c>"] Custody trading sub-account - Komainu
         /// </summary>
         [Map("12")]
         CustodySubAccountKomainu

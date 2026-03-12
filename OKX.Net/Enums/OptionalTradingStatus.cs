@@ -9,12 +9,12 @@ namespace OKX.Net.Enums;
 public enum OptionalTradingStatus
 {
     /// <summary>
-    /// Not activated
+    /// ["<c>0</c>"] Not activated
     /// </summary>
     [Map("0")]
     NotActivated,
     /// <summary>
-    /// Activated
+    /// ["<c>1</c>"] Activated
     /// </summary>
     [Map("1")]
     Activated

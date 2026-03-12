@@ -8,17 +8,17 @@ namespace OKX.Net.Enums;
 public enum SymbolRuleType
 {
     /// <summary>
-    /// Normal trading
+    /// ["<c>normal</c>"] Normal trading
     /// </summary>
     [Map("normal")]
     Normal,
     /// <summary>
-    /// Pre-market trading
+    /// ["<c>pre_market</c>"] Pre-market trading
     /// </summary>
     [Map("pre_market")]
     PreMarket,
     /// <summary>
-    /// Pre-market rebase contract
+    /// ["<c>rebase_contract</c>"] Pre-market rebase contract
     /// </summary>
     [Map("rebase_contract")]
     RebaseContract,

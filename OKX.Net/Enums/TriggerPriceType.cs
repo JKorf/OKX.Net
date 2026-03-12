@@ -9,17 +9,17 @@ namespace OKX.Net.Enums
     public enum TriggerPriceType
     {
         /// <summary>
-        /// Last price
+        /// ["<c>last</c>"] Last price
         /// </summary>
         [Map("last")]
         Last,
         /// <summary>
-        /// Index price
+        /// ["<c>index</c>"] Index price
         /// </summary>
         [Map("index")]
         Index,
         /// <summary>
-        /// Mark price
+        /// ["<c>mark</c>"] Mark price
         /// </summary>
         [Map("mark")]
         Mark

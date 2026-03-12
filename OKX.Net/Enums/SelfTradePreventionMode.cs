@@ -9,17 +9,17 @@ namespace OKX.Net.Enums;
 public enum SelfTradePreventionMode
 {
     /// <summary>
-    /// Cancel maker
+    /// ["<c>cancel_maker</c>"] Cancel maker
     /// </summary>
     [Map("cancel_maker")]
     CancelMaker,
     /// <summary>
-    /// Cancel taker
+    /// ["<c>cancel_taker</c>"] Cancel taker
     /// </summary>
     [Map("cancel_taker")]
     CancelTaker,
     /// <summary>
-    /// Cancel both
+    /// ["<c>cancel_both</c>"] Cancel both
     /// </summary>
     [Map("cancel_both")]
     CancelBoth

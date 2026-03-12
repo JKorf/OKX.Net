@@ -8,17 +8,17 @@ namespace OKX.Net.Enums;
 public enum IsolatedMarginMode
 {
     /// <summary>
-    /// Auto transfers
+    /// ["<c>automatic</c>"] Auto transfers
     /// </summary>
     [Map("automatic")]
     Automatic,
     /// <summary>
-    /// Manual transfers (only supported in CONTRACTS)
+    /// ["<c>autonomy</c>"] Manual transfers (only supported in CONTRACTS)
     /// </summary>
     [Map("autonomy")]
     Autonomy,
     /// <summary>
-    /// Quick Margin Mode (only supported in MARGIN)
+    /// ["<c>quick_margin</c>"] Quick Margin Mode (only supported in MARGIN)
     /// </summary>
     [Map("quick_margin")]
     QuickMargin

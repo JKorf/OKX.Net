@@ -9,17 +9,17 @@ namespace OKX.Net.Enums;
 public enum CollateralRestrictionStatus
 {
     /// <summary>
-    /// The restriction is not enabled
+    /// ["<c>0</c>"] The restriction is not enabled
     /// </summary>
     [Map("0")]
     NoRestriction,
     /// <summary>
-    /// The restriction is not enabled. But the crypto is close to the platform's collateral limit
+    /// ["<c>1</c>"] The restriction is not enabled. But the crypto is close to the platform's collateral limit
     /// </summary>
     [Map("1")]
     NoRestrictionButCloseToLimit,
     /// <summary>
-    /// The restriction is enabled. This crypto can't be used as margin for your new orders
+    /// ["<c>2</c>"] The restriction is enabled. This crypto can't be used as margin for your new orders
     /// </summary>
     [Map("2")]
     Restricted,

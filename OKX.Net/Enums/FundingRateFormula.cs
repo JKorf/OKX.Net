@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Attributes;
+using CryptoExchange.Net.Attributes;
 
 namespace OKX.Net.Enums
 {
@@ -9,12 +9,12 @@ namespace OKX.Net.Enums
     public enum FundingRateFormula
     {
         /// <summary>
-        /// Old funding rate formula
+        /// ["<c>noRate</c>"] Old funding rate formula
         /// </summary>
         [Map("noRate")]
         NoRate,
         /// <summary>
-        /// New funding rate formula
+        /// ["<c>withRate</c>"] New funding rate formula
         /// </summary>
         [Map("withRate")]
         WithRate

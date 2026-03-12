@@ -8,17 +8,17 @@ namespace OKX.Net.Enums;
 public enum DustConvertStatus
 {
     /// <summary>
-    /// Running
+    /// ["<c>running</c>"] Running
     /// </summary>
     [Map("running")]
     Running,
     /// <summary>
-    /// Filled
+    /// ["<c>filled</c>"] Filled
     /// </summary>
     [Map("filled")]
     Filled,
     /// <summary>
-    /// Failed
+    /// ["<c>failed</c>"] Failed
     /// </summary>
     [Map("failed")]
     Failed,

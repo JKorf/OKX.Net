@@ -9,12 +9,12 @@ namespace OKX.Net.Enums
     public enum TriggerOrderKind
     {
         /// <summary>
-        /// Condition
+        /// ["<c>condition</c>"] Condition
         /// </summary>
         [Map("condition")]
         Condition,
         /// <summary>
-        /// Limit
+        /// ["<c>limit</c>"] Limit
         /// </summary>
         [Map("limit")]
         Limit

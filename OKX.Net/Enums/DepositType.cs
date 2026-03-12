@@ -9,12 +9,12 @@ namespace OKX.Net.Enums;
 public enum DepositType
 {
     /// <summary>
-    /// Internal transfer
+    /// ["<c>3</c>"] Internal transfer
     /// </summary>
     [Map("3")]
     InternalTransfer,
     /// <summary>
-    /// Deposit
+    /// ["<c>4</c>"] Deposit
     /// </summary>
     [Map("4")]
     NetworkDeposit
