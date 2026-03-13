@@ -25,7 +25,7 @@ namespace OKX.Net.UnitTests
             {
                 OutputOriginalData = true,
                 RequestTimeout = TimeSpan.FromSeconds(5),
-                ApiCredentials = new ApiCredentials("123", "123", "123")
+                ApiCredentials = new OKXCredentials("123", "123", "123")
             }), fact);
             return client;
         }

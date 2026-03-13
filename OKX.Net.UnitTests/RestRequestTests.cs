@@ -18,7 +18,7 @@ namespace OKX.Net.UnitTests
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
+                opts.ApiCredentials = new OKXCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Account", "https://www.okx.com", IsAuthenticated, "data");
@@ -75,7 +75,7 @@ namespace OKX.Net.UnitTests
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
+                opts.ApiCredentials = new OKXCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/ExchangeData", "https://www.okx.com", IsAuthenticated, "data");
@@ -133,7 +133,7 @@ namespace OKX.Net.UnitTests
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
+                opts.ApiCredentials = new OKXCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/SubAccounts", "https://www.okx.com", IsAuthenticated, "data");
@@ -151,7 +151,7 @@ namespace OKX.Net.UnitTests
             var client = new OKXRestClient(opts =>
             {
                 opts.AutoTimestamp = false;
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
+                opts.ApiCredentials = new OKXCredentials("123", "456", "789");
                 opts.OutputOriginalData = true;
             });
             var tester = new RestRequestValidator<OKXRestClient>(client, "Endpoints/UnifiedApi/Trading", "https://www.okx.com", IsAuthenticated, "data");

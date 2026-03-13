@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Options;
 /// <summary>
 /// Socket client options
 /// </summary>
-public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, ApiCredentials>
+public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, OKXCredentials>
 {
     /// <summary>
     /// Default options for new OKXRestClients
@@ -32,7 +32,7 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, ApiCredent
     /// <summary>
     /// Options for the Unified API
     /// </summary>
-    public SocketApiOptions UnifiedOptions { get; private set; } = new SocketApiOptions();
+    public SocketApiOptions<OKXCredentials> UnifiedOptions { get; private set; } = new SocketApiOptions<OKXCredentials>();
 
     internal OKXSocketOptions Set(OKXSocketOptions targetOptions)
     {

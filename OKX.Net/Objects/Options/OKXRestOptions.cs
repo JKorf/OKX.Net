@@ -5,7 +5,7 @@ namespace OKX.Net.Objects.Options;
 /// <summary>
 /// Rest client options
 /// </summary>
-public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, ApiCredentials>
+public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXCredentials>
 {
     /// <summary>
     /// Default options for new OKXRestClients
@@ -36,7 +36,7 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, ApiCredentials
     /// <summary>
     /// Options for the  unified API
     /// </summary>
-    public RestApiOptions UnifiedOptions { get; private set; } = new RestApiOptions();
+    public RestApiOptions<OKXCredentials> UnifiedOptions { get; private set; } = new RestApiOptions<OKXCredentials>();
 
     internal OKXRestOptions Set(OKXRestOptions targetOptions)
     {

@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using CryptoExchange.Net.Objects;
 using OKX.Net.Interfaces.Clients;
 using CryptoExchange.Net.Authentication;
+using OKX.Net.Clients.UnifiedApi;
 
 namespace OKX.Net.UnitTests
 {
@@ -77,7 +78,7 @@ namespace OKX.Net.UnitTests
         public void CheckSignatureExample()
         {
             var authProvider = new OKXAuthenticationProvider(
-                new ApiCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
+                new OKXCredentials("XXX", "22582BD0CFF14C41EDBF1AB98506286D", "PHRASE")
                 );
             var client = (RestApiClient)new OKXRestClient().UnifiedApi;
 
@@ -201,8 +202,8 @@ namespace OKX.Net.UnitTests
 
             Assert.That(((BaseApiClient)restClient.UnifiedApi).OutputOriginalData, Is.True);
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).OutputOriginalData, Is.False);
-            Assert.That(((BaseApiClient)restClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("123"));
-            Assert.That(((BaseApiClient)socketClient.UnifiedApi).AuthenticationProvider.ApiKey, Is.EqualTo("456"));
+            Assert.That(((OKXRestClientUnifiedApi)restClient.UnifiedApi).AuthenticationProvider.PublicKey, Is.EqualTo("123"));
+            Assert.That(((OKXSocketClientUnifiedApi)socketClient.UnifiedApi).AuthenticationProvider.PublicKey, Is.EqualTo("456"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));

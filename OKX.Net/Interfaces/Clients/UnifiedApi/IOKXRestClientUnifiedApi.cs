@@ -5,7 +5,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 /// <summary>
 /// Unified API endpoints
 /// </summary>
-public interface IOKXRestClientUnifiedApi : IRestApiClient
+public interface IOKXRestClientUnifiedApi : IRestApiClient<OKXCredentials>
 {
     /// <summary>
     /// Endpoints related to account settings, info or actions

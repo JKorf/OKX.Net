@@ -26,7 +26,7 @@ namespace OKX.Net.UnitTests
             return new OKXSocketClient(Options.Create(new OKXSocketOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = Authenticated ? new CryptoExchange.Net.Authentication.ApiCredentials(key, sec, pass) : null
+                ApiCredentials = Authenticated ? new OKXCredentials(key, sec, pass) : null
             }), loggerFactory);
         }
 

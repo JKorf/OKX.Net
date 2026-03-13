@@ -91,7 +91,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, ApiCredentials credentials, SpotUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
+        public IUserSpotDataTracker CreateUserSpotDataTracker(string userIdentifier, OKXCredentials credentials, SpotUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);
@@ -120,7 +120,7 @@ namespace OKX.Net
         }
 
         /// <inheritdoc />
-        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, ApiCredentials credentials, FuturesUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
+        public IUserFuturesDataTracker CreateUserFuturesDataTracker(string userIdentifier, OKXCredentials credentials, FuturesUserDataTrackerConfig? config = null, OKXEnvironment? environment = null)
         {
             var clientProvider = _serviceProvider?.GetRequiredService<IOKXUserClientProvider>() ?? new OKXUserClientProvider();
             var restClient = clientProvider.GetRestClient(userIdentifier, credentials, environment);

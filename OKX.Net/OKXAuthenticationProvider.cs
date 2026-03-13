@@ -7,16 +7,16 @@ using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net;
 
-internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials>
+internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials, HMACCredential>
 {
     private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.Hmac];
 
-    public OKXAuthenticationProvider(ApiCredentials credentials) : base(credentials)
+    public OKXAuthenticationProvider(OKXCredentials credentials) : base(credentials)
     {
-        if (string.IsNullOrEmpty(credentials.Pass))
-            throw new ArgumentNullException(nameof(ApiCredentials.Pass), "Passphrase is required for OKX authentication");
+        if (string.IsNullOrEmpty(Credential.Pass))
+            throw new ArgumentNullException(nameof(Credential.Pass), "Passphrase is required for OKX authentication");
     }
 
     public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
@@ -33,10 +33,10 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
 
         var signature = SignHMACSHA256(signStr, SignOutputType.Base64);
         request.Headers ??= new Dictionary<string, string>();
-        request.Headers.Add("OK-ACCESS-KEY", _credentials.Key);
+        request.Headers.Add("OK-ACCESS-KEY", Credential.PublicKey);
         request.Headers.Add("OK-ACCESS-SIGN", signature);
         request.Headers.Add("OK-ACCESS-TIMESTAMP", time);
-        request.Headers.Add("OK-ACCESS-PASSPHRASE", _credentials.Pass!);
+        request.Headers.Add("OK-ACCESS-PASSPHRASE", Credential.Pass!);
 
         request.SetBodyContent(body);
         request.SetQueryString(queryString);
@@ -54,8 +54,8 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<ApiCredentials
             [
                 new OKXSocketAuthArgs
                 {
-                    ApiKey = ApiKey,
-                    Passphrase = Pass!,
+                    ApiKey = Credential.PublicKey,
+                    Passphrase = Credential.Pass!,
                     Timestamp = timestamp,
                     Sign = signature,
                 }
