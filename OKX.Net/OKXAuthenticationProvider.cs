@@ -33,7 +33,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
 
         var signature = SignHMACSHA256(signStr, SignOutputType.Base64);
         request.Headers ??= new Dictionary<string, string>();
-        request.Headers.Add("OK-ACCESS-KEY", Credential.PublicKey);
+        request.Headers.Add("OK-ACCESS-KEY", Credential.Key);
         request.Headers.Add("OK-ACCESS-SIGN", signature);
         request.Headers.Add("OK-ACCESS-TIMESTAMP", time);
         request.Headers.Add("OK-ACCESS-PASSPHRASE", Credential.Pass!);
@@ -54,7 +54,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
             [
                 new OKXSocketAuthArgs
                 {
-                    ApiKey = Credential.PublicKey,
+                    ApiKey = Credential.Key,
                     Passphrase = Credential.Pass!,
                     Timestamp = timestamp,
                     Sign = signature,
