@@ -179,12 +179,12 @@ namespace OKX.Net.UnitTests
             var configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
-                    { "ApiCredentials:Key", "123" },
-                    { "ApiCredentials:Secret", "456" },
-                    { "ApiCredentials:Pass", "222" },
-                    { "Socket:ApiCredentials:Key", "456" },
-                    { "Socket:ApiCredentials:Secret", "789" },
-                    { "Socket:ApiCredentials:Pass", "111" },
+                    { "ApiCredentials:Hmac:Key", "123" },
+                    { "ApiCredentials:Hmac:Secret", "456" },
+                    { "ApiCredentials:Hmac:Pass", "222" },
+                    { "Socket:ApiCredentials:Hmac:Key", "456" },
+                    { "Socket:ApiCredentials:Hmac:Secret", "789" },
+                    { "Socket:ApiCredentials:Hmac:Pass", "111" },
                     { "Rest:OutputOriginalData", "true" },
                     { "Socket:OutputOriginalData", "false" },
                     { "Rest:Proxy:Host", "host" },
@@ -202,8 +202,8 @@ namespace OKX.Net.UnitTests
 
             Assert.That(((BaseApiClient)restClient.UnifiedApi).OutputOriginalData, Is.True);
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).OutputOriginalData, Is.False);
-            Assert.That(((OKXRestClientUnifiedApi)restClient.UnifiedApi).AuthenticationProvider.PublicKey, Is.EqualTo("123"));
-            Assert.That(((OKXSocketClientUnifiedApi)socketClient.UnifiedApi).AuthenticationProvider.PublicKey, Is.EqualTo("456"));
+            Assert.That(((OKXRestClientUnifiedApi)restClient.UnifiedApi).AuthenticationProvider.Key, Is.EqualTo("123"));
+            Assert.That(((OKXSocketClientUnifiedApi)socketClient.UnifiedApi).AuthenticationProvider.Key, Is.EqualTo("456"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host"));
             Assert.That(((BaseApiClient)restClient.UnifiedApi).ClientOptions.Proxy.Port, Is.EqualTo(80));
             Assert.That(((BaseApiClient)socketClient.UnifiedApi).ClientOptions.Proxy.Host, Is.EqualTo("host2"));
