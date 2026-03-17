@@ -171,7 +171,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.OrderId.ToString()!,
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
                         update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        update.Data.OrderState == Enums.OrderStatus.Canceled ? SharedOrderStatus.Canceled : (update.Data.OrderState == Enums.OrderStatus.Live || update.Data.OrderState == Enums.OrderStatus.PartiallyFilled) ? SharedOrderStatus.Open : SharedOrderStatus.Filled,
+                        ParseOrderStatus(update.Data.OrderState),
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId?.ToString(),
@@ -195,6 +195,18 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return new ExchangeResult<UpdateSubscription>(Exchange, result);
         }
+
+        private SharedOrderStatus ParseOrderStatus(OrderStatus orderState)
+        {
+            if (orderState == Enums.OrderStatus.Canceled)
+                return SharedOrderStatus.Canceled;
+            if (orderState == Enums.OrderStatus.Live || orderState == Enums.OrderStatus.PartiallyFilled)
+                return SharedOrderStatus.Open;
+            if (orderState == OrderStatus.Filled)
+                return SharedOrderStatus.Filled;
+
+            return SharedOrderStatus.Unknown;
+        }
         #endregion
 
         #region Futures Order client
@@ -213,7 +225,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.OrderId.ToString()!,
                         update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
                         update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        update.Data.OrderState == Enums.OrderStatus.Canceled ? SharedOrderStatus.Canceled : (update.Data.OrderState == Enums.OrderStatus.Live || update.Data.OrderState == Enums.OrderStatus.PartiallyFilled) ? SharedOrderStatus.Open : SharedOrderStatus.Filled,
+                        ParseOrderStatus(update.Data.OrderState),
                         update.Data.CreateTime)
                     {
                         ClientOrderId = update.Data.ClientOrderId,
