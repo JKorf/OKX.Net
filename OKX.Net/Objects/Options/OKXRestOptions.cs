@@ -36,7 +36,7 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXCredentials
     /// <summary>
     /// Options for the  unified API
     /// </summary>
-    public RestApiOptions<OKXCredentials> UnifiedOptions { get; private set; } = new RestApiOptions<OKXCredentials>();
+    public RestApiOptions UnifiedOptions { get; private set; } = new RestApiOptions();
 
     internal OKXRestOptions Set(OKXRestOptions targetOptions)
     {

@@ -7,13 +7,11 @@ using OKX.Net.Objects.Sockets.Queries;
 
 namespace OKX.Net;
 
-internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials, HMACCredential>
+internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials, OKXCredentials>
 {
     private static IMessageSerializer _serializer = new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
-    public override ApiCredentialsType[] SupportedCredentialTypes => [ApiCredentialsType.HMAC];
-
-    public OKXAuthenticationProvider(OKXCredentials credentials) : base(credentials)
+    public OKXAuthenticationProvider(OKXCredentials credentials) : base(credentials, credentials)
     {
         if (string.IsNullOrEmpty(Credential.Pass))
             throw new ArgumentNullException(nameof(Credential.Pass), "Passphrase is required for OKX authentication");

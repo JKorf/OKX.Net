@@ -32,7 +32,7 @@ public class OKXSocketOptions : SocketExchangeOptions<OKXEnvironment, OKXCredent
     /// <summary>
     /// Options for the Unified API
     /// </summary>
-    public SocketApiOptions<OKXCredentials> UnifiedOptions { get; private set; } = new SocketApiOptions<OKXCredentials>();
+    public SocketApiOptions UnifiedOptions { get; private set; } = new SocketApiOptions();
 
     internal OKXSocketOptions Set(OKXSocketOptions targetOptions)
     {
