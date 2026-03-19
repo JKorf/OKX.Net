@@ -482,6 +482,40 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(
+        string? asset = null,
+        FundingBillType? type = null,
+        DateTime? endTime = null,
+        DateTime? startTime = null,
+        int limit = 100,
+        string? clientId = null,
+        long? startBillId = null,
+        long? endBillId = null,
+        CancellationToken ct = default)
+    {
+        if (limit < 1 || limit > 100)
+            throw new ArgumentException("Limit can be between 1-100.");
+
+        if ((startTime != null || endTime != null) && (startBillId != null || endBillId != null))
+            throw new ArgumentException("Filter can be either on start/end bill id or start/end time");
+
+        var parameters = new ParameterCollection();
+        parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalEnum("type", type);
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalString("before", endBillId);
+        parameters.AddOptionalString("after", startBillId);
+        parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptionalParameter("clientId", clientId);
+        parameters.AddOptionalParameter("pagingType", startBillId != null || endBillId != null ? "2" : null);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/bills-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXFundingBill[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXLightningDeposit[]>> GetLightningDepositsAsync(
         string asset,
         decimal amount,

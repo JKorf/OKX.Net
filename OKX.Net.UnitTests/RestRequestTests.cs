@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Testing;
 using NUnit.Framework;
@@ -45,6 +45,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBalanceAsync(), "GetFundingBalance");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.TransferAsync("ETH", 1, Enums.TransferType.MasterAccountToSubAccount, Enums.AccountType.Funding, Enums.AccountType.Funding), "Transfer", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync("ETH"), "GetFundingBillDetails");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBillHistoryAsync("ETH"), "GetFundingBillHistory");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetLightningDepositsAsync("ETH", 1), "GetLightningDeposits");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetDepositAddressAsync("ETH"), "GetDepositAddress");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetDepositHistoryAsync("ETH"), "GetDepositHistory");
