@@ -103,9 +103,6 @@ namespace Microsoft.Extensions.DependencyInjection
             }).SetHandlerLifetime(Timeout.InfiniteTimeSpan);
             services.Add(new ServiceDescriptor(typeof(IOKXSocketClient), x => { return new OKXSocketClient(x.GetRequiredService<IOptions<OKXSocketOptions>>(), x.GetRequiredService<ILoggerFactory>()); }, socketClientLifeTime ?? ServiceLifetime.Singleton));
 
-
-            services.AddTransient<ICryptoRestClient, CryptoRestClient>();
-            services.AddTransient<ICryptoSocketClient, CryptoSocketClient>();
             services.AddTransient<IOKXOrderBookFactory, OKXOrderBookFactory>();
             services.AddTransient<IOKXTrackerFactory, OKXTrackerFactory>();
             services.AddTransient<ITrackerFactory, OKXTrackerFactory>();

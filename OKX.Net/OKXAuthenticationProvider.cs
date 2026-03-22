@@ -13,8 +13,6 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
 
     public OKXAuthenticationProvider(OKXCredentials credentials) : base(credentials, credentials)
     {
-        if (string.IsNullOrEmpty(Credential.Pass))
-            throw new ArgumentNullException(nameof(Credential.Pass), "Passphrase is required for OKX authentication");
     }
 
     public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
