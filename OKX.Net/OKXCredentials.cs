@@ -45,5 +45,8 @@ namespace OKX.Net
             Pass = pass;
             return this;
         }
+
+        /// <inheritdoc />
+        public override ApiCredentials Copy() => new OKXCredentials(this);
     }
 }
