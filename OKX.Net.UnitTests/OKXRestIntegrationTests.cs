@@ -36,7 +36,7 @@ namespace OKX.Net.UnitTests
             {
                 OutputOriginalData = true,
                 Environment = Authenticated ? OKXEnvironment.Europe : OKXEnvironment.Live,
-                ApiCredentials = Authenticated ? new ApiCredentials(key, sec, pass) : null
+                ApiCredentials = Authenticated ? new OKXCredentials(key, sec, pass) : null
             }));
         }
 
@@ -66,7 +66,7 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetLeverageAsync("ETH-USDT", Enums.MarginMode.Isolated, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAvailableAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFeeRatesAsync(Enums.InstrumentType.Spot, "ETH-USDT", default, default, default, default), true);
+            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFeeRatesAsync(Enums.InstrumentType.Spot, "ETH-USDT", default, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetInterestAccruedAsync(default, default, default, default, default, 100, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetInterestRateAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumWithdrawalsAsync(default, default), true);

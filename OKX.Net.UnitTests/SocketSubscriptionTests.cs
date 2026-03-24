@@ -47,7 +47,7 @@ namespace OKX.Net.UnitTests
             var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
                 OutputOriginalData = true,
-                ApiCredentials = new ApiCredentials("123", "456", "789")
+                ApiCredentials = new OKXCredentials("123", "456", "789")
             }), loggerFactory);
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data");
             await tester.ValidateAsync<OKXInstrument[]>((client, handler) => client.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync(Enums.InstrumentType.Spot, handler), "Symbol");
@@ -75,7 +75,7 @@ namespace OKX.Net.UnitTests
 
             var client = new OKXSocketClient(Options.Create<OKXSocketOptions>(new OKXSocketOptions
             {
-                ApiCredentials = new ApiCredentials("123", "456", "789")
+                ApiCredentials = new OKXCredentials("123", "456", "789")
             }), loggerFactory);
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:8443", "data");
             //await tester.ValidateAsync<OKXAccountBalance>((client, handler) => client.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(null, true, handler), "Balance", useFirstUpdateItem: true);
@@ -89,7 +89,7 @@ namespace OKX.Net.UnitTests
         {
             var client = new OKXSocketClient(opts =>
             {
-                opts.ApiCredentials = new ApiCredentials("123", "456", "789");
+                opts.ApiCredentials = new OKXCredentials("123", "456", "789");
             });
             var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data");
             await tester.ValidateAsync<OKXPosition[]>((client, handler) => client.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(Enums.InstrumentType.Futures, null, null, true, handler), "Position");

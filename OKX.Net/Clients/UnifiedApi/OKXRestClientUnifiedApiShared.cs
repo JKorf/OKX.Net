@@ -576,11 +576,17 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return OrderType.Limit;
         }
-        private SharedOrderStatus ParseOrderStatus(OrderStatus status)
+
+        private SharedOrderStatus ParseOrderStatus(OrderStatus orderState)
         {
-            if (status == OrderStatus.Live || status == OrderStatus.PartiallyFilled) return SharedOrderStatus.Open;
-            if (status == OrderStatus.Canceled) return SharedOrderStatus.Open;
-            return SharedOrderStatus.Filled;
+            if (orderState == Enums.OrderStatus.Canceled)
+                return SharedOrderStatus.Canceled;
+            if (orderState == Enums.OrderStatus.Live || orderState == Enums.OrderStatus.PartiallyFilled)
+                return SharedOrderStatus.Open;
+            if (orderState == OrderStatus.Filled)
+                return SharedOrderStatus.Filled;
+
+            return SharedOrderStatus.Unknown;
         }
 
         private SharedOrderType ParseOrderType(OrderType type)
@@ -744,13 +750,25 @@ namespace OKX.Net.Clients.UnifiedApi
                         x.Quantity,
                         x.State == DepositState.Successful,
                         x.Time,
-                        x.State == DepositState.Successful ? SharedTransferStatus.Completed
-                        : x.State == DepositState.Pending || x.State == DepositState.Credited || x.State == DepositState.WaitingForConfirmation ? SharedTransferStatus.InProgress
-                        : SharedTransferStatus.Failed)
+                        ParseTransferStatus(x.State))
                     {
                         Network = x.Network,
                         TransactionId = x.TransactionId
                     }).ToArray(), nextPageRequest);
+        }
+
+        private SharedTransferStatus ParseTransferStatus(DepositState state)
+        {
+            if (state == DepositState.Successful)
+                return SharedTransferStatus.Completed;
+
+            if (state == DepositState.Pending || state == DepositState.Credited || state == DepositState.WaitingForConfirmation)
+                return SharedTransferStatus.InProgress;
+
+            if (state == DepositState.KycLimit || state == DepositState.Frozen || state == DepositState.AddressBlacklisted || state == DepositState.SubAccountIntercepted)
+                return SharedTransferStatus.Failed;
+
+            return SharedTransferStatus.Unknown;
         }
 
         #endregion
@@ -1836,7 +1854,10 @@ namespace OKX.Net.Clients.UnifiedApi
             if (orderInfo.OrderState == OrderStatus.Filled)
                 return SharedTriggerOrderStatus.Filled;
 
-            return SharedTriggerOrderStatus.Active;
+            if (orderInfo.OrderState == OrderStatus.Live || orderInfo.OrderState == OrderStatus.PartiallyFilled)
+                return SharedTriggerOrderStatus.Active;
+
+            return SharedTriggerOrderStatus.Unknown;
         }
 
         EndpointOptions<CancelOrderRequest> ISpotTriggerOrderRestClient.CancelSpotTriggerOrderOptions { get; } = new EndpointOptions<CancelOrderRequest>(true);

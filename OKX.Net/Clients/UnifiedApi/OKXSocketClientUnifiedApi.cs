@@ -19,7 +19,7 @@ using System.Net.WebSockets;
 namespace OKX.Net.Clients.UnifiedApi;
 
 /// <inheritdoc />
-internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketClientUnifiedApi
+internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXSocketClientUnifiedApi
 {
     public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
 
@@ -113,7 +113,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient, IOKXSocketCl
     internal string GetUri(string path) => BaseAddress.Trim(['/']) + path;
 
     /// <inheritdoc />
-    protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+    protected override OKXAuthenticationProvider CreateAuthenticationProvider(OKXCredentials credentials)
         => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />

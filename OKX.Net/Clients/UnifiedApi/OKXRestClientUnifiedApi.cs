@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
 
-internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUnifiedApi
+internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXRestClientUnifiedApi
 {
     #region Internal Fields
     public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
@@ -52,7 +52,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient, IOKXRestClientUn
     protected override IMessageSerializer CreateSerializer() => new SystemTextJsonMessageSerializer(SerializerOptions.WithConverters(OKXExchange._serializerContext));
 
     /// <inheritdoc />
-    protected override AuthenticationProvider CreateAuthenticationProvider(ApiCredentials credentials)
+    protected override OKXAuthenticationProvider CreateAuthenticationProvider(OKXCredentials credentials)
         => new OKXAuthenticationProvider(credentials);
 
     /// <inheritdoc />

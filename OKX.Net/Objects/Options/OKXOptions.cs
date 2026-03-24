@@ -4,6 +4,6 @@ namespace OKX.Net.Objects.Options;
 /// <summary>
 /// OKX options
 /// </summary>
-public class OKXOptions : LibraryOptions<OKXRestOptions, OKXSocketOptions, ApiCredentials, OKXEnvironment>
+public class OKXOptions : LibraryOptions<OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>
 {
 }

@@ -9,7 +9,7 @@ using OKX.Net.Objects.Options;
 namespace OKX.Net.Clients;
 
 /// <inheritdoc />
-public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
+public class OKXSocketClient : BaseSocketClient<OKXEnvironment, OKXCredentials>, IOKXSocketClient
 {
     /// <summary>
     /// Unified API endpoints
@@ -40,12 +40,6 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     }
     #endregion
 
-    /// <inheritdoc />
-    public void SetOptions(UpdateOptions options)
-    {
-        UnifiedApi.SetOptions(options);
-    }
-
     /// <summary>
     /// Set default options
     /// </summary>
@@ -53,11 +47,5 @@ public class OKXSocketClient : BaseSocketClient, IOKXSocketClient
     public static void SetDefaultOptions(Action<OKXSocketOptions> optionsDelegate)
     {
         OKXSocketOptions.Default = ApplyOptionsDelegate(optionsDelegate);
-    }
-
-    /// <inheritdoc />
-    public virtual void SetApiCredentials(ApiCredentials credentials)
-    {
-        UnifiedApi.SetApiCredentials(credentials.Copy());
     }
 }
