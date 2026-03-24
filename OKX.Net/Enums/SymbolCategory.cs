@@ -10,4 +10,10 @@ public enum SymbolCategory
     Crypto,
     [Map("3")]
     Stocks,
+    [Map("4")]
+    Commodities,
+    [Map("5")]
+    Forex,
+    [Map("6")]
+    Bonds,
 }
