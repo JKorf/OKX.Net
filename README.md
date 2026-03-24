@@ -45,7 +45,7 @@ OKX.Net is available on [GitHub packages](https://github.com/JKorf/OKX.Net/pkgs/
 The NuGet package files are added along side the source with the latest GitHub release which can found [here](https://github.com/JKorf/OKX.Net/releases).
 
 ## How to use
-*REST Endpoints*  
+*Basic request:* 
 
 ```csharp
 // Get the ETH/USDT ticker via rest request
@@ -54,7 +54,25 @@ var tickerResult = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-
 var lastPrice = tickerResult.Data.LastPrice;
 ```
 	
-*Websocket streams*  
+*Place order:*
+```csharp
+var restClient = new OKXRestClient(opts => {
+	opts.ApiCredentials = new OKXCredentials("APIKEY", "APISECRET", "PASS");
+});
+
+// Place Limit order to buy 10 long contracts of ETH/USD at 2000
+var orderResult = await restClient.UnifiedApi.Trading.PlaceOrderAsync(
+    "ETH-USD-SWAP",
+    OrderSide.Buy,
+    OrderType.Limit,
+    quantity: 10m,
+    price: 2000,
+    positionSide: PositionSide.Long,
+    tradeMode: TradeMode.Cross
+    );
+```
+
+*WebSocket subscription:* 
 
 ```csharp
 // Subscribe to ETH/USDT ticker updates via the websocket API
