@@ -1,4 +1,4 @@
-﻿using OKX.Net.Clients;
+using OKX.Net.Clients;
 using OKX.Net.Objects;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Testing;
@@ -73,6 +73,7 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetsAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBalanceAsync(default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillHistoryAsync(default, default, default, default, 100, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true);
             await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetValuationAsync(default, default), true);
