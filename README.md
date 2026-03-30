@@ -196,6 +196,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.10.2 - 30 Mar 2026
+    * Added GetFundingBillHistoryAsync endpoint
+    * Added ThisFiveYears to InstrumentAlias Enum values
+    * Added Perp to SymbolRuleType Enum values
+    * Updated OKXInstrument.SymbolCategory to nullable since it's not always set
+
 * Version 4.10.1 - 24 Mar 2026
     * Fix issue in credentials copying
 

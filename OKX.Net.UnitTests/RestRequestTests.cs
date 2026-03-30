@@ -43,6 +43,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBalanceAsync(), "GetFundingBalance");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.TransferAsync("ETH", 1, Enums.TransferType.MasterAccountToSubAccount, Enums.AccountType.Funding, Enums.AccountType.Funding), "Transfer", useSingleArrayItem: true);
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync("ETH"), "GetFundingBillDetails");
+            await tester.ValidateAsync(client => client.UnifiedApi.Account.GetFundingBillHistoryAsync("ETH"), "GetFundingBillHistory");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetDepositAddressAsync("ETH"), "GetDepositAddress");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.GetDepositHistoryAsync("ETH"), "GetDepositHistory");
             await tester.ValidateAsync(client => client.UnifiedApi.Account.WithdrawAsync("ETH", 1, Enums.WithdrawalDestination.OKX, "123", 1), "Withdraw", useSingleArrayItem: true);
