@@ -1,0 +1,17 @@
+POST
+/api/v5/trade/one-click-repay
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "status":"success",
+            "debtCcy":"BTC",
+            "repayCcy":"USDT",
+            "fillDebtSz":"0.1",
+            "fillRepaySz":"5000",
+            "uTime":"1625097600000"
+        }
+    ]
+}

@@ -108,7 +108,6 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetMarkPricesAsync(Enums.InstrumentType.Futures, default, default, default, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetPositionTiersAsync(Enums.InstrumentType.Futures, Enums.MarginMode.Cross, "BTC-USD", default, default, default, default, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetInterestRatesAsync(default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetVIPInterestRatesAsync(default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetUnderlyingAsync(Enums.InstrumentType.Futures, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetInsuranceFundAsync(Enums.InstrumentType.Futures, Enums.InsuranceType.All, "BTC-USD", default, default, default, 100, default, default), false);
             await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.UnitConvertAsync(Enums.ConvertType.CurrencyToContract, "BTC-USD-SWAP", 1, Enums.ConvertUnit.Coin, 50000m, default), false);

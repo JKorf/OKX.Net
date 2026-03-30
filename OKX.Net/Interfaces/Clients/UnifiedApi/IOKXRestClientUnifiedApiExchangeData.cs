@@ -11,7 +11,7 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 public interface IOKXRestClientUnifiedApiExchangeData
 {
     /// <summary>
-    /// Get 24 hour volumes. The 24-hour trading volume is calculated on a rolling basis, using USD as the pricing unit.
+    /// Get 24-hour volumes. The 24-hour trading volume is calculated on a rolling basis, using USD as the pricing unit.
     /// <para>
     /// Docs:<br />
     /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-market-data-get-24h-total-volume" /><br />
@@ -57,7 +57,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// Get block trades. Retrieve the recent block trading transactions of an instrument. Descending order by tradeId.
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#block-trading-rest-api-get-block-trades" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#block-trading-rest-api-get-public-single-leg-transactions-of-block-trades" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/public/block-trades
     /// </para>
@@ -213,7 +213,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// Get insurance fund balance information
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-insurance-fund" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-security-fund" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/public/insurance-fund
     /// </para>
@@ -488,7 +488,7 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// Get the ratio of cumulative data value between currency pair leverage quote asset and underlying asset over a given period of time.
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#trading-statistics-rest-api-get-margin-lending-ratio" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-statistics-rest-api-get-margin-long-short-ratio" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/rubik/stat/margin/loan-ratio
     /// </para>
@@ -653,19 +653,6 @@ public interface IOKXRestClientUnifiedApiExchangeData
     Task<WebCallResult<string[]>> GetUnderlyingAsync(InstrumentType instrumentType, CancellationToken ct = default);
 
     /// <summary>
-    /// Get interest rate and loan quota for VIP loans
-    /// <para>
-    /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-interest-rate-and-loan-quota" /><br />
-    /// Endpoint:<br />
-    /// GET /api/v5/public/vip-interest-rate-loan-quota
-    /// </para>
-    /// </summary>
-    /// <param name="ct">Cancellation Token</param>
-    /// <returns></returns>
-    Task<WebCallResult<OKXVipInterestRate[]>> GetVIPInterestRatesAsync(CancellationToken ct = default);
-
-    /// <summary>
     /// Convert units
     /// <para>
     /// Docs:<br />
@@ -739,5 +726,22 @@ public interface IOKXRestClientUnifiedApiExchangeData
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXSettlementInfo[]>> GetSettlementHistoryAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get premium history
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#public-data-rest-api-get-premium-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/public/premium-history
+    /// </para>
+    /// </summary>
+    /// <param name="instrumentId">["<c>instId</c>"] Instrument ID</param>
+    /// <param name="startTime">["<c>after</c>"] Filter by start time</param>
+    /// <param name="endTime">["<c>before</c>"] Filter by end time</param>
+    /// <param name="limit">["<c>limit</c>"] Max number of results</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXPremiumHistory[]>> GetPremiumHistoryAsync(string instrumentId, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 }
 

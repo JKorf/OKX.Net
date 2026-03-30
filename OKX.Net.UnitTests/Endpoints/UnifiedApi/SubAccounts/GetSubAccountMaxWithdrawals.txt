@@ -1,0 +1,13 @@
+GET
+/api/v5/account/subaccount/max-withdrawal
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "ccy":"USDT",
+            "maxWd":"5000"
+        }
+    ]
+}

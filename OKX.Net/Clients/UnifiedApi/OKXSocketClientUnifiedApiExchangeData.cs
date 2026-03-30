@@ -126,9 +126,9 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
                 );
         });
 
-        var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger, _client, new List<OKXSocketArgs>
             {
-                new Objects.Sockets.Models.OKXSocketArgs
+                new OKXSocketArgs
                 {
                     Channel = "open-interest",
                     Symbol = symbol
@@ -158,7 +158,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
         var subscription = new OKXSubscription<OKXOpenInterest[]>(_logger,
            _client, 
            symbols.Select(s =>
-              new Objects.Sockets.Models.OKXSocketArgs
+              new OKXSocketArgs
               {
                   Channel = "open-interest",
                   Symbol = s
@@ -468,9 +468,9 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(orderBookType);
-        var subscription = new OKXBookSubscription(_logger, _client, new List<Objects.Sockets.Models.OKXSocketArgs>
+        var subscription = new OKXBookSubscription(_logger, _client, new List<OKXSocketArgs>
             {
-                new Objects.Sockets.Models.OKXSocketArgs
+                new OKXSocketArgs
                 {
                     Channel = jc,
                     Symbol = symbol,
@@ -664,7 +664,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
         var subscription = new OKXSubscription<OKXIndexTicker[]>(_logger,
            _client, 
            symbols.Select(s =>
-              new Objects.Sockets.Models.OKXSocketArgs
+              new OKXSocketArgs
               {
                   Channel = "index-tickers",
                   Symbol = s

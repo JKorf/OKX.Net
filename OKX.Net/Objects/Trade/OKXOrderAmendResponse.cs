@@ -43,6 +43,12 @@ public record OKXOrderAmendResponse
     public string Message { get; set; } = string.Empty;
 
     /// <summary>
+    /// ["<c>subCode</c>"] Sub code
+    /// </summary>
+    [JsonPropertyName("subCode")]
+    public string SubCode { get; set; } = string.Empty;
+
+    /// <summary>
     /// Whether order edit was successful
     /// </summary>
     public bool Success => Code == 0;

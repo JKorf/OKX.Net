@@ -10,7 +10,13 @@ public record OKXAlgoOrderRequest
     /// ["<c>algoId</c>"] Algo order id
     /// </summary>
     [JsonPropertyName("algoId")]
-    public string AlgoOrderId { get; set; } = string.Empty;
+    public string? AlgoOrderId { get; set; }
+
+    /// <summary>
+    /// ["<c>algoClOrdId</c>"] Client algo order id
+    /// </summary>
+    [JsonPropertyName("algoClOrdId")]
+    public string? ClientAlgoOrderId { get; set; }
 
     /// <summary>
     /// ["<c>instId</c>"] Symbol

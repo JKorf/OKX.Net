@@ -1,0 +1,12 @@
+GET
+/api/v5/users/entrust-subaccount-list
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subAcct":"test-sub"
+        }
+    ]
+}

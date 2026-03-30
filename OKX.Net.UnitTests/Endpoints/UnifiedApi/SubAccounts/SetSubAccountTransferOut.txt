@@ -1,0 +1,13 @@
+POST
+/api/v5/users/subaccount/set-transfer-out
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subAcct":"test-sub",
+            "canTransOut":"true"
+        }
+    ]
+}

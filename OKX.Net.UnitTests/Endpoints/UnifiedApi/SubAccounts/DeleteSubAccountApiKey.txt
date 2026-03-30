@@ -1,0 +1,13 @@
+POST
+/api/v5/users/subaccount/delete-apikey
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subAcct":"test-sub",
+            "apiKey":"test-key"
+        }
+    ]
+}

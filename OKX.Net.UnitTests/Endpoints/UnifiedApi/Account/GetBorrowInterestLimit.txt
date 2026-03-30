@@ -1,0 +1,25 @@
+GET
+/api/v5/account/interest-limits
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "debt":"100",
+            "interest":"1",
+            "nextDiscountTime":"1625097600000",
+            "nextInterestTime":"1625097600000",
+            "records":[
+                {
+                    "ccy":"BTC",
+                    "interest":"0.1",
+                    "availLoan":"10",
+                    "rate":"0.01",
+                    "usedLoan":"5",
+                    "posLoan":"2"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+GET
+/api/v5/users/subaccount/apikey
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "apiKey":"test-key",
+            "label":"test-label",
+            "perm":"read_only",
+            "ip":""
+        }
+    ]
+}

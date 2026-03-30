@@ -1,5 +1,4 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
@@ -7,7 +6,6 @@ using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Core;
 using OKX.Net.Objects.Options;
-using System.Net.Http.Headers;
 
 namespace OKX.Net.Clients.UnifiedApi;
 

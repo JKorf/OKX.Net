@@ -1,0 +1,13 @@
+POST
+/api/v5/users/subaccount/create-subaccount
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subAcct":"new-sub",
+            "label":""
+        }
+    ]
+}

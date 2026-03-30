@@ -241,4 +241,19 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("instCategory")]
     public SymbolCategory SymbolCategory { get; set; }
+    /// <summary>
+    /// ["<c>groupId</c>"] Group ID
+    /// </summary>
+    [JsonPropertyName("groupId")]
+    public string? GroupId { get; set; }
+    /// <summary>
+    /// ["<c>longPosRemainingQuota</c>"] Long position remaining quota
+    /// </summary>
+    [JsonPropertyName("longPosRemainingQuota")]
+    public decimal? LongPositionRemainingQuota { get; set; }
+    /// <summary>
+    /// ["<c>shortPosRemainingQuota</c>"] Short position remaining quota
+    /// </summary>
+    [JsonPropertyName("shortPosRemainingQuota")]
+    public decimal? ShortPositionRemainingQuota { get; set; }
 }
