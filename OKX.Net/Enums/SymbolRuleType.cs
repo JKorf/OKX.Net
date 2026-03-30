@@ -22,4 +22,9 @@ public enum SymbolRuleType
     /// </summary>
     [Map("rebase_contract")]
     RebaseContract,
+    /// <summary>
+    /// ["<c>xperp</c>"] Perp
+    /// </summary>
+    [Map("xperp")]
+    Perp,
 }
