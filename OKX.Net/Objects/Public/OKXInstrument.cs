@@ -240,5 +240,5 @@ public record OKXInstrument
     /// ["<c>instCategory</c>"] Symbol category
     /// </summary>
     [JsonPropertyName("instCategory")]
-    public SymbolCategory SymbolCategory { get; set; }
+    public SymbolCategory? SymbolCategory { get; set; }
 }
