@@ -19,5 +19,7 @@ public enum InstrumentAlias
     [Map("next_quarter")]
     NextQuarter,
     [Map("third_quarter")]
-    ThirdQuarter
+    ThirdQuarter,
+    [Map("this_five_years")]
+    ThisFiveYears
 }
