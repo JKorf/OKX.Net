@@ -1,18 +1,12 @@
-using OKX.Net.Clients;
-using OKX.Net.Objects;
-using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Testing;
 using Microsoft.Extensions.Logging;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using NUnit.Framework;
+using OKX.Net.Clients;
+using OKX.Net.Enums;
 using OKX.Net.Objects.Options;
 using OKX.Net.SymbolOrderBooks;
-using CryptoExchange.Net.Objects.Errors;
 
 namespace OKX.Net.UnitTests
 {
@@ -46,7 +40,7 @@ namespace OKX.Net.UnitTests
             if (!ShouldRun())
                 return;
 
-            var result = await CreateClient().UnifiedApi.ExchangeData.GetKlinesAsync("TSTTST", Enums.KlineInterval.OneDay, default);
+            var result = await CreateClient().UnifiedApi.ExchangeData.GetKlinesAsync("TSTTST", KlineInterval.OneDay);
 
             Assert.That(result.Success, Is.False);
             Assert.That(result.Error.ErrorCode, Is.EqualTo("51001"));
@@ -56,82 +50,82 @@ namespace OKX.Net.UnitTests
         [Test]
         public async Task TestAccount()
         {
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetAccountBalanceAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetPositionsAsync(default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetPositionHistoryAsync(default, default, default, default, default, default, default, 100, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetPositionRiskAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetBillHistoryAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetBillArchiveAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetAccountConfigurationAsync(default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetLeverageAsync("ETH-USDT", Enums.MarginMode.Isolated, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumAvailableAmountAsync("ETH-USDT", Enums.TradeMode.Cash, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFeeRatesAsync(Enums.InstrumentType.Spot, "ETH-USDT", default, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetInterestAccruedAsync(default, default, default, default, default, 100, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetInterestRateAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetMaximumWithdrawalsAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetsAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBalanceAsync(default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetFundingBillHistoryAsync(default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Account.GetAssetValuationAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetAccountBalanceAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetPositionsAsync(default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetPositionHistoryAsync(default, default, default, default, default, default, default, 100, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetPositionRiskAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetBillHistoryAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetBillArchiveAsync(default, default, default, default, default, default, default, default, 100, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetAccountConfigurationAsync(default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetLeverageAsync("ETH-USDT", MarginMode.Isolated, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetMaximumAmountAsync("ETH-USDT", TradeMode.Cash, default, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetMaximumAvailableAmountAsync("ETH-USDT", TradeMode.Cash, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetFeeRatesAsync(InstrumentType.Spot, "ETH-USDT", default, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetInterestAccruedAsync(default, default, default, default, default, 100, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetInterestRateAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetMaximumWithdrawalsAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetAssetsAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetFundingBalanceAsync(default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetFundingBillHistoryAsync(default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Account.GetAssetValuationAsync(default, default), true);
         }
 
         [Test]
         public async Task TestExchangeData()
         {
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Futures, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetIndexTickersAsync("BTC", default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetOrderBookAsync("ETH-USDT", 1, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetKlinesAsync("ETH-USDT", Enums.KlineInterval.OneDay, default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetKlineHistoryAsync("ETH-USDT", Enums.KlineInterval.OneDay, default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetIndexKlinesAsync("ETH-USD", Enums.KlineInterval.OneDay, default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetMarkPriceKlinesAsync("ETH-USDT", Enums.KlineInterval.OneDay, default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetRecentTradesAsync("ETH-USDT", 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeHistoryAsync("ETH-USDT", default, default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.Get24HourVolumeAsync(default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetIndexComponentsAsync("ETH-USD", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetBlockTickersAsync(Enums.InstrumentType.Swap, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetBlockTickerAsync("ETH-USD-SWAP", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetBlockTradesAsync("ETH-USD-SWAP", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetSymbolsAsync(Enums.InstrumentType.Futures, default, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetDeliveryExerciseHistoryAsync(Enums.InstrumentType.Futures, "BTC-USD", default, default, 100, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetOpenInterestsAsync(Enums.InstrumentType.Futures, default, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetFundingRatesAsync("ETH-USDT-SWAP", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync("ETH-USDT-SWAP", default, default, 100, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetPriceLimitsAsync("ETH-USDT", default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetOptionMarketDataAsync("BTC-USD", default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetDiscountInfoAsync(default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetServerTimeAsync(default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetMarkPricesAsync(Enums.InstrumentType.Futures, default, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetPositionTiersAsync(Enums.InstrumentType.Futures, Enums.MarginMode.Cross, "BTC-USD", default, default, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetInterestRatesAsync(default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetUnderlyingAsync(Enums.InstrumentType.Futures, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetInsuranceFundAsync(Enums.InstrumentType.Futures, Enums.InsuranceType.All, "BTC-USD", default, default, default, 100, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.UnitConvertAsync(Enums.ConvertType.CurrencyToContract, "BTC-USD-SWAP", 1, Enums.ConvertUnit.Coin, 50000m, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerVolumeAsync("ETH", Enums.InstrumentType.Spot, Enums.KlineInterval.FiveMinutes, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsMarginLendingRatioAsync("ETH", Enums.KlineInterval.FiveMinutes, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsLongShortRatioAsync("ETH", Enums.KlineInterval.FiveMinutes, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsContractSummaryAsync("ETH", Enums.KlineInterval.FiveMinutes, default, default, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsOptionsSummaryAsync("ETH", Enums.KlineInterval.OneDay, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsPutCallRatioAsync("ETH", Enums.KlineInterval.OneDay, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeExpiryAsync("ETH", Enums.KlineInterval.OneDay, default), false);
-            await RunAndCheckResult(client => client.UnifiedApi.ExchangeData.GetTradeStatsTakerFlowAsync("ETH", Enums.KlineInterval.OneDay, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Futures, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetIndexTickersAsync("BTC", default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetOrderBookAsync("ETH-USDT", 1, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetKlinesAsync("ETH-USDT", KlineInterval.OneDay, default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetKlineHistoryAsync("ETH-USDT", KlineInterval.OneDay, default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetIndexKlinesAsync("ETH-USD", KlineInterval.OneDay, default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetMarkPriceKlinesAsync("ETH-USDT", KlineInterval.OneDay, default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetRecentTradesAsync("ETH-USDT", 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeHistoryAsync("ETH-USDT", default, default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.Get24HourVolumeAsync(default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetIndexComponentsAsync("ETH-USD", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetBlockTickersAsync(InstrumentType.Swap, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetBlockTickerAsync("ETH-USD-SWAP", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetBlockTradesAsync("ETH-USD-SWAP", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetSymbolsAsync(InstrumentType.Futures, default, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetDeliveryExerciseHistoryAsync(InstrumentType.Futures, "BTC-USD", default, default, 100, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetOpenInterestsAsync(InstrumentType.Futures, default, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetFundingRatesAsync("ETH-USDT-SWAP", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync("ETH-USDT-SWAP", default, default, 100, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetPriceLimitsAsync("ETH-USDT", default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetOptionMarketDataAsync("BTC-USD", default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetDiscountInfoAsync(default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetServerTimeAsync(default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetMarkPricesAsync(InstrumentType.Futures, default, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetPositionTiersAsync(InstrumentType.Futures, MarginMode.Cross, "BTC-USD", default, default, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetInterestRatesAsync(default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetUnderlyingAsync(InstrumentType.Futures, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetInsuranceFundAsync(InstrumentType.Futures, InsuranceType.All, "BTC-USD", default, default, default, 100, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.UnitConvertAsync(ConvertType.CurrencyToContract, "BTC-USD-SWAP", 1, ConvertUnit.Coin, 50000m, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsTakerVolumeAsync("ETH", InstrumentType.Spot, KlineInterval.FiveMinutes, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsMarginLendingRatioAsync("ETH", KlineInterval.FiveMinutes, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsLongShortRatioAsync("ETH", KlineInterval.FiveMinutes, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsContractSummaryAsync("ETH", KlineInterval.FiveMinutes, default, default, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsOptionsSummaryAsync("ETH", KlineInterval.OneDay, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsPutCallRatioAsync("ETH", KlineInterval.OneDay, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsInterestVolumeExpiryAsync("ETH", KlineInterval.OneDay, default), false);
+            await RunAndCheckResult(c => c.UnifiedApi.ExchangeData.GetTradeStatsTakerFlowAsync("ETH", KlineInterval.OneDay, default), false);
         }
 
         [Test]
         public async Task TestTrading()
         {
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetOrdersAsync(default, default, default, default, default, default, default, 100, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetOrderHistoryAsync(Enums.InstrumentType.Spot, default, default, default, default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetOrderArchiveAsync(Enums.InstrumentType.Spot, default, default, default, default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetUserTradesAsync(Enums.InstrumentType.Spot, default, default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetUserTradesArchiveAsync(Enums.InstrumentType.Spot, default, default, default, default, default, 100, default, default, default, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetAlgoOrderListAsync(Enums.AlgoOrderType.OCO, default, default, default, default, default, 100, default), true);
-            await RunAndCheckResult(client => client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(Enums.AlgoOrderType.OCO, Enums.AlgoOrderState.Effective, default, default, default, default, default, 100, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetOrdersAsync(default, default, default, default, default, default, default, 100, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetOrderHistoryAsync(InstrumentType.Spot, default, default, default, default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetOrderArchiveAsync(InstrumentType.Spot, default, default, default, default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetUserTradesAsync(InstrumentType.Spot, default, default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetUserTradesArchiveAsync(InstrumentType.Spot, default, default, default, default, default, 100, default, default, default, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetAlgoOrderListAsync(AlgoOrderType.OCO, default, default, default, default, default, 100, default), true);
+            await RunAndCheckResult(c => c.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(AlgoOrderType.OCO, AlgoOrderState.Effective, default, default, default, default, default, 100, default), true);
         }
 
         [Test]
