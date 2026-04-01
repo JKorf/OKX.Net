@@ -1,0 +1,13 @@
+GET
+/api/v5/account/adjust-leverage-info
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "estMgn":"100",
+            "estMaxWd":"1000"
+        }
+    ]
+}

@@ -1,10 +1,10 @@
-﻿using OKX.Net.Clients;
-using OKX.Net.Objects.Options;
-using CryptoExchange.Net.Testing;
+﻿using CryptoExchange.Net.Testing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using OKX.Net.Clients;
 using OKX.Net.Objects.Market;
+using OKX.Net.Objects.Options;
 
 namespace OKX.Net.UnitTests
 {

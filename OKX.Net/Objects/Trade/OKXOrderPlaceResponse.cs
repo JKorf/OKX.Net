@@ -37,6 +37,12 @@ public record OKXOrderPlaceResponse
     public string Message { get; set; } = string.Empty;
 
     /// <summary>
+    /// ["<c>subCode</c>"] Sub code
+    /// </summary>
+    [JsonPropertyName("subCode")]
+    public string SubCode { get; set; } = string.Empty;
+
+    /// <summary>
     /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]

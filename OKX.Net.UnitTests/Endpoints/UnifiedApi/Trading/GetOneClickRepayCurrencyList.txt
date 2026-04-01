@@ -1,0 +1,24 @@
+GET
+/api/v5/trade/one-click-repay-currency-list
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "debtType":"cross",
+            "debtData":[
+                {
+                    "debtCcy":"BTC",
+                    "debtAmt":"0.1"
+                }
+            ],
+            "repayData":[
+                {
+                    "repayCcy":"USDT",
+                    "repayAmt":"5000"
+                }
+            ]
+        }
+    ]
+}

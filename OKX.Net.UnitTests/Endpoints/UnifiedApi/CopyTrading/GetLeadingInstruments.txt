@@ -1,0 +1,13 @@
+GET
+/api/v5/copytrading/instruments
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "instId":"BTC-USDT-SWAP",
+            "enabled":true
+        }
+    ]
+}

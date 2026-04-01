@@ -1,0 +1,17 @@
+GET
+/api/v5/trade/one-click-repay-history
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "debtCcy":"BTC",
+            "fillDebtSz":"0.1",
+            "repayCcy":"USDT",
+            "fillRepaySz":"5000",
+            "status":"success",
+            "uTime":"1625097600000"
+        }
+    ]
+}

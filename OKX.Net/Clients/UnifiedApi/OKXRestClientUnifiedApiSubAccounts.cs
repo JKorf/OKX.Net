@@ -34,7 +34,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/users/subaccount/list", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/users/subaccount/list", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(2, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXSubAccount[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -63,7 +63,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         if (permissions.Count > 0)
             parameters.AddOptionalParameter("perm", string.Join(",", permissions));
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/users/subaccount/modify-apikey", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/users/subaccount/modify-apikey", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXSubAccountApiKey>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -78,7 +78,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
             {"subAcct", subAccountName },
         };
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/account/subaccount/balances", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/account/subaccount/balances", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXAccountBalance>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -96,7 +96,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
 
         parameters.AddOptionalParameter("ccy", asset);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/balances", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/asset/subaccount/balances", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXSubAccountFundingBalance[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -122,7 +122,7 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/asset/subaccount/bills", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/asset/subaccount/bills", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXSubAccountBill[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -147,8 +147,162 @@ internal class OKXRestClientUnifiedApiSubAccounts : IOKXRestClientUnifiedApiSubA
         parameters.AddEnum("from", fromAccount);
         parameters.AddEnum("to", toAccount);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/asset/subaccount/transfer", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/asset/subaccount/transfer", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXSubAccountTransfer>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccountMaxWithdrawal[]>> GetSubAccountMaxWithdrawalsAsync(
+        string subAccountName,
+        string? asset = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+        };
+        parameters.AddOptionalParameter("ccy", asset);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/account/subaccount/max-withdrawal", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXSubAccountMaxWithdrawal[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccountBill[]>> GetManagedSubAccountBillsAsync(
+        string? subAccountName = null,
+        string? asset = null,
+        SubAccountTransferType? type = null,
+        DateTime? endTime = null,
+        DateTime? startTime = null,
+        int limit = 100,
+        CancellationToken ct = default)
+    {
+        if (limit < 1 || limit > 100)
+            throw new ArgumentException("Limit can be between 1-100.");
+
+        var parameters = new ParameterCollection();
+        parameters.AddOptionalParameter("subAcct", subAccountName);
+        parameters.AddOptionalParameter("ccy", asset);
+        parameters.AddOptionalEnum("type", type);
+        parameters.AddOptionalParameter("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
+        parameters.AddOptionalParameter("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
+        parameters.AddOptionalParameter("limit", limit.ToString(CultureInfo.InvariantCulture));
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/asset/subaccount/managed-subaccount-bills", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXSubAccountBill[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXEntrustSubAccount[]>> GetEntrustSubAccountsAsync(
+        string? subAccountName = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptionalParameter("subAcct", subAccountName);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/users/entrust-subaccount-list", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXEntrustSubAccount[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccountApiKey[]>> GetSubAccountApiKeysAsync(
+        string subAccountName,
+        string? apiKey = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+        };
+        parameters.AddOptionalParameter("apiKey", apiKey);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/users/subaccount/apikey", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXSubAccountApiKey[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccountApiKey>> CreateSubAccountApiKeyAsync(
+        string subAccountName,
+        string apiLabel,
+        string passphrase,
+        bool readPermission = true,
+        bool tradePermission = false,
+        string? ipAddresses = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+            {"label", apiLabel },
+            {"Passphrase", passphrase },
+        };
+
+        var permissions = new List<string>();
+        if (readPermission) permissions.Add("read_only");
+        if (tradePermission) permissions.Add("trade");
+        if (permissions.Count > 0)
+            parameters.AddParameter("perm", string.Join(",", permissions));
+
+        parameters.AddOptionalParameter("ip", ipAddresses);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/users/subaccount/apikey", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXSubAccountApiKey>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccountApiKey>> DeleteSubAccountApiKeyAsync(
+        string subAccountName,
+        string apiKey,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+            {"apiKey", apiKey },
+        };
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/users/subaccount/delete-apikey", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXSubAccountApiKey>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccount>> SetSubAccountTransferOutAsync(
+        string subAccountName,
+        bool canTransferOut,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+            {"canTransOut", canTransferOut },
+        };
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/users/subaccount/set-transfer-out", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXSubAccount>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXSubAccount>> CreateSubAccountAsync(
+        string subAccountName,
+        string? label = null,
+        CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection
+        {
+            {"subAcct", subAccountName },
+        };
+        parameters.AddOptionalParameter("label", label);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/users/subaccount/create-subaccount", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendGetSingleAsync<OKXSubAccount>(request, parameters, ct).ConfigureAwait(false);
     }
 }

@@ -24,7 +24,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        Enums.TradeMode? tradeMode = null,
+        TradeMode? tradeMode = null,
 
         IEnumerable<OKXAttachedAlgoOrder>? attachedAlgoOrders = null,
 
@@ -41,6 +41,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? priceVol = null,
         bool? banAmend = null,
         string? tradeQuoteAsset = null,
+        int? priceAmendType = null,
+        bool? isElpTakerAccess = null,
 
         CancellationToken ct = default)
     {
@@ -51,7 +53,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         };
 
         parameters.AddOptional("clOrdId", clientOrderId);
-        parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
+        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
         parameters.AddOptionalString("px", price);
@@ -62,6 +64,8 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptional("stpId", selfTradePreventionId);
         parameters.AddOptionalEnum("stpMode", selfTradePreventionMode);
         parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
+        parameters.AddOptional("pxAmendType", priceAmendType);
+        parameters.AddOptional("isElpTakerAccess", isElpTakerAccess);
 
         if (attachedAlgoOrders != null)
         {
@@ -77,7 +81,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalString("pxVol", priceVol);
         parameters.AddOptional("banAmend", banAmend);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
         if (!result)
@@ -103,7 +107,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        Enums.TradeMode? tradeMode = null,
+        TradeMode? tradeMode = null,
 
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
@@ -120,7 +124,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"instId", symbol },
             {"sz", quantity.ToString(CultureInfo.InvariantCulture) }
         };
-        parameters.AddEnum("tdMode", tradeMode ?? Enums.TradeMode.Cash);
+        parameters.AddEnum("tdMode", tradeMode ?? TradeMode.Cash);
         parameters.AddEnum("side", side);
         parameters.AddEnum("ordType", type);
         parameters.AddOptionalParameter("px", price?.ToString(CultureInfo.InvariantCulture));
@@ -136,7 +140,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("reduceOnly", reduceOnly);
         parameters.AddOptionalEnum("posSide", positionSide);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-precheck", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/order-precheck", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(5, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXCheckOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         return result.As<OKXCheckOrderResponse>(result.Data?.Data?.FirstOrDefault());
@@ -151,7 +155,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection();
         parameters.SetBody(orders.ToArray());
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
@@ -159,7 +163,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         if (result.Data.ErrorCode > 0 && result.Data.Data?.Any() != true)
             return result.AsError<CallResult<OKXOrderPlaceResponse>[]>(new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
-        
+
         var ordersResult = new List<CallResult<OKXOrderPlaceResponse>>();
         foreach (var item in result.Data.Data!)
         {
@@ -184,7 +188,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ordId", orderId?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/cancel-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderCancelResponse[]>>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
 
@@ -212,7 +216,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptional("timeOut", (int)timeout.TotalSeconds);
         parameters.AddOptional("tag", tag);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-all-after", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/cancel-all-after", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXCancelAllAfterResponse>(request, parameters, ct, rateLimitKeySuffix: tag ?? "").ConfigureAwait(false);
     }
@@ -223,7 +227,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection();
         parameters.SetBody(orders.ToArray());
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/cancel-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderCancelResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
@@ -251,6 +255,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         decimal? newStopLossOrderPrice = null,
         TriggerPriceType? newTakeProfitPriceTriggerType = null,
         TriggerPriceType? newStopLossPriceTriggerType = null,
+        int? priceAmendType = null,
         CancellationToken ct = default)
     {
         var parameters = new ParameterCollection
@@ -271,8 +276,9 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         parameters.AddOptionalParameter("newTpTriggerPxType", EnumConverter.GetString(newTakeProfitPriceTriggerType));
         parameters.AddOptionalParameter("newSlTriggerPxType", EnumConverter.GetString(newStopLossPriceTriggerType));
+        parameters.AddOptionalParameter("pxAmendType", priceAmendType);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/amend-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXOrderAmendResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
@@ -283,7 +289,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection();
         parameters.SetBody(orders.ToArray());
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/amend-batch-orders", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(300, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXOrderAmendResponse[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -308,7 +314,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("autoCxl", autoCancel);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/close-position", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/close-position", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXClosePositionResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
@@ -326,7 +332,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXOrder>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
@@ -359,7 +365,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("ordType", orderType);
         parameters.AddOptionalEnum("state", state);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/orders-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -390,14 +396,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
-        parameters.AddOptionalParameter("after", fromId?.ToString());
-        parameters.AddOptionalParameter("before", toId?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
 
         parameters.AddOptionalEnum("ordType", orderType);
         parameters.AddOptionalEnum("state", state);
         parameters.AddOptionalEnum("category", category);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/orders-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(40, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -429,14 +435,14 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("limit", limit.ToString());
-        parameters.AddOptionalParameter("after", fromId?.ToString());
-        parameters.AddOptionalParameter("before", toId?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
 
         parameters.AddOptionalEnum("ordType", orderType);
         parameters.AddOptionalEnum("state", state);
         parameters.AddOptionalEnum("category", category);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-history-archive", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/orders-history-archive", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -465,12 +471,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("after", fromId?.ToString());
-        parameters.AddOptionalParameter("before", toId?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/fills", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXTransaction[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -499,12 +505,12 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("ordId", orderId?.ToString());
         parameters.AddOptionalParameter("begin", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
         parameters.AddOptionalParameter("end", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
-        parameters.AddOptionalParameter("after", fromId?.ToString());
-        parameters.AddOptionalParameter("before", toId?.ToString());
+        parameters.AddOptionalParameter("after", fromId);
+        parameters.AddOptionalParameter("before", toId);
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalParameter("instFamily", instrumentFamily);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/fills-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/fills-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXTransaction[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -512,7 +518,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
     /// <inheritdoc />
     public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         OrderSide orderSide,
         AlgoOrderType algoOrderType,
         decimal? quantity = null,
@@ -603,7 +609,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalString("maxChaseVal", maxChaseValue);
         parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXAlgoOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
         if (!result)
@@ -627,18 +633,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new ParameterCollection();
         parameters.SetBody(orders.ToArray());
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
-            limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<WebCallResult<OKXAlgoOrderResponse>> CancelAdvanceAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default)
-    {
-        var parameters = new ParameterCollection();
-        parameters.SetBody(orders.ToArray());
-
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/cancel-advance-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/cancel-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -666,7 +661,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalParameter("limit", limit.ToString());
         parameters.AddOptionalEnum("instType", instrumentType);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/orders-algo-pending", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXAlgoOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -697,7 +692,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("state", algoOrderState);
         parameters.AddOptionalEnum("instType", instrumentType);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/orders-algo-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/orders-algo-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendAsync<OKXAlgoOrder[]>(request, parameters, ct).ConfigureAwait(false);
     }
@@ -712,9 +707,86 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptional("algoId", algoId);
         parameters.AddOptional("algoClOrdId", clientAlgoId);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Get, $"api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXAlgoOrder>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXAccountRateLimit[]>> GetAccountRateLimitAsync(CancellationToken ct = default)
+    {
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/account-rate-limit", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXAccountRateLimit[]>(request, null, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayCurrencyList[]>> GetOneClickRepayCurrencyListAsync(string? debtType = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("debtType", debtType);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/one-click-repay-currency-list", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayCurrencyList[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayCurrencyListV2[]>> GetOneClickRepayCurrencyListV2Async(CancellationToken ct = default)
+    {
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/one-click-repay-currency-list-v2", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayCurrencyListV2[]>(request, null, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayResponse[]>> OneClickRepayAsync(string debtAsset, string repayAsset, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.Add("debtCcy", debtAsset);
+        parameters.Add("repayCcy", repayAsset);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/one-click-repay", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayResponse[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayResponseV2[]>> OneClickRepayV2Async(string debtAsset, IEnumerable<string> repayAssetList, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.Add("debtCcy", debtAsset);
+        parameters.Add("repayCcyList", repayAssetList);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/one-click-repay-v2", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayResponseV2[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayHistory[]>> GetOneClickRepayHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("limit", limit.ToString(CultureInfo.InvariantCulture));
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/one-click-repay-history", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayHistory[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXOneClickRepayHistoryV2[]>> GetOneClickRepayHistoryV2Async(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("after", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("before", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString(CultureInfo.InvariantCulture));
+        parameters.AddOptional("limit", limit.ToString(CultureInfo.InvariantCulture));
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/trade/one-click-repay-history-v2", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(1, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXOneClickRepayHistoryV2[]>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -752,7 +824,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptionalEnum("newTpTriggerPxType", newTakeProfitPriceTriggerType);
         parameters.AddOptionalEnum("newSlTriggerPxType", newStopLossPriceTriggerType);
 
-        var request = _definitions.GetOrCreate(HttpMethod.Post, $"api/v5/trade/amend-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
+        var request = _definitions.GetOrCreate(HttpMethod.Post, "api/v5/trade/amend-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
         return await _baseClient.SendGetSingleAsync<OKXAlgoOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
     }

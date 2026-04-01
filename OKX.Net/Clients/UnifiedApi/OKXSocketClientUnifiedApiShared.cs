@@ -1,7 +1,7 @@
-using OKX.Net.Interfaces.Clients.UnifiedApi;
-using CryptoExchange.Net.SharedApis;
 using CryptoExchange.Net.Objects.Sockets;
+using CryptoExchange.Net.SharedApis;
 using OKX.Net.Enums;
+using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Trade;
 
 namespace OKX.Net.Clients.UnifiedApi
@@ -18,7 +18,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
 
         #region Ticker client
-        SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions()
+        SubscribeTickerOptions ITickerSocketClient.SubscribeTickerOptions { get; } = new SubscribeTickerOptions
         {
             SupportsMultipleSymbols = true
         };
@@ -97,8 +97,8 @@ namespace OKX.Net.Clients.UnifiedApi
         };
         async Task<ExchangeResult<UpdateSubscription>> IKlineSocketClient.SubscribeToKlineUpdatesAsync(SubscribeKlineRequest request, Action<DataEvent<SharedKline>> handler, CancellationToken ct)
         {
-            var interval = (Enums.KlineInterval)request.Interval;
-            if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
+            var interval = (KlineInterval)request.Interval;
+            if (!Enum.IsDefined(typeof(KlineInterval), interval))
                 return new ExchangeResult<UpdateSubscription>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IKlineSocketClient)this).SubscribeKlineOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
@@ -163,14 +163,14 @@ namespace OKX.Net.Clients.UnifiedApi
             var validationError = ((ISpotOrderSocketClient)this).SubscribeSpotOrderOptions.ValidateRequest(Exchange, request, TradingMode.Spot, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
-            var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Spot, null, null,
+            var result = await Trading.SubscribeToOrderUpdatesAsync(InstrumentType.Spot, null, null,
                 update => handler(update.ToType<SharedSpotOrder[]>(new[] {
                     new SharedSpotOrder(
                         ExchangeSymbolCache.ParseSymbol(_topicSpotId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString()!,
-                        update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
-                        update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                        update.Data.OrderType == OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
+                        update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                         ParseOrderStatus(update.Data.OrderState),
                         update.Data.CreateTime)
                     {
@@ -198,9 +198,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
         private SharedOrderStatus ParseOrderStatus(OrderStatus orderState)
         {
-            if (orderState == Enums.OrderStatus.Canceled)
+            if (orderState == OrderStatus.Canceled)
                 return SharedOrderStatus.Canceled;
-            if (orderState == Enums.OrderStatus.Live || orderState == Enums.OrderStatus.PartiallyFilled)
+            if (orderState == OrderStatus.Live || orderState == OrderStatus.PartiallyFilled)
                 return SharedOrderStatus.Open;
             if (orderState == OrderStatus.Filled)
                 return SharedOrderStatus.Filled;
@@ -217,14 +217,14 @@ namespace OKX.Net.Clients.UnifiedApi
             var validationError = ((IFuturesOrderSocketClient)this).SubscribeFuturesOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
             if (validationError != null)
                 return new ExchangeResult<UpdateSubscription>(Exchange, validationError);
-            var result = await Trading.SubscribeToOrderUpdatesAsync(Enums.InstrumentType.Futures, null, null,
+            var result = await Trading.SubscribeToOrderUpdatesAsync(InstrumentType.Futures, null, null,
                 update => handler(update.ToType<SharedFuturesOrder[]>(new[] {
                     new SharedFuturesOrder(
                         ExchangeSymbolCache.ParseSymbol(_topicFuturesId, update.Data.Symbol),
                         update.Data.Symbol,
                         update.Data.OrderId.ToString()!,
-                        update.Data.OrderType == Enums.OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == Enums.OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
-                        update.Data.OrderSide == Enums.OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                        update.Data.OrderType == OrderType.Limit ? SharedOrderType.Limit : update.Data.OrderType == OrderType.Market ? SharedOrderType.Market : SharedOrderType.Other,
+                        update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
                         ParseOrderStatus(update.Data.OrderState),
                         update.Data.CreateTime)
                     {

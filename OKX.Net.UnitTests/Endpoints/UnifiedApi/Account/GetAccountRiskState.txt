@@ -1,0 +1,15 @@
+GET
+/api/v5/account/risk-state
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "atRisk":false,
+            "atRiskLevel":"low",
+            "atRiskIdx":[],
+            "ts":"1625097600000"
+        }
+    ]
+}

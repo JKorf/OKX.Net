@@ -1,0 +1,13 @@
+GET
+/api/v5/copytrading/current-subpositions
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subPosId":"123",
+            "instId":"BTC-USDT-SWAP"
+        }
+    ]
+}

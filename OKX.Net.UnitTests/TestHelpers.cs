@@ -1,10 +1,10 @@
-﻿using System.Net;
-using System.Text;
-using CryptoExchange.Net.Interfaces;
+﻿using CryptoExchange.Net.Interfaces;
+using Moq;
 using OKX.Net.Clients;
 using OKX.Net.Interfaces.Clients;
 using OKX.Net.Objects.Options;
-using Moq;
+using System.Net;
+using System.Text;
 
 namespace OKX.Net.UnitTests
 {
@@ -12,8 +12,7 @@ namespace OKX.Net.UnitTests
     {
         public static IOKXRestClient CreateClient(Action<OKXRestOptions> options = null)
         {
-            IOKXRestClient client;
-            client = options != null ? new OKXRestClient(options) : new OKXRestClient();
+            IOKXRestClient client = options != null ? new OKXRestClient(options) : new OKXRestClient();
             client.UnifiedApi.RequestFactory = Mock.Of<IRequestFactory>();
             return client;
         }
@@ -28,7 +27,7 @@ namespace OKX.Net.UnitTests
             var response = new Mock<IResponse>();
             response.Setup(c => c.StatusCode).Returns(statusCode);
             response.Setup(c => c.IsSuccessStatusCode).Returns(statusCode == HttpStatusCode.OK);
-            response.Setup(c => c.GetResponseStreamAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult((Stream)responseStream));
+            response.Setup(c => c.GetResponseStreamAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult<Stream>(responseStream));
 
             var request = new Mock<IRequest>();
             request.Setup(c => c.Uri).Returns(new Uri("http://www.test.com"));
@@ -36,9 +35,7 @@ namespace OKX.Net.UnitTests
             request.Setup(c => c.GetHeaders()).Returns(new HttpRequestMessage().Headers);
 
             var factory = Mock.Get(client.UnifiedApi.RequestFactory);
-            factory.Setup(c => c.Create(It.IsAny<Version>(), It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>()))
-                .Returns(request.Object);
-
+            factory.Setup(c => c.Create(It.IsAny<Version>(), It.IsAny<HttpMethod>(), It.IsAny<Uri>(), It.IsAny<int>())).Returns(request.Object);
         }
     }
 }

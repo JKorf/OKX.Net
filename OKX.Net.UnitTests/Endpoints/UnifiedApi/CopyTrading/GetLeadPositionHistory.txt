@@ -1,0 +1,14 @@
+GET
+/api/v5/copytrading/subpositions-history
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subPosId":"123",
+            "instId":"BTC-USDT-SWAP",
+            "pnl":"10"
+        }
+    ]
+}

@@ -1,10 +1,10 @@
-using OKX.Net.Interfaces.Clients.UnifiedApi;
+using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using OKX.Net.Enums;
+using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Market;
-using OKX.Net.Objects.Trade;
 using OKX.Net.Objects.Public;
-using CryptoExchange.Net.Objects.Errors;
+using OKX.Net.Objects.Trade;
 
 namespace OKX.Net.Clients.UnifiedApi
 {
@@ -37,8 +37,8 @@ namespace OKX.Net.Clients.UnifiedApi
             SharedKlineInterval.OneMonth);
         async Task<ExchangeWebResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var interval = (Enums.KlineInterval)request.Interval;
-            if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
+            var interval = (KlineInterval)request.Interval;
+            if (!Enum.IsDefined(typeof(KlineInterval), interval))
                 return new ExchangeWebResult<SharedKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IKlineRestClient)this).GetKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
@@ -276,7 +276,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 if (!result)
                     return result.AsExchangeResult<SharedBalance[]>(Exchange, null, default);
 
-                return result.AsExchangeResult<SharedBalance[]>(Exchange, SupportedTradingModes, result.Data.Select(x => new SharedBalance(x.Asset, x.Available, x.Balance)).ToArray());
+                return result.AsExchangeResult(Exchange, SupportedTradingModes, result.Data.Select(x => new SharedBalance(x.Asset, x.Available, x.Balance)).ToArray());
             }
         }
 
@@ -315,7 +315,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             var result = await Trading.PlaceOrderAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
-                request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
+                request.Side == SharedOrderSide.Buy ? OrderSide.Buy : OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType, request.TimeInForce),
                 quantity: request.Quantity?.QuantityInBaseAsset ?? request.Quantity?.QuantityInQuoteAsset ?? 0,
                 price: request.Price,
@@ -579,9 +579,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
         private SharedOrderStatus ParseOrderStatus(OrderStatus orderState)
         {
-            if (orderState == Enums.OrderStatus.Canceled)
+            if (orderState == OrderStatus.Canceled)
                 return SharedOrderStatus.Canceled;
-            if (orderState == Enums.OrderStatus.Live || orderState == Enums.OrderStatus.PartiallyFilled)
+            if (orderState == OrderStatus.Live || orderState == OrderStatus.PartiallyFilled)
                 return SharedOrderStatus.Open;
             if (orderState == OrderStatus.Filled)
                 return SharedOrderStatus.Filled;
@@ -823,7 +823,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Withdraw client
 
-        WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions()
+        WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions
         {
             RequiredExchangeParameters = new List<ParameterDescription>
             {
@@ -886,8 +886,8 @@ namespace OKX.Net.Clients.UnifiedApi
                 request.TradingMode == null ? FuturesApiTypes : new[] { request.TradingMode.Value },
                 data.Select(x => new SharedFuturesSymbol(
                 x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse,
-                x.Symbol.Split(new[] { '-' })[0],
-                x.Symbol.Split(new[] { '-' })[1],
+                x.Symbol.Split('-')[0],
+                x.Symbol.Split('-')[1],
                 x.Symbol,
                 x.State == InstrumentState.Live)
                 {
@@ -982,13 +982,13 @@ namespace OKX.Net.Clients.UnifiedApi
 
             var result = await Trading.PlaceOrderAsync(
                 request.Symbol!.GetSymbol(FormatSymbol),
-                request.Side == SharedOrderSide.Buy ? Enums.OrderSide.Buy : Enums.OrderSide.Sell,
+                request.Side == SharedOrderSide.Buy ? OrderSide.Buy : OrderSide.Sell,
                 GetPlaceOrderType(request.OrderType, request.TimeInForce),
                 quantity: request.Quantity?.QuantityInContracts ?? 0,
                 price: request.Price,
                 positionSide: request.PositionSide == null ? null : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
                 reduceOnly: request.ReduceOnly,
-                tradeMode: request.MarginMode == SharedMarginMode.Isolated ? Enums.TradeMode.Isolated : Enums.TradeMode.Cross,
+                tradeMode: request.MarginMode == SharedMarginMode.Isolated ? TradeMode.Isolated : TradeMode.Cross,
                 clientOrderId: request.ClientOrderId,
                 ct: ct).ConfigureAwait(false);
 
@@ -1395,7 +1395,7 @@ namespace OKX.Net.Clients.UnifiedApi
             });
         }
 
-        SetLeverageOptions ILeverageRestClient.SetLeverageOptions { get; } = new SetLeverageOptions()
+        SetLeverageOptions ILeverageRestClient.SetLeverageOptions { get; } = new SetLeverageOptions
         {
             RequiredOptionalParameters = new List<ParameterDescription>
             {
@@ -1430,8 +1430,8 @@ namespace OKX.Net.Clients.UnifiedApi
 
         async Task<ExchangeWebResult<SharedFuturesKline[]>> IIndexPriceKlineRestClient.GetIndexPriceKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var interval = (Enums.KlineInterval)request.Interval;
-            if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
+            var interval = (KlineInterval)request.Interval;
+            if (!Enum.IsDefined(typeof(KlineInterval), interval))
                 return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IIndexPriceKlineRestClient)this).GetIndexPriceKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
@@ -1479,8 +1479,8 @@ namespace OKX.Net.Clients.UnifiedApi
 
         async Task<ExchangeWebResult<SharedFuturesKline[]>> IMarkPriceKlineRestClient.GetMarkPriceKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
-            var interval = (Enums.KlineInterval)request.Interval;
-            if (!Enum.IsDefined(typeof(Enums.KlineInterval), interval))
+            var interval = (KlineInterval)request.Interval;
+            if (!Enum.IsDefined(typeof(KlineInterval), interval))
                 return new ExchangeWebResult<SharedFuturesKline[]>(Exchange, ArgumentError.Invalid(nameof(GetKlinesRequest.Interval), "Interval not supported"));
 
             var validationError = ((IMarkPriceKlineRestClient)this).GetMarkPriceKlinesOptions.ValidateRequest(Exchange, request, request.TradingMode, FuturesApiTypes);
@@ -1769,9 +1769,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Spot Trigger Order Client
 
-        PlaceSpotTriggerOrderOptions ISpotTriggerOrderRestClient.PlaceSpotTriggerOrderOptions { get; } = new PlaceSpotTriggerOrderOptions(false)
-        {
-        };
+        PlaceSpotTriggerOrderOptions ISpotTriggerOrderRestClient.PlaceSpotTriggerOrderOptions { get; } = new PlaceSpotTriggerOrderOptions(false);
         async Task<ExchangeWebResult<SharedId>> ISpotTriggerOrderRestClient.PlaceSpotTriggerOrderAsync(PlaceSpotTriggerOrderRequest request, CancellationToken ct)
         {
             var validationError = ((ISpotTriggerOrderRestClient)this).PlaceSpotTriggerOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes, ((ISpotOrderRestClient)this).SpotSupportedOrderQuantity);
@@ -1797,9 +1795,7 @@ namespace OKX.Net.Clients.UnifiedApi
         }
 
 
-        EndpointOptions<GetOrderRequest> ISpotTriggerOrderRestClient.GetSpotTriggerOrderOptions { get; } = new EndpointOptions<GetOrderRequest>(true)
-        {
-        };
+        EndpointOptions<GetOrderRequest> ISpotTriggerOrderRestClient.GetSpotTriggerOrderOptions { get; } = new EndpointOptions<GetOrderRequest>(true);
         async Task<ExchangeWebResult<SharedSpotTriggerOrder>> ISpotTriggerOrderRestClient.GetSpotTriggerOrderAsync(GetOrderRequest request, CancellationToken ct)
         {
             var validationError = ((ISpotTriggerOrderRestClient)this).GetSpotTriggerOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);
@@ -1920,9 +1916,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return request.OrderDirection == SharedTriggerOrderDirection.Enter ? OrderSide.Sell : OrderSide.Buy;
         }
 
-        EndpointOptions<GetOrderRequest> IFuturesTriggerOrderRestClient.GetFuturesTriggerOrderOptions { get; } = new EndpointOptions<GetOrderRequest>(true)
-        {
-        };
+        EndpointOptions<GetOrderRequest> IFuturesTriggerOrderRestClient.GetFuturesTriggerOrderOptions { get; } = new EndpointOptions<GetOrderRequest>(true);
         async Task<ExchangeWebResult<SharedFuturesTriggerOrder>> IFuturesTriggerOrderRestClient.GetFuturesTriggerOrderAsync(GetOrderRequest request, CancellationToken ct)
         {
             var validationError = ((IFuturesTriggerOrderRestClient)this).GetFuturesTriggerOrderOptions.ValidateRequest(Exchange, request, request.TradingMode, SupportedTradingModes);

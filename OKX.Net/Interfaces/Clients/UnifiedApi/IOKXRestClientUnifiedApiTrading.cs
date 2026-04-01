@@ -45,6 +45,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="newStopLossOrderPrice">["<c>newSlOrdPx</c>"] New stop loss order price</param>
     /// <param name="newTakeProfitPriceTriggerType">["<c>newTpTriggerPxType</c>"] New take profit price trigger type</param>
     /// <param name="newStopLossPriceTriggerType">["<c>newSlTriggerPxType</c>"] New stop loss price trigger type</param>
+    /// <param name="priceAmendType">["<c>pxAmendType</c>"] Price amendment type. 0: Do not allow amendment, 1: Allow amendment to best available price within limit</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderAmendResponse>> AmendOrderAsync(
@@ -62,24 +63,11 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? newStopLossOrderPrice = null,
         TriggerPriceType? newTakeProfitPriceTriggerType = null,
         TriggerPriceType? newStopLossPriceTriggerType = null,
+        int? priceAmendType = null,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Cancel unfilled algo orders(iceberg order and twap order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
-    /// <para>
-    /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-advance-algo-order" /><br />
-    /// Endpoint:<br />
-    /// POST /api/v5/trade/cancel-advance-algos
-    /// </para>
-    /// </summary>
-    /// <param name="orders">Orders</param>
-    /// <param name="ct">Cancellation Token</param>
-    /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrderResponse>> CancelAdvanceAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default);
-
-    /// <summary>
-    /// Cancel unfilled algo orders(trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
+    /// Cancel unfilled algo orders (trigger order, oco order, conditional order). A maximum of 10 orders can be canceled at a time. Request parameters should be passed in the form of an array.
     /// <para>
     /// Docs:<br />
     /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-algo-trading-post-cancel-algo-order" /><br />
@@ -383,7 +371,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <returns></returns>
     Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         OrderSide orderSide,
         AlgoOrderType algoOrderType,
         decimal? quantity = null,
@@ -462,6 +450,8 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="priceVol">["<c>pxVol</c>"] Place options orders based on implied volatility, where 1 represents 100%. Only applicable to OPTIONS</param>
     /// <param name="banAmend">["<c>banAmend</c>"] Whether to disallow the system from amending the size of the SPOT Market Order, if true, system will not amend and reject the market order if user does not have sufficient funds.</param>
     /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+    /// <param name="priceAmendType">["<c>pxAmendType</c>"] Price amendment type. 0: Do not allow amendment, 1: Allow amendment to best available price within limit</param>
+    /// <param name="isElpTakerAccess">["<c>isElpTakerAccess</c>"] Whether to use ELP taker access. Only applicable to ioc orders.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -471,7 +461,7 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        Enums.TradeMode? tradeMode = null,
+        TradeMode? tradeMode = null,
         IEnumerable<OKXAttachedAlgoOrder>? attachedAlgoOrders = null,
         QuickMarginType? quickMarginType = null,
         int? selfTradePreventionId = null,
@@ -485,10 +475,18 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal? priceVol = null,
         bool? banAmend = null,
         string? tradeQuoteAsset = null,
+        int? priceAmendType = null,
+        bool? isElpTakerAccess = null,
         CancellationToken ct = default);
 
     /// <summary>
     /// Check the results of an order, returns account info before and after the order would be completed
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-order-precheck" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/order-precheck
+    /// </para>
     /// </summary>
     /// <param name="symbol">["<c>instId</c>"] Symbol, for example `ETH-USDT`</param>
     /// <param name="tradeMode">["<c>tdMode</c>"] Trade Mode</param>
@@ -514,15 +512,13 @@ public interface IOKXRestClientUnifiedApiTrading
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
-        Enums.TradeMode? tradeMode = null,
-
+        TradeMode? tradeMode = null,
         decimal? takeProfitTriggerPrice = null,
         decimal? stopLossTriggerPrice = null,
         decimal? takeProfitOrderPrice = null,
         decimal? stopLossOrderPrice = null,
         TriggerPriceType? takeProfitTriggerPriceType = null,
         TriggerPriceType? stopLossTriggerPriceType = null,
-
         QuantityAsset? quantityAsset = null,
         bool? reduceOnly = null,
         CancellationToken ct = default);
@@ -579,5 +575,107 @@ public interface IOKXRestClientUnifiedApiTrading
         TriggerPriceType? newTakeProfitPriceTriggerType = null,
         TriggerPriceType? newStopLossPriceTriggerType = null,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get account rate limit related information.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-account-rate-limit" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/account-rate-limit
+    /// </para>
+    /// </summary>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXAccountRateLimit[]>> GetAccountRateLimitAsync(CancellationToken ct = default);
+
+    /// <summary>
+    /// Get list of debt currency data and repay currencies.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-one-click-repay-currency-list" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/one-click-repay-currency-list
+    /// </para>
+    /// </summary>
+    /// <param name="debtType">["<c>debtType</c>"] Debt type (cross/isolated)</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayCurrencyList[]>> GetOneClickRepayCurrencyListAsync(string? debtType = null, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get list of debt currency data and repay currencies.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-one-click-repay-currency-list-new" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/one-click-repay-currency-list-v2
+    /// </para>
+    /// </summary>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayCurrencyListV2[]>> GetOneClickRepayCurrencyListV2Async(CancellationToken ct = default);
+
+    /// <summary>
+    /// Trade one-click repay to repay cross debts.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-trade-one-click-repay" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/one-click-repay
+    /// </para>
+    /// </summary>
+    /// <param name="debtAsset">["<c>debtCcy</c>"] Debt currency</param>
+    /// <param name="repayAsset">["<c>repayCcy</c>"] Repay currency</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayResponse[]>> OneClickRepayAsync(string debtAsset, string repayAsset, CancellationToken ct = default);
+
+    /// <summary>
+    /// Trade one-click repay to repay debts.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-post-trade-one-click-repay-new" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/trade/one-click-repay-v2
+    /// </para>
+    /// </summary>
+    /// <param name="debtAsset">["<c>debtCcy</c>"] Debt currency</param>
+    /// <param name="repayAssetList">["<c>repayCcyList</c>"] Repay currency list</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayResponseV2[]>> OneClickRepayV2Async(string debtAsset, IEnumerable<string> repayAssetList, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the history and status of one-click repay trades in the past 7 days.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-one-click-repay-history" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/one-click-repay-history
+    /// </para>
+    /// </summary>
+    /// <param name="startTime">["<c>after</c>"] Pagination of data to return records earlier than the requested time</param>
+    /// <param name="endTime">["<c>before</c>"] Pagination of data to return records newer than the requested time</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayHistory[]>> GetOneClickRepayHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the history and status of one-click repay trades in the past 7 days.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#order-book-trading-trade-get-one-click-repay-history-new" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/trade/one-click-repay-history-v2
+    /// </para>
+    /// </summary>
+    /// <param name="startTime">["<c>after</c>"] Pagination of data to return records earlier than the requested time</param>
+    /// <param name="endTime">["<c>before</c>"] Pagination of data to return records newer than the requested time</param>
+    /// <param name="limit">["<c>limit</c>"] Number of results per request</param>
+    /// <param name="ct">Cancellation Token</param>
+    /// <returns></returns>
+    Task<WebCallResult<OKXOneClickRepayHistoryV2[]>> GetOneClickRepayHistoryV2Async(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 }
 

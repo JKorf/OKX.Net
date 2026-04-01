@@ -1,0 +1,17 @@
+POST
+/api/v5/users/subaccount/apikey
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subAcct":"test-sub",
+            "label":"test-label",
+            "apiKey":"new-key",
+            "perm":"read_only",
+            "ip":"",
+            "ts":"1625097600000"
+        }
+    ]
+}

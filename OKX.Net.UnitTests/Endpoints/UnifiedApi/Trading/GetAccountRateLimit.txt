@@ -1,0 +1,16 @@
+GET
+/api/v5/trade/account-rate-limit
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "fillRatio":"0.5",
+            "mainFillRatio":"0.6",
+            "accRateLimit":"100",
+            "nextAccRateLimit":"120",
+            "ts":"1625097600000"
+        }
+    ]
+}

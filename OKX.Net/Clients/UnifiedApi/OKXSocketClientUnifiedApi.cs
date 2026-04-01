@@ -1,19 +1,14 @@
 ﻿using CryptoExchange.Net.Clients;
-using CryptoExchange.Net.Converters.MessageParsing;
 using CryptoExchange.Net.Converters.MessageParsing.DynamicConverters;
 using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.Objects.Sockets;
 using CryptoExchange.Net.SharedApis;
-using CryptoExchange.Net.Sockets;
 using CryptoExchange.Net.Sockets.Default;
 using OKX.Net.Clients.MessageHandlers;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
 using OKX.Net.Objects.Options;
-using OKX.Net.Objects.Sockets.Models;
 using OKX.Net.Objects.Sockets.Queries;
 using OKX.Net.Objects.Sockets.Subscriptions;
-using System.IO;
-using System.IO.Compression;
 using System.Net.WebSockets;
 
 namespace OKX.Net.Clients.UnifiedApi;
@@ -110,7 +105,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
         return result.As(result.Data.Data);
     }
 
-    internal string GetUri(string path) => BaseAddress.Trim(['/']) + path;
+    internal string GetUri(string path) => BaseAddress.Trim('/') + path;
 
     /// <inheritdoc />
     protected override OKXAuthenticationProvider CreateAuthenticationProvider(OKXCredentials credentials)

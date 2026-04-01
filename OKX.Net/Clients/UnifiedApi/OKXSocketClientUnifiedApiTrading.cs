@@ -30,7 +30,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         string? symbol,
         OrderSide side,
         OrderType type,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         decimal quantity,
         decimal? price = null,
         PositionSide? positionSide = null,
@@ -51,7 +51,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         if (symbol == null && symbolCode == null)
             throw new ArgumentException("Either symbol or symbolCode parameter should be provided. symbol parameter will be deprecated");
 
-        var parameters = new Dictionary<string, object>()
+        var parameters = new Dictionary<string, object>
         {
             { "tdMode", EnumConverter.GetString(tradeMode) },
             { "side", EnumConverter.GetString(side) },
@@ -78,7 +78,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderPlaceResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }
@@ -119,7 +119,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderCancelResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }
@@ -155,7 +155,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             return result;
 
         if (!result.Data.Success)
-            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message), null));
+            return result.AsError<OKXOrderAmendResponse>(new ServerError(result.Data.Code, _client.GetErrorInfo(result.Data.Code, result.Data.Message)));
 
         return result;
     }

@@ -1,0 +1,13 @@
+POST
+/api/v5/copytrading/set-instruments
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "instId":"BTC-USDT-SWAP",
+            "enabled":true
+        }
+    ]
+}

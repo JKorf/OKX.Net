@@ -1,0 +1,12 @@
+POST
+/api/v5/copytrading/algo-order
+true
+{
+    "code":"0",
+    "msg":"",
+    "data":[
+        {
+            "subPosId":"123"
+        }
+    ]
+}

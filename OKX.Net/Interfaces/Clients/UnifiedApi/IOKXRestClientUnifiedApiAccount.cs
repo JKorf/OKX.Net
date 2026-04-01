@@ -2,6 +2,7 @@ using OKX.Net.Enums;
 using OKX.Net.Objects.Account;
 using OKX.Net.Objects.Affiliate;
 using OKX.Net.Objects.Funding;
+using OKX.Net.Objects.Public;
 
 namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 
@@ -68,6 +69,24 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXLeverage[]>> GetLeverageAsync(string symbols, MarginMode marginMode, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
+    /// Get estimated leverage info
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-leverage-estimated-info" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/adjust-leverage-info
+    /// </para>
+    /// </summary>
+    /// <param name="instrumentType">["<c>instType</c>"] Instrument type</param>
+    /// <param name="marginMode">["<c>mgnMode</c>"] Margin mode</param>
+    /// <param name="leverage">["<c>lever</c>"] Leverage</param>
+    /// <param name="symbol">["<c>instId</c>"] Symbol</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset</param>
+    /// <param name="positionSide">["<c>posSide</c>"] Position side</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<OKXEstimatedLeverageInfo[]>> GetEstimatedLeverageInfoAsync(InstrumentType instrumentType, MarginMode marginMode, int leverage, string? symbol = null, string? asset = null, PositionSide? positionSide = null, CancellationToken ct = default);
+
+    /// <summary>
     /// Get the updated position data for the last 3 months. Return in reverse chronological order using utime.
     /// <para>
     /// Docs:<br />
@@ -102,6 +121,17 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <returns></returns>
     Task<WebCallResult<OKXPositionRisk[]>> GetPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default);
 
+    /// <summary>
+    /// Get account risk state
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-account-risk-state" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/account/risk-state
+    /// </para>
+    /// </summary>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<OKXRiskState[]>> GetAccountRiskStateAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Get position info. When the account is in net mode, net positions will be displayed, and when the account is in long/short mode, long or short positions will be displayed.
@@ -333,42 +363,24 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<WebCallResult<OKXAccountInterestRate[]>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
-    /// Get lightning deposits. Users can create up to 10,000 different invoices within 24 hours.
+    /// Get borrow interest and limit
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-deposits" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-borrow-interest-and-limit" /><br />
     /// Endpoint:<br />
-    /// GET /api/v5/asset/deposit-lightning
+    /// GET /api/v5/account/interest-limits
     /// </para>
     /// </summary>
-    /// <param name="currency">["<c>ccy</c>"] Currency</param>
-    /// <param name="amount">["<c>amt</c>"] deposit amount between 0.000001 - 0.1</param>
-    /// <param name="account">["<c>to</c>"] Receiving account</param>
+    /// <param name="type">["<c>type</c>"] Type of loan</param>
+    /// <param name="asset">["<c>ccy</c>"] Asset</param>
     /// <param name="ct">Cancellation Token</param>
-    /// <returns></returns>
-    Task<WebCallResult<OKXLightningDeposit[]>> GetLightningDepositsAsync(string currency, decimal amount, LightningDepositAccount? account = null, CancellationToken ct = default);
-
-    /// <summary>
-    /// Get a lightning withdrawal. The maximum withdrawal amount is 0.1 BTC per request, and 1 BTC in 24 hours. The minimum withdrawal amount is approximately 0.000001 BTC. Sub-account does not support withdrawal.
-    /// <para>
-    /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#funding-account-rest-api-lightning-withdrawals" /><br />
-    /// Endpoint:<br />
-    /// GET /api/v5/asset/withdrawal-lightning
-    /// </para>
-    /// </summary>
-    /// <param name="asset">["<c>ccy</c>"] Asset. Currently only BTC is supported.</param>
-    /// <param name="invoice">["<c>invoice</c>"] Invoice text</param>
-    /// <param name="memo">["<c>memo</c>"] Lightning withdrawal memo</param>
-    /// <param name="ct">Cancellation Token</param>
-    /// <returns></returns>
-    Task<WebCallResult<OKXLightningWithdrawal>> GetLightningWithdrawalAsync(string asset, string invoice, string? memo = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXBorrowInterestLimit[]>> GetBorrowInterestLimitAsync(LoanType? type = null, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get maximum buy/sell amount or open amount
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-buy-sell-amount-or-open-amount" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-order-quantity" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/account/max-size
     /// </para>
@@ -383,9 +395,9 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <returns></returns>
     Task<WebCallResult<OKXMaximumAmount[]>> GetMaximumAmountAsync(
         string symbol,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         string? asset = null,
-        decimal? price = null, 
+        decimal? price = null,
         int? leverage = null,
         string? tradeQuoteAsset = null,
         CancellationToken ct = default);
@@ -394,7 +406,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get Maximum Available Tradable Amount
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-tradable-amount" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-maximum-available-balance-equity" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/account/max-avail-size
     /// </para>
@@ -408,14 +420,14 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <returns></returns>
     Task<WebCallResult<OKXMaximumAvailableAmount[]>> GetMaximumAvailableAmountAsync(
         string symbol,
-        Enums.TradeMode tradeMode,
+        TradeMode tradeMode,
         string? asset = null,
-        bool? reduceOnly = null, 
+        bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get the maximum loan of a instrument
+    /// Get the maximum loan of an instrument
     /// <para>
     /// Docs:<br />
     /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-the-maximum-loan-of-instrument" /><br />
@@ -449,7 +461,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get saving balances. Only the assets in the funding account can be used for saving.
     /// <para>
     /// Docs:<br />
-    /// <a href="https://www.okx.com/docs-v5/en/#financial-product-savings-get-saving-balance" /><br />
+    /// <a href="https://www.okx.com/docs-v5/en/#financial-product-simple-earn-flexible-get-saving-balance" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/finance/savings/balance
     /// </para>
@@ -817,7 +829,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="symbol">["<c>instId</c>"] Filter by symbol, for example `ETH-USDT`</param>
     /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<Objects.Public.OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<WebCallResult<OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set fee charge type for spot trading

@@ -1,16 +1,16 @@
-﻿using NUnit.Framework;
-using OKX.Net.Clients;
-using OKX.Net.Objects.Core;
-using NUnit.Framework.Legacy;
-using CryptoExchange.Net.Clients;
-using OKX.Net.Objects;
-using System.Text.Json;
+﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Objects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CryptoExchange.Net.Objects;
-using OKX.Net.Interfaces.Clients;
-using CryptoExchange.Net.Authentication;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+using OKX.Net.Clients;
 using OKX.Net.Clients.UnifiedApi;
+using OKX.Net.Enums;
+using OKX.Net.Interfaces.Clients;
+using OKX.Net.Objects.Core;
+using System.Net;
+using System.Text.Json;
 
 namespace OKX.Net.UnitTests
 {
@@ -32,7 +32,7 @@ namespace OKX.Net.UnitTests
             TestHelpers.SetResponse((OKXRestClient)client, JsonSerializer.Serialize(resultObj));
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -46,10 +46,10 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            TestHelpers.SetResponse((OKXRestClient)client, "", System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "", HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -61,10 +61,10 @@ namespace OKX.Net.UnitTests
         {
             // arrange
             var client = TestHelpers.CreateClient();
-            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occurred\" }", System.Net.HttpStatusCode.BadRequest);
+            TestHelpers.SetResponse((OKXRestClient)client, "{ \"code\": \"400001\", \"msg\": \"Error occurred\" }", HttpStatusCode.BadRequest);
 
             // act
-            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(Enums.InstrumentType.Spot);
+            var result = await client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot);
 
             // assert
             ClassicAssert.IsFalse(result.Success);
@@ -107,7 +107,7 @@ namespace OKX.Net.UnitTests
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingRestInterfaces<OKXRestClient>();
             CryptoExchange.Net.Testing.TestHelpers.CheckForMissingSocketInterfaces<OKXSocketClient>();
         }
-        
+
 
         [Test]
         [TestCase(TradeEnvironmentNames.Live, "https://www.okx.com")]
