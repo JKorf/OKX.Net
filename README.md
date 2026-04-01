@@ -196,6 +196,43 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.11.0 - 01 Apr 2026
+    * Added restClient.UnifiedApi.Account.GetEstimatedLeverageInfoAsync endpoint
+    * Added restClient.UnifiedApi.Account.GetAccountRiskStateAsync endpoint
+    * Added restClient.UnifiedApi.Account.GetBorrowInterestLimitAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadPositionsAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadPositionHistoryAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.PlaceLeadStopOrderAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.CloseLeadPositionAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.GetLeadingInstrumentsAsync endpoint
+    * Added restClient.UnifiedApi.CopyTrading.AmendLeadingInstrumentsAsync endpoint
+    * Added restClient.UnifiedApi.ExchangeData.GetPremiumHistoryAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetSubAccountMaxWithdrawalsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetManagedSubAccountBillsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetEntrustSubAccountsAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.GetSubAccountApiKeysAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.CreateSubAccountApiKeyAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.DeleteSubAccountApiKeyAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.SetSubAccountTransferOutAsync endpoint
+    * Added restClient.UnifiedApi.SubAccount.CreateSubAccountAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetAccountRateLimitAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayCurrencyListAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayCurrencyListV2Async endpoint
+    * Added restClient.UnifiedApi.Trading.OneClickRepayAsync endpoint
+    * Added restClient.UnifiedApi.Trading.OneClickRepayV2Async endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayHistoryAsync endpoint
+    * Added restClient.UnifiedApi.Trading.GetOneClickRepayHistoryV2Async endpoint
+    * Added priceAmendType parameter to restClient.UnifiedApi.Trading.AmendOrderAsync endpoint
+    * Added priceAmendType, isElpTakerAccess parameters to restClient.UnifiedApi.Trading.PlaceOrderAsync endpoint
+    * Added ClientAlgoOrderId parameter to OKXAlgoOrderRequest request model
+    * Added SubCode property to OKXOrderAmendResponse model
+    * Added SubCode property to OKXOrderAmendResponse model
+    * Added GroupId, LongPositionRemainingQuota, ShortPositionRemainingQuota properties to OKXInstrument model
+    * Removed restClient.UnifiedApi.Account.GetLightningDepositsAsync endpoint
+    * Removed restClient.UnifiedApi.Account.GetLightningWithdrawalAsync endpoint
+    * Removed restClient.UnifiedApi.ExchangeData.GetVIPInterestRatesAsync endpoint
+    * Removed restClient.UnifiedApi.Trading.CancelAdvanceAlgoOrderAsync endpoint
+
 * Version 4.10.2 - 30 Mar 2026
     * Added GetFundingBillHistoryAsync endpoint
     * Added ThisFiveYears to InstrumentAlias Enum values
