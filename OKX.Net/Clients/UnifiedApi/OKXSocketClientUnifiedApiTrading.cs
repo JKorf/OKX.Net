@@ -27,7 +27,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
 
     /// <inheritdoc />
     public async Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
-        string? symbol,
+        long symbolCode,
         OrderSide side,
         OrderType type,
         TradeMode tradeMode,
@@ -45,12 +45,8 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
 
-        long? symbolCode = null,
         CancellationToken ct = default)
     {
-        if (symbol == null && symbolCode == null)
-            throw new ArgumentException("Either symbol or symbolCode parameter should be provided. symbol parameter will be deprecated");
-
         var parameters = new Dictionary<string, object>
         {
             { "tdMode", EnumConverter.GetString(tradeMode) },
@@ -59,8 +55,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
             { "sz", quantity.ToString(CultureInfo.InvariantCulture) },
         };
 
-        parameters.AddOptionalParameter("instIdCode", symbolCode);
-        parameters.AddOptionalParameter("instId", symbol);
+        parameters.AddParameter("instIdCode", symbolCode);
         parameters.AddOptionalParameter("ccy", asset);
         parameters.AddOptionalParameter("clOrdId", clientOrderId);
         parameters.AddOptionalParameter("tag", LibraryHelpers.GetClientReference(() => _client.ClientOptions.BrokerId, _client.Exchange));

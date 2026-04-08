@@ -125,7 +125,6 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// REQUEST /ws/v5/private (op: order)
     /// </para>
     /// </summary>
-    /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
     /// <param name="tradeMode">Trade Mode</param>
     /// <param name="side">Order Side</param>
@@ -143,7 +142,8 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(string? symbol,
+    Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
+        long symbolCode,
         OrderSide side,
         OrderType type,
         TradeMode tradeMode,
@@ -160,7 +160,6 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? clientOrderId = null,
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
-        long? symbolCode = null,
         CancellationToken ct = default);
 
     /// <summary>

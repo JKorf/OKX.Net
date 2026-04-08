@@ -31,7 +31,7 @@ namespace OKX.Net.UnitTests
         {
             var tester = new SocketRequestValidator<OKXSocketClient>("Socket/UnifiedApi");
 
-            await tester.ValidateAsync(CreateClient(), c => c.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", OrderSide.Buy, OrderType.Limit, TradeMode.Cross, 0.01m), "PlaceOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
+            await tester.ValidateAsync(CreateClient(), c => c.UnifiedApi.Trading.PlaceOrderAsync(123, OrderSide.Buy, OrderType.Limit, TradeMode.Cross, 0.01m), "PlaceOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
             await tester.ValidateAsync(CreateClient(), c => c.UnifiedApi.Trading.PlaceMultipleOrdersAsync([new OKXOrderPlaceRequest()]), "PlaceMultipleOrders", nestedJsonProperty: "data", skipResponseValidation: true);
             await tester.ValidateAsync(CreateClient(), c => c.UnifiedApi.Trading.CancelOrderAsync("ETH-USDT", "123"), "CancelOrder", nestedJsonProperty: "data", ignoreProperties: [ ], useSingleArrayItem: true);
             await tester.ValidateAsync(CreateClient(), c => c.UnifiedApi.Trading.CancelMultipleOrdersAsync([new OKXOrderCancelRequest()]), "CancelMultipleOrders", nestedJsonProperty: "data", ignoreProperties: [ ]);

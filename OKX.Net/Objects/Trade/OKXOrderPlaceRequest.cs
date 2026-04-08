@@ -9,15 +9,10 @@ namespace OKX.Net.Objects.Trade;
 public record OKXOrderPlaceRequest
 {
     /// <summary>
-    /// ["<c>instId</c>"] Deprecated, use SymbolCode parameter instead
-    /// </summary>
-    [JsonPropertyName("instId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public string? Symbol { get; set; }
-    /// <summary>
     /// ["<c>instIdCode</c>"] Symbol code
     /// </summary>
-    [JsonPropertyName("instIdCode"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public long? SymbolCode { get; set; }
+    [JsonPropertyName("instIdCode")]
+    public long SymbolCode { get; set; }
 
     /// <summary>
     /// ["<c>tdMode</c>"] Trade mode
