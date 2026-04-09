@@ -196,6 +196,15 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.12.0 - 09 Apr 2026
+    * Updated CryptoExchange.Net to version 11.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
+    * Removed symbol parameter from socket PlaceOrder methods, made symbolCode required
+    * Removed symbol parameter from socket CancelOrder and AmendOrder methods, made symbolCode required
+    * Fixed deserialization issue OKXDiscountInfo model
+
+    * Notes for updating:
+        * The symbol parameter for socket order requests has been removed in the API, instead symbolCode parameter should be used. The symbolCode for a symbol can be retrieved using `restClient.UnifiedApi.ExchangeData.GetSymbolsAsync`
+
 * Version 4.11.0 - 01 Apr 2026
     * Added restClient.UnifiedApi.Account.GetEstimatedLeverageInfoAsync endpoint
     * Added restClient.UnifiedApi.Account.GetAccountRiskStateAsync endpoint
