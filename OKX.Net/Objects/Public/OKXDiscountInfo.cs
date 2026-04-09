@@ -23,7 +23,7 @@ public record OKXDiscountInfo
     /// ["<c>colRes</c>"] Collateral restriction status
     /// </summary>
     [JsonPropertyName("colRes")]
-    public CollateralRestrictionStatus CollateralRestrictionStatus { get; set; }
+    public CollateralRestrictionStatus? CollateralRestrictionStatus { get; set; }
 
     /// <summary>
     /// ["<c>discountLv</c>"] Discount level
