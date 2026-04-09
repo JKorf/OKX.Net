@@ -185,13 +185,12 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// REQUEST /ws/v5/private (op: cancel-order)
     /// </para>
     /// </summary>
-    /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
     /// <param name="orderId">Cancel by order id. This or clientOrderId should be provided</param>
     /// <param name="clientOrderId">Cancel by client order id. This or orderId should be provided</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(string? symbol, string? orderId = null, string? clientOrderId = null, long? symbolCode = null, CancellationToken ct = default);
+    Task<CallResult<OKXOrderCancelResponse>> CancelOrderAsync(long symbolCode, string? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled per request.
@@ -216,7 +215,6 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// REQUEST /ws/v5/private (op: amend-order)
     /// </para>
     /// </summary>
-    /// <param name="symbol">Deprecated, use symbolCode parameter instead</param>
     /// <param name="symbolCode">The code of the symbol to place order on. Can be retrieved using restClient.UnifiedApi.ExchangeData.GetSymbolsAsync</param>
     /// <param name="orderId">Amend by order id. This or clientOrderId should be provided</param>
     /// <param name="clientOrderId">Amend by client order id. This or orderId should be provided</param>
@@ -226,13 +224,12 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderAmendResponse>> AmendOrderAsync(
-        string? symbol,
+        long symbolCode,
         long? orderId = null,
         string? clientOrderId = null,
         string? requestId = null,
         decimal? newQuantity = null,
         decimal? newPrice = null,
-        long? symbolCode = null,
         CancellationToken ct = default);
 
     /// <summary>
