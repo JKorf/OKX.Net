@@ -1,3 +1,5 @@
+using CryptoExchange.Net.Attributes;
+
 namespace OKX.Net.Enums;
 
 /// <summary>
@@ -9,9 +11,11 @@ public enum BorrowRepaySide
     /// <summary>
     /// Borrow
     /// </summary>
+    [Map("borrow")]
     Borrow,
     /// <summary>
     /// Repay
     /// </summary>
+    [Map("repay")]
     Repay
 }

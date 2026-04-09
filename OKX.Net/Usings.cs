@@ -4,6 +4,7 @@ global using CryptoExchange.Net.Converters.SystemTextJson;
 global using CryptoExchange.Net.Converters;
 global using CryptoExchange.Net.Interfaces;
 global using CryptoExchange.Net.Objects;
+global using CryptoExchange.Net.Sockets.Default.Routing;
 global using Microsoft.Extensions.Logging;
 global using System.Text.Json.Serialization;
 global using System;
