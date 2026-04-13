@@ -197,6 +197,10 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.12.1 - 13 Apr 2026
+    * Updated socketClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model to OKXOrderCancelSocketRequest
+    * Fixed restClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model, switching back to Symbol instead of SymbolCode
+
 * Version 4.12.0 - 09 Apr 2026
     * Updated CryptoExchange.Net to version 11.1.0, see https://github.com/JKorf/CryptoExchange.Net/releases/ for full release notes
     * Removed symbol parameter from socket PlaceOrder methods, made symbolCode required
