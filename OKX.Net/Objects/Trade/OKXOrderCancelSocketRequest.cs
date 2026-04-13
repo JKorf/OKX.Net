@@ -4,13 +4,13 @@ namespace OKX.Net.Objects.Trade;
 /// Cancel request
 /// </summary>
 [SerializationModel]
-public record OKXOrderCancelRequest
+public record OKXOrderCancelSocketRequest
 {
     /// <summary>
-    /// ["<c>instId</c>"] Symbol name
+    /// ["<c>instIdCode</c>"] Symbol code
     /// </summary>
-    [JsonPropertyName("instId")]
-    public string Symbol { get; set; } = string.Empty;
+    [JsonPropertyName("instIdCode")]
+    public long SymbolCode { get; set; }
 
     /// <summary>
     /// ["<c>ordId</c>"] Order id

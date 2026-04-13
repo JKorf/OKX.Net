@@ -206,6 +206,7 @@ namespace OKX.Net.Converters
     [JsonSerializable(typeof(OKXAttachedAlgoOrder[]))]
     [JsonSerializable(typeof(OKXOrderAmendRequest[]))]
     [JsonSerializable(typeof(OKXOrderCancelRequest[]))]
+    [JsonSerializable(typeof(OKXOrderCancelSocketRequest[]))]
     [JsonSerializable(typeof(OKXOrderPlaceRequest[]))]
     [JsonSerializable(typeof(OKXOrderUpdate[]))]
     [JsonSerializable(typeof(OKXUserTradeUpdate[]))]

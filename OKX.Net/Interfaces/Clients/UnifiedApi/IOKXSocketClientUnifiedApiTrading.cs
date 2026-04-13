@@ -204,7 +204,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="ordersToCancel">Orders to cancel</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<CallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> ordersToCancel, CancellationToken ct = default);
+    Task<CallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelSocketRequest> ordersToCancel, CancellationToken ct = default);
 
     /// <summary>
     /// Edit an incomplete order.
