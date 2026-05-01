@@ -7,9 +7,9 @@
   <PropertyGroup>
     <PackageId>JK.OKX.Net</PackageId>
     <Authors>JKorf</Authors>
-    <PackageVersion>4.12.1</PackageVersion>
-    <AssemblyVersion>4.12.1</AssemblyVersion>
-    <FileVersion>4.12.1</FileVersion>
+    <PackageVersion>4.13.0</PackageVersion>
+    <AssemblyVersion>4.13.0</AssemblyVersion>
+    <FileVersion>4.13.0</FileVersion>
     <Description>A high-performance .NET client library for the OKX REST and WebSocket APIs, providing strongly typed models, automatic WebSocket reconnection, client-side rate limiting, local order book support, and seamless integration with other CryptoExchange.Net based clients.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>OKX;OKX.Net;OKX.com;OKX Client;OKX API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net</PackageTags>

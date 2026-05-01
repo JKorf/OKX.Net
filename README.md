@@ -197,6 +197,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.13.0 - 01 May 2026
+    * Added CallbackRatio, CallbackSpread, ActivePrice parameters for attached algo orders on place order endpoints
+
 * Version 4.12.1 - 13 Apr 2026
     * Updated socketClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model to OKXOrderCancelSocketRequest
     * Fixed restClient.UnifiedApi.Trading.CancelMultipleOrdersAsync request model, switching back to Symbol instead of SymbolCode
