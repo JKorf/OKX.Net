@@ -60,4 +60,20 @@ public record OKXAttachedAlgoOrder
     /// </summary>
     [JsonPropertyName("amendPxOnTriggerType"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? AmendPriceOnTriggerType { get; set; }
+
+    /// <summary>
+    /// ["<c>callbackRatio</c>"] Callback ratio, e.g. 0.05 represents 5%.
+    /// </summary>
+    [JsonPropertyName("callbackRatio"), JsonConverter(typeof(DecimalStringWriterConverter)), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? CallbackRatio { get; set; }
+    /// <summary>
+    /// ["<c>callbackSpread</c>"] Callback spread (price distance).
+    /// </summary>
+    [JsonPropertyName("callbackSpread"), JsonConverter(typeof(DecimalStringWriterConverter)), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? CallbackSpread { get; set; }
+    /// <summary>
+    /// ["<c>activePx</c>"] Activation price. If not provided, the trailing stop is activated immediately upon order placement.
+    /// </summary>
+    [JsonPropertyName("activePx"), JsonConverter(typeof(DecimalStringWriterConverter)), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public decimal? ActivePrice { get; set; }
 }
