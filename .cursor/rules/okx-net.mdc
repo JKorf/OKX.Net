@@ -1,0 +1,101 @@
+---
+description: Conventions for using OKX.Net library when working with OKX cryptocurrency exchange in C#/.NET. Apply when generating code that interacts with OKX API.
+globs:
+  - "**/*.cs"
+  - "**/*.csproj"
+alwaysApply: false
+---
+
+# OKX.Net Conventions
+
+This codebase uses **OKX.Net** for OKX cryptocurrency exchange access. Do not write raw `HttpClient` calls to OKX endpoints.
+
+## Client Setup Pattern
+
+```csharp
+using OKX.Net;
+using OKX.Net.Clients;
+
+var restClient = new OKXRestClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+```
+
+For public market data only, no credentials are needed: `new OKXRestClient()`.
+
+## Result Pattern
+
+All methods return `WebCallResult<T>` for REST or `CallResult<T>` for WebSocket. Always check `.Success` before reading `.Data`.
+
+```csharp
+var ticker = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+if (!ticker.Success) { /* ticker.Error */ return; }
+var price = ticker.Data.LastPrice;
+```
+
+## API Surface
+
+- `restClient.UnifiedApi.{ExchangeData|Account|Trading|SubAccounts|CopyTrading}`
+- `socketClient.UnifiedApi.{ExchangeData|Account|Trading}`
+- `restClient.UnifiedApi.SharedClient`
+- `socketClient.UnifiedApi.SharedClient`
+
+There is no `SpotApi`, `FuturesApi`, or `MarginApi` root in OKX.Net.
+
+## Order Placement
+
+```csharp
+var order = await restClient.UnifiedApi.Trading.PlaceOrderAsync(
+    "BTC-USDT",
+    OrderSide.Buy,
+    OrderType.Limit,
+    quantity: 0.001m,
+    price: 50000m,
+    tradeMode: TradeMode.Cash);
+```
+
+For swap/futures, use symbols like `BTC-USDT-SWAP`, set leverage through `UnifiedApi.Account.SetLeverageAsync`, and pass `TradeMode.Cross` or `TradeMode.Isolated` as appropriate.
+
+## WebSocket Pattern
+
+```csharp
+var socketClient = new OKXSocketClient();
+var sub = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(
+    "BTC-USDT",
+    update => { /* update.Data.LastPrice */ });
+if (!sub.Success) { /* sub.Error */ return; }
+
+await socketClient.UnsubscribeAsync(sub.Data);
+```
+
+## Multi-Exchange Code
+
+For exchange-agnostic code, use `CryptoExchange.Net.SharedApis`:
+
+```csharp
+using CryptoExchange.Net.SharedApis;
+
+var shared = new OKXRestClient().UnifiedApi.SharedClient;
+var ticker = await shared.GetSpotTickerAsync(
+    new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")));
+```
+
+## Hard Rules
+
+- Never write raw `HttpClient` to OKX endpoints.
+- Never use `.Result` or `.Wait()`.
+- Never instantiate clients per request.
+- Never skip checking `WebCallResult.Success`.
+- Never invent `SpotApi`, `FuturesApi`, or `MarginApi` roots.
+- Always use `OKXCredentials("key", "secret", "passphrase")`.
+- Always use OKX symbol format like `ETH-USDT` and `ETH-USDT-SWAP`.
+- Always store WebSocket subscriptions and unsubscribe on shutdown.
+- Use `client.UnifiedApi.SharedClient` for cross-exchange code.
+
+## Reference
+
+- Skill: `CLAUDE.md` in repo root has fuller examples.
+- `llms.txt` and `llms-full.txt` in repo root for AI context.
+- API map: `docs/ai-api-map.md`.
+- Examples: `Examples/ai-friendly/`.

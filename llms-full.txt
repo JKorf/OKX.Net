@@ -1,0 +1,913 @@
+# OKX.Net Full LLM Context
+
+> Detailed AI/LLM reference for generating correct C#/.NET code with OKX.Net. Use this file when `llms.txt` is too brief and the task needs concrete examples, endpoint routing guidance, or anti-hallucination rules.
+
+OKX.Net is a strongly typed .NET client library for the OKX v5 REST and WebSocket APIs. It is part of the CryptoExchange.Net ecosystem and uses the same result, shared API, logging, rate limiting, dependency injection, and socket subscription patterns as the other JKorf exchange libraries.
+
+Current package id in this repository: `JK.OKX.Net`.
+Current package version in this repository: 4.13.0.
+CryptoExchange.Net dependency: 11.1.0.
+Target frameworks: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
+Native AOT: supported on compatible .NET targets.
+
+Primary documentation:
+- README.md: overview, installation, features, basic examples, release notes
+- docs site: https://cryptoexchange.jkorf.dev/OKX.Net/
+- API quick map: `docs/ai-api-map.md`
+- source interfaces: `OKX.Net/Interfaces/Clients/UnifiedApi/**`
+- AI examples: `Examples/ai-friendly/`
+
+## Golden Rules For AI Code Generation
+
+- Use `OKXRestClient` for REST and `OKXSocketClient` for WebSocket. Do not generate raw `HttpClient` calls to OKX endpoints.
+- Use `OKXCredentials`, not generic `ApiCredentials`, for examples that configure private endpoint access.
+- OKX private credentials require three values: key, secret, and passphrase.
+- Include `using OKX.Net;` when using `OKXCredentials` or `OKXEnvironment`.
+- Include `using OKX.Net.Clients;` when constructing `OKXRestClient` or `OKXSocketClient`.
+- Always check `.Success` before reading `.Data`.
+- REST methods return `WebCallResult<T>` or `WebCallResult`.
+- WebSocket subscriptions and socket API requests return `CallResult<T>` or `CallResult`.
+- Reuse clients. Do not instantiate a REST or socket client per request in production code.
+- Prefer dependency injection for long-running services.
+- Store WebSocket subscriptions and unsubscribe during shutdown.
+- Do not call `.Result` or `.Wait()` on async methods.
+- Do not invent endpoint names. If unsure, inspect `OKX.Net/Interfaces/Clients/UnifiedApi/**`.
+- Use OKX symbol format such as `BTC-USDT`, `ETH-USDT`, and `ETH-USDT-SWAP`; do not use Binance-style `BTCUSDT`.
+- Use `UnifiedApi`. OKX.Net does not expose separate `SpotApi`, `FuturesApi`, `SwapApi`, `MarginApi`, `UsdFuturesApi`, or `GeneralApi` roots.
+- For product-specific calls, route by `InstrumentType`, symbol format, `TradeMode`, `MarginMode`, and `PositionSide`.
+- For multi-exchange code, use `CryptoExchange.Net.SharedApis` interfaces from `client.UnifiedApi.SharedClient`.
+
+## Installation
+
+```bash
+dotnet add package JK.OKX.Net
+```
+
+## Required Usings
+
+Typical REST/trading code:
+
+```csharp
+using OKX.Net;
+using OKX.Net.Clients;
+using OKX.Net.Enums;
+```
+
+Shared API code:
+
+```csharp
+using OKX.Net.Clients;
+using CryptoExchange.Net.SharedApis;
+```
+
+Retry/error helper code may also need:
+
+```csharp
+using CryptoExchange.Net.Objects;
+```
+
+Dependency injection setup:
+
+```csharp
+using OKX.Net;
+using Microsoft.Extensions.DependencyInjection;
+```
+
+Interface injection:
+
+```csharp
+using OKX.Net.Interfaces.Clients;
+```
+
+## Client Setup
+
+Public market data does not require credentials:
+
+```csharp
+var client = new OKXRestClient();
+
+var ticker = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+if (!ticker.Success)
+{
+    Console.WriteLine(ticker.Error);
+    return;
+}
+
+Console.WriteLine(ticker.Data.LastPrice);
+```
+
+Private account and trading endpoints require credentials:
+
+```csharp
+var client = new OKXRestClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+```
+
+Socket client with credentials:
+
+```csharp
+var socketClient = new OKXSocketClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+```
+
+Environments:
+
+```csharp
+var live = new OKXRestClient(options => options.Environment = OKXEnvironment.Live);
+var demo = new OKXRestClient(options => options.Environment = OKXEnvironment.Demo);
+var europe = new OKXRestClient(options => options.Environment = OKXEnvironment.Europe);
+```
+
+Environment notes:
+- `OKXEnvironment.Live` is the default.
+- `OKXEnvironment.Demo` is the OKX demo/test environment.
+- `OKXEnvironment.Europe` is available for European clients.
+- `OKXEnvironment.All` exposes the available environment names.
+
+## Dependency Injection
+
+Current DI shape:
+
+```csharp
+services.AddOKX(options =>
+{
+    options.Rest.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+    options.Socket.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+```
+
+Inject:
+
+```csharp
+public class MyService
+{
+    private readonly IOKXRestClient _restClient;
+    private readonly IOKXSocketClient _socketClient;
+
+    public MyService(IOKXRestClient restClient, IOKXSocketClient socketClient)
+    {
+        _restClient = restClient;
+        _socketClient = socketClient;
+    }
+}
+```
+
+For public-only services, credentials can be omitted:
+
+```csharp
+services.AddOKX();
+```
+
+## Result Handling Pattern
+
+Always branch on `.Success`.
+
+```csharp
+var result = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+if (!result.Success)
+{
+    Console.WriteLine($"Code: {result.Error?.Code}");
+    Console.WriteLine($"Message: {result.Error?.Message}");
+    return;
+}
+
+var price = result.Data.LastPrice;
+```
+
+For retry logic, only retry transient errors:
+
+```csharp
+async Task<WebCallResult<T>> WithRetry<T>(Func<Task<WebCallResult<T>>> call, int maxAttempts = 3)
+{
+    WebCallResult<T> last = default!;
+
+    for (var attempt = 1; attempt <= maxAttempts; attempt++)
+    {
+        last = await call();
+        if (last.Success)
+            return last;
+
+        if (last.Error?.IsTransient != true)
+            return last;
+
+        await Task.Delay(TimeSpan.FromMilliseconds(250 * Math.Pow(2, attempt)));
+    }
+
+    return last;
+}
+```
+
+OKX.Net returns API/network/rate-limit errors through `.Error` on result objects. It generally does not throw for normal API failures. Exceptions are for misconfiguration, disposal, cancellation, or programming errors.
+
+## Main API Surface
+
+REST:
+
+```text
+OKXRestClient
+  .UnifiedApi
+    .ExchangeData
+    .Account
+    .Trading
+    .SubAccounts
+    .CopyTrading
+    .SharedClient
+```
+
+WebSocket:
+
+```text
+OKXSocketClient
+  .UnifiedApi
+    .ExchangeData
+    .Account
+    .Trading
+    .SharedClient
+```
+
+Important: OKX.Net follows the OKX v5 unified account model. Spot, margin, futures, swaps, and options are not separate client roots. Route by symbol and enums:
+
+```text
+Spot symbol -> BTC-USDT
+Swap symbol -> BTC-USDT-SWAP
+Futures symbol -> date-suffixed instrument ids returned by GetSymbolsAsync
+Options symbol -> option instrument ids returned by GetSymbolsAsync
+Spot order mode -> TradeMode.Cash
+Margin / derivatives order mode -> TradeMode.Cross or TradeMode.Isolated
+Product filter -> InstrumentType.Spot, Swap, Futures, Option
+```
+
+## Intent To Method Map
+
+For a broader table reference, see `docs/ai-api-map.md`.
+
+Common market data REST tasks:
+
+```text
+Get server time -> client.UnifiedApi.ExchangeData.GetServerTimeAsync()
+Get one ticker -> client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT")
+Get spot tickers -> client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Spot)
+Get swap tickers -> client.UnifiedApi.ExchangeData.GetTickersAsync(InstrumentType.Swap)
+Get order book -> client.UnifiedApi.ExchangeData.GetOrderBookAsync("BTC-USDT", depth: 20)
+Get recent trades -> client.UnifiedApi.ExchangeData.GetRecentTradesAsync("BTC-USDT")
+Get trade history -> client.UnifiedApi.ExchangeData.GetTradeHistoryAsync("BTC-USDT")
+Get klines -> client.UnifiedApi.ExchangeData.GetKlinesAsync("BTC-USDT", KlineInterval.OneMinute)
+Get historical klines -> client.UnifiedApi.ExchangeData.GetKlineHistoryAsync("BTC-USDT", KlineInterval.OneMinute)
+Get instruments -> client.UnifiedApi.ExchangeData.GetSymbolsAsync(InstrumentType.Spot)
+Get funding rates -> client.UnifiedApi.ExchangeData.GetFundingRatesAsync("BTC-USDT-SWAP")
+Get funding rate history -> client.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync("BTC-USDT-SWAP")
+Get mark prices -> client.UnifiedApi.ExchangeData.GetMarkPricesAsync(InstrumentType.Swap, symbol: "BTC-USDT-SWAP")
+Get mark price klines -> client.UnifiedApi.ExchangeData.GetMarkPriceKlinesAsync("BTC-USDT-SWAP", KlineInterval.OneMinute)
+Get index tickers -> client.UnifiedApi.ExchangeData.GetIndexTickersAsync(symbol: "BTC-USD")
+Get index klines -> client.UnifiedApi.ExchangeData.GetIndexKlinesAsync("BTC-USD", KlineInterval.OneMinute)
+Get open interest -> client.UnifiedApi.ExchangeData.GetOpenInterestsAsync(InstrumentType.Swap, symbol: "BTC-USDT-SWAP")
+Get price limits -> client.UnifiedApi.ExchangeData.GetPriceLimitsAsync("BTC-USDT-SWAP")
+Get position tiers -> client.UnifiedApi.ExchangeData.GetPositionTiersAsync(...)
+Get announcements -> client.UnifiedApi.ExchangeData.GetAnnouncementsAsync()
+```
+
+Common account/funding REST tasks:
+
+```text
+Get account balance -> client.UnifiedApi.Account.GetAccountBalanceAsync()
+Get account balance for asset -> client.UnifiedApi.Account.GetAccountBalanceAsync("USDT")
+Get account configuration -> client.UnifiedApi.Account.GetAccountConfigurationAsync()
+Get positions -> client.UnifiedApi.Account.GetPositionsAsync(InstrumentType.Swap, "BTC-USDT-SWAP")
+Get position history -> client.UnifiedApi.Account.GetPositionHistoryAsync(...)
+Get position risk -> client.UnifiedApi.Account.GetPositionRiskAsync(...)
+Get account risk state -> client.UnifiedApi.Account.GetAccountRiskStateAsync()
+Set leverage -> client.UnifiedApi.Account.SetLeverageAsync(...)
+Get leverage -> client.UnifiedApi.Account.GetLeverageAsync(...)
+Set position mode -> client.UnifiedApi.Account.SetPositionModeAsync(...)
+Set account mode -> client.UnifiedApi.Account.SetAccountModeAsync(...)
+Get assets -> client.UnifiedApi.Account.GetAssetsAsync()
+Get funding balance -> client.UnifiedApi.Account.GetFundingBalanceAsync()
+Get deposit address -> client.UnifiedApi.Account.GetDepositAddressAsync("USDT")
+Get deposit history -> client.UnifiedApi.Account.GetDepositHistoryAsync(...)
+Get withdrawal history -> client.UnifiedApi.Account.GetWithdrawalHistoryAsync(...)
+Withdraw -> client.UnifiedApi.Account.WithdrawAsync(...)
+Cancel withdrawal -> client.UnifiedApi.Account.CancelWithdrawalAsync(withdrawalId)
+Transfer -> client.UnifiedApi.Account.TransferAsync(...)
+Get transfer info -> client.UnifiedApi.Account.GetTransferAsync(...)
+Get fee rates -> client.UnifiedApi.Account.GetFeeRatesAsync(...)
+Get max amount -> client.UnifiedApi.Account.GetMaximumAmountAsync(...)
+Get max available amount -> client.UnifiedApi.Account.GetMaximumAvailableAmountAsync(...)
+Get max loan amount -> client.UnifiedApi.Account.GetMaximumLoanAmountAsync(...)
+Get max withdrawals -> client.UnifiedApi.Account.GetMaximumWithdrawalsAsync()
+Savings balances -> client.UnifiedApi.Account.GetSavingBalancesAsync()
+Savings purchase/redemption -> client.UnifiedApi.Account.SavingPurchaseRedemptionAsync(...)
+Manual borrow/repay -> client.UnifiedApi.Account.ManualBorrowRepay(...)
+Set auto repay -> client.UnifiedApi.Account.SetAutoRepayAsync(...)
+```
+
+Common trading REST tasks:
+
+```text
+Place spot order -> client.UnifiedApi.Trading.PlaceOrderAsync("BTC-USDT", ..., tradeMode: TradeMode.Cash)
+Place swap/futures order -> client.UnifiedApi.Trading.PlaceOrderAsync("BTC-USDT-SWAP", ..., tradeMode: TradeMode.Cross)
+Place multiple orders -> client.UnifiedApi.Trading.PlaceMultipleOrdersAsync(...)
+Precheck order -> client.UnifiedApi.Trading.CheckOrderAsync(...)
+Get open orders -> client.UnifiedApi.Trading.GetOrdersAsync(...)
+Get order details -> client.UnifiedApi.Trading.GetOrderDetailsAsync(symbol, orderId)
+Get order history -> client.UnifiedApi.Trading.GetOrderHistoryAsync(...)
+Get order archive -> client.UnifiedApi.Trading.GetOrderArchiveAsync(...)
+Cancel order -> client.UnifiedApi.Trading.CancelOrderAsync(symbol, orderId)
+Cancel multiple orders -> client.UnifiedApi.Trading.CancelMultipleOrdersAsync(...)
+Amend order -> client.UnifiedApi.Trading.AmendOrderAsync(...)
+Amend multiple orders -> client.UnifiedApi.Trading.AmendMultipleOrdersAsync(...)
+Close position -> client.UnifiedApi.Trading.ClosePositionAsync(...)
+Get user trades -> client.UnifiedApi.Trading.GetUserTradesAsync(...)
+Get user trade archive -> client.UnifiedApi.Trading.GetUserTradesArchiveAsync(...)
+Place algo order -> client.UnifiedApi.Trading.PlaceAlgoOrderAsync(...)
+Get algo order -> client.UnifiedApi.Trading.GetAlgoOrderAsync(...)
+Get algo order list -> client.UnifiedApi.Trading.GetAlgoOrderListAsync(...)
+Get algo order history -> client.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(...)
+Cancel algo order -> client.UnifiedApi.Trading.CancelAlgoOrderAsync(...)
+Amend algo order -> client.UnifiedApi.Trading.AmendAlgoOrderAsync(...)
+Cancel all after timeout -> client.UnifiedApi.Trading.CancelAllAfterAsync(timeout)
+```
+
+Sub-account and copy trading tasks:
+
+```text
+Get sub-accounts -> client.UnifiedApi.SubAccounts.GetSubAccountsAsync()
+Create sub-account -> client.UnifiedApi.SubAccounts.CreateSubAccountAsync(...)
+Get sub-account bills -> client.UnifiedApi.SubAccounts.GetSubAccountBillsAsync(...)
+Get sub-account funding balances -> client.UnifiedApi.SubAccounts.GetSubAccountFundingBalancesAsync(...)
+Get sub-account trading balances -> client.UnifiedApi.SubAccounts.GetSubAccountTradingBalancesAsync(...)
+Transfer between sub-accounts -> client.UnifiedApi.SubAccounts.TransferBetweenSubAccountsAsync(...)
+Create sub-account API key -> client.UnifiedApi.SubAccounts.CreateSubAccountApiKeyAsync(...)
+Get sub-account API keys -> client.UnifiedApi.SubAccounts.GetSubAccountApiKeysAsync(...)
+Reset sub-account API key -> client.UnifiedApi.SubAccounts.ResetSubAccountApiKeyAsync(...)
+Delete sub-account API key -> client.UnifiedApi.SubAccounts.DeleteSubAccountApiKeyAsync(...)
+Copy trading account config -> client.UnifiedApi.CopyTrading.GetAccountConfigurationAsync()
+Copy trading lead positions -> client.UnifiedApi.CopyTrading.GetLeadPositionsAsync(...)
+Copy trading lead history -> client.UnifiedApi.CopyTrading.GetLeadPositionHistoryAsync(...)
+Copy trading close lead position -> client.UnifiedApi.CopyTrading.CloseLeadPositionAsync(...)
+```
+
+Common WebSocket tasks:
+
+```text
+Subscribe ticker -> socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(symbol, handler)
+Subscribe klines -> socketClient.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync(symbol, interval, handler)
+Subscribe order book -> socketClient.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync(symbol, OrderBookType.OrderBook, handler)
+Subscribe trades -> socketClient.UnifiedApi.ExchangeData.SubscribeToTradeUpdatesAsync(symbol, handler)
+Subscribe funding rates -> socketClient.UnifiedApi.ExchangeData.SubscribeToFundingRateUpdatesAsync(symbol, handler)
+Subscribe mark prices -> socketClient.UnifiedApi.ExchangeData.SubscribeToMarkPriceUpdatesAsync(symbol, handler)
+Subscribe open interest -> socketClient.UnifiedApi.ExchangeData.SubscribeToOpenInterestUpdatesAsync(symbol, handler)
+Subscribe account balance -> socketClient.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(asset, regularUpdates, handler)
+Subscribe balance and position -> socketClient.UnifiedApi.Account.SubscribeToBalanceAndPositionUpdatesAsync(handler)
+Subscribe deposit updates -> socketClient.UnifiedApi.Account.SubscribeToDepositUpdatesAsync(handler)
+Subscribe withdrawal updates -> socketClient.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler)
+Subscribe orders -> socketClient.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(...)
+Subscribe positions -> socketClient.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(...)
+Subscribe user trades -> socketClient.UnifiedApi.Trading.SubscribeToUserTradeUpdatesAsync(...)
+Subscribe algo orders -> socketClient.UnifiedApi.Trading.SubscribeToAlgoOrderUpdatesAsync(...)
+Socket API place order -> socketClient.UnifiedApi.Trading.PlaceOrderAsync(...)
+Socket API cancel order -> socketClient.UnifiedApi.Trading.CancelOrderAsync(...)
+Socket API amend order -> socketClient.UnifiedApi.Trading.AmendOrderAsync(...)
+```
+
+## Spot Order Example
+
+```csharp
+using OKX.Net;
+using OKX.Net.Clients;
+using OKX.Net.Enums;
+
+var client = new OKXRestClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+
+var order = await client.UnifiedApi.Trading.PlaceOrderAsync(
+    symbol: "BTC-USDT",
+    side: OrderSide.Buy,
+    type: OrderType.Limit,
+    quantity: 0.001m,
+    price: 50000m,
+    tradeMode: TradeMode.Cash);
+
+if (!order.Success)
+{
+    Console.WriteLine(order.Error);
+    return;
+}
+
+Console.WriteLine(order.Data.OrderId);
+```
+
+For spot market orders where the quantity is in quote currency, use the order parameters exposed by `PlaceOrderAsync`, including `quantityAsset` when needed. Do not guess parameter names; inspect `IOKXRestClientUnifiedApiTrading.PlaceOrderAsync`.
+
+## Swap/Futures Order Example
+
+```csharp
+using OKX.Net;
+using OKX.Net.Clients;
+using OKX.Net.Enums;
+
+var client = new OKXRestClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+
+var leverage = await client.UnifiedApi.Account.SetLeverageAsync(
+    leverage: 5,
+    marginMode: MarginMode.Cross,
+    symbol: "ETH-USDT-SWAP",
+    positionSide: PositionSide.Long);
+
+if (!leverage.Success)
+{
+    Console.WriteLine(leverage.Error);
+    return;
+}
+
+var order = await client.UnifiedApi.Trading.PlaceOrderAsync(
+    symbol: "ETH-USDT-SWAP",
+    side: OrderSide.Buy,
+    type: OrderType.Market,
+    quantity: 1m,
+    positionSide: PositionSide.Long,
+    tradeMode: TradeMode.Cross);
+
+if (!order.Success)
+{
+    Console.WriteLine(order.Error);
+    return;
+}
+```
+
+Position mode note: include `PositionSide.Long` or `PositionSide.Short` only when the account mode and product require it. For one-way/net-mode examples, it may be omitted.
+
+Use `reduceOnly: true` when closing or reducing a derivatives position if you want to avoid flipping the position.
+
+## Order Lookup, Cancel, And Close Position
+
+```csharp
+var details = await client.UnifiedApi.Trading.GetOrderDetailsAsync(
+    symbol: "BTC-USDT",
+    orderId: order.Data.OrderId);
+
+if (!details.Success)
+{
+    Console.WriteLine(details.Error);
+    return;
+}
+
+Console.WriteLine(details.Data.OrderState);
+
+var cancel = await client.UnifiedApi.Trading.CancelOrderAsync(
+    symbol: "BTC-USDT",
+    orderId: order.Data.OrderId);
+
+if (!cancel.Success)
+{
+    Console.WriteLine(cancel.Error);
+    return;
+}
+```
+
+Close a swap/futures position:
+
+```csharp
+var close = await client.UnifiedApi.Trading.ClosePositionAsync(
+    symbol: "ETH-USDT-SWAP",
+    marginMode: MarginMode.Cross,
+    positionSide: PositionSide.Long);
+
+if (!close.Success)
+{
+    Console.WriteLine(close.Error);
+    return;
+}
+```
+
+## WebSocket Subscription Example
+
+```csharp
+using OKX.Net.Clients;
+using OKX.Net.Enums;
+
+var socketClient = new OKXSocketClient();
+
+var tickerSub = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(
+    "BTC-USDT",
+    update => Console.WriteLine(update.Data.LastPrice));
+
+if (!tickerSub.Success)
+{
+    Console.WriteLine(tickerSub.Error);
+    return;
+}
+
+Console.ReadLine();
+
+await socketClient.UnsubscribeAsync(tickerSub.Data);
+```
+
+Multiple subscriptions should all be checked before `.Data` is used.
+
+```csharp
+var klineSub = await socketClient.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync(
+    "ETH-USDT",
+    KlineInterval.OneMinute,
+    update => Console.WriteLine(update.Data.ClosePrice));
+
+if (!klineSub.Success)
+{
+    await socketClient.UnsubscribeAsync(tickerSub.Data);
+    Console.WriteLine(klineSub.Error);
+    return;
+}
+```
+
+Private streams require credentials:
+
+```csharp
+var privateSocketClient = new OKXSocketClient(options =>
+{
+    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
+});
+
+var orderSub = await privateSocketClient.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(
+    InstrumentType.Spot,
+    symbol: "ETH-USDT",
+    instrumentFamily: null,
+    onData: update => Console.WriteLine(update.Data.OrderState));
+
+if (!orderSub.Success)
+{
+    Console.WriteLine(orderSub.Error);
+    return;
+}
+
+await privateSocketClient.UnsubscribeAsync(orderSub.Data);
+```
+
+Account stream:
+
+```csharp
+var accountSub = await privateSocketClient.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(
+    asset: "USDT",
+    regularUpdates: true,
+    onData: update => Console.WriteLine(update.Data.TotalEquity));
+
+if (!accountSub.Success)
+{
+    Console.WriteLine(accountSub.Error);
+    return;
+}
+```
+
+## Socket API Trading Requests
+
+OKX.Net exposes authenticated WebSocket trading requests under `socketClient.UnifiedApi.Trading`. These use numeric symbol codes instead of the string symbol in some methods. The interface notes that `symbolCode` can be retrieved using `restClient.UnifiedApi.ExchangeData.GetSymbolsAsync`.
+
+```csharp
+var socketOrder = await socketClient.UnifiedApi.Trading.PlaceOrderAsync(
+    symbolCode: 123456,
+    side: OrderSide.Buy,
+    type: OrderType.Limit,
+    tradeMode: TradeMode.Cash,
+    quantity: 0.001m,
+    price: 50000m);
+
+if (!socketOrder.Success)
+{
+    Console.WriteLine(socketOrder.Error);
+    return;
+}
+```
+
+Do not pass string symbols to socket trading methods that require `long symbolCode`.
+
+## SharedApis Multi-Exchange Pattern
+
+Use CryptoExchange.Net.SharedApis when the user asks for code that can work against OKX and other exchanges.
+
+```csharp
+using OKX.Net.Clients;
+using CryptoExchange.Net.SharedApis;
+
+ISpotTickerRestClient tickerClient = new OKXRestClient().UnifiedApi.SharedClient;
+var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+
+var ticker = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
+if (!ticker.Success)
+{
+    Console.WriteLine(ticker.Error);
+    return;
+}
+
+Console.WriteLine(ticker.Data.LastPrice);
+```
+
+Shared WebSocket subscriptions return an `UpdateSubscription` in `.Data`. For shared interface variables, unsubscribe through the concrete socket client:
+
+```csharp
+var socketClient = new OKXSocketClient();
+ITickerSocketClient tickerSocket = socketClient.UnifiedApi.SharedClient;
+
+var sub = await tickerSocket.SubscribeToTickerUpdatesAsync(
+    new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")),
+    update => Console.WriteLine(update.Data.LastPrice));
+
+if (!sub.Success)
+{
+    Console.WriteLine(sub.Error);
+    return;
+}
+
+Console.ReadLine();
+
+await socketClient.UnsubscribeAsync(sub.Data);
+```
+
+Do not call `tickerSocket.UnsubscribeAsync(...)` on `ITickerSocketClient`; that shared interface does not expose the method.
+
+OKX shared REST interfaces in this repository include:
+
+```text
+IAssetsRestClient
+IBalanceRestClient
+IDepositRestClient
+IKlineRestClient
+IOrderBookRestClient
+IRecentTradeRestClient
+ISpotOrderRestClient
+ISpotSymbolRestClient
+ISpotTickerRestClient
+IWithdrawalRestClient
+IWithdrawRestClient
+IFuturesSymbolRestClient
+IFuturesOrderRestClient
+ILeverageRestClient
+IMarkPriceKlineRestClient
+IIndexPriceKlineRestClient
+IOpenInterestRestClient
+IFuturesTickerRestClient
+IFundingRateRestClient
+IPositionModeRestClient
+IPositionHistoryRestClient
+IFeeRestClient
+ISpotTriggerOrderRestClient
+IFuturesTriggerOrderRestClient
+IFuturesTpSlRestClient
+ISpotOrderClientIdRestClient
+IFuturesOrderClientIdRestClient
+IBookTickerRestClient
+ITransferRestClient
+```
+
+OKX shared socket interfaces include:
+
+```text
+ITickerSocketClient
+ITradeSocketClient
+IBookTickerSocketClient
+IKlineSocketClient
+IOrderBookSocketClient
+IBalanceSocketClient
+ISpotOrderSocketClient
+IFuturesOrderSocketClient
+IUserTradeSocketClient
+IPositionSocketClient
+```
+
+## Symbol And Rule Handling
+
+Use `GetSymbolsAsync` to retrieve OKX instrument metadata. Do not manually invent swap/futures/option symbols or assume a product exists.
+
+```csharp
+var symbols = await client.UnifiedApi.ExchangeData.GetSymbolsAsync(
+    InstrumentType.Spot,
+    symbol: "BTC-USDT");
+
+if (!symbols.Success || symbols.Data.Length == 0)
+{
+    Console.WriteLine(symbols.Error);
+    return;
+}
+
+var btcUsdt = symbols.Data.First();
+Console.WriteLine(btcUsdt.Symbol);
+```
+
+For order quantities and prices, prefer the exchange metadata and CryptoExchange.Net helper APIs over ad hoc decimal string manipulation. If a generated example needs exact tick/lot adjustment, inspect the OKX instrument model in `OKX.Net/Objects/Public/OKXInstrument.cs` for the available rule fields before writing the adjustment.
+
+## Error Handling Notes
+
+Common categories for OKX.Net errors:
+
+```text
+Authentication errors: wrong key, secret, passphrase, environment, or permissions.
+Timestamp/signature errors: local time or credentials are wrong; do not retry blindly.
+Parameter errors: invalid symbol, trade mode, position side, quantity, price, or product type.
+Insufficient balance / risk limit errors: usually permanent until account state changes.
+Rate limit or network errors: may be transient; retry only when result.Error?.IsTransient == true.
+Unknown or missing order: may be expected for already-filled, canceled, or wrong-symbol lookups.
+```
+
+Keep the original `result.Error?.Code` and `result.Error?.Message` visible to callers/logging. Do not replace OKX API errors with vague messages.
+
+## AI-Friendly Examples
+
+Use these examples when generating code:
+
+```text
+Examples/ai-friendly/01-unified-quickstart.cs
+  Client setup, public ticker, authenticated account balance, spot limit order, order status lookup.
+
+Examples/ai-friendly/02-derivatives.cs
+  Swap/futures instrument lookup, leverage, market order, positions, close position.
+
+Examples/ai-friendly/03-websocket.cs
+  Public ticker stream, kline stream, authenticated order stream, success checks, teardown.
+
+Examples/ai-friendly/04-multi-exchange.cs
+  CryptoExchange.Net.SharedApis REST pattern for exchange-agnostic code.
+
+Examples/ai-friendly/05-error-handling.cs
+  WebCallResult pattern, transient retry, OKX error metadata.
+```
+
+These files are intended to be copied into a console `Program.cs` after `dotnet add package JK.OKX.Net`. In this repository, `OKX.Net.UnitTests/Documentation/AiExampleCompileTests.cs` compiles these examples against the local build.
+
+## Anti-Hallucination Checklist
+
+Before finalizing generated code:
+
+- Does it compile with the current package?
+- Does it include `using OKX.Net;` when using credentials or environments?
+- Does it include `using OKX.Net.Clients;` when constructing clients?
+- Does every REST/socket result check `.Success` before `.Data`?
+- Does it use `OKXRestClient` or `OKXSocketClient`, not a legacy or invented `OKXClient`?
+- Does it use the correct root: `UnifiedApi`?
+- Does it avoid raw OKX URLs and manual signing?
+- Does it use `OKXCredentials("key", "secret", "passphrase")`?
+- Does it use OKX symbols like `BTC-USDT` and `BTC-USDT-SWAP`?
+- Does it avoid Binance-specific roots such as `SpotApi`, `UsdFuturesApi`, `CoinFuturesApi`, and `GeneralApi`?
+- Does it avoid `.Result` and `.Wait()`?
+- Are WebSocket subscriptions unsubscribed on shutdown?
+- For shared socket interfaces, does it keep the concrete socket client for `UnsubscribeAsync(sub.Data)`?
+- For derivatives code, are `TradeMode`, `MarginMode`, and `PositionSide` used only where appropriate?
+- For socket trading requests, does it use `symbolCode` where the OKX socket interface requires it?
+- For order quantities/prices, does it use OKX symbol metadata or a library helper instead of guessed rounding?
+
+## Source Of Truth For Method Names
+
+When unsure, inspect these files instead of guessing:
+
+```text
+OKX.Net/Interfaces/Clients/IOKXRestClient.cs
+OKX.Net/Interfaces/Clients/IOKXSocketClient.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApi.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiExchangeData.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiAccount.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiTrading.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiSubAccounts.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiCopyTrading.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXRestClientUnifiedApiShared.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXSocketClientUnifiedApi.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXSocketClientUnifiedApiExchangeData.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXSocketClientUnifiedApiAccount.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXSocketClientUnifiedApiTrading.cs
+OKX.Net/Interfaces/Clients/UnifiedApi/IOKXSocketClientUnifiedApiShared.cs
+```
+
+Prefer the interface files over memory when generating endpoint names, parameters, callback data types, and return types.
+
+## Common Wrong Patterns To Avoid
+
+Wrong:
+
+```csharp
+var client = new OKXClient();
+```
+
+Use:
+
+```csharp
+var client = new OKXRestClient();
+```
+
+Wrong:
+
+```csharp
+options.ApiCredentials = new ApiCredentials("key", "secret");
+```
+
+Use:
+
+```csharp
+options.ApiCredentials = new OKXCredentials("key", "secret", "passphrase");
+```
+
+Wrong:
+
+```csharp
+var result = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+Console.WriteLine(result.Data.LastPrice);
+```
+
+Use:
+
+```csharp
+var result = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+if (!result.Success)
+{
+    Console.WriteLine(result.Error);
+    return;
+}
+Console.WriteLine(result.Data.LastPrice);
+```
+
+Wrong:
+
+```csharp
+var ticker = await client.SpotApi.ExchangeData.GetTickerAsync("BTCUSDT");
+```
+
+Use:
+
+```csharp
+var ticker = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+```
+
+Wrong:
+
+```csharp
+var order = await client.FuturesApi.Trading.PlaceOrderAsync("ETHUSDT", ...);
+```
+
+Use:
+
+```csharp
+var order = await client.UnifiedApi.Trading.PlaceOrderAsync(
+    "ETH-USDT-SWAP",
+    OrderSide.Buy,
+    OrderType.Market,
+    quantity: 1m,
+    tradeMode: TradeMode.Cross);
+```
+
+Wrong:
+
+```csharp
+await sharedTickerSocket.UnsubscribeAsync(sub.Data);
+```
+
+Use:
+
+```csharp
+await socketClient.UnsubscribeAsync(sub.Data);
+```
+
+Wrong:
+
+```csharp
+await socketClient.UnifiedApi.Trading.PlaceOrderAsync("ETH-USDT", ...);
+```
+
+Use the socket trading overload shape:
+
+```csharp
+await socketClient.UnifiedApi.Trading.PlaceOrderAsync(
+    symbolCode: 123456,
+    side: OrderSide.Buy,
+    type: OrderType.Limit,
+    tradeMode: TradeMode.Cash,
+    quantity: 0.001m,
+    price: 50000m);
+```
+
+Wrong:
+
+```csharp
+var price = await client.UnifiedApi.ExchangeData.GetPriceAsync("BTC-USDT");
+```
+
+Use an actual OKX.Net method:
+
+```csharp
+var ticker = await client.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
+```
+
+Wrong:
+
+```csharp
+await client.UnifiedApi.Account.GetAccountInfoAsync();
+```
+
+Use actual OKX.Net account methods:
+
+```csharp
+await client.UnifiedApi.Account.GetAccountConfigurationAsync();
+await client.UnifiedApi.Account.GetAccountBalanceAsync();
+```
