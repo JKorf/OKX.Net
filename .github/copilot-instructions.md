@@ -59,4 +59,4 @@ For exchange-agnostic code, use `CryptoExchange.Net.SharedApis` via `.UnifiedApi
 
 ## Reference
 
-For detailed patterns and pitfalls see `CLAUDE.md`, `llms.txt`, `llms-full.txt`, and `docs/ai-api-map.md` in the repository root, and `Examples/ai-friendly/` for compilable examples.
+For detailed patterns and pitfalls see `AGENTS.md`, `llms.txt`, `llms-full.txt`, and `docs/ai-api-map.md` in the repository root, and `Examples/ai-friendly/` for compilable examples.
