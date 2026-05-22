@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net10.0;net9.0;net48</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>12</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+    <PackageReference Include="ccxt" Version="4.5.54" />
+    <PackageReference Include="OKX.Api" Version="5.6.216" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\OKX.Net\OKX.Net.csproj" />
+  </ItemGroup>
+
+</Project>

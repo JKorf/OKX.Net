@@ -16,6 +16,9 @@ OKX.Net is strongly typed client library for accessing the [OKX REST and Websock
 * Easy integration with other exchange client based on the CryptoExchange.Net base library
 * Native AOT support
 
+## Benchmark
+Performance is a core focus. For a benchmark comparing OKX.Net performance to CCXT and OKX.Api, see [docs/okx-net-benchmark.md](docs/okx-net-benchmark.md).
+
 ## Supported Frameworks
 The library is targeting both `.NET Standard 2.0` and `.NET Standard 2.1` for optimal compatibility, as well as the latest dotnet versions to use the latest framework features.
 
