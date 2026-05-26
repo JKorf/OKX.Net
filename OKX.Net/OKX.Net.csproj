@@ -12,7 +12,7 @@
     <FileVersion>4.13.0</FileVersion>
     <Description>A high-performance .NET client library for the OKX REST and WebSocket APIs, providing strongly typed models, automatic WebSocket reconnection, client-side rate limiting, local order book support, and seamless integration with other CryptoExchange.Net based clients.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>OKX;OKX.Net;OKX.com;OKX Client;OKX API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net</PackageTags>
+    <PackageTags>OKX;OKX.Net;OKX.com;OKX Client;OKX API;CryptoCurrency;CryptoCurrency Exchange;CryptoExchange.Net;ccxt</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
