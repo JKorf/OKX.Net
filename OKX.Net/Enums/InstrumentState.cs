@@ -15,5 +15,7 @@ public enum InstrumentState
     [Map("test")]
     Test,
     [Map("rebase")]
-    Rebase
+    Rebase,
+    [Map("post_only")]
+    PostOnly
 }
