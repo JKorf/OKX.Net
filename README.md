@@ -214,6 +214,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.14.0 - 26 May 2026
+    * Updated CryptoExchange.Net to version 11.2.0
+    * Added maxSlippagePercentage parameter to PlaceOrder endpoints
+    * Added PostOnly value to InstrumentState enum
+
 * Version 4.13.0 - 01 May 2026
     * Added CallbackRatio, CallbackSpread, ActivePrice parameters for attached algo orders on place order endpoints
 
