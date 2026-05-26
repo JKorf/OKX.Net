@@ -182,7 +182,7 @@ public enum AccountBillSubType
     ConvertOut,
     [Map("320")]
     SimpleBuy,
-    [Map("320")]
+    [Map("321")]
     SimpleSell,
     [Map("355")]
     SettlementPnl,
