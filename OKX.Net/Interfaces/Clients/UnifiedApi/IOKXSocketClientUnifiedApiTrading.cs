@@ -140,6 +140,7 @@ public interface IOKXSocketClientUnifiedApiTrading
     /// <param name="selfTradePreventionMode">Self trade prevention mode</param>
     /// <param name="quantityAsset">Asset of the quantity when placing market order</param>
     /// <param name="tradeQuoteAsset">The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
+    /// <param name="maxSlippagePercentage">["<c>maxSlippagePercentage</c>"] Maximum acceptable slippage for spot and spot margin market-side orders, ranged 0 to 0.05</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
     Task<CallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -160,6 +161,7 @@ public interface IOKXSocketClientUnifiedApiTrading
         string? clientOrderId = null,
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
+        decimal? maxSlippagePercentage = null,
         CancellationToken ct = default);
 
     /// <summary>

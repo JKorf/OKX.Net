@@ -452,6 +452,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="priceAmendType">["<c>pxAmendType</c>"] Price amendment type. 0: Do not allow amendment, 1: Allow amendment to best available price within limit</param>
     /// <param name="isElpTakerAccess">["<c>isElpTakerAccess</c>"] Whether to use ELP taker access. Only applicable to ioc orders.</param>
+    /// <param name="maxSlippagePercentage">["<c>maxSlippagePercentage</c>"] Maximum acceptable slippage for spot and spot margin market-side orders, ranged 0 to 0.05</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
@@ -477,6 +478,7 @@ public interface IOKXRestClientUnifiedApiTrading
         string? tradeQuoteAsset = null,
         int? priceAmendType = null,
         bool? isElpTakerAccess = null,
+        decimal? maxSlippagePercentage = null,
         CancellationToken ct = default);
 
     /// <summary>

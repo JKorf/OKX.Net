@@ -93,6 +93,12 @@ public record OKXOrderPlaceRequest
     public decimal? PriceVol { get; set; }
 
     /// <summary>
+    /// ["<c>slippagePct</c>"] Maximum acceptable slippage for spot and spot margin market-side orders, ranged 0 to 0.05
+    /// </summary>
+    [JsonPropertyName("slippagePct"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault), JsonConverter(typeof(DecimalStringWriterConverter))]
+    public decimal? MaxSlippagePercentage { get; set; }
+
+    /// <summary>
     /// ["<c>banAmend</c>"] Whether to disallow the system from amending the size of the SPOT Market Order. If true, system will not amend and reject the market order if user does not have sufficient funds.
     /// </summary>
     [JsonPropertyName("banAmend"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

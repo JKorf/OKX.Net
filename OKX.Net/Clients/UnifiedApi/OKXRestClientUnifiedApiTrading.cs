@@ -43,6 +43,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         string? tradeQuoteAsset = null,
         int? priceAmendType = null,
         bool? isElpTakerAccess = null,
+        decimal? maxSlippagePercentage = null,
 
         CancellationToken ct = default)
     {
@@ -66,6 +67,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.AddOptional("tradeQuoteCcy", tradeQuoteAsset);
         parameters.AddOptional("pxAmendType", priceAmendType);
         parameters.AddOptional("isElpTakerAccess", isElpTakerAccess);
+        parameters.AddOptional("slippagePct", maxSlippagePercentage);
 
         if (attachedAlgoOrders != null)
         {

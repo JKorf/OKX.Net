@@ -44,6 +44,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         string? clientOrderId = null,
         bool? reduceOnly = null,
         string? tradeQuoteAsset = null,
+        decimal? maxSlippagePercentage = null,
 
         CancellationToken ct = default)
     {
@@ -67,6 +68,7 @@ internal class OKXSocketClientUnifiedApiTrading : IOKXSocketClientUnifiedApiTrad
         parameters.AddOptionalParameter("stpId", selfTradePreventionId);
         parameters.AddOptionalParameter("stpMode", EnumConverter.GetString(selfTradePreventionMode));
         parameters.AddOptionalParameter("tradeQuoteCcy", tradeQuoteAsset);
+        parameters.AddOptionalParameter("slippagePct", maxSlippagePercentage?.ToString(CultureInfo.InvariantCulture));
 
         var result = await _client.QueryInternalAsync<OKXOrderPlaceResponse>(_client.GetUri("/ws/v5/private"), "order", parameters, true, 1, ct).ConfigureAwait(false);
         if (!result)
