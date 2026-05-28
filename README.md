@@ -1,6 +1,7 @@
 # ![Icon!](https://github.com/JKorf/OKX.Net/blob/358d31f58d8ee51fc234bff1940878a8d0ce5676/Okex.Net/Icon/icon.png "OKX.Net") OKX.Net
 
 [![.NET](https://img.shields.io/github/actions/workflow/status/JKorf/OKX.Net/dotnet.yml?style=for-the-badge)](https://github.com/JKorf/OKX.Net/actions/workflows/dotnet.yml) ![License](https://img.shields.io/github/license/JKorf/OKX.Net?style=for-the-badge)
+![Since](https://img.shields.io/badge/since-2023-brightgreen?style=for-the-badge)
 
 OKX.Net is strongly typed client library for accessing the [OKX REST and Websocket API](https://www.okx.com/docs-v5/en/).
 ## Features
