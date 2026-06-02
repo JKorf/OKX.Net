@@ -1,5 +1,4 @@
 using OKX.Net.Interfaces.Clients;
-using CryptoExchange.Net.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using OKX.Net.Objects;
 
@@ -8,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add the Mexc services
+// Add the OKX services
 builder.Services.AddOKX();
 
 // OR to provide API credentials for accessing private endpoints, or setting other options:
@@ -29,14 +28,18 @@ app.UseHttpsRedirection();
 app.MapGet("/{Symbol}", async ([FromServices] IOKXRestClient client, string symbol) =>
 {
     var result = await client.UnifiedApi.ExchangeData.GetTickerAsync(symbol);
-    return (object)(result.Success ? result.Data : result.Error!);
+    return result.Success
+        ? Results.Ok(result.Data)
+        : Results.Problem(result.Error?.Message, statusCode: 502);
 })
 .WithOpenApi();
 
 app.MapGet("/Balances", async ([FromServices] IOKXRestClient client) =>
 {
     var result = await client.UnifiedApi.Account.GetAccountBalanceAsync();
-    return (object)(result.Success ? result.Data : result.Error!);
+    return result.Success
+        ? Results.Ok(result.Data)
+        : Results.Problem(result.Error?.Message, statusCode: 502);
 })
 .WithOpenApi();
 

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OKX.Examples.OrderBook", "O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OKX.Examples.Tracker", "OKX.Examples.Tracker\OKX.Examples.Tracker.csproj", "{97340F25-D437-482B-94F9-39D66CDB3532}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OKX.Examples.OrderPlacement", "OKX.Examples.OrderPlacement\OKX.Examples.OrderPlacement.csproj", "{F7A7D2B4-0964-4DE4-9458-A0ED33F2FE6D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OKX.Net", "..\OKX.Net\OKX.Net.csproj", "{2B509082-8525-4FF7-8595-8106A8F702D9}"
 EndProject
 Global
@@ -35,6 +37,10 @@ Global
 		{97340F25-D437-482B-94F9-39D66CDB3532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97340F25-D437-482B-94F9-39D66CDB3532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97340F25-D437-482B-94F9-39D66CDB3532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A7D2B4-0964-4DE4-9458-A0ED33F2FE6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A7D2B4-0964-4DE4-9458-A0ED33F2FE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A7D2B4-0964-4DE4-9458-A0ED33F2FE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A7D2B4-0964-4DE4-9458-A0ED33F2FE6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B509082-8525-4FF7-8595-8106A8F702D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B509082-8525-4FF7-8595-8106A8F702D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B509082-8525-4FF7-8595-8106A8F702D9}.Release|Any CPU.ActiveCfg = Release|Any CPU

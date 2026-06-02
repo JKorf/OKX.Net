@@ -7,6 +7,12 @@ using Microsoft.Extensions.Options;
 // REST
 var restClient = new OKXRestClient();
 var ticker = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
+if (!ticker.Success)
+{
+    Console.WriteLine($"Failed to get ticker: {ticker.Error}");
+    return;
+}
+
 Console.WriteLine($"Rest client ticker price for ETHUSDT: {ticker.Data.LastPrice}");
 
 Console.WriteLine();
@@ -23,5 +29,11 @@ var subscription = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerU
 {
     Console.WriteLine($"Websocket client ticker price for ETHUSDT: {update.Data.LastPrice}");
 });
+
+if (!subscription.Success)
+{
+    Console.WriteLine($"Failed to subscribe to ticker updates: {subscription.Error}");
+    return;
+}
 
 Console.ReadLine();
