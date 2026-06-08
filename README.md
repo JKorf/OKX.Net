@@ -215,6 +215,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 4.15.0 - 08 Jun 2026
+    * Updated CryptoExchange.Net to version 11.2.2
+    * Added restClient.UnifiedApi.Account.GetGreeksAsync endpoint
+    * Added socketClient.UnifiedApi.Account.SubscribeToGreeksUpdatesAsync subscription
+    * Fixed user client provider not caching new client when previous client was disposed
+
 * Version 4.14.0 - 26 May 2026
     * Updated CryptoExchange.Net to version 11.2.0
     * Added maxSlippagePercentage parameter to PlaceOrder endpoints
