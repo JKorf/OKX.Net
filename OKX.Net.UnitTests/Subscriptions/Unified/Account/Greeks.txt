@@ -1,0 +1,37 @@
+> { "op": "login", "args": [{ "apiKey": "123", "passphrase": "789", "timestamp": "|1|", "sign": "|2|" } ]}
+< { "event": "login", "code": "0", "msg": "", "connId": "a4d3ae55"}
+> { "op": "subscribe", "args": [{ "channel": "account-greeks" }]}
+< { "event": "subscribe", "arg": { "channel": "account-greeks" }, "connId": "a4d3ae55" }
+=
+{
+    "arg": {
+        "channel": "account-greeks",
+        "uid": "614488474791936"
+    },
+    "data": [
+        {
+            "ccy": "BTC",
+            "deltaBS": "1.1246665403011684",
+            "deltaPA": "-0.0074021163991037",
+            "gammaBS": "0.0000000000000000",
+            "gammaPA": "0.0148042327982075",
+            "thetaBS": "2.1342098201092528",
+            "thetaPA": "-0.0000000200876441",
+            "ts": "1729179001692",
+            "vegaBS": "0.0000000000000000",
+            "vegaPA": "0.0000000000000000"
+        },
+        {
+            "ccy": "ETH",
+            "deltaBS": "0.3810670161698570",
+            "deltaPA": "-0.0688347042402955",
+            "gammaBS": "-0.0000000000230396",
+            "gammaPA": "0.1376693483440320",
+            "thetaBS": "0.3314776517141782",
+            "thetaPA": "0.0000000001316008",
+            "ts": "1729179001692",
+            "vegaBS": "-0.0000000045069794",
+            "vegaPA": "-0.0000000000017267"
+        }
+    ]
+}

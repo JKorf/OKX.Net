@@ -924,4 +924,19 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     #endregion
+
+    #region Get Greeks
+
+    /// <inheritdoc />
+    public virtual async Task<WebCallResult<OKXGreeks[]>> GetGreeksAsync(string? asset = null, CancellationToken ct = default)
+    {
+        var parameters = new ParameterCollection();
+        parameters.AddOptional("ccy", asset);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, "api/v5/account/greeks", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(10, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXGreeks[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    #endregion
 }

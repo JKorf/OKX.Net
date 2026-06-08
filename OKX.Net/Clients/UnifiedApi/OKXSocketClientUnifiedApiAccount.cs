@@ -147,4 +147,32 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
 
         return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/business"), subscription, ct).ConfigureAwait(false);
     }
+
+    /// <inheritdoc />
+    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
+        string? asset,
+        Action<DataEvent<OKXGreeks[]>> onData, 
+        CancellationToken ct = default)
+    {
+        var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXGreeks[]>>((receiveTime, originalData, data) =>
+        {
+            onData(
+                new DataEvent<OKXGreeks[]>(OKXExchange.ExchangeName, data.Data, receiveTime, originalData)
+                    .WithUpdateType(data.EventType?.Equals("snapshot", StringComparison.Ordinal) == true ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
+                    .WithStreamId(data.Arg.Channel)
+                    .WithSymbol(data.Arg.Symbol)
+                );
+        });
+
+        var subscription = new OKXSubscription<OKXGreeks[]>(_logger, _client, new List<OKXSocketArgs>
+            {
+                new OKXSocketArgs
+                {
+                    Asset = asset,
+                    Channel = "account-greeks"
+                }
+            }, internalHandler, true);
+
+        return await _client.SubscribeInternalAsync(_client.GetUri("/ws/v5/private"), subscription, ct).ConfigureAwait(false);
+    }
 }

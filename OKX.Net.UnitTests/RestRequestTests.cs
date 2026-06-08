@@ -67,6 +67,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetEstimatedLeverageInfoAsync(InstrumentType.Spot, MarginMode.Isolated, 10), "GetEstimatedLeverageInfo");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetAccountRiskStateAsync(), "GetAccountRiskState");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetBorrowInterestLimitAsync(), "GetBorrowInterestLimit");
+            await tester.ValidateAsync(c => c.UnifiedApi.Account.GetGreeksAsync(), "GetGreeks");
         }
 
         [Test]

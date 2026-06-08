@@ -1,0 +1,21 @@
+GET
+/api/v5/account/greeks
+true
+{
+    "code":"0",
+    "data":[
+        {            
+           "thetaBS": "",
+           "thetaPA":"",
+           "deltaBS":"",
+           "deltaPA":"",
+           "gammaBS":"",
+           "gammaPA":"",
+           "vegaBS":"",    
+           "vegaPA":"",
+           "ccy":"BTC",
+           "ts":"1620282889345"
+        }
+    ],
+    "msg":""
+}

@@ -81,6 +81,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXPositionAndBalanceUpdate>((c, handler) => c.UnifiedApi.Account.SubscribeToBalanceAndPositionUpdatesAsync(handler), "BalanceAndPosition", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXDepositUpdate>((c, handler) => c.UnifiedApi.Account.SubscribeToDepositUpdatesAsync(handler), "Deposit", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXWithdrawalUpdate>((c, handler) => c.UnifiedApi.Account.SubscribeToWithdrawalUpdatesAsync(handler), "Withdrawal", useFirstUpdateItem: true, ignoreProperties: ["addrEx"]);
+            await tester.ValidateAsync<OKXGreeks[]>((c, handler) => c.UnifiedApi.Account.SubscribeToGreeksUpdatesAsync(null, handler), "Greeks");
         }
 
         [Test]

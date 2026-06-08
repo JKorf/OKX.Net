@@ -66,5 +66,22 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
     Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default);
+
+    /// <summary>
+    /// Subscribe to account greeks updates
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-websocket-account-greeks-channel" /><br />
+    /// Endpoint:<br />
+    /// SUBSCRIBE /ws/v5/private  (channel: greeks)
+    /// </para>
+    /// </summary>
+    /// <param name="asset">Asset filter</param>
+    /// <param name="onData">On Data Handler</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<CallResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
+        string? asset,
+        Action<DataEvent<OKXGreeks[]>> onData,
+        CancellationToken ct = default);
 }
 

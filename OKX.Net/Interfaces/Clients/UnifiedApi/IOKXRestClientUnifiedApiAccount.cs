@@ -856,5 +856,18 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="settleAsset">["<c>settleCcy</c>"] The settlement asset</param>
     /// <param name="ct">Cancellation Token</param>
     Task<WebCallResult<OKXSettleAsset>> SetSettleAssetAsync(string settleAsset, CancellationToken ct = default);
+
+    /// <summary>
+    /// Get greeks values. Only applicable to option contracts. 
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://www.okx.com/docs-v5/en/#trading-account-rest-api-get-greeks" /><br />
+    /// Endpoint:<br />
+    /// POST /api/v5/account/greeks
+    /// </para>
+    /// </summary>
+    /// <param name="asset">Filter by asset</param>
+    /// <param name="ct">Cancellation Token</param>
+    Task<WebCallResult<OKXGreeks[]>> GetGreeksAsync(string? asset = null, CancellationToken ct = default);
 }
 
