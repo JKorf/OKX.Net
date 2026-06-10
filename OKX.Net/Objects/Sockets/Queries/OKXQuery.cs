@@ -17,8 +17,8 @@ internal class OKXQuery : Query<OKXSocketResponse>
         foreach (var arg in request.Args)
         {
             var topic = arg.InstrumentType + arg.InstrumentFamily + arg.Symbol;
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithOptionalTopicFilter(request.Op + arg.Channel, string.IsNullOrEmpty(topic) ? null : topic, HandleMessage));
-            routes.Add(MessageRoute<OKXSocketResponse>.CreateWithoutTopicFilter("error" + arg.Channel + topic, HandleMessage));
+            routes.Add(MessageRoute.CreateForQuery<OKXSocketResponse>(request.Op + arg.Channel, string.IsNullOrEmpty(topic) ? null : topic, HandleMessage));
+            routes.Add(MessageRoute.CreateForQuery<OKXSocketResponse>("error" + arg.Channel + topic, HandleMessage));
         }
 
         MessageRouter = MessageRouter.Create(routes.ToArray());
@@ -29,14 +29,14 @@ internal class OKXQuery : Query<OKXSocketResponse>
     public OKXQuery(SocketApiClient client, OKXSocketAuthRequest request, bool authenticated, int weight = 1) : base(request, authenticated, weight)
     {
         _client = client;
-        MessageRouter = MessageRouter.CreateWithoutTopicFilter<OKXSocketResponse>(["login", "error"], HandleMessage);
+        MessageRouter = MessageRouter.CreateForQuery<OKXSocketResponse>(["login", "error"], HandleMessage);
     }
 
     public CallResult<OKXSocketResponse> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketResponse message)
     {
         if (string.Equals(message.Event, "error", StringComparison.Ordinal))
-            return new CallResult<OKXSocketResponse>(new ServerError(message.Code!.Value, _client.GetErrorInfo(message.Code.Value, message.Message!)), originalData);
+            return CallResult<OKXSocketResponse>.Fail(new ServerError(message.Code!.Value, _client.GetErrorInfo(message.Code.Value, message.Message!)), originalData);
 
-        return new CallResult<OKXSocketResponse>(message, originalData, null);
+        return CallResult<OKXSocketResponse>.Ok(message, originalData);
     }
 }

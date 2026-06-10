@@ -29,7 +29,7 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
     public IOKXRestClientUnifiedApiShared SharedClient => this;
 
     internal OKXRestClientUnifiedApi(ILogger logger, HttpClient? httpClient, OKXRestOptions options)
-            : base(logger, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
+            : base(logger, OKXExchange.Metadata.Id, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
     {
         Account = new OKXRestClientUnifiedApiAccount(this);
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
@@ -57,37 +57,34 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
         => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
 
-    internal async Task<WebCallResult<T>> SendToAddressAsync<T>(string baseAddress, RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
+    internal async Task<HttpResult<T>> SendAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
     {
-        var result = await base.SendAsync<OKXRestApiResponse<T>>(baseAddress, definition, parameters, cancellationToken, requestHeaders, weight, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
-        if (!result.Success) return result.AsError<T>(result.Error!);
-        if (result.Data.ErrorCode > 0) return result.AsError<T>(new ServerError(result.Data.ErrorCode, GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
+        var result = await base.SendAsync<OKXRestApiResponse<T>>(definition, parameters, cancellationToken, requestHeaders, weight, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
+        if (!result.Success) return HttpResult.Fail<T>(result);
+        if (result.Data.ErrorCode > 0) return HttpResult.Fail<T>(result, new ServerError(result.Data.ErrorCode, GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
 
-        return result.As<T>(result.Data.Data);
+        return HttpResult.Ok(result, result.Data.Data!);
     }
 
-    internal Task<WebCallResult<T>> SendAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
-        => SendToAddressAsync<T>(BaseAddress, definition, parameters, cancellationToken, weight, requestHeaders, rateLimitKeySuffix: rateLimitKeySuffix);
-
-    internal async Task<WebCallResult<T>> SendRawAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
+    internal async Task<HttpResult<T>> SendRawAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
     {
-        return await base.SendAsync<T>(BaseAddress, definition, parameters, cancellationToken, null, weight, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
+        return await base.SendAsync<T>(definition, parameters, cancellationToken, null, weight, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
     }
 
-    internal async Task<WebCallResult<T>> SendGetSingleAsync<T>(RequestDefinition definition, ParameterCollection? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
+    internal async Task<HttpResult<T>> SendGetSingleAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
     {
-        var result = await SendToAddressAsync<T[]>(BaseAddress, definition, parameters, cancellationToken, weight, requestHeaders, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
-        if (!result)
-            return result.As<T>(default);
+        var result = await SendAsync<T[]>(definition, parameters, cancellationToken, weight, requestHeaders, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
+        if (!result.Success)
+            return HttpResult.Fail<T>(result);
 
         if (!result.Data.Any())
-            return result.AsError<T>(new ServerError(ErrorInfo.Unknown with { Message = "No response data" }));
+            return HttpResult.Fail<T>(result, new ServerError(ErrorInfo.Unknown with { Message = "No response data" }));
 
-        return result.As<T>(result.Data?.FirstOrDefault());
+        return HttpResult.Ok(result, result.Data.First());
     }
 
     /// <inheritdoc />
-    protected override Task<WebCallResult<DateTime>> GetServerTimestampAsync()
+    protected override Task<HttpResult<DateTime>> GetServerTimestampAsync()
         => ExchangeData.GetServerTimeAsync();
 
 }

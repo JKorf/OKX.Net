@@ -17,7 +17,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
 
     public override void ProcessRequest(RestApiClient apiClient, RestRequestConfiguration request)
     {
-        if (!request.Authenticated && !((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests)
+        if (!request.RequestDefinition.Authenticated && !((OKXRestOptions)apiClient.ClientOptions).SignPublicRequests)
             return;
 
         var time = GetTimestamp(apiClient).ToString("yyyy-MM-ddTHH:mm:ss.sssZ");
@@ -25,7 +25,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
         if (!string.IsNullOrEmpty(queryString))
             queryString = $"?{queryString}";
         var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters?.Count > 0 ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
-        var signStr = time + request.Method + request.Path + queryString + body;
+        var signStr = time + request.RequestDefinition.Method + request.RequestDefinition.Path + queryString + body;
 
         var signature = SignHMACSHA256(signStr, SignOutputType.Base64);
         request.Headers ??= new Dictionary<string, string>();

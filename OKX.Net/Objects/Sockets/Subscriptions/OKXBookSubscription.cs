@@ -23,7 +23,7 @@ internal class OKXBookSubscription : Subscription
 
         IndividualSubscriptionCount = args.Count;
 
-        MessageRouter = MessageRouter.CreateWithTopicFilters<OKXSocketUpdate<OKXOrderBook[]>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
+        MessageRouter = MessageRouter.CreateForEvent<OKXSocketUpdate<OKXOrderBook[]>>(args.First().Channel, args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol), DoHandleMessage);
     }
 
     protected override Query? GetSubQuery(SocketConnection connection)
@@ -60,6 +60,6 @@ internal class OKXBookSubscription : Subscription
                     .WithSequenceNumber(book.SequenceId)
                     .WithUpdateType(string.Equals(message.Action, "snapshot", StringComparison.Ordinal) || message.Action == null ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
             );
-        return CallResult.SuccessResult;
+        return CallResult.Ok();
     }
 }

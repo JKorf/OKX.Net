@@ -92,7 +92,7 @@ namespace OKX.Net.UnitTests
                     return headers["OK-ACCESS-SIGN"].ToString();
                 },
                 "SQ8OzSqaLcC5tF3MMKwonxGUXwGfGPkM60flrI/UJjo=",
-                new Dictionary<string, object>
+                new Parameters(OKXExchange._parameterSerializationSettings)
                 {
                     { "instId", "BTC-USDT" },
                     { "lever", "5" },

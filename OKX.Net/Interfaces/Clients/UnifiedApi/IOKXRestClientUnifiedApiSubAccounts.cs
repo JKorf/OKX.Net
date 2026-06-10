@@ -26,7 +26,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountBill[]>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountBill[]>> GetSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get sub-account funding balance
@@ -42,7 +42,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="asset">["<c>ccy</c>"] Single asset or multiple assets (no more than 20) separated with comma, e.g. BTC or BTC,ETH.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountFundingBalance[]>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountFundingBalance[]>> GetSubAccountFundingBalancesAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
@@ -60,7 +60,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccount[]>> GetSubAccountsAsync(bool? enable = null, string? subAccountName = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccount[]>> GetSubAccountsAsync(bool? enable = null, string? subAccountName = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Query detailed balance info of Trading Account of a sub-account via the master account (applies to master accounts only)
@@ -74,7 +74,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountBalance>> GetSubAccountTradingBalancesAsync(string subAccountName, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
@@ -93,7 +93,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="ipAddresses">["<c>ip</c>"] Link IP addresses, separate with commas if more than one. Support up to 20 IP addresses.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountApiKey>> ResetSubAccountApiKeyAsync(string subAccountName, string apiKey, string? apiLabel = null, bool? readPermission = null, bool? tradePermission = null, string? ipAddresses = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountApiKey>> ResetSubAccountApiKeyAsync(string subAccountName, string apiKey, string? apiLabel = null, bool? readPermission = null, bool? tradePermission = null, string? ipAddresses = null, CancellationToken ct = default);
 
     /// <summary>
     /// applies to master accounts only
@@ -112,7 +112,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="toSubAccountName">["<c>toSubAccount</c>"] Sub-account name of the account that transfers funds in.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountTransfer>> TransferBetweenSubAccountsAsync(string asset, decimal amount, AccountType fromAccount, AccountType toAccount, string fromSubAccountName, string toSubAccountName, CancellationToken ct = default);
 
     /// <summary>
     /// Find the maximum withdrawal amount for a sub-account.
@@ -127,7 +127,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountMaxWithdrawal[]>> GetSubAccountMaxWithdrawalsAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountMaxWithdrawal[]>> GetSubAccountMaxWithdrawalsAsync(string subAccountName, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the transfer history of managed sub-accounts.
@@ -146,7 +146,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountBill[]>> GetManagedSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountBill[]>> GetManagedSubAccountBillsAsync(string? subAccountName = null, string? asset = null, SubAccountTransferType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get entrust sub-account list
@@ -160,7 +160,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="subAccountName">["<c>subAcct</c>"] Sub Account Name</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXEntrustSubAccount[]>> GetEntrustSubAccountsAsync(string? subAccountName = null, CancellationToken ct = default);
+    Task<HttpResult<OKXEntrustSubAccount[]>> GetEntrustSubAccountsAsync(string? subAccountName = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get sub-account API keys
@@ -175,7 +175,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="apiKey">["<c>apiKey</c>"] API key to query</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountApiKey[]>> GetSubAccountApiKeysAsync(string subAccountName, string? apiKey = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountApiKey[]>> GetSubAccountApiKeysAsync(string subAccountName, string? apiKey = null, CancellationToken ct = default);
 
     /// <summary>
     /// Create an API Key for a sub-account
@@ -194,7 +194,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="ipAddresses">["<c>ip</c>"] IP Addresses</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountApiKey>> CreateSubAccountApiKeyAsync(string subAccountName, string apiLabel, string passphrase, bool readPermission = true, bool tradePermission = false, string? ipAddresses = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountApiKey>> CreateSubAccountApiKeyAsync(string subAccountName, string apiLabel, string passphrase, bool readPermission = true, bool tradePermission = false, string? ipAddresses = null, CancellationToken ct = default);
 
     /// <summary>
     /// Delete a sub-account API Key
@@ -209,7 +209,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="apiKey">["<c>apiKey</c>"] API Key</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccountApiKey>> DeleteSubAccountApiKeyAsync(string subAccountName, string apiKey, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccountApiKey>> DeleteSubAccountApiKeyAsync(string subAccountName, string apiKey, CancellationToken ct = default);
 
     /// <summary>
     /// Set sub-account transfer out permissions
@@ -224,7 +224,7 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="canTransferOut">["<c>canTransOut</c>"] Can transfer out</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccount>> SetSubAccountTransferOutAsync(string subAccountName, bool canTransferOut, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccount>> SetSubAccountTransferOutAsync(string subAccountName, bool canTransferOut, CancellationToken ct = default);
 
     /// <summary>
     /// Create a new sub-account
@@ -239,6 +239,6 @@ public interface IOKXRestClientUnifiedApiSubAccounts
     /// <param name="label">["<c>label</c>"] Label</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSubAccount>> CreateSubAccountAsync(string subAccountName, string? label = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSubAccount>> CreateSubAccountAsync(string subAccountName, string? label = null, CancellationToken ct = default);
 }
 

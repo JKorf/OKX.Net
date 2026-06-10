@@ -23,7 +23,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="withdrawalId">["<c>wdId</c>"] Withdrawal ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXWithdrawalId>> CancelWithdrawalAsync(string withdrawalId, CancellationToken ct = default);
+    Task<HttpResult<OKXWithdrawalId>> CancelWithdrawalAsync(string withdrawalId, CancellationToken ct = default);
 
     /// <summary>
     /// Get a list of assets (with non-zero balance), remaining balance, and available amount in the account.
@@ -37,7 +37,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountBalance>> GetAccountBalanceAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountBalance>> GetAccountBalanceAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get current account configuration.
@@ -50,7 +50,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountConfiguration>> GetAccountConfigurationAsync(CancellationToken ct = default);
+    Task<HttpResult<OKXAccountConfiguration>> GetAccountConfigurationAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Get Leverage
@@ -66,7 +66,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, only applicable to Quick Margin Mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXLeverage[]>> GetLeverageAsync(string symbols, MarginMode marginMode, string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXLeverage[]>> GetLeverageAsync(string symbols, MarginMode marginMode, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get estimated leverage info
@@ -84,7 +84,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset</param>
     /// <param name="positionSide">["<c>posSide</c>"] Position side</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXEstimatedLeverageInfo[]>> GetEstimatedLeverageInfoAsync(InstrumentType instrumentType, MarginMode marginMode, int leverage, string? symbol = null, string? asset = null, PositionSide? positionSide = null, CancellationToken ct = default);
+    Task<HttpResult<OKXEstimatedLeverageInfo[]>> GetEstimatedLeverageInfoAsync(InstrumentType instrumentType, MarginMode marginMode, int leverage, string? symbol = null, string? asset = null, PositionSide? positionSide = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the updated position data for the last 3 months. Return in reverse chronological order using utime.
@@ -105,7 +105,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100. The default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXClosingPosition[]>> GetPositionHistoryAsync(InstrumentType? instrumentType = null, string? symbol = null, MarginMode? marginMode = null, ClosingPositionType? type = null, string? positionId = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXClosingPosition[]>> GetPositionHistoryAsync(InstrumentType? instrumentType = null, string? symbol = null, MarginMode? marginMode = null, ClosingPositionType? type = null, string? positionId = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get account and position risk
@@ -119,7 +119,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="instrumentType">["<c>instType</c>"] Instrument Type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXPositionRisk[]>> GetPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default);
+    Task<HttpResult<OKXPositionRisk[]>> GetPositionRiskAsync(InstrumentType? instrumentType = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get account risk state
@@ -131,7 +131,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </para>
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXRiskState[]>> GetAccountRiskStateAsync(CancellationToken ct = default);
+    Task<HttpResult<OKXRiskState[]>> GetAccountRiskStateAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Get position info. When the account is in net mode, net positions will be displayed, and when the account is in long/short mode, long or short positions will be displayed.
@@ -147,7 +147,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionId">["<c>posId</c>"] Position ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXPosition[]>> GetPositionsAsync(InstrumentType? instrumentType = null, string? symbol = null, string? positionId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXPosition[]>> GetPositionsAsync(InstrumentType? instrumentType = null, string? symbol = null, string? positionId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the account’s bills. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with most recent first. This endpoint can retrieve data from the last 3 months.
@@ -171,7 +171,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountBill[]>> GetBillArchiveAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountBill[]>> GetBillArchiveAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the bills of the account. The bill refers to all transaction records that result in changing the balance of an account. Pagination is supported, and the response is sorted with the most recent first. This endpoint can retrieve data from the last 7 days.
@@ -195,7 +195,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountBill[]>> GetBillHistoryAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountBill[]>> GetBillHistoryAsync(InstrumentType? instrumentType = null, string? asset = null, MarginMode? marginMode = null, ContractType? contractType = null, AccountBillType? billType = null, AccountBillSubType? billSubType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get a list of all assets. Not all assets can be traded. Assets that have not been defined in ISO 4217 may use a custom symbol.
@@ -209,7 +209,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Single asset or multiple assets (no more than 20) separated with comma, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAsset[]>> GetAssetsAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAsset[]>> GetAssetsAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the deposit addresses of assets, including previously-used addresses.
@@ -223,7 +223,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXDepositAddress[]>> GetDepositAddressAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXDepositAddress[]>> GetDepositAddressAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Retrieve the deposit history of all assets, up to 100 recent records in a year.
@@ -245,7 +245,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="type">["<c>type</c>"] Deposit Type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXDepositHistory[]>> GetDepositHistoryAsync(string? asset = null, string? transactionId = null, DepositState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? depositId = null, string? fromWithdrawalId = null, DepositType? type = null, CancellationToken ct = default);
+    Task<HttpResult<OKXDepositHistory[]>> GetDepositHistoryAsync(string? asset = null, string? transactionId = null, DepositState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? depositId = null, string? fromWithdrawalId = null, DepositType? type = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get Fee Rates
@@ -264,7 +264,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="groupId">["<c>groupId</c>"] Instrument trading fee group id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFeeRate>> GetFeeRatesAsync(
+    Task<HttpResult<OKXFeeRate>> GetFeeRatesAsync(
         InstrumentType instrumentType,
         string? symbol = null,
         string? underlying = null,
@@ -285,7 +285,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFundingBalance[]>> GetFundingBalanceAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXFundingBalance[]>> GetFundingBalanceAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get billing records, you can get the latest 1 month historical data
@@ -306,7 +306,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="clientId">["<c>clientId</c>"] Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFundingBill[]>> GetFundingBillDetailsAsync(string? asset = null, FundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXFundingBill[]>> GetFundingBillDetailsAsync(string? asset = null, FundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get historical asset billing records (longer lookback than asset bills details)
@@ -327,7 +327,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="clientId">["<c>clientId</c>"] Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(string? asset = null, FundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(string? asset = null, FundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get interest-accrued
@@ -346,7 +346,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXInterestAccrued[]>> GetInterestAccruedAsync(string? symbol = null, string? asset = null, MarginMode? marginMode = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXInterestAccrued[]>> GetInterestAccruedAsync(string? symbol = null, string? asset = null, MarginMode? marginMode = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get the user's current leveraged currency borrowing interest rate
@@ -360,7 +360,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountInterestRate[]>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountInterestRate[]>> GetInterestRateAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get borrow interest and limit
@@ -374,7 +374,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="type">["<c>type</c>"] Type of loan</param>
     /// <param name="asset">["<c>ccy</c>"] Asset</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXBorrowInterestLimit[]>> GetBorrowInterestLimitAsync(LoanType? type = null, string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXBorrowInterestLimit[]>> GetBorrowInterestLimitAsync(LoanType? type = null, string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get maximum buy/sell amount or open amount
@@ -393,7 +393,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMaximumAmount[]>> GetMaximumAmountAsync(
+    Task<HttpResult<OKXMaximumAmount[]>> GetMaximumAmountAsync(
         string symbol,
         TradeMode tradeMode,
         string? asset = null,
@@ -418,7 +418,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="tradeQuoteAsset">["<c>tradeQuoteCcy</c>"] The quote currency used for trading. Only applicable to SPOT. The default value is the quote currency of the symbol, for example: for BTC-USD, the default is USD.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMaximumAvailableAmount[]>> GetMaximumAvailableAmountAsync(
+    Task<HttpResult<OKXMaximumAvailableAmount[]>> GetMaximumAvailableAmountAsync(
         string symbol,
         TradeMode tradeMode,
         string? asset = null,
@@ -441,7 +441,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="marginAsset">["<c>mgnCcy</c>"] Margin asset</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMaximumLoanAmount[]>> GetMaximumLoanAmountAsync(MarginMode marginMode, string? symbol = null, string? asset = null, string? marginAsset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXMaximumLoanAmount[]>> GetMaximumLoanAmountAsync(MarginMode marginMode, string? symbol = null, string? asset = null, string? marginAsset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the maximum transferable amount.
@@ -455,7 +455,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXWithdrawalAmount[]>> GetMaximumWithdrawalsAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXWithdrawalAmount[]>> GetMaximumWithdrawalsAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get saving balances. Only the assets in the funding account can be used for saving.
@@ -469,7 +469,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] Asset, for example 'ETH'</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSavingBalance[]>> GetSavingBalancesAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSavingBalance[]>> GetSavingBalancesAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the withdrawal records according to the currency, withdrawal status, and time range in reverse chronological order. The 100 most recent records are returned by default.
@@ -490,7 +490,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="clientId">["<c>clientId</c>"] Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXWithdrawalHistory[]>> GetWithdrawalHistoryAsync(string? asset = null, string? transactionId = null, WithdrawalState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? withdrawalId = null, string? clientId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXWithdrawalHistory[]>> GetWithdrawalHistoryAsync(string? asset = null, string? transactionId = null, WithdrawalState? state = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? withdrawalId = null, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Purchase or redeem saving shares
@@ -507,7 +507,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="rate">["<c>rate</c>"] Rate</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXSavingActionResponse>> SavingPurchaseRedemptionAsync(string asset, decimal amount, SavingActionSide side, decimal? rate = null, CancellationToken ct = default);
+    Task<HttpResult<OKXSavingActionResponse>> SavingPurchaseRedemptionAsync(string asset, decimal amount, SavingActionSide side, decimal? rate = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set leverage. The following are the setting leverage cases for an instrument:<br />
@@ -529,7 +529,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionSide">["<c>posSide</c>"] Position Side</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXLeverage[]>> SetLeverageAsync(int leverage, MarginMode marginMode, string? asset = null, string? symbol = null, PositionSide? positionSide = null, CancellationToken ct = default);
+    Task<HttpResult<OKXLeverage[]>> SetLeverageAsync(int leverage, MarginMode marginMode, string? asset = null, string? symbol = null, PositionSide? positionSide = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set position mode. FUTURES and SWAP support both long/short mode and net mode. In net mode, users can only have positions in one direction; In long/short mode, users can hold positions in long and short directions.
@@ -543,7 +543,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="positionMode">["<c>posMode</c>"] Position mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountPositionMode>> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountPositionMode>> SetPositionModeAsync(PositionMode positionMode, CancellationToken ct = default);
 
     /// <summary>
     /// Set the display type of Greeks.
@@ -557,7 +557,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="greeksType">["<c>greeksType</c>"] Display type of Greeks.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountGreeksType>> SetGreeksAsync(GreeksType greeksType, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountGreeksType>> SetGreeksAsync(GreeksType greeksType, CancellationToken ct = default);
 
     /// <summary>
     /// Increase or decrease the margin of the isolated position.
@@ -576,7 +576,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="auto">["<c>auto</c>"] Automatic loan transfer out</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXMarginAmount[]>> SetMarginAmountAsync(string symbol, PositionSide positionSide, MarginAddReduce marginAddReduce, decimal amount, string? asset = null, bool? auto = null, CancellationToken ct = default);
+    Task<HttpResult<OKXMarginAmount[]>> SetMarginAmountAsync(string symbol, PositionSide positionSide, MarginAddReduce marginAddReduce, decimal amount, string? asset = null, bool? auto = null, CancellationToken ct = default);
 
     /// <summary>
     /// Transfer asset. This endpoint supports the transfer of funds between your funding account and trading account, and from the master account to sub-accounts. Direct transfers between sub-accounts are not allowed.
@@ -600,7 +600,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="ignorePositionRisk">Ignore position risk</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, TransferType type, AccountType fromAccount, AccountType toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, bool? loanTransfer = null, string? clientId = null, bool? ignorePositionRisk = null, CancellationToken ct = default);
+    Task<HttpResult<OKXTransferResponse>> TransferAsync(string asset, decimal amount, TransferType type, AccountType fromAccount, AccountType toAccount, string? subAccountName = null, string? fromSymbol = null, string? toSymbol = null, bool? loanTransfer = null, string? clientId = null, bool? ignorePositionRisk = null, CancellationToken ct = default);
 
     /// <summary>
     /// Withdraw an asset
@@ -621,7 +621,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="clientId">["<c>clientId</c>"] Client-supplied ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, WithdrawalDestination destination, string toAddress, decimal fee, string? network = null, string? areaCode = null, string? clientId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXWithdrawalResponse>> WithdrawAsync(string asset, decimal amount, WithdrawalDestination destination, string toAddress, decimal fee, string? network = null, string? areaCode = null, string? clientId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get assets available for dust conversion
@@ -634,7 +634,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="sourceAccount">["<c>source</c>"] Source account type</param>
     /// <param name="ct">Cancellation token</param>
-    Task<WebCallResult<OKXDustAssets>> GetEasyConvertDustAssetsAsync(AccountType? sourceAccount = null, CancellationToken ct = default);
+    Task<HttpResult<OKXDustAssets>> GetEasyConvertDustAssetsAsync(AccountType? sourceAccount = null, CancellationToken ct = default);
 
     /// <summary>
     /// Convert small assets in funding account to a target asset
@@ -650,7 +650,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="sourceAccount">["<c>source</c>"] Convert from account</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXDustConvertEntry[]>> EasyConvertDustAsync(IEnumerable<string> assets, string targetAsset, AccountType? sourceAccount = null, CancellationToken ct = default);
+    Task<HttpResult<OKXDustConvertEntry[]>> EasyConvertDustAsync(IEnumerable<string> assets, string targetAsset, AccountType? sourceAccount = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get easy dust convert history
@@ -665,7 +665,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="endTime">["<c>before</c>"] Filter by end time</param>
     /// <param name="limit">["<c>limit</c>"] Max number of results</param>
     /// <param name="ct">Cancellation token</param>
-    Task<WebCallResult<OKXDustConvertEntry[]>> GetEasyConvertDustHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
+    Task<HttpResult<OKXDustConvertEntry[]>> GetEasyConvertDustHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set isolated margin mode for the Margin or Contracts instrument type
@@ -680,7 +680,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="isolatedMarginMode">["<c>isoMode</c>"] Isolated margin mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(InstrumentType instumentType, IsolatedMarginMode isolatedMarginMode, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountIsolatedMarginMode>> SetIsolatedMarginModeAsync(InstrumentType instumentType, IsolatedMarginMode isolatedMarginMode, CancellationToken ct = default);
 
     /// <summary>
     /// Get info on a transfer
@@ -696,7 +696,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="type">["<c>type</c>"] The type of transfer</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, TransferType? type = null, CancellationToken ct = default);
+    Task<HttpResult<OKXTransferInfo>> GetTransferAsync(string? transferId = null, string? clientTransferId = null, TransferType? type = null, CancellationToken ct = default);
 
     /// <summary>
     /// Preset info for switching account mode
@@ -712,7 +712,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="riskOffsetType">["<c>riskOffsetType</c>"] Risk offset type, applicable when switching from Spot and futures mode or Multi-currency margin mode to Portfolio margin mode.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXPresetAccountMode>> PresetAccountModeSwitchAsync(AccountLevel mode, int? leverage = null, RiskOffsetType? riskOffsetType = null, CancellationToken ct = default);
+    Task<HttpResult<OKXPresetAccountMode>> PresetAccountModeSwitchAsync(AccountLevel mode, int? leverage = null, RiskOffsetType? riskOffsetType = null, CancellationToken ct = default);
 
     /// <summary>
     /// Run a pre-check for account mode switching
@@ -726,7 +726,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="mode">["<c>acctLv</c>"] Account mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountSwitchCheckResult>> PrecheckAccountModeSwitchAsync(AccountLevel mode, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountSwitchCheckResult>> PrecheckAccountModeSwitchAsync(AccountLevel mode, CancellationToken ct = default);
 
     /// <summary>
     /// Set the account mode
@@ -740,7 +740,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="mode">["<c>acctLv</c>"] New account mode</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountMode>> SetAccountModeAsync(AccountLevel mode, CancellationToken ct = default);
+    Task<HttpResult<OKXAccountMode>> SetAccountModeAsync(AccountLevel mode, CancellationToken ct = default);
 
     /// <summary>
     /// Get details of an affiliate invitee
@@ -754,7 +754,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="userId">["<c>uid</c>"] User id</param>
     /// <param name="ct">Cancellation token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default);
+    Task<HttpResult<OKXInviteeDetails>> GetAffiliateInviteeDetailsAsync(string userId, CancellationToken ct = default);
 
     /// <summary>
     /// Get asset valuation
@@ -768,7 +768,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="asset">["<c>ccy</c>"] The asset to denote the value in, defaults to BTC</param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAssetValuation>> GetAssetValuationAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAssetValuation>> GetAssetValuationAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
     /// Manually borrow / repay. Only applicable to Spot mode
@@ -783,7 +783,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="BorrowRepaySide">["<c>side</c>"] Borrow or repay</param>
     /// <param name="quantity">["<c>amt</c>"] Quantity</param>
     /// <param name="ct">Cancellation token</param>
-    Task<WebCallResult<OKXBorrowRepayResult>> ManualBorrowRepay(string asset, BorrowRepaySide BorrowRepaySide, decimal quantity, CancellationToken ct = default);
+    Task<HttpResult<OKXBorrowRepayResult>> ManualBorrowRepay(string asset, BorrowRepaySide BorrowRepaySide, decimal quantity, CancellationToken ct = default);
 
     /// <summary>
     /// Set auto repay. Only applicable to Spot mode
@@ -796,7 +796,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="autoRepay">["<c>autoRepay</c>"] Auto repay enabled or not</param>
     /// <param name="ct">Cancellation token</param>
-    Task<WebCallResult<OKXAutoRepayStatus>> SetAutoRepayAsync(bool autoRepay, CancellationToken ct = default);
+    Task<HttpResult<OKXAutoRepayStatus>> SetAutoRepayAsync(bool autoRepay, CancellationToken ct = default);
 
     /// <summary>
     /// Get borrow/repay history
@@ -813,7 +813,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="endTime">["<c>before</c>"] Filter by end time</param>
     /// <param name="limit">["<c>limit</c>"] Max number of results</param>
     /// <param name="ct">Cancellation token</param>
-    Task<WebCallResult<OKXBorrowRepayEntry[]>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
+    Task<HttpResult<OKXBorrowRepayEntry[]>> GetBorrowRepayHistoryAsync(string? asset = null, BorrowRepayType? type = null, DateTime? startTime = null, DateTime? endTime = null, int? limit = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get a list of instruments that are available to the user
@@ -829,7 +829,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="symbol">["<c>instId</c>"] Filter by symbol, for example `ETH-USDT`</param>
     /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<HttpResult<OKXInstrument[]>> GetSymbolsAsync(InstrumentType instrumentType, string? underlying = null, string? symbol = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Set fee charge type for spot trading
@@ -842,7 +842,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="feeType">["<c>feeType</c>"] Fee type</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXFeeType>> SetFeeTypeAsync(FeeType feeType, CancellationToken ct = default);
+    Task<HttpResult<OKXFeeType>> SetFeeTypeAsync(FeeType feeType, CancellationToken ct = default);
 
     /// <summary>
     /// Set settlement asset for USD contracts
@@ -855,7 +855,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="settleAsset">["<c>settleCcy</c>"] The settlement asset</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXSettleAsset>> SetSettleAssetAsync(string settleAsset, CancellationToken ct = default);
+    Task<HttpResult<OKXSettleAsset>> SetSettleAssetAsync(string settleAsset, CancellationToken ct = default);
 
     /// <summary>
     /// Get greeks values. Only applicable to option contracts. 
@@ -868,6 +868,6 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="asset">Filter by asset</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<WebCallResult<OKXGreeks[]>> GetGreeksAsync(string? asset = null, CancellationToken ct = default);
+    Task<HttpResult<OKXGreeks[]>> GetGreeksAsync(string? asset = null, CancellationToken ct = default);
 }
 

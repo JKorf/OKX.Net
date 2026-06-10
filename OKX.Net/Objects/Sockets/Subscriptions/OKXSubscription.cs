@@ -19,7 +19,11 @@ internal class OKXSubscription<T> : Subscription
 
         IndividualSubscriptionCount = args.Count;
 
-        MessageRouter = MessageRouter.CreateWithOptionalTopicFilters<OKXSocketUpdate<T>>(args.First().Channel, GetTopicFilters(args), DoHandleMessage);
+        var topicFilters = GetTopicFilters(args);
+        if (topicFilters != null)
+            MessageRouter = MessageRouter.CreateForEvent<OKXSocketUpdate<T>>(args.First().Channel, topicFilters, DoHandleMessage);
+        else
+            MessageRouter = MessageRouter.CreateForEvent<OKXSocketUpdate<T>>(args.First().Channel, DoHandleMessage);
     }
 
     private IEnumerable<string>? GetTopicFilters(List<OKXSocketArgs> args)
@@ -52,6 +56,6 @@ internal class OKXSubscription<T> : Subscription
     public CallResult DoHandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketUpdate<T> message)
     {
         _handler.Invoke(receiveTime, originalData, message);
-        return CallResult.SuccessResult;
+        return CallResult.Ok();
     }
 }

@@ -56,6 +56,12 @@ namespace OKX.Net
         public static ExchangeType Type { get; } = ExchangeType.CEX;
 
         internal static JsonSerializerContext _serializerContext = JsonSerializerContextCache.GetOrCreate<OKXSourceGenerationContext>();
+        internal static ParameterSerializationSettings _parameterSerializationSettings = new ParameterSerializationSettings()
+        {
+            DateTimes = DateTimeSerialization.MillisecondsString,
+            Decimal = DecimalSerialization.String,
+            Integer = IntegerSerialization.String
+        };  
 
         /// <summary>
         /// Aliases for OKX assets
