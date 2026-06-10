@@ -507,8 +507,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.Add("type", type);
         parameters.Add("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.Add("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
-        parameters.AddAsString("before", endBillId);
-        parameters.AddAsString("after", startBillId);
+        parameters.Add("before", endBillId, IntegerSerialization.String);
+        parameters.Add("after", startBillId, IntegerSerialization.String);
         parameters.Add("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.Add("clientId", clientId);
         parameters.Add("pagingType", startBillId != null || endBillId != null ? "2" : null);
@@ -541,8 +541,8 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         parameters.Add("type", type);
         parameters.Add("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.Add("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
-        parameters.AddAsString("before", endBillId);
-        parameters.AddAsString("after", startBillId);
+        parameters.Add("before", endBillId, IntegerSerialization.String);
+        parameters.Add("after", startBillId, IntegerSerialization.String);
         parameters.Add("limit", limit.ToString(CultureInfo.InvariantCulture));
         parameters.Add("clientId", clientId);
         parameters.Add("pagingType", startBillId != null || endBillId != null ? "2" : null);
