@@ -31,12 +31,12 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
 
     #region ctor
 
-    internal OKXSocketClientUnifiedApi(ILogger logger, OKXSocketOptions options) :
-        base(logger, OKXExchange.Metadata.Id, options.Environment.SocketAddress, options, options.UnifiedOptions)
+    internal OKXSocketClientUnifiedApi(ILoggerFactory? loggerFactory, OKXSocketOptions options) :
+        base(loggerFactory, OKXExchange.Metadata.Id, options.Environment.SocketAddress, options, options.UnifiedOptions)
     {
-        Account = new OKXSocketClientUnifiedApiAccount(logger, this);
-        ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
-        Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
+        Account = new OKXSocketClientUnifiedApiAccount(_logger, this);
+        ExchangeData = new OKXSocketClientUnifiedApiExchangeData(_logger, this);
+        Trading = new OKXSocketClientUnifiedApiTrading(_logger, this);
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 

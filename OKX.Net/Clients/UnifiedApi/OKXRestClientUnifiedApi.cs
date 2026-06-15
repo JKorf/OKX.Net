@@ -28,8 +28,8 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
 
     public IOKXRestClientUnifiedApiShared SharedClient => this;
 
-    internal OKXRestClientUnifiedApi(ILogger logger, HttpClient? httpClient, OKXRestOptions options)
-            : base(logger, OKXExchange.Metadata.Id, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
+    internal OKXRestClientUnifiedApi(ILoggerFactory? loggerFactory, HttpClient? httpClient, OKXRestOptions options)
+            : base(loggerFactory, OKXExchange.Metadata.Id, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
     {
         Account = new OKXRestClientUnifiedApiAccount(this);
         ExchangeData = new OKXRestClientUnifiedApiExchangeData(this);
