@@ -24,15 +24,15 @@ if (!klines.Success)
 
 Console.WriteLine($"Received {klines.Data.Length} candles");
 
-static void LogError<T>(string operation, WebCallResult<T> result)
+static void LogError<T>(string operation, HttpResult<T> result)
 {
     Console.WriteLine($"{operation} failed");
     Console.WriteLine($"Code: {result.Error?.Code}");
     Console.WriteLine($"Message: {result.Error?.Message}");
 }
 
-static async Task<WebCallResult<T>> ExecuteWithTransientRetryAsync<T>(
-    Func<Task<WebCallResult<T>>> action)
+static async Task<HttpResult<T>> ExecuteWithTransientRetryAsync<T>(
+    Func<Task<HttpResult<T>>> action)
 {
     var first = await action();
     if (first.Success || first.Error?.IsTransient != true)

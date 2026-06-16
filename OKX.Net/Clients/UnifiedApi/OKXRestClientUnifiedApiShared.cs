@@ -803,7 +803,7 @@ namespace OKX.Net.Clients.UnifiedApi
         WithdrawOptions IWithdrawRestClient.WithdrawOptions { get; } = new WithdrawOptions(_exchangeName) {
             RequiredExchangeParameters = new List<ParameterDescription>
             {
-                new ParameterDescription("withdrawFee", typeof(decimal), "Fee to use for the withdrawal", 0.001m)
+                new ParameterDescription(["withdrawFee", "fee"], typeof(decimal), "Fee to use for the withdrawal", 0.001m)
             }
         };
 
@@ -817,7 +817,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (request.AddressTag != null)
                 target += ":" + request.AddressTag;
 
-            var fee = ExchangeParameters.GetValue<decimal>(request.ExchangeParameters, Exchange, "withdrawFee");
+            var fee = request.GetParamValue<decimal>(Exchange, "withdrawFee", "fee");
 
             // Get data
             var withdrawal = await Account.WithdrawAsync(

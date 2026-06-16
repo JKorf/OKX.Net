@@ -30,7 +30,7 @@ namespace OKX.Net.UnitTests
 
             }), logger);
 
-            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data");
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443/ws/v5/business", "data");
             await tester.ValidateConcurrentAsync<OKXKline>(
                 (c, handler) => c.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", KlineInterval.OneDay, handler),
                 (c, handler) => c.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", KlineInterval.OneHour, handler),

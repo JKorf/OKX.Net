@@ -15,7 +15,7 @@ These examples are optimized for AI coding assistants and quick onboarding. Each
 | `02-derivatives.cs` | Swap/futures flow: symbols, leverage, market order, positions, close position |
 | `03-websocket.cs` | Public ticker/klines and private order streams with proper teardown |
 | `04-multi-exchange.cs` | `CryptoExchange.Net.SharedApis` pattern for exchange-agnostic code |
-| `05-error-handling.cs` | `WebCallResult` patterns, transient retry, common error metadata |
+| `05-error-handling.cs` | `HttpResult` patterns, transient retry, common error metadata |
 
 ## Running
 
