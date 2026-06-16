@@ -4,6 +4,9 @@ using OKX.Net.Enums;
 
 var client = new OKXRestClient();
 
+// REST methods return HttpResult<T> or HttpResult.
+// Socket API request/response methods return QueryResult<T>; socket subscriptions return
+// WebSocketResult<UpdateSubscription>. Check Success before reading Data for each result type.
 var ticker = await client.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
 if (!ticker.Success)
 {

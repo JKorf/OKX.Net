@@ -4,6 +4,7 @@ using OKX.Net.Enums;
 
 var socketClient = new OKXSocketClient();
 
+// Subscription methods return WebSocketResult<UpdateSubscription>.
 var tickerSubscription = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(
     "ETH-USDT",
     update =>

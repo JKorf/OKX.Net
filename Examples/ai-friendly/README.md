@@ -14,8 +14,8 @@ These examples are optimized for AI coding assistants and quick onboarding. Each
 | `01-unified-quickstart.cs` | Client setup, public ticker, authenticated balance, spot limit order, order lookup |
 | `02-derivatives.cs` | Swap/futures flow: symbols, leverage, market order, positions, close position |
 | `03-websocket.cs` | Public ticker/klines and private order streams with proper teardown |
-| `04-multi-exchange.cs` | `CryptoExchange.Net.SharedApis` pattern for exchange-agnostic code |
-| `05-error-handling.cs` | `HttpResult` patterns, transient retry, common error metadata |
+| `04-multi-exchange.cs` | `CryptoExchange.Net.SharedApis` pattern and discovery metadata for exchange-agnostic code |
+| `05-error-handling.cs` | `HttpResult`, `QueryResult`, and `WebSocketResult` patterns, transient retry, common error metadata |
 
 ## Running
 

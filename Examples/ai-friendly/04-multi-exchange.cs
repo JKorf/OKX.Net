@@ -4,6 +4,8 @@ using OKX.Net.Clients;
 // SharedApis are exchange-agnostic wrappers from CryptoExchange.Net.
 // OKX exposes them through UnifiedApi.SharedClient.
 var okxShared = new OKXRestClient().UnifiedApi.SharedClient;
+var capabilities = okxShared.Discover();
+Console.WriteLine($"Shared features: {capabilities.Features.Count(x => x.Supported)}");
 
 var spotSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
 var ticker = await okxShared.GetSpotTickerAsync(new GetTickerRequest(spotSymbol));
