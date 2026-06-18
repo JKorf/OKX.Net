@@ -24,7 +24,7 @@ internal class OKXAuthenticationProvider : AuthenticationProvider<OKXCredentials
         var queryString = request.GetQueryString(true);
         if (!string.IsNullOrEmpty(queryString))
             queryString = $"?{queryString}";
-        var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? request.BodyParameters?.Count > 0 ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
+        var body = request.ParameterPosition == HttpMethodParameterPosition.InBody ? (request.BodyParameters != null && !request.BodyParameters.Empty) ? GetSerializedBody(_serializer, request.BodyParameters) : "{}" : string.Empty;
         var signStr = time + request.RequestDefinition.Method + request.RequestDefinition.Path + queryString + body;
 
         var signature = SignHMACSHA256(signStr, SignOutputType.Base64);

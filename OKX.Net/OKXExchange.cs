@@ -99,7 +99,7 @@ namespace OKX.Net
         /// <summary>
         /// Rate limiter configuration for the OKX API
         /// </summary>
-        public static OKXRateLimiters RateLimiter { get; } = new OKXRateLimiters();
+        public static OKXRateLimiters RateLimiter { get; set; } = new OKXRateLimiters();
     }
 
     /// <summary>
@@ -118,13 +118,19 @@ namespace OKX.Net
         public event Action<RateLimitUpdateEvent> RateLimitUpdated;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        internal OKXRateLimiters()
+        /// <summary>
+        /// ctor
+        /// </summary>
+        public OKXRateLimiters()
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Initialize();
         }
 
-        private void Initialize()
+        /// <summary>
+        /// Initialize the rate limits
+        /// </summary>
+        protected virtual void Initialize()
         {
             EndpointGate = new RateLimitGate("Endpoint Gate");
             EndpointGate.RateLimitTriggered += (x) => RateLimitTriggered?.Invoke(x);
