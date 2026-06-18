@@ -2,6 +2,7 @@ using CryptoExchange.Net.Objects.Errors;
 using CryptoExchange.Net.SharedApis;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
+using OKX.Net.Objects.Funding;
 using OKX.Net.Objects.Market;
 using OKX.Net.Objects.Public;
 using OKX.Net.Objects.Trade;
@@ -787,7 +788,13 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.Time, request.StartTime, request.EndTime, direction)
                 .Select(x =>
-                    new SharedWithdrawal(x.Asset, x.To, x.Quantity, x.State == WithdrawalState.Success, x.Time)
+                    new SharedWithdrawal(
+                        x.Asset,
+                        x.To,
+                        x.Quantity, 
+                        x.State == WithdrawalState.Success, 
+                        x.Time,
+                        GetWithdrawalStatus(x))
                     {
                         Network = x.Network,
                         TransactionId = x.TransactionId,
@@ -796,6 +803,30 @@ namespace OKX.Net.Clients.UnifiedApi
                 .ToArray(), nextPageRequest);
         }
 
+        private SharedTransferStatus GetWithdrawalStatus(OKXWithdrawalHistory x)
+        {
+            if (x.State == WithdrawalState.Canceled
+                || x.State == WithdrawalState.Failed
+                || x.State == WithdrawalState.InsufficientHotWalletBalance)
+            {
+                return SharedTransferStatus.Failed;
+            }
+
+            if (x.State == WithdrawalState.Success)
+                return SharedTransferStatus.Completed;
+
+            if (x.State == WithdrawalState.Approved
+                || x.State == WithdrawalState.AwaitingManualReview
+                || x.State == WithdrawalState.AwaitingTransfer
+                || x.State == WithdrawalState.Canceling
+                || x.State == WithdrawalState.Pending
+                || x.State == WithdrawalState.PendingTransactionValidation
+                || x.State == WithdrawalState.PendingTravelRule
+                || x.State == WithdrawalState.Withdrawing)
+                return SharedTransferStatus.InProgress;
+
+            return SharedTransferStatus.Unknown;
+        }
         #endregion
 
         #region Withdraw client
