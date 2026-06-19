@@ -34,6 +34,11 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXCredentials
     public string? BrokerId { get; set; }
 
     /// <summary>
+    /// Whether to use XPerps as perpetual linear contracts when using the Shared API's
+    /// </summary>
+    public bool SharedApiEuropeUseXPerps { get; set; }
+
+    /// <summary>
     /// Options for the  unified API
     /// </summary>
     public RestApiOptions UnifiedOptions { get; private set; } = new RestApiOptions();
@@ -44,6 +49,7 @@ public class OKXRestOptions : RestExchangeOptions<OKXEnvironment, OKXCredentials
         targetOptions.SignPublicRequests = SignPublicRequests;
         targetOptions.BrokerId = BrokerId;
         targetOptions.UnifiedOptions = UnifiedOptions.Set(targetOptions.UnifiedOptions);
+        targetOptions.SharedApiEuropeUseXPerps = SharedApiEuropeUseXPerps;
         return targetOptions;
     }
 }

@@ -20,7 +20,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
-        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(this);
+        public SharedClientInfo Discover() => SharedUtils.GetClientInfo(OKXExchange.Metadata, this);
 
         #region Kline client
 
@@ -116,20 +116,20 @@ namespace OKX.Net.Clients.UnifiedApi
                 PriceStep = s.TickSize
             }).ToArray());
 
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicSpotId, response.Data!);
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicSpotId, EnvironmentName, null, response.Data!);
             return response;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsForBaseAssetAsync(string baseAsset)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicSpotId))
+            if (!ExchangeSymbolCache.HasCached(_topicSpotId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<SharedSymbol[]>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicSpotId, baseAsset));
+            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicSpotId, EnvironmentName, null, baseAsset));
         }
 
         async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(SharedSymbol symbol)
@@ -137,26 +137,26 @@ namespace OKX.Net.Clients.UnifiedApi
             if (symbol.TradingMode != TradingMode.Spot)
                 throw new ArgumentException(nameof(symbol), "Only Spot symbols allowed");
 
-            if (!ExchangeSymbolCache.HasCached(_topicSpotId))
+            if (!ExchangeSymbolCache.HasCached(_topicSpotId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicSpotId, symbol));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicSpotId, EnvironmentName, null, symbol));
         }
 
         async Task<ExchangeCallResult<bool>> ISpotSymbolRestClient.SupportsSpotSymbolAsync(string symbolName)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicSpotId))
+            if (!ExchangeSymbolCache.HasCached(_topicSpotId, EnvironmentName, null))
             {
                 var symbols = await ((ISpotSymbolRestClient)this).GetSpotSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicSpotId, symbolName));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicSpotId, EnvironmentName, null, symbolName));
         }
         #endregion
 
@@ -174,7 +174,14 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotTicker>(result);
 
-            return HttpResult.Ok(result, new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicSpotId, symbol), symbol, result.Data.LastPrice ?? 0, result.Data.HighPrice ?? 0, result.Data.LowPrice ?? 0, result.Data.Volume, result.Data.OpenPrice == null ? null : Math.Round((result.Data.LastPrice ?? 0) / result.Data.OpenPrice.Value * 100 - 100, 2))
+            return HttpResult.Ok(result, new SharedSpotTicker(
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, symbol),
+                symbol,
+                result.Data.LastPrice ?? 0, 
+                result.Data.HighPrice ?? 0, 
+                result.Data.LowPrice ?? 0,
+                result.Data.Volume,
+                result.Data.OpenPrice == null ? null : Math.Round((result.Data.LastPrice ?? 0) / result.Data.OpenPrice.Value * 100 - 100, 2))
             {
                 QuoteVolume = result.Data.QuoteVolume
             });
@@ -191,10 +198,18 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotTicker[]>(result);
 
-            return HttpResult.Ok(result, result.Data.Select(x => new SharedSpotTicker(ExchangeSymbolCache.ParseSymbol(_topicSpotId, x.Symbol), x.Symbol, x.LastPrice ?? 0, x.HighPrice ?? 0, x.LowPrice ?? 0, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
-            {
-                QuoteVolume = x.QuoteVolume
-            }).ToArray());
+            return HttpResult.Ok(result, result.Data.Select(x => 
+                new SharedSpotTicker(
+                    ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, x.Symbol),
+                    x.Symbol,
+                    x.LastPrice ?? 0,
+                    x.HighPrice ?? 0,
+                    x.LowPrice ?? 0,
+                    x.Volume,
+                    x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
+                {
+                    QuoteVolume = x.QuoteVolume
+                }).ToArray());
         }
 
         #endregion
@@ -213,7 +228,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedBookTicker>(resultTicker);
 
             return HttpResult.Ok(resultTicker, new SharedBookTicker(
-                ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, resultTicker.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, EnvironmentName, null, resultTicker.Data.Symbol),
                 resultTicker.Data.Symbol,
                 resultTicker.Data.BestAskPrice ?? 0,
                 resultTicker.Data.BestAskQuantity ?? 0,
@@ -334,7 +349,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedSpotOrder>(order);
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicSpotId, order.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, order.Data.Symbol),
                 order.Data.Symbol,
                 order.Data.OrderId.ToString()!,
                 ParseOrderType(order.Data.OrderType),
@@ -367,7 +382,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedSpotOrder[]>(order);
 
             return HttpResult.Ok(order, order.Data.Select(x => new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicSpotId, x.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString()!,
                 ParseOrderType(x.OrderType),
@@ -425,7 +440,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.CreateTime, request.StartTime, request.EndTime, direction)
                 .Select(x => 
                     new SharedSpotOrder(
-                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, x.Symbol), 
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, x.Symbol), 
                         x.Symbol,
                         x.OrderId.ToString()!,
                         ParseOrderType(x.OrderType),
@@ -462,7 +477,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedUserTrade[]>(order);
 
             return HttpResult.Ok(order, order.Data.Select(x => new SharedUserTrade(
-                ExchangeSymbolCache.ParseSymbol(_topicSpotId, x.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString()!,
                 x.TradeId.ToString()!,
@@ -518,7 +533,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.Time, request.StartTime, request.EndTime, direction)
                 .Select(x =>
                     new SharedUserTrade(
-                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, x.Symbol), 
+                        ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, x.Symbol), 
                         x.Symbol,
                         x.OrderId.ToString()!,
                         x.TradeId.ToString()!,
@@ -876,24 +891,71 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return HttpResult.Fail<SharedFuturesSymbol[]>(Exchange, validationError);
 
-            var type = (!request.TradingMode.HasValue || request.TradingMode == TradingMode.PerpetualLinear || request.TradingMode == TradingMode.PerpetualInverse) ? InstrumentType.Swap : InstrumentType.Futures;
-            var result = await ExchangeData.GetSymbolsAsync(type, ct: ct).ConfigureAwait(false);
-            if (!result.Success)
-                return HttpResult.Fail<SharedFuturesSymbol[]>(result);
+            // For Europe environment there are 2 different types of perp contracts
+            //   1. Swaps, do not appear to be tradable, but still returned by the server
+            //   2. XPerps, which are returned under InstrumentType.Futures with a delivery time of 5 years
+            // Which one we return is determined by the configuration
 
-            IEnumerable<OKXInstrument> data = result.Data;
+            var europeXPerps = EnvironmentName == OKXEnvironment.Europe.Name && ClientOptions.SharedApiEuropeUseXPerps;
+
+            IEnumerable<OKXInstrument> data;
+            HttpResult<OKXInstrument[]> result;
+            if (request.TradingMode == null)
+            {
+                // No trading mode filter, request both Swap (perps) and Futures (delivery)
+                var request1 = ExchangeData.GetSymbolsAsync(InstrumentType.Swap, ct: ct);
+                var request2 = ExchangeData.GetSymbolsAsync(InstrumentType.Futures, ct: ct);
+                await Task.WhenAll(request1, request2).ConfigureAwait(false);
+                if (!request1.Result.Success)
+                    return HttpResult.Fail<SharedFuturesSymbol[]>(request1.Result);
+                if (!request2.Result.Success)
+                    return HttpResult.Fail<SharedFuturesSymbol[]>(request2.Result);
+
+                result = request1.Result;
+                data = request1.Result.Data.Concat(request2.Result.Data);
+            }
+            else
+            {
+                InstrumentType requestType;
+                if (europeXPerps)
+                    requestType = InstrumentType.Futures; // Europe XPerps are returned as futures with 5y delivery
+                else
+                    requestType = (!request.TradingMode.HasValue || request.TradingMode == TradingMode.PerpetualLinear || request.TradingMode == TradingMode.PerpetualInverse) ? InstrumentType.Swap : InstrumentType.Futures;
+
+                result = await ExchangeData.GetSymbolsAsync(requestType, ct: ct).ConfigureAwait(false);
+                if (!result.Success)
+                    return HttpResult.Fail<SharedFuturesSymbol[]>(result);
+
+                data = result.Data;
+            }
+            
             if (request.TradingMode.HasValue)
-                data = data.Where(x =>
-                    request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
-                    request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
-                    request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
-                    (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
+            {
+                if (europeXPerps)
+                {
+                    data = data.Where(x =>
+                        request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.RuleType == SymbolRuleType.Perp) :
+                        request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.RuleType == SymbolRuleType.Perp) :
+                        request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.RuleType != SymbolRuleType.Perp) :
+                        (x.ContractType == ContractType.Inverse && x.RuleType != SymbolRuleType.Perp));
+                }
+                else
+                {
+                    data = data.Where(x =>
+                        request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
+                        request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
+                        request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
+                        (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
+                }
+            }
             
             var response = HttpResult.Ok(result,
                 data.Select(x => new SharedFuturesSymbol(
-                x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse,
-                x.Symbol.Split('-')[0],
-                x.Symbol.Split('-')[1],
+                    x.InstrumentType == InstrumentType.Swap 
+                    ? (x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse)
+                    : (x.ContractType == ContractType.Linear ? (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualLinear : TradingMode.DeliveryLinear) : (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualInverse : TradingMode.DeliveryInverse)),
+                x.Underlying.Split('-')[0],
+                x.Underlying.Split('-')[1],
                 x.Symbol,
                 x.State == InstrumentState.Live)
                 {
@@ -907,21 +969,21 @@ namespace OKX.Net.Clients.UnifiedApi
                     MaxShortLeverage = x.MaximumLeverage
                 }).ToArray());
 
-
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicSpotId, response.Data!);
+            foreach(var distinctMode in response.Data!.GroupBy(x => x.TradingMode))
+                ExchangeSymbolCache.UpdateSymbolInfo(_topicFuturesId, EnvironmentName, distinctMode.Key.ToString(), distinctMode.ToArray());
             return response;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsForBaseAssetAsync(string baseAsset)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicFuturesId))
+            if (!ExchangeSymbolCache.HasCached(_topicFuturesId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<SharedSymbol[]>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicFuturesId, baseAsset));
+            return ExchangeCallResult<SharedSymbol[]>.Ok(Exchange, ExchangeSymbolCache.GetSymbolsForBaseAsset(_topicFuturesId, EnvironmentName, null, baseAsset));
         }
 
         async Task<ExchangeCallResult<bool>> IFuturesSymbolRestClient.SupportsFuturesSymbolAsync(SharedSymbol symbol)
@@ -929,26 +991,26 @@ namespace OKX.Net.Clients.UnifiedApi
             if (symbol.TradingMode == TradingMode.Spot)
                 throw new ArgumentException(nameof(symbol), "Spot symbols not allowed");
 
-            if (!ExchangeSymbolCache.HasCached(_topicFuturesId))
+            if (!ExchangeSymbolCache.HasCached(_topicFuturesId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicFuturesId, symbol));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicFuturesId, EnvironmentName, null, symbol));
         }
 
         async Task<ExchangeCallResult<bool>> IFuturesSymbolRestClient.SupportsFuturesSymbolAsync(string symbolName)
         {
-            if (!ExchangeSymbolCache.HasCached(_topicFuturesId))
+            if (!ExchangeSymbolCache.HasCached(_topicFuturesId, EnvironmentName, null))
             {
                 var symbols = await ((IFuturesSymbolRestClient)this).GetFuturesSymbolsAsync(new GetSymbolsRequest()).ConfigureAwait(false);
                 if (!symbols.Success)
                     return ExchangeCallResult<bool>.Fail(Exchange, symbols.Error!);
             }
 
-            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicFuturesId, symbolName));
+            return ExchangeCallResult<bool>.Ok(Exchange, ExchangeSymbolCache.SupportsSymbol(_topicFuturesId, EnvironmentName, null, symbolName));
         }
         #endregion
 
@@ -1012,7 +1074,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedFuturesOrder>(order);
 
             return HttpResult.Ok(order, new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, order.Data.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, order.Data.Symbol), 
                 order.Data.Symbol,
                 order.Data.OrderId.ToString()!,
                 ParseOrderType(order.Data.OrderType),
@@ -1056,7 +1118,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedFuturesOrder[]>(orders);
 
             return HttpResult.Ok(orders, orders.Data.Select(x => new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString()!,
                 ParseOrderType(x.OrderType),
@@ -1137,7 +1199,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.CreateTime, request.StartTime, request.EndTime, direction)
                 .Select(x => 
                     new SharedFuturesOrder(
-                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), 
+                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                         x.Symbol,
                         x.OrderId.ToString()!,
                         ParseOrderType(x.OrderType),
@@ -1196,7 +1258,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedUserTrade[]>(orders);
 
             return HttpResult.Ok(orders, orders.Data.Select(x => new SharedUserTrade(
-                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), 
+                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                 x.Symbol,
                 x.OrderId.ToString()!,
                 x.TradeId.ToString()!,
@@ -1269,7 +1331,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.Time, request.StartTime, request.EndTime, direction)
                 .Select(x => 
                     new SharedUserTrade(
-                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), 
+                        ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                         x.Symbol,
                         x.OrderId.ToString()!,
                         x.TradeId.ToString()!,
@@ -1314,17 +1376,22 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedPosition[]>(result);
 
-            return HttpResult.Ok(result, result.Data.Select(x => new SharedPosition(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), x.Symbol, Math.Abs(x.PositionsQuantity ?? 0), x.UpdateTime)
-            {
-                UnrealizedPnl = x.UnrealizedPnl,
-                LiquidationPrice = x.LiquidationPrice,
-                Leverage = x.Leverage,
-                AverageOpenPrice = x.AveragePrice,
-                PositionMode = x.PositionSide == PositionSide.Net ? SharedPositionMode.OneWay : SharedPositionMode.HedgeMode,
-                PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity >= 0 ? SharedPositionSide.Long : SharedPositionSide.Short) : x.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
-                StopLossPrice = x.CloseOrderAlgo.FirstOrDefault(x => x.StopLossTriggerPrice > 0)?.StopLossTriggerPrice,
-                TakeProfitPrice = x.CloseOrderAlgo.FirstOrDefault(x => x.TakeProfitTriggerPrice > 0)?.TakeProfitTriggerPrice
-            }).ToArray());
+            return HttpResult.Ok(result, result.Data.Select(x => 
+                new SharedPosition(
+                    ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol),
+                    x.Symbol, 
+                    Math.Abs(x.PositionsQuantity ?? 0),
+                    x.UpdateTime)
+                {
+                    UnrealizedPnl = x.UnrealizedPnl,
+                    LiquidationPrice = x.LiquidationPrice,
+                    Leverage = x.Leverage,
+                    AverageOpenPrice = x.AveragePrice,
+                    PositionMode = x.PositionSide == PositionSide.Net ? SharedPositionMode.OneWay : SharedPositionMode.HedgeMode,
+                    PositionSide = x.PositionSide == PositionSide.Net ? (x.PositionsQuantity >= 0 ? SharedPositionSide.Long : SharedPositionSide.Short) : x.PositionSide == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
+                    StopLossPrice = x.CloseOrderAlgo.FirstOrDefault(x => x.StopLossTriggerPrice > 0)?.StopLossTriggerPrice,
+                    TakeProfitPrice = x.CloseOrderAlgo.FirstOrDefault(x => x.TakeProfitTriggerPrice > 0)?.TakeProfitTriggerPrice
+                }).ToArray());
         }
 
         ClosePositionOptions IFuturesOrderRestClient.ClosePositionOptions { get; } = new ClosePositionOptions(_exchangeName, true)
@@ -1591,7 +1658,7 @@ namespace OKX.Net.Clients.UnifiedApi
             var index = resultIndexPrice.Result.Data.Single();
             var mark = resultMarkPrice.Result.Data.Single();
             return HttpResult.Ok(resultTicker.Result, new SharedFuturesTicker(
-                    ExchangeSymbolCache.ParseSymbol(_topicFuturesId, resultTicker.Result.Data.Symbol),
+                    ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, resultTicker.Result.Data.Symbol),
                     resultTicker.Result.Data.Symbol,
                     resultTicker.Result.Data.LastPrice,
                     resultTicker.Result.Data.HighPrice,
@@ -1625,7 +1692,14 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(resultTickers.Result, resultTickers.Result.Data.Select(x =>
             {
                 var markPrice = resultMarkPrice.Result.Data.Single(p => p.Symbol == x.Symbol);
-                return new SharedFuturesTicker(ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), x.Symbol, x.LastPrice, x.HighPrice, x.LowPrice, x.Volume, x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
+                return new SharedFuturesTicker(
+                    ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
+                    x.Symbol,
+                    x.LastPrice,
+                    x.HighPrice,
+                    x.LowPrice,
+                    x.Volume,
+                    x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
                 {
                     MarkPrice = markPrice.MarkPrice
                 };
@@ -1701,7 +1775,7 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.CreateTime, request.StartTime, request.EndTime, direction)
                     .Select(x => 
                         new SharedPositionHistory(
-                            ExchangeSymbolCache.ParseSymbol(_topicFuturesId, x.Symbol), 
+                            ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                             x.Symbol,
                             x.Direction == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
                             x.OpenAveragePrice ?? 0,
@@ -1789,7 +1863,7 @@ namespace OKX.Net.Clients.UnifiedApi
             }
 
             return HttpResult.Ok(order, new SharedSpotTriggerOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicSpotId, order.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, order.Data.Symbol),
                 order.Data.Symbol!,
                 order.Data.AlgoId!,
                 order.Data.OrderPrice > 0 ? SharedOrderType.Limit : SharedOrderType.Market,
@@ -1910,7 +1984,7 @@ namespace OKX.Net.Clients.UnifiedApi
             }
 
             return HttpResult.Ok(order, new SharedFuturesTriggerOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, order.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, order.Data.Symbol),
                 order.Data.Symbol!,
                 order.Data.AlgoId!,
                 order.Data.OrderPrice > 0 ? SharedOrderType.Limit : SharedOrderType.Market,
@@ -2032,7 +2106,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedFuturesOrder>(order);
 
             return HttpResult.Ok(order, new SharedFuturesOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, order.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, order.Data.Symbol),
                 order.Data.Symbol,
                 order.Data.OrderId.ToString()!,
                 ParseOrderType(order.Data.OrderType),
@@ -2086,7 +2160,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedSpotOrder>(order);
 
             return HttpResult.Ok(order, new SharedSpotOrder(
-                ExchangeSymbolCache.ParseSymbol(_topicSpotId, order.Data.Symbol),
+                ExchangeSymbolCache.ParseSymbol(_topicSpotId, EnvironmentName, null, order.Data.Symbol),
                 order.Data.Symbol,
                 order.Data.OrderId.ToString()!,
                 ParseOrderType(order.Data.OrderType),

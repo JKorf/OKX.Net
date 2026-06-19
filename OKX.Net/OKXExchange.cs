@@ -20,7 +20,8 @@ namespace OKX.Net
                 "https://www.okx.com",
                 ["https://www.okx.com/docs-v5/en/"],
                 PlatformType.CryptoCurrencyExchange,
-                CentralizationType.Centralized
+                CentralizationType.Centralized,
+                OKXEnvironment.All
                 );
 
         /// <summary>
@@ -75,6 +76,18 @@ namespace OKX.Net
         };
 
         /// <summary>
+        /// Aliases for OKX assets in the Europe environment
+        /// </summary>
+        public static AssetAliasConfiguration AssetAliasesFuturesEurope { get; } = new AssetAliasConfiguration
+        {
+            Aliases =
+            [
+                new AssetAlias("USD", SharedSymbol.UsdOrStable.ToUpperInvariant(), AliasType.OnlyToExchange)
+            ]
+        };
+
+
+        /// <summary>
         /// Format a base and quote asset to an OKX recognized symbol 
         /// </summary>
         /// <param name="baseAsset">Base asset</param>
@@ -94,6 +107,36 @@ namespace OKX.Net
                 return baseAsset + "-" + quoteAsset + "-SWAP";
 
             return baseAsset + "-" + quoteAsset + "-" + deliverTime.Value.ToString("yyMMdd");
+        }
+
+        /// <summary>
+        /// Format a base and quote asset to an OKX recognized symbol for the Europe environment
+        /// </summary>
+        /// <param name="baseAsset">Base asset</param>
+        /// <param name="quoteAsset">Quote asset</param>
+        /// <param name="tradingMode">Trading mode</param>
+        /// <param name="deliverTime">Delivery time for delivery futures</param>
+        /// <returns></returns>
+        public static string FormatSymbolEurope(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime)
+        {
+            if (tradingMode == TradingMode.Spot)
+            {
+                baseAsset = AssetAliases.CommonToExchangeName(baseAsset.ToUpperInvariant());
+                quoteAsset = AssetAliases.CommonToExchangeName(quoteAsset.ToUpperInvariant());
+                return baseAsset + "-" + quoteAsset;
+            }
+
+            baseAsset = AssetAliasesFuturesEurope.CommonToExchangeName(baseAsset.ToUpperInvariant());
+            quoteAsset = AssetAliasesFuturesEurope.CommonToExchangeName(quoteAsset.ToUpperInvariant());
+            var symbols = ExchangeSymbolCache.GetSymbolsForBaseAsset("OKXFutures", "Europe", tradingMode.ToString(), baseAsset);
+            if (symbols.Length == 1 && symbols[0].SymbolName != null)
+                return symbols[0].SymbolName!;
+
+            // Fallback
+            if (deliverTime == null)
+                return baseAsset + "-" + quoteAsset + "-SWAP";
+            else
+                return baseAsset + "-" + quoteAsset + $"_UM_{deliverTime:yyMMdd}";
         }
 
         /// <summary>

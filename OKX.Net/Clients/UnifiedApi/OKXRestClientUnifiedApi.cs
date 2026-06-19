@@ -55,7 +55,12 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
-        => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    {
+        if (EnvironmentName == OKXEnvironment.Europe.Name)
+            return OKXExchange.FormatSymbolEurope(baseAsset, quoteAsset, tradingMode, deliverTime);
+        else
+            return OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    }
 
     internal async Task<HttpResult<T>> SendAsync<T>(RequestDefinition definition, Parameters? parameters, CancellationToken cancellationToken, int? weight = null, Dictionary<string, string>? requestHeaders = null, string? rateLimitKeySuffix = null) where T : class
     {

@@ -69,7 +69,12 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
-        => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    {
+        if (EnvironmentName == OKXEnvironment.Europe.Name)
+            return OKXExchange.FormatSymbolEurope(baseAsset, quoteAsset, tradingMode, deliverTime);
+        else
+            return OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    }
 
     internal Task<WebSocketResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
     {
