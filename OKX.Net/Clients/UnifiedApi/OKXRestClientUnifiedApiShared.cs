@@ -280,7 +280,12 @@ namespace OKX.Net.Clients.UnifiedApi
                 if (!result.Success)
                     return HttpResult.Fail<SharedBalance[]>(result);
 
-                return HttpResult.Ok(result, result.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray());
+                return HttpResult.Ok(result, result.Data.Details.Select(x => 
+                    new SharedBalance(
+                        SupportedTradingModes, 
+                        x.Asset, 
+                        x.AvailableBalance ?? 0, 
+                        x.Equity ?? 0)).ToArray());
             }
             else
             {
@@ -288,7 +293,12 @@ namespace OKX.Net.Clients.UnifiedApi
                 if (!result.Success)
                     return HttpResult.Fail<SharedBalance[]>(result);
 
-                return HttpResult.Ok(result, result.Data.Select(x => new SharedBalance(x.Asset, x.Available, x.Balance)).ToArray());
+                return HttpResult.Ok(result, result.Data.Select(x => 
+                    new SharedBalance(
+                        [], 
+                        x.Asset,
+                        x.Available,
+                        x.Balance)).ToArray());
             }
         }
 

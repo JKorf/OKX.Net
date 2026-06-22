@@ -173,7 +173,8 @@ namespace OKX.Net.Clients.UnifiedApi
                     if (update.UpdateType == SocketUpdateType.Snapshot)
                         return;
 
-                    handler(update.ToType<SharedBalance[]>(update.Data.Details.Select(x => new SharedBalance(x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray()));
+                    handler(update.ToType<SharedBalance[]>(update.Data.Details.Select(x => 
+                        new SharedBalance(SupportedTradingModes, x.Asset, x.AvailableBalance ?? 0, x.Equity ?? 0)).ToArray()));
                 },
                 ct: ct).ConfigureAwait(false);
 
