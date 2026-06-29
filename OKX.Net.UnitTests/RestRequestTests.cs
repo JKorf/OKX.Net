@@ -209,7 +209,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(c => c.UnifiedApi.CopyTrading.AmendLeadingInstrumentsAsync(["BTC-USDT"]), "AmendLeadingInstruments");
         }
 
-        private static bool IsAuthenticated(WebCallResult result)
+        private static bool IsAuthenticated(IHttpResult result)
         {
             return result.RequestHeaders.Any(h => h.Key == "OK-ACCESS-SIGN");
         }

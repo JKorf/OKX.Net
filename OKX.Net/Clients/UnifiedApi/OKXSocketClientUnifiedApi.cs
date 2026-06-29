@@ -31,12 +31,12 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
 
     #region ctor
 
-    internal OKXSocketClientUnifiedApi(ILogger logger, OKXSocketOptions options) :
-        base(logger, options.Environment.SocketAddress, options, options.UnifiedOptions)
+    internal OKXSocketClientUnifiedApi(ILoggerFactory? loggerFactory, OKXSocketOptions options) :
+        base(loggerFactory, OKXExchange.Metadata.Id, options.Environment.SocketAddress, options, options.UnifiedOptions)
     {
-        Account = new OKXSocketClientUnifiedApiAccount(logger, this);
-        ExchangeData = new OKXSocketClientUnifiedApiExchangeData(logger, this);
-        Trading = new OKXSocketClientUnifiedApiTrading(logger, this);
+        Account = new OKXSocketClientUnifiedApiAccount(_logger, this);
+        ExchangeData = new OKXSocketClientUnifiedApiExchangeData(_logger, this);
+        Trading = new OKXSocketClientUnifiedApiTrading(_logger, this);
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
 
@@ -69,9 +69,14 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)
-        => OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    {
+        if (EnvironmentName == OKXEnvironment.Europe.Name)
+            return OKXExchange.FormatSymbolEurope(baseAsset, quoteAsset, tradingMode, deliverTime);
+        else
+            return OKXExchange.FormatSymbol(baseAsset, quoteAsset, tradingMode, deliverTime);
+    }
 
-    internal Task<CallResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
+    internal Task<WebSocketResult<UpdateSubscription>> SubscribeInternalAsync(string url, Subscription subscription, CancellationToken ct)
     {
         return SubscribeAsync(url, subscription, ct);
     }
@@ -82,27 +87,27 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
         if (_demoTrading && !address.EndsWith("brokerId=9999"))
             address += "?brokerId=9999";
 
-        return Task.FromResult(new CallResult<string?>(address));
+        return Task.FromResult(CallResult.Ok<string?>(address));
     }
 
-    internal async Task<CallResult<T>> QueryInternalAsync<T>(string url, string operation, Dictionary<string, object> parameters, bool authenticated, int weight, CancellationToken ct = default)
+    internal async Task<QueryResult<T>> QueryInternalAsync<T>(string url, string operation, Parameters parameters, bool authenticated, int weight, CancellationToken ct = default)
     {
         var query = new OKXIdQuery<T>(this, operation, new object[] { parameters }, authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
-        if (!result)
-            return result.AsError<T>(result.Error!);
+        if (!result.Success)
+            return QueryResult.Fail<T>(result);
 
-        return result.As(result.Data.Data.First());
+        return QueryResult.Ok(result, result.Data.Data.First());
     }
 
-    internal async Task<CallResult<T[]>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
+    internal async Task<QueryResult<T[]>> QueryInternalAsync<T>(string url, string operation, IEnumerable<object> data, bool authenticated, int weight, CancellationToken ct = default)
     {
         var query = new OKXIdQuery<T>(this, operation, data.ToArray(), authenticated, weight);
         var result = await QueryAsync(url, query, ct).ConfigureAwait(false);
-        if (!result)
-            return result.AsError<T[]>(result.Error!);
+        if (!result.Success)
+            return QueryResult.Fail<T[]>(result);
 
-        return result.As(result.Data.Data);
+        return QueryResult.Ok(result, result.Data.Data);
     }
 
     internal string GetUri(string path) => BaseAddress.Trim('/') + path;

@@ -20,7 +20,6 @@ namespace OKX.Net
             SpotUserDataTrackerConfig? config) : base(
                 logger,
                 restClient.UnifiedApi.SharedClient,
-                null,
                 restClient.UnifiedApi.SharedClient,
                 socketClient.UnifiedApi.SharedClient,
                 restClient.UnifiedApi.SharedClient,
@@ -48,7 +47,6 @@ namespace OKX.Net
             string? userIdentifier,
             FuturesUserDataTrackerConfig? config) : base(logger,
                 restClient.UnifiedApi.SharedClient,
-                null,
                 restClient.UnifiedApi.SharedClient,
                 socketClient.UnifiedApi.SharedClient,
                 restClient.UnifiedApi.SharedClient,

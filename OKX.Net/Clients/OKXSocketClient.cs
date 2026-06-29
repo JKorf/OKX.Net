@@ -36,7 +36,7 @@ public class OKXSocketClient : BaseSocketClient<OKXEnvironment, OKXCredentials>,
     {
         Initialize(options.Value);
 
-        UnifiedApi = AddApiClient(new OKXSocketClientUnifiedApi(_logger, options.Value));
+        UnifiedApi = AddApiClient(new OKXSocketClientUnifiedApi(loggerFactory, options.Value));
     }
     #endregion
 

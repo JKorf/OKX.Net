@@ -17,7 +17,7 @@
 - [Derivatives Trading](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/02-derivatives.cs): Swap/futures symbols, leverage, market order, position retrieval, close position
 - [WebSocket Streams](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/03-websocket.cs): Public ticker/klines, private order stream, proper unsubscribe
 - [Multi-Exchange Pattern](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/04-multi-exchange.cs): Using CryptoExchange.Net SharedApis for exchange-agnostic code
-- [Error Handling](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/05-error-handling.cs): WebCallResult pattern, retry logic, error metadata
+- [Error Handling](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/05-error-handling.cs): HttpResult, QueryResult, and WebSocketResult patterns, retry logic, error metadata
 
 ## Critical Usage Rules
 
@@ -25,8 +25,9 @@
 - Use `OKXCredentials("key", "secret", "passphrase")` for private endpoints.
 - Use `client.UnifiedApi.*`; OKX.Net does not expose separate `SpotApi` or `FuturesApi` roots.
 - Use OKX symbol format such as `BTC-USDT` and `BTC-USDT-SWAP`.
-- Check `.Success` before reading `.Data` on `WebCallResult<T>` and `CallResult<T>`.
-- For multi-exchange code use `client.UnifiedApi.SharedClient`.
+- Check `.Success` before reading `.Data` on `HttpResult<T>`, `HttpResult`, `WebSocketResult<UpdateSubscription>`, `QueryResult<T>`, and shared helper results.
+- REST calls return `HttpResult<T>` or `HttpResult`; socket subscriptions return `WebSocketResult<UpdateSubscription>`; socket API request/response methods return `QueryResult<T>`.
+- For multi-exchange code use `client.UnifiedApi.SharedClient`; call `SharedClient.Discover()` to inspect implemented shared interfaces and endpoint/subscription options at runtime.
 
 ## Reference
 

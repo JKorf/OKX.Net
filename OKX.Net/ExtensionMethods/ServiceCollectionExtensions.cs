@@ -47,8 +47,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
             var restEnvName = options.Rest.Environment?.Name ?? options.Environment?.Name ?? OKXEnvironment.Live.Name;
             var socketEnvName = options.Socket.Environment?.Name ?? options.Environment?.Name ?? OKXEnvironment.Live.Name;
+            options.Rest.SharedApiEuropeUseXPerps = options.Rest.SharedApiEuropeUseXPerps || options.SharedApiEuropeUseXPerps;
             options.Rest.Environment = OKXEnvironment.GetEnvironmentByName(restEnvName) ?? options.Rest.Environment!;
             options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
+            options.Socket.SharedApiEuropeUseXPerps = options.Socket.SharedApiEuropeUseXPerps || options.SharedApiEuropeUseXPerps;
             options.Socket.Environment = OKXEnvironment.GetEnvironmentByName(socketEnvName) ?? options.Socket.Environment!;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 
@@ -76,8 +78,10 @@ namespace Microsoft.Extensions.DependencyInjection
             if (options.Rest == null || options.Socket == null)
                 throw new ArgumentException("Options null");
 
+            options.Rest.SharedApiEuropeUseXPerps = options.Rest.SharedApiEuropeUseXPerps || options.SharedApiEuropeUseXPerps;
             options.Rest.Environment = options.Rest.Environment ?? options.Environment ?? OKXEnvironment.Live;
             options.Rest.ApiCredentials = options.Rest.ApiCredentials ?? options.ApiCredentials;
+            options.Socket.SharedApiEuropeUseXPerps = options.Socket.SharedApiEuropeUseXPerps || options.SharedApiEuropeUseXPerps;
             options.Socket.Environment = options.Socket.Environment ?? options.Environment ?? OKXEnvironment.Live;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 

@@ -39,7 +39,7 @@ public class OKXRestClient : BaseRestClient<OKXEnvironment, OKXCredentials>, IOK
     {
         Initialize(options.Value);
 
-        UnifiedApi = AddApiClient(new OKXRestClientUnifiedApi(_logger, httpClient, options.Value));
+        UnifiedApi = AddApiClient(new OKXRestClientUnifiedApi(loggerFactory, httpClient, options.Value));
     }
     #endregion
 

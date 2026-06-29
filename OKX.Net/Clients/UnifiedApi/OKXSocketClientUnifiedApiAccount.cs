@@ -24,7 +24,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     #endregion
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(
         string? asset,
         bool regularUpdates,
         Action<DataEvent<OKXAccountBalance>> onData,
@@ -61,7 +61,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(
         Action<DataEvent<OKXPositionAndBalanceUpdate>> onData,
         CancellationToken ct = default)
     {
@@ -91,7 +91,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(
         Action<DataEvent<OKXDepositUpdate>> onData,
         CancellationToken ct = default)
     {
@@ -121,7 +121,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXWithdrawalUpdate[]>>((receiveTime, originalData, data) =>
         {
@@ -149,7 +149,7 @@ internal class OKXSocketClientUnifiedApiAccount : IOKXSocketClientUnifiedApiAcco
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
         string? asset,
         Action<DataEvent<OKXGreeks[]>> onData, 
         CancellationToken ct = default)

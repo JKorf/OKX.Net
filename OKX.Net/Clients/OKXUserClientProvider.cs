@@ -2,22 +2,22 @@
 using OKX.Net.Objects.Options;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
+using CryptoExchange.Net.Clients;
 
 namespace OKX.Net.Clients
 {
     /// <inheritdoc />
-    public class OKXUserClientProvider : IOKXUserClientProvider
+    public class OKXUserClientProvider : UserClientProvider<
+        IOKXRestClient,
+        IOKXSocketClient,
+        OKXRestOptions,
+        OKXSocketOptions,
+        OKXCredentials,
+        OKXEnvironment
+        >, IOKXUserClientProvider
     {
-        private ConcurrentDictionary<string, IOKXRestClient> _restClients = new ConcurrentDictionary<string, IOKXRestClient>();
-        private ConcurrentDictionary<string, IOKXSocketClient> _socketClients = new ConcurrentDictionary<string, IOKXSocketClient>();
-
-        private readonly IOptions<OKXRestOptions> _restOptions;
-        private readonly IOptions<OKXSocketOptions> _socketOptions;
-        private readonly HttpClient _httpClient;
-        private readonly ILoggerFactory? _loggerFactory;
-
         /// <inheritdoc />
-        public string ExchangeName => OKXExchange.ExchangeName;
+        public override string ExchangeName => OKXExchange.ExchangeName;
 
         /// <summary>
         /// ctor
@@ -36,97 +36,15 @@ namespace OKX.Net.Clients
             ILoggerFactory? loggerFactory,
             IOptions<OKXRestOptions> restOptions,
             IOptions<OKXSocketOptions> socketOptions)
+            : base(httpClient, loggerFactory, restOptions, socketOptions)
         {
-            _httpClient = httpClient ?? new HttpClient();
-            _httpClient.Timeout = restOptions.Value.RequestTimeout;
-            _loggerFactory = loggerFactory;
-            _restOptions = restOptions;
-            _socketOptions = socketOptions;
         }
 
         /// <inheritdoc />
-        public void InitializeUserClient(string userIdentifier, OKXCredentials credentials, OKXEnvironment? environment = null)
-        {
-            CreateRestClient(userIdentifier, credentials, environment);
-            CreateSocketClient(userIdentifier, credentials, environment);
-        }
-
+        protected override IOKXRestClient ConstructRestClient(HttpClient client, ILoggerFactory? loggerFactory, IOptions<OKXRestOptions> options)
+            => new OKXRestClient(client, loggerFactory, options);
         /// <inheritdoc />
-        public void ClearUserClients(string userIdentifier)
-        {
-            _restClients.TryRemove(userIdentifier, out _);
-            _socketClients.TryRemove(userIdentifier, out _);
-        }
-
-        /// <inheritdoc />
-        public IOKXRestClient GetRestClient(string userIdentifier, OKXCredentials? credentials = null, OKXEnvironment? environment = null)
-        {
-            if (!_restClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
-                client = CreateRestClient(userIdentifier, credentials, environment);
-
-            return client;
-        }
-
-        /// <inheritdoc />
-        public IOKXSocketClient GetSocketClient(string userIdentifier, OKXCredentials? credentials = null, OKXEnvironment? environment = null)
-        {
-            if (!_socketClients.TryGetValue(userIdentifier, out var client) || client.Disposed)
-                client = CreateSocketClient(userIdentifier, credentials, environment);
-
-            return client;
-        }
-
-        private IOKXRestClient CreateRestClient(string userIdentifier, OKXCredentials? credentials, OKXEnvironment? environment)
-        {
-            var clientRestOptions = SetRestEnvironment(environment);
-            var client = new OKXRestClient(_httpClient, _loggerFactory, clientRestOptions);
-            if (credentials != null)
-            {
-                client.SetApiCredentials(credentials);
-                _restClients[userIdentifier] = client;
-            }
-            return client;
-        }
-
-        private IOKXSocketClient CreateSocketClient(string userIdentifier, OKXCredentials? credentials, OKXEnvironment? environment)
-        {
-            var clientSocketOptions = SetSocketEnvironment(environment);
-            var client = new OKXSocketClient(clientSocketOptions!, _loggerFactory);
-            if (credentials != null)
-            {
-                client.SetApiCredentials(credentials);
-                _socketClients[userIdentifier] = client;
-            }
-            return client;
-        }
-
-        private IOptions<OKXRestOptions> SetRestEnvironment(OKXEnvironment? environment)
-        {
-            if (environment == null)
-                return _restOptions;
-
-            var newRestClientOptions = new OKXRestOptions();
-            var restOptions = _restOptions.Value.Set(newRestClientOptions);
-            newRestClientOptions.Environment = environment;
-            return Options.Create(newRestClientOptions);
-        }
-
-        private IOptions<OKXSocketOptions> SetSocketEnvironment(OKXEnvironment? environment)
-        {
-            if (environment == null)
-                return _socketOptions;
-
-            var newSocketClientOptions = new OKXSocketOptions();
-            var restOptions = _socketOptions.Value.Set(newSocketClientOptions);
-            newSocketClientOptions.Environment = environment;
-            return Options.Create(newSocketClientOptions);
-        }
-
-        private static T ApplyOptionsDelegate<T>(Action<T>? del) where T : new()
-        {
-            var opts = new T();
-            del?.Invoke(opts);
-            return opts;
-        }
+        protected override IOKXSocketClient ConstructSocketClient(ILoggerFactory? loggerFactory, IOptions<OKXSocketOptions> options)
+            => new OKXSocketClient(options, loggerFactory);
     }
 }

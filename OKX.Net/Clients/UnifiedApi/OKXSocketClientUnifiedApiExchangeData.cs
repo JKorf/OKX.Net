@@ -26,7 +26,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     #endregion
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<OKXInstrument[]>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToSymbolUpdatesAsync(InstrumentType instrumentType, Action<DataEvent<OKXInstrument[]>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXInstrument[]>>((receiveTime, originalData, data) =>
         {
@@ -51,7 +51,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(string symbol, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTicker[]>>((receiveTime, originalData, data) =>
         {
@@ -81,7 +81,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
 
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTicker>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTicker[]>>((receiveTime, originalData, data) =>
         {
@@ -110,7 +110,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(string symbol, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXOpenInterest[]>>((receiveTime, originalData, data) =>
         {
@@ -139,7 +139,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToOpenInterestUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXOpenInterest>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXOpenInterest[]>>((receiveTime, originalData, data) =>
         {
@@ -169,7 +169,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXKline[]>>((receiveTime, originalData, data) =>
         {
@@ -200,7 +200,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToKlineUpdatesAsync(IEnumerable<string> symbols, KlineInterval klineInterval, Action<DataEvent<OKXKline>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXKline[]>>((receiveTime, originalData, data) =>
         {
@@ -232,7 +232,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(string symbol, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTrade[]>>((receiveTime, originalData, data) =>
         {
@@ -261,7 +261,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToTradeUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXTrade>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXTrade[]>>((receiveTime, originalData, data) =>
         {
@@ -291,7 +291,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(InstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToEstimatedPriceUpdatesAsync(InstrumentType instrumentType, string? instrumentFamily, string? symbol, Action<DataEvent<OKXEstimatedPrice>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXEstimatedPrice[]>>((receiveTime, originalData, data) =>
         {
@@ -322,7 +322,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(string symbol, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXMarkPrice[]>>((receiveTime, originalData, data) =>
         {
@@ -351,7 +351,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToMarkPriceUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXMarkPrice>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXMarkPrice[]>>((receiveTime, originalData, data) =>
         {
@@ -381,7 +381,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToMarkPriceKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXMiniKline[]>>((receiveTime, originalData, data) =>
         {
@@ -407,7 +407,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(string symbol, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXLimitPrice[]>>((receiveTime, originalData, data) =>
         {
@@ -436,7 +436,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToPriceLimitUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXLimitPrice>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXLimitPrice[]>>((receiveTime, originalData, data) =>
         {
@@ -465,7 +465,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(string symbol, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(orderBookType);
         var subscription = new OKXBookSubscription(_logger, _client, new List<OKXSocketArgs>
@@ -481,7 +481,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToOrderBookUpdatesAsync(IEnumerable<string> symbols, OrderBookType orderBookType, Action<DataEvent<OKXOrderBook>> onData, CancellationToken ct = default)
     {
         var jc = EnumConverter.GetString(orderBookType);
         var subscription = new OKXBookSubscription(_logger,
@@ -502,7 +502,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<OKXOptionSummary[]>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToOptionSummaryUpdatesAsync(string instrumentFamily, Action<DataEvent<OKXOptionSummary[]>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXOptionSummary[]>>((receiveTime, originalData, data) =>
         {
@@ -531,7 +531,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(string symbol, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXFundingRate[]>>((receiveTime, originalData, data) =>
         {
@@ -560,7 +560,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToFundingRateUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXFundingRate>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXFundingRate[]>>((receiveTime, originalData, data) =>
         {
@@ -590,7 +590,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToIndexKlineUpdatesAsync(string symbol, KlineInterval klineInterval, Action<DataEvent<OKXMiniKline[]>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXMiniKline[]>>((receiveTime, originalData, data) =>
         {
@@ -616,7 +616,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(string symbol, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXIndexTicker[]>>((receiveTime, originalData, data) =>
         {
@@ -645,7 +645,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToIndexTickerUpdatesAsync(IEnumerable<string> symbols, Action<DataEvent<OKXIndexTicker>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXIndexTicker[]>>((receiveTime, originalData, data) =>
         {
@@ -675,7 +675,7 @@ internal class OKXSocketClientUnifiedApiExchangeData : IOKXSocketClientUnifiedAp
     }
 
     /// <inheritdoc />
-    public virtual async Task<CallResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<OKXStatus>> onData, CancellationToken ct = default)
+    public virtual async Task<WebSocketResult<UpdateSubscription>> SubscribeToSystemStatusUpdatesAsync(Action<DataEvent<OKXStatus>> onData, CancellationToken ct = default)
     {
         var internalHandler = new Action<DateTime, string?, OKXSocketUpdate<OKXStatus[]>>((receiveTime, originalData, data) =>
         {

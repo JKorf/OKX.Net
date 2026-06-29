@@ -20,7 +20,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderAmendResponse[]>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default);
+    Task<HttpResult<OKXOrderAmendResponse[]>> AmendMultipleOrdersAsync(IEnumerable<OKXOrderAmendRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Edit an incomplete order.
@@ -48,7 +48,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="priceAmendType">["<c>pxAmendType</c>"] Price amendment type. 0: Do not allow amendment, 1: Allow amendment to best available price within limit</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderAmendResponse>> AmendOrderAsync(
+    Task<HttpResult<OKXOrderAmendResponse>> AmendOrderAsync(
         string symbol,
         long? orderId = null,
         string? clientOrderId = null,
@@ -78,7 +78,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default);
+    Task<HttpResult<OKXAlgoOrderResponse>> CancelAlgoOrderAsync(IEnumerable<OKXAlgoOrderRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel all pending orders after a certain time. Recalling this endpoint resets the timeout. Sending TimeSpan.Zero disables the countdown
@@ -93,7 +93,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="tag">["<c>tag</c>"] Only cancel orders with this Tag</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXCancelAllAfterResponse>> CancelAllAfterAsync(TimeSpan timeout, string? tag = null, CancellationToken ct = default);
+    Task<HttpResult<OKXCancelAllAfterResponse>> CancelAllAfterAsync(TimeSpan timeout, string? tag = null, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel incomplete orders in batches. Maximum 20 orders can be canceled at a time. Request parameters should be passed in the form of an array.
@@ -107,7 +107,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default);
+    Task<HttpResult<OKXOrderCancelResponse[]>> CancelMultipleOrdersAsync(IEnumerable<OKXOrderCancelRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Cancel an incomplete order.
@@ -123,7 +123,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXOrderCancelResponse>> CancelOrderAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Close all positions of an instrument via a market order.
@@ -142,7 +142,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="clientOrderId">["<c>clOrdId</c>"] Client order id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, MarginMode marginMode, PositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, string? clientOrderId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXClosePositionResponse>> ClosePositionAsync(string symbol, MarginMode marginMode, PositionSide? positionSide = null, string? asset = null, bool? autoCancel = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get a list of untriggered Algo orders under the current account.
@@ -163,7 +163,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderHistoryAsync(AlgoOrderType algoOrderType, AlgoOrderState? algoOrderState = null, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXAlgoOrder[]>> GetAlgoOrderHistoryAsync(AlgoOrderType algoOrderType, AlgoOrderState? algoOrderState = null, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get a list of untriggered Algo orders under the current account.
@@ -183,7 +183,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrder[]>> GetAlgoOrderListAsync(AlgoOrderType algoOrderType, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXAlgoOrder[]>> GetAlgoOrderListAsync(AlgoOrderType algoOrderType, string? algoId = null, InstrumentType? instrumentType = null, string? symbol = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get the completed order data of the last 3 months, and the incomplete orders that have been canceled are only reserved for 2 hours.
@@ -208,7 +208,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrder[]>> GetOrderArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? fromId = null, string? toId = null, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<HttpResult<OKXOrder[]>> GetOrderArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? fromId = null, string? toId = null, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get order details.
@@ -224,7 +224,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="clientOrderId">["<c>clOrdId</c>"] Client Order ID</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrder>> GetOrderDetailsAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXOrder>> GetOrderDetailsAsync(string symbol, long? orderId = null, string? clientOrderId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get the completed order data for the last 7 days, and the incomplete orders that have been cancelled are only reserved for 2 hours.
@@ -249,7 +249,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrder[]>> GetOrderHistoryAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100,
+    Task<HttpResult<OKXOrder[]>> GetOrderHistoryAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, OrderCategory? category = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100,
         string? instrumentFamily = null,
         string? fromId = null,
         string? toId = null,
@@ -275,7 +275,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="instrumentFamily">["<c>instFamily</c>"] Instrument family</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrder[]>> GetOrdersAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, string? fromId = null, string? toId = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
+    Task<HttpResult<OKXOrder[]>> GetOrdersAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, OrderType? orderType = null, OrderStatus? state = null, string? fromId = null, string? toId = null, int limit = 100, string? instrumentFamily = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get recently-filled transaction details in the last 3 months.
@@ -298,7 +298,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTransaction[]>> GetUserTradesArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXTransaction[]>> GetUserTradesArchiveAsync(InstrumentType instrumentType, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get recently-filled transaction details in the last 3 day.
@@ -321,7 +321,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="toId">["<c>before</c>"] Pagination of data to return records newer than the requested ordId</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXTransaction[]>> GetUserTradesAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXTransaction[]>> GetUserTradesAsync(InstrumentType? instrumentType = null, string? symbol = null, string? underlying = null, long? orderId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 100, string? instrumentFamily = null, string? fromId = null, string? toId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Place new algo order. The algo order includes trigger order, oco order, conditional order,iceberg order and twap order.
@@ -369,7 +369,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="advancedOrderType">["<c>advanceOrdType</c>"] Advanced order type for trigger orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
+    Task<HttpResult<OKXAlgoOrderResponse>> PlaceAlgoOrderAsync(
         string symbol,
         TradeMode tradeMode,
         OrderSide orderSide,
@@ -419,7 +419,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="orders">Orders</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
+    Task<HttpResult<CallResult<OKXOrderPlaceResponse>[]>> PlaceMultipleOrdersAsync(IEnumerable<OKXOrderPlaceRequest> orders, CancellationToken ct = default);
 
     /// <summary>
     /// Place a new order
@@ -455,7 +455,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="maxSlippagePercentage">["<c>maxSlippagePercentage</c>"] Maximum acceptable slippage for spot and spot margin market-side orders, ranged 0 to 0.05</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
+    Task<HttpResult<OKXOrderPlaceResponse>> PlaceOrderAsync(
         string symbol,
         OrderSide side,
         OrderType type,
@@ -507,7 +507,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="quantityAsset">["<c>tgtCcy</c>"] Asset of the quantity when placing market order</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXCheckOrderResponse>> CheckOrderAsync(
+    Task<HttpResult<OKXCheckOrderResponse>> CheckOrderAsync(
         string symbol,
         OrderSide side,
         OrderType type,
@@ -538,7 +538,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="clientAlgoId">["<c>algoClOrdId</c>"] Client algo order id, this or algoId should be provided</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXAlgoOrder>> GetAlgoOrderAsync(string? algoId = null, string? clientAlgoId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Edit an incomplete algo order.
@@ -563,7 +563,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="newStopLossPriceTriggerType">["<c>newSlTriggerPxType</c>"] New stop loss price trigger type</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAlgoOrderAmendResponse>> AmendAlgoOrderAsync(
+    Task<HttpResult<OKXAlgoOrderAmendResponse>> AmendAlgoOrderAsync(
         string symbol,
         string? algoId = null,
         string? clientAlgoId = null,
@@ -589,7 +589,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXAccountRateLimit[]>> GetAccountRateLimitAsync(CancellationToken ct = default);
+    Task<HttpResult<OKXAccountRateLimit[]>> GetAccountRateLimitAsync(CancellationToken ct = default);
 
     /// <summary>
     /// Get list of debt currency data and repay currencies.
@@ -603,7 +603,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="debtType">["<c>debtType</c>"] Debt type (cross/isolated)</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayCurrencyList[]>> GetOneClickRepayCurrencyListAsync(string? debtType = null, CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayCurrencyList[]>> GetOneClickRepayCurrencyListAsync(string? debtType = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get list of debt currency data and repay currencies.
@@ -616,7 +616,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// </summary>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayCurrencyListV2[]>> GetOneClickRepayCurrencyListV2Async(CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayCurrencyListV2[]>> GetOneClickRepayCurrencyListV2Async(CancellationToken ct = default);
 
     /// <summary>
     /// Trade one-click repay to repay cross debts.
@@ -631,7 +631,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="repayAsset">["<c>repayCcy</c>"] Repay currency</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayResponse[]>> OneClickRepayAsync(string debtAsset, string repayAsset, CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayResponse[]>> OneClickRepayAsync(string debtAsset, string repayAsset, CancellationToken ct = default);
 
     /// <summary>
     /// Trade one-click repay to repay debts.
@@ -646,7 +646,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="repayAssetList">["<c>repayCcyList</c>"] Repay currency list</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayResponseV2[]>> OneClickRepayV2Async(string debtAsset, IEnumerable<string> repayAssetList, CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayResponseV2[]>> OneClickRepayV2Async(string debtAsset, IEnumerable<string> repayAssetList, CancellationToken ct = default);
 
     /// <summary>
     /// Get the history and status of one-click repay trades in the past 7 days.
@@ -662,7 +662,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">["<c>limit</c>"] Number of results per request</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayHistory[]>> GetOneClickRepayHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayHistory[]>> GetOneClickRepayHistoryAsync(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 
     /// <summary>
     /// Get the history and status of one-click repay trades in the past 7 days.
@@ -678,6 +678,6 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="limit">["<c>limit</c>"] Number of results per request</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<WebCallResult<OKXOneClickRepayHistoryV2[]>> GetOneClickRepayHistoryV2Async(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
+    Task<HttpResult<OKXOneClickRepayHistoryV2[]>> GetOneClickRepayHistoryV2Async(DateTime? startTime = null, DateTime? endTime = null, int limit = 100, CancellationToken ct = default);
 }
 

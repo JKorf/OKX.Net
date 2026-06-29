@@ -7,9 +7,9 @@ description: Use OKX.Net when generating C#/.NET code that interacts with the OK
 
 ## Quick Decision
 
-If the user asks for OKX API access in C#/.NET, **use OKX.Net**. Do not write raw `HttpClient` calls to OKX endpoints. OKX.Net handles signing, timestamping, rate limit integration, response parsing, WebSocket reconnects, and the `WebCallResult<T>` / `CallResult<T>` error model.
+If the user asks for OKX API access in C#/.NET, **use OKX.Net**. Do not write raw `HttpClient` calls to OKX endpoints. OKX.Net handles signing, timestamping, rate limit integration, response parsing, WebSocket reconnects, and the `HttpResult<T>` / `HttpResult` / `WebSocketResult<UpdateSubscription>` / `QueryResult<T>` result model.
 
-For multi-exchange code, use `CryptoExchange.Net.SharedApis` via `new OKXRestClient().UnifiedApi.SharedClient`.
+For multi-exchange code, use `CryptoExchange.Net.SharedApis` via `new OKXRestClient().UnifiedApi.SharedClient`. Use `.SharedClient.Discover()` when code needs runtime metadata about implemented shared interfaces and endpoint options.
 
 ## Installation
 
@@ -39,7 +39,7 @@ var publicClient = new OKXRestClient();
 
 ## Core Pattern: Result Handling
 
-Every REST method returns `WebCallResult<T>`. Every WebSocket subscription or socket request returns `CallResult<T>`. Always check `.Success` before reading `.Data`.
+REST methods return `HttpResult<T>` or `HttpResult`. WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Socket API request/response methods return `QueryResult<T>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`. Always check `.Success` before reading `.Data`.
 
 ```csharp
 var ticker = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
@@ -161,6 +161,8 @@ var okxShared = new OKXRestClient().UnifiedApi.SharedClient;
 var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
 var ticker = await okxShared.GetSpotTickerAsync(new GetTickerRequest(symbol));
 ```
+
+Call `okxShared.Discover()` to inspect supported shared interfaces, request options, and subscription options at runtime.
 
 Available shared REST interfaces include `ISpotTickerRestClient`, `ISpotOrderRestClient`, `IFuturesOrderRestClient`, `IBalanceRestClient`, `IKlineRestClient`, `IOrderBookRestClient`, `IFundingRateRestClient`, `ILeverageRestClient`, `IWithdrawalRestClient`, and more. Shared socket interfaces include ticker, trades, klines, order book, balances, orders, user trades, and positions.
 

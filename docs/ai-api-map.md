@@ -205,12 +205,15 @@ Use this file to route common user intents to the correct OKX.Net client member.
 | Socket API amend order | `socketClient.UnifiedApi.Trading.AmendOrderAsync(...)` |
 | Socket API amend multiple orders | `socketClient.UnifiedApi.Trading.AmendMultipleOrdersAsync(...)` |
 
+WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Socket API request/response methods return `QueryResult<T>`.
+
 ## SharedApis
 
 | User intent | OKX.Net member or interface |
 |---|---|
 | Shared REST client | `new OKXRestClient().UnifiedApi.SharedClient` |
 | Shared socket client | `new OKXSocketClient().UnifiedApi.SharedClient` |
+| Discover shared capabilities | `client.UnifiedApi.SharedClient.Discover()` |
 | Shared spot ticker REST | `ISpotTickerRestClient.GetSpotTickerAsync(new GetTickerRequest(symbol))` |
 | Shared spot order REST | `ISpotOrderRestClient.PlaceSpotOrderAsync(...)` |
 | Shared futures order REST | `IFuturesOrderRestClient.PlaceFuturesOrderAsync(...)` |
@@ -225,15 +228,19 @@ Use this file to route common user intents to the correct OKX.Net client member.
 | Shared balance socket | `IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(...)` |
 | Shared position socket | `IPositionSocketClient.SubscribeToPositionUpdatesAsync(...)` |
 
+Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
+
 For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
 
 ## Result Handling
 
 | Situation | Pattern |
 |---|---|
-| REST success check | `if (!result.Success) { Console.WriteLine(result.Error); return; }` |
-| Socket subscription success check | `if (!sub.Success) { Console.WriteLine(sub.Error); return; }` |
-| Read REST data | Read `result.Data` only after `result.Success` |
+| REST success check | REST methods return `HttpResult<T>` or `HttpResult`; use `if (!result.Success) { Console.WriteLine(result.Error); return; }` |
+| Socket subscription success check | Socket subscriptions return `WebSocketResult<UpdateSubscription>`; use `if (!sub.Success) { Console.WriteLine(sub.Error); return; }` |
+| Socket API request success check | Socket request/response methods return `QueryResult<T>`; use the same `.Success` and `.Error` pattern |
+| Read result data | Read `result.Data` or `sub.Data` only after `.Success` |
+| Shared helper success check | Shared symbol/cache helpers can return `ExchangeCallResult<T>`; use the same `.Success` and `.Error` pattern |
 | Retry decision | Retry only when `result.Error?.IsTransient == true` |
 | Cancellation | Pass `ct: cancellationToken` |
 

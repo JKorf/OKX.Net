@@ -6,4 +6,8 @@ namespace OKX.Net.Objects.Options;
 /// </summary>
 public class OKXOptions : LibraryOptions<OKXRestOptions, OKXSocketOptions, OKXCredentials, OKXEnvironment>
 {
+    /// <summary>
+    /// Whether to use XPerps as perpetual linear contracts when using the Shared API's
+    /// </summary>
+    public bool SharedApiEuropeUseXPerps { get; set; }
 }

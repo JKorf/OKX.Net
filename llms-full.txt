@@ -25,8 +25,10 @@ Primary documentation:
 - Include `using OKX.Net;` when using `OKXCredentials` or `OKXEnvironment`.
 - Include `using OKX.Net.Clients;` when constructing `OKXRestClient` or `OKXSocketClient`.
 - Always check `.Success` before reading `.Data`.
-- REST methods return `WebCallResult<T>` or `WebCallResult`.
-- WebSocket subscriptions and socket API requests return `CallResult<T>` or `CallResult`.
+- REST methods return `HttpResult<T>` or `HttpResult`.
+- WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`.
+- Socket API request/response methods return `QueryResult<T>`.
+- Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
 - Reuse clients. Do not instantiate a REST or socket client per request in production code.
 - Prefer dependency injection for long-running services.
 - Store WebSocket subscriptions and unsubscribe during shutdown.
@@ -35,7 +37,7 @@ Primary documentation:
 - Use OKX symbol format such as `BTC-USDT`, `ETH-USDT`, and `ETH-USDT-SWAP`; do not use Binance-style `BTCUSDT`.
 - Use `UnifiedApi`. OKX.Net does not expose separate `SpotApi`, `FuturesApi`, `SwapApi`, `MarginApi`, `UsdFuturesApi`, or `GeneralApi` roots.
 - For product-specific calls, route by `InstrumentType`, symbol format, `TradeMode`, `MarginMode`, and `PositionSide`.
-- For multi-exchange code, use `CryptoExchange.Net.SharedApis` interfaces from `client.UnifiedApi.SharedClient`.
+- For multi-exchange code, use `CryptoExchange.Net.SharedApis` interfaces from `client.UnifiedApi.SharedClient`; use `.SharedClient.Discover()` to inspect implemented shared interfaces and endpoint/subscription options at runtime.
 
 ## Installation
 
@@ -181,9 +183,9 @@ var price = result.Data.LastPrice;
 For retry logic, only retry transient errors:
 
 ```csharp
-async Task<WebCallResult<T>> WithRetry<T>(Func<Task<WebCallResult<T>>> call, int maxAttempts = 3)
+async Task<HttpResult<T>> WithRetry<T>(Func<Task<HttpResult<T>>> call, int maxAttempts = 3)
 {
-    WebCallResult<T> last = default!;
+    HttpResult<T> last = default!;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++)
     {
@@ -608,7 +610,14 @@ if (!ticker.Success)
 Console.WriteLine(ticker.Data.LastPrice);
 ```
 
-Shared WebSocket subscriptions return an `UpdateSubscription` in `.Data`. For shared interface variables, unsubscribe through the concrete socket client:
+Shared clients expose `Discover()` for runtime metadata about implemented shared interfaces, supported request options, and supported subscription options.
+
+```csharp
+var info = new OKXRestClient().UnifiedApi.SharedClient.Discover();
+Console.WriteLine(string.Join(", ", info.Features.Where(x => x.Supported).Select(x => x.EndpointName)));
+```
+
+Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`. Shared WebSocket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. For shared interface variables, unsubscribe through the concrete socket client:
 
 ```csharp
 var socketClient = new OKXSocketClient();
@@ -731,10 +740,10 @@ Examples/ai-friendly/03-websocket.cs
   Public ticker stream, kline stream, authenticated order stream, success checks, teardown.
 
 Examples/ai-friendly/04-multi-exchange.cs
-  CryptoExchange.Net.SharedApis REST pattern for exchange-agnostic code.
+  CryptoExchange.Net.SharedApis REST and discovery pattern for exchange-agnostic code.
 
 Examples/ai-friendly/05-error-handling.cs
-  WebCallResult pattern, transient retry, OKX error metadata.
+  HttpResult, QueryResult, WebSocketResult, transient retry, OKX error metadata.
 ```
 
 These files are intended to be copied into a console `Program.cs` after `dotnet add package JK.OKX.Net`. In this repository, `OKX.Net.UnitTests/Documentation/AiExampleCompileTests.cs` compiles these examples against the local build.

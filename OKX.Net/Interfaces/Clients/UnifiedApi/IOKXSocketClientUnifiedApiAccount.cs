@@ -23,7 +23,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(string? asset, bool regularUpdates, Action<DataEvent<OKXAccountBalance>> onData, CancellationToken ct = default);
+    Task<WebSocketResult<UpdateSubscription>> SubscribeToAccountUpdatesAsync(string? asset, bool regularUpdates, Action<DataEvent<OKXAccountBalance>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to account balance and position information updates. Data will be pushed when triggered by events such as filled order, funding transfer.
@@ -37,7 +37,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<DataEvent<OKXPositionAndBalanceUpdate>> onData, CancellationToken ct = default);
+    Task<WebSocketResult<UpdateSubscription>> SubscribeToBalanceAndPositionUpdatesAsync(Action<DataEvent<OKXPositionAndBalanceUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to deposit updates
@@ -51,7 +51,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(Action<DataEvent<OKXDepositUpdate>> onData, CancellationToken ct = default);
+    Task<WebSocketResult<UpdateSubscription>> SubscribeToDepositUpdatesAsync(Action<DataEvent<OKXDepositUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to withdrawal updates
@@ -65,7 +65,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<CallResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default);
+    Task<WebSocketResult<UpdateSubscription>> SubscribeToWithdrawalUpdatesAsync(Action<DataEvent<OKXWithdrawalUpdate>> onData, CancellationToken ct = default);
 
     /// <summary>
     /// Subscribe to account greeks updates
@@ -79,7 +79,7 @@ public interface IOKXSocketClientUnifiedApiAccount
     /// <param name="asset">Asset filter</param>
     /// <param name="onData">On Data Handler</param>
     /// <param name="ct">Cancellation Token</param>
-    Task<CallResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
+    Task<WebSocketResult<UpdateSubscription>> SubscribeToGreeksUpdatesAsync(
         string? asset,
         Action<DataEvent<OKXGreeks[]>> onData,
         CancellationToken ct = default);
