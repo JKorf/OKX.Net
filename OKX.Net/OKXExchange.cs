@@ -129,8 +129,11 @@ namespace OKX.Net
             baseAsset = AssetAliasesFuturesEurope.CommonToExchangeName(baseAsset.ToUpperInvariant());
             quoteAsset = AssetAliasesFuturesEurope.CommonToExchangeName(quoteAsset.ToUpperInvariant());
             var symbols = ExchangeSymbolCache.GetSymbolsForBaseAsset("OKXFutures", "Europe", tradingMode.ToString(), baseAsset);
-            if (symbols.Length == 1 && symbols[0].SymbolName != null)
-                return symbols[0].SymbolName!;
+            var matchingSymbol = symbols.FirstOrDefault(x => x.QuoteAsset == quoteAsset && (x.DeliverTime == deliverTime 
+                || (deliverTime == null && x.DeliverTime - DateTime.UtcNow > TimeSpan.FromDays(365 * 2)))); // XPerp futures have a delivery time in 2031
+
+            if (matchingSymbol != null && matchingSymbol.SymbolName != null)
+                return matchingSymbol.SymbolName!;
 
             // Fallback
             if (deliverTime == null)
