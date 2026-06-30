@@ -216,6 +216,9 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.0.2 - 30 Jun 2026
+    * Fixed symbol name mapping for XPerps in Europe environment
+
 * Version 5.0.1 - 30 Jun 2026
     * Fixed Shared GetFuturesSymbolsAsync failing if underlying type is not set
 
