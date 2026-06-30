@@ -960,27 +960,34 @@ namespace OKX.Net.Clients.UnifiedApi
             }
             
             var response = HttpResult.Ok(result,
-                data.Select(x => new SharedFuturesSymbol(
-                    x.InstrumentType == InstrumentType.Swap 
-                    ? (x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse)
-                    : (x.ContractType == ContractType.Linear ? (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualLinear : TradingMode.DeliveryLinear) : (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualInverse : TradingMode.DeliveryInverse)),
-                x.Underlying.Split('-')[0],
-                x.Underlying.Split('-')[1],
-                x.Symbol,
-                x.State == InstrumentState.Live)
+                data.Where(x => x.SymbolCode != null).Select(x =>
                 {
-                    ContractSize = x.ContractValue,
-                    DeliveryTime = x.ExpiryTime,
-                    MaxTradeQuantity = x.MaxLimitQuantity,
-                    MinTradeQuantity = x.MinimumOrderSize,
-                    PriceStep = x.TickSize,
-                    QuantityStep = x.LotSize,
-                    MaxLongLeverage = x.MaximumLeverage,
-                    MaxShortLeverage = x.MaximumLeverage
-                }).ToArray());
+                    var underlyingParts = x.Underlying.Split('-');
+                    if (underlyingParts.Length != 2)
+                        return null!;
+
+                    return new SharedFuturesSymbol(
+                        x.InstrumentType == InstrumentType.Swap
+                        ? (x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse)
+                        : (x.ContractType == ContractType.Linear ? (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualLinear : TradingMode.DeliveryLinear) : (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualInverse : TradingMode.DeliveryInverse)),
+                            underlyingParts[0],
+                            underlyingParts[1],
+                            x.Symbol,
+                            x.State == InstrumentState.Live)
+                                {
+                                    ContractSize = x.ContractValue,
+                                    DeliveryTime = x.ExpiryTime,
+                                    MaxTradeQuantity = x.MaxLimitQuantity,
+                                    MinTradeQuantity = x.MinimumOrderSize,
+                                    PriceStep = x.TickSize,
+                                    QuantityStep = x.LotSize,
+                                    MaxLongLeverage = x.MaximumLeverage,
+                                    MaxShortLeverage = x.MaximumLeverage
+                                };
+                }).Where(x => x != null).ToArray());
 
             foreach(var distinctMode in response.Data!.GroupBy(x => x.TradingMode))
-                ExchangeSymbolCache.UpdateSymbolInfo(_topicFuturesId, EnvironmentName, distinctMode.Key.ToString(), distinctMode.ToArray());
+                ExchangeSymbolCache.UpdateSymbolInfo(_topicFuturesId, EnvironmentName, distinctMode.Key.ToString(), distinctMode!.ToArray());
             return response;
         }
 
