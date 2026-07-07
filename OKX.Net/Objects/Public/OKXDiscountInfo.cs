@@ -38,6 +38,12 @@ public record OKXDiscountInfo
     public decimal? MinDiscountRate { get; set; }
 
     /// <summary>
+    /// ["<c>collateralRestrict</c>"] Is collateral restricted
+    /// </summary>
+    [JsonPropertyName("collateralRestrict")]
+    public bool CollateralRestricted { get; set; }
+
+    /// <summary>
     /// ["<c>discountInfo</c>"] DEPRECATED, use DiscountDetails instead
     /// </summary>
     [JsonPropertyName("discountInfo")]
