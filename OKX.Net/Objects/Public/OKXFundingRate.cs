@@ -23,7 +23,7 @@ public record OKXFundingRate
     /// <summary>
     /// ["<c>fundingTime</c>"] Funding time
     /// </summary>
-    [JsonPropertyName("fundingTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("fundingTime")]
     public DateTime FundingTime { get; set; }
 
     /// <summary>
@@ -35,13 +35,18 @@ public record OKXFundingRate
     /// <summary>
     /// ["<c>nextFundingTime</c>"] Next funding time
     /// </summary>
-    [JsonPropertyName("nextFundingTime"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("nextFundingTime")]
     public DateTime NextFundingTime { get; set; }
+    /// <summary>
+    /// ["<c>prevFundingTime</c>"] Next funding time
+    /// </summary>
+    [JsonPropertyName("prevFundingTime")]
+    public DateTime? PreviousFundingTime { get; set; }
 
     /// <summary>
     /// ["<c>ts</c>"] Timestamp
     /// </summary>
-    [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
+    [JsonPropertyName("ts")]
     public DateTime Timestamp { get; set; }
 
     /// <summary>
