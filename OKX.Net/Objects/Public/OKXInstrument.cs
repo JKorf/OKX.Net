@@ -297,7 +297,7 @@ public record OKXInstrumentUpcomingChange
     /// ["<c>newValue</c>"] New value
     /// </summary>
     [JsonPropertyName("newValue")]
-    public string NewValue { get; set; }
+    public string NewValue { get; set; } = string.Empty;
     /// <summary>
     /// ["<c>effTime</c>"] Time it takes effect
     /// </summary>
