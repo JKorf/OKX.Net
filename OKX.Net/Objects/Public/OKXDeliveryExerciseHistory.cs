@@ -36,7 +36,7 @@ public record OKXPublicDeliveryExerciseHistoryDetail
     /// <summary>
     /// ["<c>instId</c>"] Symbol
     /// </summary>
-    [JsonPropertyName("instId")]
+    [JsonPropertyName("insId")]
     public string Symbol { get; set; } = string.Empty;
 
     /// <summary>
