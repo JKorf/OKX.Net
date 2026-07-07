@@ -256,4 +256,51 @@ public record OKXInstrument
     /// </summary>
     [JsonPropertyName("shortPosRemainingQuota")]
     public decimal? ShortPositionRemainingQuota { get; set; }
+    /// <summary>
+    /// ["<c>floatPxLmtPct</c>"] Floating price-limit band during normal trading, e.g. 0.03 represents 3%
+    /// </summary>
+    [JsonPropertyName("floatPxLmtPct")]
+    public decimal? PriceLimitPercentage { get; set; }
+    /// <summary>
+    /// ["<c>initPxLmtPct</c>"] Initial price-limit band applied during the first 10 minutes after contract listing, e.g. 0.05 represents 5%
+    /// </summary>
+    [JsonPropertyName("initPxLmtPct")]
+    public decimal? InitialPriceLimitPercentage { get; set; }
+    /// <summary>
+    /// ["<c>maxPlatOICoinLmt</c>"] Platform-wide maximum position value (coins) for this instrument
+    /// </summary>
+    [JsonPropertyName("maxPlatOICoinLmt")]
+    public decimal? MaxPlatformOpenInterestLimit { get; set; }
+    /// <summary>
+    /// ["<c>maxPxLmtPct</c>"] Maximum price-limit cap (hard ceiling on order-price deviation from the index price), e.g. 0.15 represents 15%
+    /// </summary>
+    [JsonPropertyName("maxPxLmtPct")]
+    public decimal? MaxPriceLimitCap { get; set; }
+    /// <summary>
+    /// ["<c>upcChg</c>"] 
+    /// </summary>
+    [JsonPropertyName("upcChg")]
+    public OKXInstrumentUpcomingChange[] UpcomingChanges { get; set; } = [];
+}
+
+/// <summary>
+/// Upcoming change of instrument
+/// </summary>
+public record OKXInstrumentUpcomingChange
+{
+    /// <summary>
+    /// ["<c>param</c>"] 
+    /// </summary>
+    [JsonPropertyName("param")]
+    public string Parameter { get; set; } = string.Empty;
+    /// <summary>
+    /// ["<c>newValue</c>"] New value
+    /// </summary>
+    [JsonPropertyName("newValue")]
+    public string NewValue { get; set; }
+    /// <summary>
+    /// ["<c>effTime</c>"] Time it takes effect
+    /// </summary>
+    [JsonPropertyName("effTime")]
+    public DateTime EffectTime { get; set; }
 }
