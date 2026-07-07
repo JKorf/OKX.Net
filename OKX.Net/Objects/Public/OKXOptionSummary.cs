@@ -105,7 +105,7 @@ public record OKXOptionSummary
     public decimal? AskVolatility { get; set; }
 
     /// <summary>
-    /// ["<c>realVol</c>"] Real volatitlity
+    /// ["<c>realVol</c>"] Real volatility
     /// </summary>
     [JsonPropertyName("realVol")]
     public decimal? RealVolatility { get; set; }
@@ -121,4 +121,20 @@ public record OKXOptionSummary
     /// </summary>
     [JsonPropertyName("fwdPx")]
     public decimal? ForwardPrice { get; set; }
+
+    /// <summary>
+    /// ["<c>buyApr</c>"] Buy APR
+    /// </summary>
+    [JsonPropertyName("buyApr")]
+    public decimal? BuyApr { get; set; }
+    /// <summary>
+    /// ["<c>sellApr</c>"] Sell APR
+    /// </summary>
+    [JsonPropertyName("sellApr")]
+    public decimal? SellApr { get; set; }
+    /// <summary>
+    /// ["<c>distance</c>"] Distance
+    /// </summary>
+    [JsonPropertyName("distance")]
+    public decimal? Distance { get; set; }
 }
