@@ -33,6 +33,15 @@ public record OKXApiAddresses
     };
 
     /// <summary>
+    /// US and AU customers addresses
+    /// </summary>
+    public static OKXApiAddresses Us = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://us.okx.com",
+        UnifiedSocketAddress = "wss://wsus.okx.com:8443",
+    };
+
+    /// <summary>
     /// Demo addresses
     /// </summary>
     public static OKXApiAddresses Demo = new OKXApiAddresses
