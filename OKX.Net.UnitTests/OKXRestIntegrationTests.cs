@@ -68,7 +68,7 @@ namespace OKX.Net.UnitTests
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetAssetsAsync(default, default), true, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetFundingBalanceAsync(default, default), true, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetFundingBillDetailsAsync(default, default, default, default, 100, default, default, default, default), true, "data");
-            await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetFundingBillHistoryAsync(default, default, default, default, 100, default, default, default, default), true, "data");
+            await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetFundingBillHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetDepositHistoryAsync(default, default, default, default, default, 100, default, default, default, default), true, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetWithdrawalHistoryAsync(default, default, default, default, default, 100, default, default, default), true, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.Account.GetAssetValuationAsync(default, default), true, "data");
