@@ -38,7 +38,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
         ExchangeData = new OKXSocketClientUnifiedApiExchangeData(_logger, this);
         Trading = new OKXSocketClientUnifiedApiTrading(_logger, this);
 
-        _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet;
+        _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet || options.Environment.Name == OKXEnvironment.EuropeDemo.Name;
 
         AddSystemSubscription(new OKXConnCountSubscription(_logger));
 

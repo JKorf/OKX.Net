@@ -33,6 +33,15 @@ public record OKXApiAddresses
     };
 
     /// <summary>
+    /// Europe demo customers addresses
+    /// </summary>
+    public static OKXApiAddresses EuropeDemo = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://eea.okx.com",
+        UnifiedSocketAddress = "wss://wseeapap.okx.com:8443",
+    };
+
+    /// <summary>
     /// US and AU customers addresses
     /// </summary>
     public static OKXApiAddresses Us = new OKXApiAddresses
