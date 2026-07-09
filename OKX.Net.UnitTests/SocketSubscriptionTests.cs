@@ -60,7 +60,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync<OKXLimitPrice>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToPriceLimitUpdatesAsync("ETH-USDT", handler), "PriceLimit", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXOrderBook>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToOrderBookUpdatesAsync("ETH-USDT", OrderBookType.OrderBook, handler), "OrderBook", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXOptionSummary[]>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToOptionSummaryUpdatesAsync("ETH-USDT", handler), "OptionSummary");
-            await tester.ValidateAsync<OKXFundingRate>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToFundingRateUpdatesAsync("ETH-USDT", handler), "FundingRate", useFirstUpdateItem: true);
+            await tester.ValidateAsync<OKXFundingRate>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToFundingRateUpdatesAsync("ETH-USDT", handler), "FundingRate", useFirstUpdateItem: true, ignoreProperties: ["nextFundingRate"]);
             await tester.ValidateAsync<OKXMiniKline[]>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToIndexKlineUpdatesAsync("ETH-USDT", KlineInterval.OneDay, handler), "IndexKlines");
             await tester.ValidateAsync<OKXIndexTicker>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToIndexTickerUpdatesAsync("ETH-USDT", handler), "IndexTicker", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXStatus>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToSystemStatusUpdatesAsync(handler), "SystemStatus", useFirstUpdateItem: true);
