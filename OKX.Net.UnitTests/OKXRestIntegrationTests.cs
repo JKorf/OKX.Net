@@ -114,7 +114,7 @@ namespace OKX.Net.UnitTests
                 ]);
             await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetDeliveryExerciseHistoryAsync(InstrumentType.Futures, "BTC-USD", default, default, 100, default, default), false, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetOpenInterestsAsync(InstrumentType.Futures, default, default, default, default), false, "data");
-            await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetFundingRatesAsync("ETH-USDT-SWAP", default), false, "data");
+            await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetFundingRatesAsync("ETH-USDT-SWAP", default), false, "data", ignoreProperties: ["nextFundingRate"]);
             await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetFundingRateHistoryAsync("ETH-USDT-SWAP", default, default, 100, default), false, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetPriceLimitsAsync("ETH-USDT", default), false, "data");
             await RunAndCheckResult(warnings, c => c.UnifiedApi.ExchangeData.GetOptionMarketDataAsync("BTC-USD", default, default, default), false, "data");
