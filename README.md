@@ -216,6 +216,19 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.1.0 - 09 Jul 2026
+    * Updated CryptoExchange.Net to v12.1.0
+    * Added Us environment
+    * Added EuropeDemo environment
+    * Added CollateralRestricted to OKXDiscountInfo model
+    * Added PreviousFundingTime to OKXFundingRate model
+    * Added BuyApr, SellApr and Discount to OKXOptionSummary
+    * Added PriceLimitPercentage, InitialPriceLimitPercentage, MaxPlatformOpenInterestLimit, MaxPriceLimitCap and UpcomingChanges to OKXInstrument model
+    * Added custodyType parameter to restClient.UnifiedApi.Account.GetFundingBillHistoryAsync endpoint
+    * Updated FundingBillType enum values
+    * Fixed OKXDeliveryExerciseHistory Symbol deserialization
+    * Removed NextFundingRate from OKXFundingRate model
+
 * Version 5.0.2 - 30 Jun 2026
     * Fixed symbol name mapping for XPerps in Europe environment
 
