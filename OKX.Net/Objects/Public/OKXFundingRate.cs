@@ -50,12 +50,6 @@ public record OKXFundingRate
     public DateTime Timestamp { get; set; }
 
     /// <summary>
-    /// ["<c>nextFundingRate</c>"] Next funding rate
-    /// </summary>
-    [JsonPropertyName("nextFundingRate")]
-    public decimal? NextFundingRate { get; set; }
-
-    /// <summary>
     /// ["<c>method</c>"] Method
     /// </summary>
     [JsonPropertyName("method")]
