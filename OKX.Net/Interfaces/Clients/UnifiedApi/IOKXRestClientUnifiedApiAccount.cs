@@ -319,6 +319,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// </summary>
     /// <param name="asset">["<c>ccy</c>"] Asset, for example `ETH`</param>
     /// <param name="type">["<c>type</c>"] Bill type</param>
+    /// <param name="custodyType">["<c>thirdPartyType</c>"] Custody type</param>
     /// <param name="startTime">["<c>before</c>"] Pagination of data to return records earlier than the requested ts</param>
     /// <param name="endTime">["<c>after</c>"] Pagination of data to return records newer than the requested ts</param>
     /// <param name="limit">["<c>limit</c>"] Number of results per request. The maximum is 100; the default is 100.</param>
@@ -327,7 +328,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// <param name="clientId">["<c>clientId</c>"] Client id</param>
     /// <param name="ct">Cancellation Token</param>
     /// <returns></returns>
-    Task<HttpResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(string? asset = null, FundingBillType? type = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
+    Task<HttpResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(string? asset = null, FundingBillType? type = null, ThirdPartyCustodyType? custodyType = null, DateTime? endTime = null, DateTime? startTime = null, int limit = 100, string? clientId = null, long? startBillId = null, long? endBillId = null, CancellationToken ct = default);
 
     /// <summary>
     /// Get interest-accrued

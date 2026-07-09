@@ -522,6 +522,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     public virtual async Task<HttpResult<OKXFundingBill[]>> GetFundingBillHistoryAsync(
         string? asset = null,
         FundingBillType? type = null,
+        ThirdPartyCustodyType? custodyType = null,
         DateTime? endTime = null,
         DateTime? startTime = null,
         int limit = 100,
@@ -539,6 +540,7 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
         var parameters = new Parameters(OKXExchange._parameterSerializationSettings);
         parameters.Add("ccy", asset);
         parameters.Add("type", type);
+        parameters.Add("thirdPartyType", custodyType);
         parameters.Add("before", DateTimeConverter.ConvertToMilliseconds(startTime)?.ToString());
         parameters.Add("after", DateTimeConverter.ConvertToMilliseconds(endTime)?.ToString());
         parameters.Add("before", endBillId, IntegerSerialization.String);
