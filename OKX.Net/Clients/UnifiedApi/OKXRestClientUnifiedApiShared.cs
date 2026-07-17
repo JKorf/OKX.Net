@@ -16,11 +16,12 @@ namespace OKX.Net.Clients.UnifiedApi
         private const string _exchangeName = "OKX";
 
         public TradingMode[] SupportedTradingModes { get; } = new[] { TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse };
-        private TradingMode[] FuturesApiTypes { get; } = new[] { TradingMode.PerpetualLinear, TradingMode.DeliveryLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryInverse };
 
         public void SetDefaultExchangeParameter(string key, object value) => ExchangeParameters.SetStaticParameter(Exchange, key, value);
         public void ResetDefaultExchangeParameters() => ExchangeParameters.ResetStaticParameters();
         public SharedClientInfo Discover() => SharedUtils.GetClientInfo(OKXExchange.Metadata, this);
+
+        private static readonly HashSet<string> _fiatCurrencies = ["USD", "EUR", "TRY", "SGD", "AED", "AUD", "BRL"];
 
         #region Kline client
 
@@ -97,6 +98,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Spot Symbol client
 
+        SharedSymbolCatalog? ISpotSymbolRestClient.SpotSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_topicSpotId, EnvironmentName, null);
         GetSpotSymbolsOptions ISpotSymbolRestClient.GetSpotSymbolsOptions { get; } = new GetSpotSymbolsOptions(_exchangeName, false);
         async Task<HttpResult<SharedSpotSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
@@ -108,16 +110,42 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedSpotSymbol[]>(result);
 
-            var response = HttpResult.Ok(result, result.Data.Select(s => new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol, s.State == InstrumentState.Live)
+            var resultData =
+                 result.Data
+                .Select(x => ParseSpotSymbol(x))
+                .ToArray();
+
+            ExchangeSymbolCache.UpdateSymbolInfo(_topicSpotId, EnvironmentName, null, resultData);
+            return HttpResult.Ok(result, SharedUtils.ApplySymbolFilter(resultData, request));
+        }
+
+        private SharedSpotSymbol ParseSpotSymbol(OKXInstrument s)
+        {
+            var result = new SharedSpotSymbol(s.BaseAsset, s.QuoteAsset, s.Symbol, s.State == InstrumentState.Live)
             {
                 MaxTradeQuantity = Math.Min(s.MaxLimitQuantity ?? decimal.MaxValue, s.MaxMarketQuantity ?? decimal.MaxValue),
                 MinTradeQuantity = s.MinimumOrderSize,
                 QuantityStep = s.LotSize,
-                PriceStep = s.TickSize
-            }).ToArray());
+                PriceStep = s.TickSize,
+                DisplayName = s.Symbol,
+                BaseAssetType = SharedAssetType.Crypto
+            };
 
-            ExchangeSymbolCache.UpdateSymbolInfo(_topicSpotId, EnvironmentName, null, response.Data!);
-            return response;
+            if (LibraryHelpers.IsStableCoin(result.BaseAsset))
+                result.BaseAssetSubType = SharedAssetSubType.StableCoin;
+
+            if (_fiatCurrencies.Contains(result.QuoteAsset))
+            {
+                result.QuoteAssetType = SharedAssetType.Fiat;
+            }
+            else
+            {
+                result.QuoteAssetType = SharedAssetType.Crypto;
+                if (LibraryHelpers.IsStableCoin(result.QuoteAsset))
+                    result.QuoteAssetSubType = SharedAssetSubType.StableCoin;
+            }
+
+            return result;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> ISpotSymbolRestClient.GetSpotSymbolsForBaseAssetAsync(string baseAsset)
@@ -894,6 +922,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Futures Symbol client
 
+        SharedSymbolCatalog? IFuturesSymbolRestClient.FuturesSymbolCatalog => ExchangeSymbolCache.GetSymbolCatalog(_topicFuturesId, EnvironmentName, null);
         GetFuturesSymbolsOptions IFuturesSymbolRestClient.GetFuturesSymbolsOptions { get; } = new GetFuturesSymbolsOptions(_exchangeName, false);
         async Task<HttpResult<SharedFuturesSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsAsync(GetSymbolsRequest request, CancellationToken ct)
         {
@@ -939,56 +968,94 @@ namespace OKX.Net.Clients.UnifiedApi
                 data = result.Data;
             }
             
-            if (request.TradingMode.HasValue)
-            {
-                if (europeXPerps)
-                {
-                    data = data.Where(x =>
-                        request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.RuleType == SymbolRuleType.Perp) :
-                        request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.RuleType == SymbolRuleType.Perp) :
-                        request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.RuleType != SymbolRuleType.Perp) :
-                        (x.ContractType == ContractType.Inverse && x.RuleType != SymbolRuleType.Perp));
-                }
-                else
-                {
-                    data = data.Where(x =>
-                        request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
-                        request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
-                        request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
-                        (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
-                }
-            }
-            
-            var response = HttpResult.Ok(result,
-                data.Where(x => x.SymbolCode != null).Select(x =>
-                {
-                    var underlyingParts = x.Underlying.Split('-');
-                    if (underlyingParts.Length != 2)
-                        return null!;
+            //if (request.TradingMode.HasValue)
+            //{
+            //    if (europeXPerps)
+            //    {
+            //        data = data.Where(x =>
+            //            request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.RuleType == SymbolRuleType.Perp) :
+            //            request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.RuleType == SymbolRuleType.Perp) :
+            //            request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.RuleType != SymbolRuleType.Perp) :
+            //            (x.ContractType == ContractType.Inverse && x.RuleType != SymbolRuleType.Perp));
+            //    }
+            //    else
+            //    {
+            //        data = data.Where(x =>
+            //            request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
+            //            request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
+            //            request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
+            //            (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
+            //    }
+            //}
 
-                    return new SharedFuturesSymbol(
-                        x.InstrumentType == InstrumentType.Swap
-                        ? (x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse)
-                        : (x.ContractType == ContractType.Linear ? (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualLinear : TradingMode.DeliveryLinear) : (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualInverse : TradingMode.DeliveryInverse)),
-                            underlyingParts[0],
-                            underlyingParts[1],
-                            x.Symbol,
-                            x.State == InstrumentState.Live)
-                                {
-                                    ContractSize = x.ContractValue,
-                                    DeliveryTime = x.ExpiryTime,
-                                    MaxTradeQuantity = x.MaxLimitQuantity,
-                                    MinTradeQuantity = x.MinimumOrderSize,
-                                    PriceStep = x.TickSize,
-                                    QuantityStep = x.LotSize,
-                                    MaxLongLeverage = x.MaximumLeverage,
-                                    MaxShortLeverage = x.MaximumLeverage
-                                };
-                }).Where(x => x != null).ToArray());
+            var resultData =
+                 data
+                .Select(x => ParseFuturesSymbol(x)!)
+                .Where(x => x != null)
+                .ToArray();
 
-            foreach(var distinctMode in response.Data!.GroupBy(x => x.TradingMode))
+            foreach (var distinctMode in resultData.GroupBy(x => x.TradingMode))
                 ExchangeSymbolCache.UpdateSymbolInfo(_topicFuturesId, EnvironmentName, distinctMode.Key.ToString(), distinctMode!.ToArray());
-            return response;
+            return HttpResult.Ok(result, SharedUtils.ApplySymbolFilter(resultData, request));
+        }
+
+        private SharedFuturesSymbol? ParseFuturesSymbol(OKXInstrument x)
+        {
+            var underlyingParts = x.Underlying.Split('-');
+            if (underlyingParts.Length != 2)
+                return null!;
+
+            var result = new SharedFuturesSymbol(
+                x.InstrumentType == InstrumentType.Swap
+                ? (x.ContractType == ContractType.Linear ? TradingMode.PerpetualLinear : TradingMode.PerpetualInverse)
+                : (x.ContractType == ContractType.Linear ? (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualLinear : TradingMode.DeliveryLinear) : (x.RuleType == SymbolRuleType.Perp ? TradingMode.PerpetualInverse : TradingMode.DeliveryInverse)),
+                    underlyingParts[0],
+                    underlyingParts[1],
+                    x.Symbol,
+                    x.State == InstrumentState.Live)
+            {
+                ContractSize = x.ContractValue,
+                DeliveryTime = x.ExpiryTime,
+                MaxTradeQuantity = x.MaxLimitQuantity,
+                MinTradeQuantity = x.MinimumOrderSize,
+                PriceStep = x.TickSize,
+                QuantityStep = x.LotSize,
+                MaxLongLeverage = x.MaximumLeverage,
+                MaxShortLeverage = x.MaximumLeverage,
+                BaseAssetType = SharedAssetType.Crypto
+            };
+
+            if (x.SymbolCategory == SymbolCategory.Stocks
+                || x.SymbolCategory == SymbolCategory.Bonds)
+            {
+                result.BaseAssetType = SharedAssetType.TradFi;
+                result.BaseAssetSubType = SharedAssetSubType.Equity;
+            }
+            else if (x.SymbolCategory == SymbolCategory.Commodities)
+            {
+                result.BaseAssetType = SharedAssetType.TradFi;
+                result.BaseAssetSubType = SharedAssetSubType.Commodity;
+            }
+            else if (x.SymbolCategory == SymbolCategory.Forex)
+            {
+                result.BaseAssetType = SharedAssetType.Fiat;
+            }
+            else if (x.SymbolCategory == SymbolCategory.Crypto)
+            {
+                result.BaseAssetType = SharedAssetType.Crypto;
+            }
+
+            if (LibraryHelpers.IsStableCoin(result.QuoteAsset))
+            {
+                result.QuoteAssetType = SharedAssetType.Crypto;
+                result.QuoteAssetSubType = SharedAssetSubType.StableCoin;
+            }
+            else
+            {
+                result.QuoteAssetType = SharedAssetType.Fiat;
+            }
+
+            return result;
         }
 
         async Task<ExchangeCallResult<SharedSymbol[]>> IFuturesSymbolRestClient.GetFuturesSymbolsForBaseAssetAsync(string baseAsset)
