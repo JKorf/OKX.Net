@@ -1020,6 +1020,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 MinTradeQuantity = x.MinimumOrderSize,
                 PriceStep = x.TickSize,
                 QuantityStep = x.LotSize,
+                DisplayName = x.Symbol,
                 MaxLongLeverage = x.MaximumLeverage,
                 MaxShortLeverage = x.MaximumLeverage,
                 BaseAssetType = SharedAssetType.Crypto
