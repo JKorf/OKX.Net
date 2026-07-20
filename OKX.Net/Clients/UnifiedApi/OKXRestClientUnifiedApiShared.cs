@@ -967,26 +967,6 @@ namespace OKX.Net.Clients.UnifiedApi
 
                 data = result.Data;
             }
-            
-            //if (request.TradingMode.HasValue)
-            //{
-            //    if (europeXPerps)
-            //    {
-            //        data = data.Where(x =>
-            //            request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.RuleType == SymbolRuleType.Perp) :
-            //            request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.RuleType == SymbolRuleType.Perp) :
-            //            request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.RuleType != SymbolRuleType.Perp) :
-            //            (x.ContractType == ContractType.Inverse && x.RuleType != SymbolRuleType.Perp));
-            //    }
-            //    else
-            //    {
-            //        data = data.Where(x =>
-            //            request.TradingMode == TradingMode.PerpetualLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime == null) :
-            //            request.TradingMode == TradingMode.PerpetualInverse ? (x.ContractType == ContractType.Inverse && x.ExpiryTime == null) :
-            //            request.TradingMode == TradingMode.DeliveryLinear ? (x.ContractType == ContractType.Linear && x.ExpiryTime != null) :
-            //            (x.ContractType == ContractType.Inverse && x.ExpiryTime != null));
-            //    }
-            //}
 
             var resultData =
                  data
