@@ -164,6 +164,8 @@ var ticker = await okxShared.GetSpotTickerAsync(new GetTickerRequest(symbol));
 
 Call `okxShared.Discover()` to inspect supported shared interfaces, request options, and subscription options at runtime.
 
+`ISpotSymbolRestClient` and `IFuturesSymbolRestClient` expose cached symbol catalogs. Their shared symbol results include display names plus base/quote asset type and subtype metadata, including crypto, fiat, TradFi, stablecoin, equity, and commodity classifications where applicable.
+
 Available shared REST interfaces include `ISpotTickerRestClient`, `ISpotOrderRestClient`, `IFuturesOrderRestClient`, `IBalanceRestClient`, `IKlineRestClient`, `IOrderBookRestClient`, `IFundingRateRestClient`, `ILeverageRestClient`, `IWithdrawalRestClient`, and more. Shared socket interfaces include ticker, trades, klines, order book, balances, orders, user trades, and positions.
 
 ## Dependency Injection

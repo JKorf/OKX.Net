@@ -214,6 +214,8 @@ WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Soc
 | Shared REST client | `new OKXRestClient().UnifiedApi.SharedClient` |
 | Shared socket client | `new OKXSocketClient().UnifiedApi.SharedClient` |
 | Discover shared capabilities | `client.UnifiedApi.SharedClient.Discover()` |
+| Shared spot symbols and catalog | `ISpotSymbolRestClient.GetSpotSymbolsAsync(...)` and `ISpotSymbolRestClient.SpotSymbolCatalog` |
+| Shared futures symbols and catalog | `IFuturesSymbolRestClient.GetFuturesSymbolsAsync(...)` and `IFuturesSymbolRestClient.FuturesSymbolCatalog` |
 | Shared spot ticker REST | `ISpotTickerRestClient.GetSpotTickerAsync(new GetTickerRequest(symbol))` |
 | Shared spot order REST | `ISpotOrderRestClient.PlaceSpotOrderAsync(...)` |
 | Shared futures order REST | `IFuturesOrderRestClient.PlaceFuturesOrderAsync(...)` |
@@ -229,6 +231,8 @@ WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Soc
 | Shared position socket | `IPositionSocketClient.SubscribeToPositionUpdatesAsync(...)` |
 
 Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
+
+Shared spot and futures symbols populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use this metadata for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of parsing symbol strings.
 
 For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
 

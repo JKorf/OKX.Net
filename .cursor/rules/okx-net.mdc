@@ -81,6 +81,8 @@ var ticker = await shared.GetSpotTickerAsync(
     new GetTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")));
 ```
 
+The shared spot/futures symbol interfaces expose cached symbol catalogs. Returned symbols include display names and base/quote asset type and subtype metadata; use it instead of inferring crypto, fiat, TradFi, stablecoin, equity, or commodity types from symbol strings.
+
 ## Hard Rules
 
 - Never write raw `HttpClient` to OKX endpoints.
