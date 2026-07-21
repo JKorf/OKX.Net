@@ -266,7 +266,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     {
                         ClientOrderId = update.Data.ClientOrderId,
                         OrderQuantity = new SharedOrderQuantity(contractQuantity: update.Data.Quantity),
-                        QuantityFilled = new SharedOrderQuantity(update.Data.AccumulatedFillQuantity),
+                        QuantityFilled = new SharedOrderQuantity(contractQuantity: update.Data.AccumulatedFillQuantity),
                         AveragePrice = update.Data.AveragePrice == 0 ? null : update.Data.AveragePrice,
                         UpdateTime = update.Data.UpdateTime,
                         OrderPrice = update.Data.Price,
