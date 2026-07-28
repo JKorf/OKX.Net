@@ -36,10 +36,15 @@ namespace OKX.Net.Clients.UnifiedApi
                     update.Data.LastPrice ?? 0,
                     update.Data.HighPrice ?? 0,
                     update.Data.LowPrice ?? 0,
-                    update.Data.Volume,
+                    new SharedOrderQuantity(
+                                request.TradingMode == TradingMode.Spot ? update.Data.Volume : update.Data.QuoteVolume,
+                                request.TradingMode == TradingMode.Spot ? update.Data.QuoteVolume : null,
+                                request.TradingMode != TradingMode.Spot ? update.Data.Volume : null),
                     update.Data.OpenPrice == null ? null : Math.Round((update.Data.LastPrice ?? 0) / update.Data.OpenPrice.Value * 100 - 100, 2))
                 {
-                    QuoteVolume = update.Data.QuoteVolume
+#pragma warning disable CS0618 // Type or member is obsolete | Temporary to maintain previous behavior
+                    Volume = update.Data.Volume,
+#pragma warning restore
                 })), ct: ct).ConfigureAwait(false);
 
             return result;
@@ -60,7 +65,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 new SharedTrade(
                     ExchangeSymbolCache.ParseSymbol(request.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, EnvironmentName, null, update.Data.Symbol),
                     update.Data.Symbol,
-                    update.Data.Quantity,
+                    new SharedOrderQuantity(update.Data.Quantity),
                     update.Data.Price,
                     update.Data.Time){
                 Side = update.Data.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
@@ -133,7 +138,11 @@ namespace OKX.Net.Clients.UnifiedApi
                     update.Data.HighPrice,
                     update.Data.LowPrice,
                     update.Data.OpenPrice, 
-                    update.Data.Volume))), ct).ConfigureAwait(false);
+                    new SharedOrderQuantity(
+                                request.TradingMode == TradingMode.Spot ? update.Data.Volume : update.Data.VolumeCurrency,
+                                update.Data.VolumeCurrencyQuote,
+                                request.TradingMode != TradingMode.Spot ? update.Data.Volume : null
+                                )))), ct).ConfigureAwait(false);
 
             return result;
         }

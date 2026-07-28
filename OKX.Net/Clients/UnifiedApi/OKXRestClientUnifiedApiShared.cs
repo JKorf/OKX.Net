@@ -90,7 +90,19 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return HttpResult.Ok(result, ExchangeHelpers.ApplyFilter(result.Data, x => x.Time, request.StartTime, request.EndTime, direction)
                     .Select(x =>
-                        new SharedKline(request.Symbol, symbol, x.Time, x.ClosePrice, x.HighPrice, x.LowPrice, x.OpenPrice, x.Volume))
+                        new SharedKline(
+                            request.Symbol,
+                            symbol, 
+                            x.Time, 
+                            x.ClosePrice,
+                            x.HighPrice, 
+                            x.LowPrice, 
+                            x.OpenPrice,
+                            new SharedOrderQuantity(
+                                request.Symbol.TradingMode == TradingMode.Spot ? x.Volume : x.VolumeCurrency,
+                                x.VolumeCurrencyQuote,
+                                request.Symbol.TradingMode != TradingMode.Spot ? x.Volume: null
+                                )))
                     .ToArray(), nextPageRequest);
         }
 
@@ -208,10 +220,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 result.Data.LastPrice ?? 0, 
                 result.Data.HighPrice ?? 0, 
                 result.Data.LowPrice ?? 0,
-                result.Data.Volume,
+                new SharedOrderQuantity(result.Data.Volume, result.Data.QuoteVolume),
                 result.Data.OpenPrice == null ? null : Math.Round((result.Data.LastPrice ?? 0) / result.Data.OpenPrice.Value * 100 - 100, 2))
             {
-                QuoteVolume = result.Data.QuoteVolume
             });
         }
 
@@ -233,10 +244,9 @@ namespace OKX.Net.Clients.UnifiedApi
                     x.LastPrice ?? 0,
                     x.HighPrice ?? 0,
                     x.LowPrice ?? 0,
-                    x.Volume,
+                    new SharedOrderQuantity(x.Volume, x.QuoteVolume),
                     x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
                 {
-                    QuoteVolume = x.QuoteVolume
                 }).ToArray());
         }
 
@@ -284,7 +294,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedTrade[]>(result);
 
             return HttpResult.Ok(result, result.Data.Select(x => 
-            new SharedTrade(request.Symbol, symbol, x.Quantity, x.Price, x.Time)
+            new SharedTrade(request.Symbol, symbol, new SharedOrderQuantity(x.Quantity), x.Price, x.Time)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray());
@@ -1722,15 +1732,19 @@ namespace OKX.Net.Clients.UnifiedApi
             var funding = resultFunding.Result.Data?.SingleOrDefault();
             var index = resultIndexPrice.Result.Data.Single();
             var mark = resultMarkPrice.Result.Data.Single();
-            return HttpResult.Ok(resultTicker.Result, new SharedFuturesTicker(
+            return HttpResult.Ok(resultTicker.Result, 
+                new SharedFuturesTicker(
                     ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, resultTicker.Result.Data.Symbol),
                     resultTicker.Result.Data.Symbol,
                     resultTicker.Result.Data.LastPrice,
                     resultTicker.Result.Data.HighPrice,
                     resultTicker.Result.Data.LowPrice,
-                    resultTicker.Result.Data.Volume,
+                    new SharedOrderQuantity(resultTicker.Result.Data.QuoteVolume, null, resultTicker.Result.Data.Volume),
                     resultTicker.Result.Data.OpenPrice == null ? null : Math.Round((resultTicker.Result.Data.LastPrice ?? 0) / resultTicker.Result.Data.OpenPrice.Value * 100 - 100, 2))
                 {
+#pragma warning disable CS0618 // Type or member is obsolete | Temporary to maintain previous behavior
+                    Volume = resultTicker.Result.Data.Volume,
+#pragma warning restore
                     IndexPrice = index.IndexPrice,
                     MarkPrice = mark.MarkPrice,
                     FundingRate = funding?.FundingRate,
@@ -1763,7 +1777,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     x.LastPrice,
                     x.HighPrice,
                     x.LowPrice,
-                    x.Volume,
+                    new SharedOrderQuantity(x.QuoteVolume, null, x.Volume),
                     x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
                 {
                     MarkPrice = markPrice.MarkPrice
