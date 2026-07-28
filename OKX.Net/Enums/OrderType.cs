@@ -22,6 +22,6 @@ public enum OrderType
     MarketMakerProtection,
     [Map("mmp_and_post_only")]
     MarketMakerProtectionPostOnly,
-    [Map("elp")]
-    Elp
+    [Map("rpi")]
+    Rpi
 }

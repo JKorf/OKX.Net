@@ -42,7 +42,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         bool? banAmend = null,
         string? tradeQuoteAsset = null,
         int? priceAmendType = null,
-        bool? isElpTakerAccess = null,
+        bool? rpiTakerAccess = null,
         decimal? maxSlippagePercentage = null,
 
         CancellationToken ct = default)
@@ -66,7 +66,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         parameters.Add("stpMode", selfTradePreventionMode);
         parameters.Add("tradeQuoteCcy", tradeQuoteAsset);
         parameters.Add("pxAmendType", priceAmendType);
-        parameters.Add("isElpTakerAccess", isElpTakerAccess);
+        parameters.Add("rpiTakerAccess", rpiTakerAccess);
         parameters.Add("slippagePct", maxSlippagePercentage);
 
         if (attachedAlgoOrders != null)

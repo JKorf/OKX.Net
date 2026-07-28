@@ -16,6 +16,6 @@ public enum OrderBookType
     OrderBook_l2_TBT,
     [Map("bbo-tbt")]
     BBO_TBT,
-    [Map("books-elp")]
-    OrderBookElp
+    [Map("books-rpi")]
+    OrderBookRpi
 }

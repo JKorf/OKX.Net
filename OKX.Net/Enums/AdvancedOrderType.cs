@@ -10,4 +10,6 @@ public enum AdvancedOrderType
     FillOrKill,
     [Map("ioc")]
     ImmediateOrCancel,
+    [Map("chase")]
+    Chase,
 }

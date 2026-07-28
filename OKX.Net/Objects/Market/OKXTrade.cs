@@ -45,10 +45,10 @@ public record OKXTrade
     public DateTime Time { get; set; }
 
     /// <summary>
-    /// ["<c>source</c>"] Is ELP order
+    /// ["<c>source</c>"] Is RPI order
     /// </summary>
     [JsonPropertyName("source")]
-    public bool ElpOrder { get; set; }
+    public bool RpiOrder { get; set; }
 
     /// <summary>
     /// ["<c>count</c>"] Number of trades if it is an aggregated trade
