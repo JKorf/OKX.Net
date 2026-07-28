@@ -41,6 +41,9 @@ namespace OKX.Net.Clients.UnifiedApi
         async Task<HttpResult<SharedKline[]>> IKlineRestClient.GetKlinesAsync(GetKlinesRequest request, PageRequest? pageRequest, CancellationToken ct)
         {
             var interval = (KlineInterval)request.Interval;
+            if ((int)request.Interval >= 60 * 60 * 6)
+                // For 6hours and up the correct int value for UTC is the value + 1
+                interval = (KlineInterval)((int)request.Interval + 1);
 
             var validationError = SharedClient.GetKlinesOptions.ValidateRequest(request, this);
             if (validationError != null)

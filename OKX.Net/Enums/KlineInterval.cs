@@ -69,10 +69,22 @@ public enum KlineInterval
     SixHours = 60 * 60 * 6,
 
     /// <summary>
+    /// ["<c>6Hutc</c>"] 6H in UTC
+    /// </summary>
+    [Map("6Hutc")]
+    SixHoursUtc = 60 * 60 * 6 + 1,
+
+    /// <summary>
     /// ["<c>12H</c>"] 12H
     /// </summary>
     [Map("12H")]
     TwelveHours = 60 * 60 * 12,
+
+    /// <summary>
+    /// ["<c>12Hutc</c>"] 12H in UTC
+    /// </summary>
+    [Map("12Hutc")]
+    TwelveHoursUtc = 60 * 60 * 12 + 1,
 
     /// <summary>
     /// ["<c>1D</c>"] 1D
@@ -81,10 +93,46 @@ public enum KlineInterval
     OneDay = 60 * 60 * 24,
 
     /// <summary>
+    /// ["<c>1Dutc</c>"] 1D in UTC
+    /// </summary>
+    [Map("1Dutc")]
+    OneDayUtc = 60 * 60 * 24 + 1,
+
+    /// <summary>
+    /// ["<c>2D</c>"] 2D
+    /// </summary>
+    [Map("2D")]
+    TwoDays = 60 * 60 * 24 * 2,
+
+    /// <summary>
+    /// ["<c>2Dutc</c>"] 2D in UTC
+    /// </summary>
+    [Map("2Dutc")]
+    TwoDaysUtc = 60 * 60 * 24 * 2 + 1,
+
+    /// <summary>
+    /// ["<c>3D</c>"] 3D
+    /// </summary>
+    [Map("3D")]
+    ThreeDays = 60 * 60 * 24 * 3,
+
+    /// <summary>
+    /// ["<c>3Dutc</c>"] 3D in UTC
+    /// </summary>
+    [Map("3Dutc")]
+    ThreeDaysUtc = 60 * 60 * 24 * 3 + 1,
+
+    /// <summary>
     /// ["<c>1W</c>"] 1W
     /// </summary>
     [Map("1W")]
     OneWeek = 60 * 60 * 24 * 7,
+
+    /// <summary>
+    /// ["<c>1Wutc</c>"] 1W in UTC
+    /// </summary>
+    [Map("1Wutc")]
+    OneWeekUtc = 60 * 60 * 24 * 7 + 1,
 
     /// <summary>
     /// ["<c>1M</c>"] 1M
@@ -93,10 +141,22 @@ public enum KlineInterval
     OneMonth = 60 * 60 * 24 * 30,
 
     /// <summary>
+    /// ["<c>1Mutc</c>"] 1M in UTC
+    /// </summary>
+    [Map("1Mutc")]
+    OneMonthUtc = 60 * 60 * 24 * 30 + 1,
+
+    /// <summary>
     /// ["<c>3M</c>"] 3M
     /// </summary>
     [Map("3M")]
     ThreeMonths = 60 * 60 * 24 * 90,
+
+    /// <summary>
+    /// ["<c>3Mutc</c>"] 3M in UTC
+    /// </summary>
+    [Map("3Mutc")]
+    ThreeMonthsUtc = 60 * 60 * 24 * 90 + 1,
 
     /// <summary>
     /// ["<c>6M</c>"] 6M
