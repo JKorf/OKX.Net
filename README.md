@@ -217,6 +217,16 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.3.0 - 29 Jul 2026
+    * Updated CryptoExchange.Net to version 12.4.0
+    * Added calculation of AveragePrice on Shared order models if data is available and AveragePrice is not set
+    * Added DebuggerDisplay attributes to Result models
+    * Added AveragePrice property to SharedQuantity model
+    * Added RpiMinLevel, RpiMinPriceBand to OKXInstrument model
+    * Added missing UTC KlineInterval values. Updated Shared API logic to use UTC intervals
+    * Updated SharedFuturesTicker, SharedSpotTicker, SharedTrade and SharedKline to use SharedOrderQuantity for volumes/quantities
+    * Renamed ELP to RPI, added Chase to AdvancedOrderType enum
+
 * Version 5.2.0 - 21 Jul 2026
     * Updated CryptoExchange.Net to v12.2.0 
     * Added SpotSymbolCatalog to Shared ISpotSymbolRestClient interface
