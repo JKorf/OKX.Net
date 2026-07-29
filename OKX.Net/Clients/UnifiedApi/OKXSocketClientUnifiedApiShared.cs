@@ -65,7 +65,10 @@ namespace OKX.Net.Clients.UnifiedApi
                 new SharedTrade(
                     ExchangeSymbolCache.ParseSymbol(request.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, EnvironmentName, null, update.Data.Symbol),
                     update.Data.Symbol,
-                    new SharedOrderQuantity(update.Data.Quantity),
+                    new SharedOrderQuantity(
+                        request.TradingMode == TradingMode.Spot ? update.Data.Quantity : null,
+                        null,
+                        request.TradingMode != TradingMode.Spot ? update.Data.Quantity : null),
                     update.Data.Price,
                     update.Data.Time){
                 Side = update.Data.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell

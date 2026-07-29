@@ -297,7 +297,15 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedTrade[]>(result);
 
             return HttpResult.Ok(result, result.Data.Select(x => 
-            new SharedTrade(request.Symbol, symbol, new SharedOrderQuantity(x.Quantity), x.Price, x.Time)
+            new SharedTrade(
+                request.Symbol, 
+                symbol, 
+                new SharedOrderQuantity(
+                    request.TradingMode == TradingMode.Spot ? x.Quantity : null,
+                    null,
+                    request.TradingMode != TradingMode.Spot ? x.Quantity : null), 
+                x.Price,
+                x.Time)
             {
                 Side = x.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell
             }).ToArray());
