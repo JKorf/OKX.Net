@@ -277,6 +277,16 @@ public record OKXInstrument
     [JsonPropertyName("maxPxLmtPct")]
     public decimal? MaxPriceLimitCap { get; set; }
     /// <summary>
+    /// ["<c>rpiMinLevel</c>"] RPI min level
+    /// </summary>
+    [JsonPropertyName("rpiMinLevel")]
+    public int? RpiMinLevel { get; set; }
+    /// <summary>
+    /// ["<c>rpiMinPxBand</c>"] RPI min price band
+    /// </summary>
+    [JsonPropertyName("rpiMinPxBand")]
+    public decimal? RpiMinPriceBand { get; set; }
+    /// <summary>
     /// ["<c>upcChg</c>"] 
     /// </summary>
     [JsonPropertyName("upcChg")]
