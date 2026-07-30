@@ -44,6 +44,12 @@ public record OKXDiscountInfo
     public bool CollateralRestricted { get; set; }
 
     /// <summary>
+    /// ["<c>effTime</c>"] Effective timestamp
+    /// </summary>
+    [JsonPropertyName("effTime")]
+    public DateTime? EffectiveTime { get; set; }
+
+    /// <summary>
     /// ["<c>discountInfo</c>"] DEPRECATED, use DiscountDetails instead
     /// </summary>
     [JsonPropertyName("discountInfo")]
