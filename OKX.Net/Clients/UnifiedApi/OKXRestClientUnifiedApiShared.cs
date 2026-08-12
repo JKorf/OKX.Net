@@ -1586,7 +1586,7 @@ namespace OKX.Net.Clients.UnifiedApi
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest, false);
 
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            var result = await ExchangeData.GetMarkPriceKlinesAsync(
+            var result = await ExchangeData.GetIndexKlinesAsync(
                 symbol,
                 interval,
                 pageParams.StartTime,
@@ -1659,19 +1659,20 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Open Interest client
 
-        GetOpenInterestOptions IOpenInterestRestClient.GetOpenInterestOptions { get; } = new GetOpenInterestOptions(_exchangeName, true);
+        GetOpenInterestOptions IOpenInterestRestClient.GetOpenInterestOptions { get; } = new GetOpenInterestOptions(_exchangeName, false);
         async Task<HttpResult<SharedOpenInterest>> IOpenInterestRestClient.GetOpenInterestAsync(GetOpenInterestRequest request, CancellationToken ct)
         {
             var validationError = SharedClient.GetOpenInterestOptions.ValidateRequest(request, this);
             if (validationError != null)
                 return HttpResult.Fail<SharedOpenInterest>(Exchange, validationError);
 
-            HttpResult<OKXOpenInterest[]> result;
-            if (request.Symbol!.TradingMode.IsPerpetual())
-                result = await ExchangeData.GetOpenInterestsAsync(InstrumentType.Swap, symbol: request.Symbol.GetSymbol(FormatSymbol), ct: ct).ConfigureAwait(false);
-            else
-                result = await ExchangeData.GetOpenInterestsAsync(InstrumentType.Futures, symbol: request.Symbol.GetSymbol(FormatSymbol), ct: ct).ConfigureAwait(false);
+            var instrumentType = request.Symbol!.TradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+            var europeXPerps = EnvironmentName == OKXEnvironment.Europe.Name && ClientOptions.SharedApiEuropeUseXPerps;
+            if (europeXPerps && request.Symbol.TradingMode.IsPerpetual())
+                // XPerps are categorized under futures
+                instrumentType = InstrumentType.Futures;
 
+            var result = await ExchangeData.GetOpenInterestsAsync(instrumentType, symbol: request.Symbol.GetSymbol(FormatSymbol), ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedOpenInterest>(result);
 
@@ -1727,11 +1728,17 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return HttpResult.Fail<SharedFuturesTicker>(Exchange, validationError);
 
+            var instrumentType = request.Symbol!.TradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+            var europeXPerps = EnvironmentName == OKXEnvironment.Europe.Name && ClientOptions.SharedApiEuropeUseXPerps;
+            if (europeXPerps && request.Symbol.TradingMode.IsPerpetual())
+                // XPerps are categorized under futures
+                instrumentType = InstrumentType.Futures;
+
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
             var resultTicker = ExchangeData.GetTickerAsync(symbol, ct: ct);
             var resultFunding = ExchangeData.GetFundingRatesAsync(symbol: symbol, ct: ct);
-            var resultMarkPrice = ExchangeData.GetMarkPricesAsync(request.Symbol.TradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures, symbol: symbol, ct: ct);
-            var resultIndexPrice = ExchangeData.GetIndexTickersAsync(symbol: symbol.Split('-')[0] + "-" + symbol.Split('-')[1], ct: ct);
+            var resultMarkPrice = ExchangeData.GetMarkPricesAsync(instrumentType, symbol: symbol, ct: ct);
+            var resultIndexPrice = ExchangeData.GetIndexTickersAsync(symbol: symbol.Split('-')[0] + "-" + symbol.Split('-')[1].Split('_')[0], ct: ct);
             await Task.WhenAll(resultTicker, resultFunding).ConfigureAwait(false);
             if (!resultTicker.Result.Success)
                 return HttpResult.Fail<SharedFuturesTicker>(resultTicker.Result);
@@ -1771,6 +1778,11 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedFuturesTicker[]>(Exchange, validationError);
 
             var type = !request.TradingMode.HasValue || request.TradingMode == TradingMode.PerpetualLinear || request.TradingMode == TradingMode.PerpetualInverse ? InstrumentType.Swap : InstrumentType.Futures;
+            var europeXPerps = EnvironmentName == OKXEnvironment.Europe.Name && ClientOptions.SharedApiEuropeUseXPerps;
+            if (europeXPerps && type == InstrumentType.Swap)
+                // XPerps are categorized under futures
+                type = InstrumentType.Futures;
+
             var resultTickers = ExchangeData.GetTickersAsync(type, ct: ct);
             var resultMarkPrice = ExchangeData.GetMarkPricesAsync(type, ct: ct);
             await Task.WhenAll(resultTickers, resultMarkPrice).ConfigureAwait(false);
@@ -1779,7 +1791,11 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!resultMarkPrice.Result.Success)
                 return HttpResult.Fail<SharedFuturesTicker[]>(resultMarkPrice.Result);
 
-            return HttpResult.Ok(resultTickers.Result, resultTickers.Result.Data.Select(x =>
+            var resultData = resultTickers.Result.Data.AsEnumerable();
+            if (europeXPerps && (!request.TradingMode.HasValue || request.TradingMode!.Value.IsPerpetual()))
+                resultData = resultTickers.Result.Data.Where(x => x.Symbol.Contains("XPERP"));
+
+            return HttpResult.Ok(resultTickers.Result, resultData.Select(x =>
             {
                 var markPrice = resultMarkPrice.Result.Data.Single(p => p.Symbol == x.Symbol);
                 return new SharedFuturesTicker(
