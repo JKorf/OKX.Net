@@ -275,6 +275,12 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.3.2 - 12 Aug 2026
+    * Fixed Shared GetIndexPriceKlinesAsync calling MarkPrice klines endpoint
+    * Fixed Shared GetOpenInterestAsync not correctly using XPerp symbol when SharedApiEuropeUseXPerps is enabled
+    * Fixed Shared GetFuturesTickerAsync error when SharedApiEuropeUseXPerps is enabled
+    * Fixed Shared GetFuturesTickersAsync not correctly mapping to Futures instrument type when SharedApiEuropeUseXPerps is enabled
+
 * Version 5.3.1 - 29 Jul 2026
     * Fixed Shared API futures trade quantities incorrect notation
 
