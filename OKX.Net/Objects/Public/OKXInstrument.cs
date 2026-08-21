@@ -108,7 +108,7 @@ public record OKXInstrument
     /// ["<c>lever</c>"] Maximum leverage
     /// </summary>
     [JsonPropertyName("lever")]
-    public int? MaximumLeverage { get; set; }
+    public decimal? MaximumLeverage { get; set; }
 
     /// <summary>
     /// ["<c>tickSz</c>"] Tick size
