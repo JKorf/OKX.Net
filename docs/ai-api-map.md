@@ -229,12 +229,16 @@ WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Soc
 | Shared order book socket | `IOrderBookSocketClient.SubscribeToOrderBookUpdatesAsync(...)` |
 | Shared balance socket | `IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(...)` |
 | Shared position socket | `IPositionSocketClient.SubscribeToPositionUpdatesAsync(...)` |
+| Shared spot socket order management | `ISpotOrderManagementSocketClient.PlaceSpotOrderAsync(...)` and `CancelSpotOrderAsync(...)` |
+| Shared futures socket order management | `IFuturesOrderManagementSocketClient.PlaceFuturesOrderAsync(...)` and `CancelFuturesOrderAsync(...)` |
 
 Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
 
 Shared spot and futures symbols populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use this metadata for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of parsing symbol strings.
 
 For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
+
+Before using shared socket order management, call the matching shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method. This populates the numeric symbol-code mapping required by OKX WebSocket order requests.
 
 ## Result Handling
 

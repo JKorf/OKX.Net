@@ -275,6 +275,13 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.4.0 - 21 Aug 2026
+    * Updated to CryptoExchange.Net v12.5.0
+    * Added Shared ISpotOrderManagementSocketClient, IFuturesOrderManagementSocketClient implementations
+    * Added LowerPriceLimitPercentage, UpperPriceLimitPercentage to SharedSpotSymbol mapping
+    * Added LowerPriceLimitPercentage, UpperPriceLimitPercentage to SharedFuturesSymbol mapping
+    * Fixed WebSocket queries error response mapping
+
 * Version 5.3.2 - 12 Aug 2026
     * Fixed Shared GetIndexPriceKlinesAsync calling MarkPrice klines endpoint
     * Fixed Shared GetOpenInterestAsync not correctly using XPerp symbol when SharedApiEuropeUseXPerps is enabled

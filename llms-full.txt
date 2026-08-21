@@ -5,8 +5,8 @@
 OKX.Net is a strongly typed .NET client library for the OKX v5 REST and WebSocket APIs. It is part of the CryptoExchange.Net ecosystem and uses the same result, shared API, logging, rate limiting, dependency injection, and socket subscription patterns as the other JKorf exchange libraries.
 
 Current package id in this repository: `JK.OKX.Net`.
-Current package version in this repository: 5.3.2.
-CryptoExchange.Net dependency: 12.2.0.
+Current package version in this repository: 5.4.0.
+CryptoExchange.Net dependency: 12.5.0.
 Target frameworks: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0.
 Native AOT: supported on compatible .NET targets.
 
@@ -619,6 +619,8 @@ Console.WriteLine(string.Join(", ", info.Features.Where(x => x.Supported).Select
 
 `ISpotSymbolRestClient.SpotSymbolCatalog` and `IFuturesSymbolRestClient.FuturesSymbolCatalog` expose the cached shared symbol catalogs. Symbols returned by `GetSpotSymbolsAsync` and `GetFuturesSymbolsAsync` populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use these fields for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of inferring asset types from symbol strings.
 
+`ISpotOrderManagementSocketClient` and `IFuturesOrderManagementSocketClient` support shared WebSocket place and cancel requests. Before calling them, load the matching catalog with the shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method. OKX's WebSocket order API requires numeric symbol codes, and the REST symbol call populates the name-to-code mapping used by these shared socket methods. They return `QueryResult<SharedId>`; check `.Success` before reading `.Data`.
+
 Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`. Shared WebSocket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. For shared interface variables, unsubscribe through the concrete socket client:
 
 ```csharp
@@ -689,6 +691,8 @@ ISpotOrderSocketClient
 IFuturesOrderSocketClient
 IUserTradeSocketClient
 IPositionSocketClient
+ISpotOrderManagementSocketClient
+IFuturesOrderManagementSocketClient
 ```
 
 ## Symbol And Rule Handling

@@ -168,6 +168,8 @@ Call `okxShared.Discover()` to inspect supported shared interfaces, request opti
 
 Available shared REST interfaces include `ISpotTickerRestClient`, `ISpotOrderRestClient`, `IFuturesOrderRestClient`, `IBalanceRestClient`, `IKlineRestClient`, `IOrderBookRestClient`, `IFundingRateRestClient`, `ILeverageRestClient`, `IWithdrawalRestClient`, and more. Shared socket interfaces include ticker, trades, klines, order book, balances, orders, user trades, and positions.
 
+Shared socket order management is available through `ISpotOrderManagementSocketClient` and `IFuturesOrderManagementSocketClient` for placing and canceling orders. First call the matching shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method so OKX.Net can resolve shared symbol names to the numeric codes required by the WebSocket order API.
+
 ## Dependency Injection
 
 ```csharp
