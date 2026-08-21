@@ -17,7 +17,8 @@ internal class OKXIdQuery<T> : Query<OKXSocketResponse<T[]>>
 
     public CallResult<OKXSocketResponse<T[]>> HandleMessage(SocketConnection connection, DateTime receiveTime, string? originalData, OKXSocketResponse<T[]> message)
     {
-        if (string.Equals(message.Event, "error", StringComparison.Ordinal))
+        if (string.Equals(message.Event, "error", StringComparison.Ordinal)
+            || (message.Event == null && message.Code > 0))
             return CallResult<OKXSocketResponse<T[]>>.Fail(new ServerError(message.Code!.Value, _client.GetErrorInfo(message.Code.Value, message.Message!)), originalData);
 
         return CallResult<OKXSocketResponse<T[]>>.Ok(message, originalData);

@@ -97,9 +97,15 @@ namespace OKX.Net.Clients.UnifiedApi
                     ExchangeSymbolCache.ParseSymbol(request.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, EnvironmentName, null, update.Data.Symbol),
                     update.Data.Symbol,
                     update.Data.BestAskPrice ?? 0,
-                    update.Data.BestAskQuantity ?? 0, 
+                    new SharedOrderQuantity(
+                    request.TradingMode == TradingMode.Spot ? update.Data.BestAskQuantity : null,
+                    null,
+                    request.TradingMode != TradingMode.Spot ? update.Data.BestAskQuantity : null),
                     update.Data.BestBidPrice ?? 0,
-                    update.Data.BestBidQuantity ?? 0))), ct).ConfigureAwait(false);
+                    new SharedOrderQuantity(
+                        request.TradingMode == TradingMode.Spot ? update.Data.BestBidQuantity : null,
+                        null,
+                        request.TradingMode != TradingMode.Spot ? update.Data.BestBidQuantity : null)))), ct).ConfigureAwait(false);
 
             return result;
         }
@@ -168,7 +174,9 @@ namespace OKX.Net.Clients.UnifiedApi
             var type = request.Limit == 1 ? OrderBookType.BBO_TBT : OrderBookType.OrderBook_5;
 
             var symbols = request.Symbols?.Length > 0 ? request.Symbols.Select(x => x.GetSymbol(FormatSymbol)).ToArray() : [request.Symbol!.GetSymbol(FormatSymbol)];
-            var result = await ExchangeData.SubscribeToOrderBookUpdatesAsync(symbols, type, update => handler(update.ToType(new SharedOrderBook(update.Data.Asks, update.Data.Bids))), ct).ConfigureAwait(false);
+            var result = await ExchangeData.SubscribeToOrderBookUpdatesAsync(symbols, type, update => handler(
+                update.ToType(
+                    new SharedOrderBook(request.TradingMode == TradingMode.Spot ? SharedQuantityType.BaseAsset : SharedQuantityType.Contracts, update.Data.Asks, update.Data.Bids))), ct).ConfigureAwait(false);
 
             return result;
         }
@@ -231,7 +239,7 @@ namespace OKX.Net.Clients.UnifiedApi
                             update.Data.OrderId.ToString()!,
                             update.Data.TradeId.ToString()!,
                             update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                            update.Data.QuantityFilled!.Value, 
+                            new SharedOrderQuantity(update.Data.QuantityFilled!.Value), 
                             update.Data.FillPrice!.Value,
                             update.Data.FillTime!.Value)
                             {
@@ -298,8 +306,8 @@ namespace OKX.Net.Clients.UnifiedApi
                             update.Data.Symbol,
                             update.Data.OrderId.ToString()!,
                             update.Data.TradeId.ToString()!,
-                            update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell, 
-                            update.Data.QuantityFilled!.Value, 
+                            update.Data.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
+                            new SharedOrderQuantity(contractQuantity: update.Data.QuantityFilled!.Value), 
                             update.Data.FillPrice!.Value,
                             update.Data.FillTime!.Value)
                         {
@@ -348,7 +356,10 @@ namespace OKX.Net.Clients.UnifiedApi
                         update.Data.OrderId.ToString(),
                         update.Data.TradeId.ToString(),
                         update.Data.Side == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        update.Data.Quantity,
+                        new SharedOrderQuantity(
+                            request.TradingMode == TradingMode.Spot ? update.Data.Quantity : null,
+                            null,
+                            request.TradingMode != TradingMode.Spot ? update.Data.Quantity : null),
                         update.Data.Price,
                         update.Data.Timestamp)
                     {
@@ -384,7 +395,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     new SharedPosition(
                         ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol), 
                         x.Symbol, 
-                        x.PositionsQuantity ?? 0,
+                        new SharedOrderQuantity(contractQuantity: x.PositionsQuantity),
                         x.UpdateTime)
                     {
                         AverageOpenPrice = x.AveragePrice,
@@ -401,5 +412,163 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #endregion
 
+        #region Spot Order client
+
+        SharedOrderType[] ISpotOrderManagementSocketClient.SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
+        SharedTimeInForce[] ISpotOrderManagementSocketClient.SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
+
+        SharedQuantitySupport ISpotOrderManagementSocketClient.SpotSupportedOrderQuantity { get; } = new SharedQuantitySupport(
+                SharedQuantityType.BaseAsset,
+                SharedQuantityType.BaseAsset,
+                SharedQuantityType.BaseAndQuoteAsset,
+                SharedQuantityType.BaseAndQuoteAsset);
+
+        SharedFeeDeductionType ISpotOrderManagementSocketClient.SpotFeeDeductionType => SharedFeeDeductionType.DeductFromOutput;
+        SharedFeeAssetType ISpotOrderManagementSocketClient.SpotFeeAssetType => SharedFeeAssetType.OutputAsset;
+
+        string ISpotOrderManagementSocketClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(32);
+
+        PlaceSpotOrderSocketOptions ISpotOrderManagementSocketClient.PlaceSpotOrderOptions { get; } = new PlaceSpotOrderSocketOptions(_exchangeName)
+        {
+            RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetSpotSymbolsAsync method has been called prior to resolve the symbol code from name"
+        };
+
+        async Task<QueryResult<SharedId>> ISpotOrderManagementSocketClient.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        {
+            var validationError = SharedClient.PlaceSpotOrderOptions.ValidateRequest(request, this);
+            if (validationError != null)
+                return QueryResult.Fail<SharedId>(Exchange, validationError);
+
+            var symbolName = request.Symbol!.GetSymbol(FormatSymbol);
+            var symbolCode = OKXUtils.GetSymbolCode(EnvironmentName, symbolName);
+            if (symbolCode == null)
+                return QueryResult.Fail<SharedId>(Exchange, ArgumentError.Invalid(nameof(PlaceSpotOrderRequest.Symbol), "Symbol code not resolved, make sure REST GetSpotSymbolsAsync has been called prior"));
+
+            var result = await Trading.PlaceOrderAsync(
+                symbolCode.Value,
+                request.Side == SharedOrderSide.Buy ? OrderSide.Buy : OrderSide.Sell,
+                GetPlaceOrderType(request.OrderType, request.TimeInForce),
+                TradeMode.Cash,
+                quantity: request.Quantity?.QuantityInBaseAsset ?? request.Quantity?.QuantityInQuoteAsset ?? 0,
+                price: request.Price,
+                quantityAsset: request.Quantity?.QuantityInBaseAsset > 0 ? QuantityAsset.BaseAsset : QuantityAsset.QuoteAsset,
+                clientOrderId: request.ClientOrderId,
+                ct: ct).ConfigureAwait(false);
+
+            if (!result.Success)
+                return QueryResult.Fail<SharedId>(result);
+
+            return QueryResult.Ok(result, new SharedId(result.Data.OrderId.ToString()!));
+        }
+
+        CancelSpotOrderSocketOptions ISpotOrderManagementSocketClient.CancelSpotOrderOptions { get; } = new CancelSpotOrderSocketOptions(_exchangeName, true)
+        {
+            RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetSpotSymbolsAsync method has been called prior to resolve the symbol code from name"
+        };
+        async Task<QueryResult<SharedId>> ISpotOrderManagementSocketClient.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        {
+            var validationError = SharedClient.CancelSpotOrderOptions.ValidateRequest(request, this);
+            if (validationError != null)
+                return QueryResult.Fail<SharedId>(Exchange, validationError);
+
+            var symbolName = request.Symbol!.GetSymbol(FormatSymbol);
+            var symbolCode = OKXUtils.GetSymbolCode(EnvironmentName, symbolName);
+            if (symbolCode == null)
+                return QueryResult.Fail<SharedId>(Exchange, ArgumentError.Invalid(nameof(PlaceFuturesOrderRequest.Symbol), "Symbol code not resolved, make sure REST GetSpotSymbolsAsync has been called prior"));
+
+            var order = await Trading.CancelOrderAsync(symbolCode.Value, request.OrderId, ct: ct).ConfigureAwait(false);
+            if (!order.Success)
+                return QueryResult.Fail<SharedId>(order);
+
+            return QueryResult.Ok(order, new SharedId(request.OrderId));
+        }
+
+        private OrderType GetPlaceOrderType(SharedOrderType type, SharedTimeInForce? tif)
+        {
+            if (type == SharedOrderType.Market) return OrderType.Market;
+            if (type == SharedOrderType.LimitMaker) return OrderType.PostOnly;
+            if (tif == SharedTimeInForce.ImmediateOrCancel) return OrderType.ImmediateOrCancel;
+            if (tif == SharedTimeInForce.FillOrKill) return OrderType.FillOrKill;
+
+            return OrderType.Limit;
+        }
+        #endregion
+
+
+        #region Futures Order Client
+
+        SharedFeeDeductionType IFuturesOrderManagementSocketClient.FuturesFeeDeductionType => SharedFeeDeductionType.AddToCost;
+        SharedFeeAssetType IFuturesOrderManagementSocketClient.FuturesFeeAssetType => SharedFeeAssetType.InputAsset;
+        SharedOrderType[] IFuturesOrderManagementSocketClient.FuturesSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market };
+        SharedTimeInForce[] IFuturesOrderManagementSocketClient.FuturesSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
+        SharedQuantitySupport IFuturesOrderManagementSocketClient.FuturesSupportedOrderQuantity { get; } = new SharedQuantitySupport(
+                SharedQuantityType.Contracts,
+                SharedQuantityType.Contracts,
+                SharedQuantityType.Contracts,
+                SharedQuantityType.Contracts);
+
+        string IFuturesOrderManagementSocketClient.GenerateClientOrderId() => ExchangeHelpers.RandomString(32);
+
+        PlaceFuturesOrderSocketOptions IFuturesOrderManagementSocketClient.PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderSocketOptions(_exchangeName, false)
+        {
+            RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetFuturesSymbolsAsync method has been called prior to resolve the symbol code from name",
+            RequiredOptionalParameters = new List<ParameterDescription>
+            {
+                new ParameterDescription(nameof(PlaceFuturesOrderRequest.MarginMode), typeof(SharedMarginMode), "Isolated or cross margin", SharedMarginMode.Cross)
+            }
+        };
+        async Task<QueryResult<SharedId>> IFuturesOrderManagementSocketClient.PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
+        {
+            var validationError = SharedClient.PlaceFuturesOrderOptions.ValidateRequest(request, this);
+            if (validationError != null)
+                return QueryResult.Fail<SharedId>(Exchange, validationError);
+
+            var symbolName = request.Symbol!.GetSymbol(FormatSymbol);
+            var symbolCode = OKXUtils.GetSymbolCode(EnvironmentName, symbolName);
+            if (symbolCode == null)
+                return QueryResult.Fail<SharedId>(Exchange, ArgumentError.Invalid(nameof(PlaceFuturesOrderRequest.Symbol), "Symbol code not resolved, make sure REST GetFuturesSymbolsAsync has been called prior"));
+
+            var result = await Trading.PlaceOrderAsync(
+                symbolCode.Value,
+                request.Side == SharedOrderSide.Buy ? OrderSide.Buy : OrderSide.Sell,
+                GetPlaceOrderType(request.OrderType, request.TimeInForce),
+                quantity: request.Quantity?.QuantityInContracts ?? 0,
+                price: request.Price,
+                positionSide: request.PositionSide == null ? null : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
+                reduceOnly: request.ReduceOnly,
+                tradeMode: request.MarginMode == SharedMarginMode.Isolated ? TradeMode.Isolated : TradeMode.Cross,
+                clientOrderId: request.ClientOrderId,
+                ct: ct).ConfigureAwait(false);
+
+            if (!result.Success)
+                return QueryResult.Fail<SharedId>(result);
+
+            return QueryResult.Ok(result, new SharedId(result.Data.OrderId.ToString()!));
+        }
+
+
+        CancelFuturesOrderSocketOptions IFuturesOrderManagementSocketClient.CancelFuturesOrderOptions { get; } = new CancelFuturesOrderSocketOptions(_exchangeName, true)
+        {
+            RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetFuturesSymbolsAsync method has been called prior to resolve the symbol code from name"
+        };
+        async Task<QueryResult<SharedId>> IFuturesOrderManagementSocketClient.CancelFuturesOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        {
+            var validationError = SharedClient.CancelFuturesOrderOptions.ValidateRequest(request, this);
+            if (validationError != null)
+                return QueryResult.Fail<SharedId>(Exchange, validationError);
+
+            var symbolName = request.Symbol!.GetSymbol(FormatSymbol);
+            var symbolCode = OKXUtils.GetSymbolCode(EnvironmentName, symbolName);
+            if (symbolCode == null)
+                return QueryResult.Fail<SharedId>(Exchange, ArgumentError.Invalid(nameof(PlaceFuturesOrderRequest.Symbol), "Symbol code not resolved, make sure REST GetFuturesSymbolsAsync has been called prior"));
+
+            var order = await Trading.CancelOrderAsync(symbolCode.Value, request.OrderId).ConfigureAwait(false);
+            if (!order.Success)
+                return QueryResult.Fail<SharedId>(order);
+
+            return QueryResult.Ok(order, new SharedId(order.Data.OrderId.ToString()!));
+        }
+
+        #endregion
     }
 }

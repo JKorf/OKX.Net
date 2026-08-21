@@ -143,7 +143,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 QuantityStep = s.LotSize,
                 PriceStep = s.TickSize,
                 DisplayName = s.Symbol,
-                BaseAssetType = SharedAssetType.Crypto
+                BaseAssetType = SharedAssetType.Crypto,
+                UpperPriceLimitPercentage = s.PriceLimitPercentage * 100,
+                LowerPriceLimitPercentage = -s.PriceLimitPercentage * 100
             };
 
             if (LibraryHelpers.IsStableCoin(result.BaseAsset))
@@ -272,9 +274,15 @@ namespace OKX.Net.Clients.UnifiedApi
                 ExchangeSymbolCache.ParseSymbol(request.Symbol.TradingMode == TradingMode.Spot ? _topicSpotId : _topicFuturesId, EnvironmentName, null, resultTicker.Data.Symbol),
                 resultTicker.Data.Symbol,
                 resultTicker.Data.BestAskPrice ?? 0,
-                resultTicker.Data.BestAskQuantity ?? 0,
+                new SharedOrderQuantity(
+                    request.TradingMode == TradingMode.Spot ? resultTicker.Data.BestAskQuantity : null,
+                    null,
+                    request.TradingMode != TradingMode.Spot ? resultTicker.Data.BestAskQuantity : null),
                 resultTicker.Data.BestBidPrice ?? 0,
-                resultTicker.Data.BestBidQuantity ?? 0));
+               new SharedOrderQuantity(
+                    request.TradingMode == TradingMode.Spot ? resultTicker.Data.BestBidQuantity : null,
+                    null,
+                    request.TradingMode != TradingMode.Spot ? resultTicker.Data.BestBidQuantity : null)));
         }
 
         #endregion
@@ -541,7 +549,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.OrderId.ToString()!,
                 x.TradeId.ToString()!,
                 x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                x.QuantityFilled ?? 0,
+                new SharedOrderQuantity(x.QuantityFilled),
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
@@ -597,7 +605,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         x.OrderId.ToString()!,
                         x.TradeId.ToString()!,
                         x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        x.QuantityFilled ?? 0,
+                        new SharedOrderQuantity(x.QuantityFilled),
                         x.FillPrice ?? 0,
                         x.FillTime)
                     {
@@ -742,7 +750,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedOrderBook>(result);
 
-            return HttpResult.Ok(result, new SharedOrderBook(result.Data.Asks, result.Data.Bids));
+            return HttpResult.Ok(result, new SharedOrderBook(request.TradingMode == TradingMode.Spot ? SharedQuantityType.BaseAsset: SharedQuantityType.Contracts, result.Data.Asks, result.Data.Bids));
         }
 
         #endregion
@@ -1024,7 +1032,9 @@ namespace OKX.Net.Clients.UnifiedApi
                 DisplayName = x.Symbol,
                 MaxLongLeverage = x.MaximumLeverage,
                 MaxShortLeverage = x.MaximumLeverage,
-                BaseAssetType = SharedAssetType.Crypto
+                BaseAssetType = SharedAssetType.Crypto,
+                UpperPriceLimitPercentage = x.PriceLimitPercentage * 100,
+                LowerPriceLimitPercentage = -x.PriceLimitPercentage * 100
             };
 
             if (x.SymbolCategory == SymbolCategory.Stocks
@@ -1349,7 +1359,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 x.OrderId.ToString()!,
                 x.TradeId.ToString()!,
                 x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                x.QuantityFilled ?? 0,
+                new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
                 x.FillPrice ?? 0,
                 x.FillTime)
             {
@@ -1422,7 +1432,7 @@ namespace OKX.Net.Clients.UnifiedApi
                         x.OrderId.ToString()!,
                         x.TradeId.ToString()!,
                         x.OrderSide == OrderSide.Buy ? SharedOrderSide.Buy : SharedOrderSide.Sell,
-                        x.QuantityFilled ?? 0,
+                        new SharedOrderQuantity(contractQuantity: x.QuantityFilled),
                         x.FillPrice ?? 0,
                         x.FillTime)
                     {
@@ -1466,7 +1476,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 new SharedPosition(
                     ExchangeSymbolCache.ParseSymbol(_topicFuturesId, EnvironmentName, null, x.Symbol),
                     x.Symbol, 
-                    Math.Abs(x.PositionsQuantity ?? 0),
+                    new SharedOrderQuantity(contractQuantity: Math.Abs(x.PositionsQuantity ?? 0)),
                     x.UpdateTime)
                 {
                     UnrealizedPnl = x.UnrealizedPnl,
@@ -1676,7 +1686,7 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!result.Success)
                 return HttpResult.Fail<SharedOpenInterest>(result);
 
-            return HttpResult.Ok(result, new SharedOpenInterest(result.Data.First().OpenInterest ?? 0));
+            return HttpResult.Ok(result, new SharedOpenInterest(new SharedOrderQuantity(contractQuantity: result.Data.First().OpenInterest ?? 0)));
         }
 
         #endregion
@@ -1886,7 +1896,7 @@ namespace OKX.Net.Clients.UnifiedApi
                             x.Direction == PositionSide.Short ? SharedPositionSide.Short : SharedPositionSide.Long,
                             x.OpenAveragePrice ?? 0,
                             x.CloseAveragePrice ?? 0,
-                            x.CloseTotalPos ?? 0,
+                            new SharedOrderQuantity(contractQuantity: x.CloseTotalPos ?? 0),
                             x.ProfitAndLoss ?? 0,
                             x.UpdateTime)
                         {
