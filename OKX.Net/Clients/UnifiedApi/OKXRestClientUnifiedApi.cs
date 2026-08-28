@@ -12,6 +12,7 @@ namespace OKX.Net.Clients.UnifiedApi;
 internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXRestClientUnifiedApi
 {
     #region Internal Fields
+    private readonly OKXRestClientUnifiedSharedApi _sharedApi;
     public new OKXRestOptions ClientOptions => (OKXRestOptions)base.ClientOptions;
 
     protected override IRestMessageHandler MessageHandler { get; } = new OKXRestMessageHandler(OKXErrors.ErrorMapping);
@@ -26,7 +27,8 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
 
     public string ExchangeName => "OKX";
 
-    public IOKXRestClientUnifiedApiShared SharedClient => this;
+    public IOKXRestClientUnifiedApiShared SharedClient => _sharedApi;
+    public IOKXRestClientUnifiedSharedApi SharedApi => _sharedApi;
 
     internal OKXRestClientUnifiedApi(ILoggerFactory? loggerFactory, HttpClient? httpClient, OKXRestOptions options)
             : base(loggerFactory, OKXExchange.Metadata.Id, httpClient, options.Environment.RestAddress, options, options.UnifiedOptions)
@@ -36,6 +38,8 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
         Trading = new OKXRestClientUnifiedApiTrading(this);
         SubAccounts = new OKXRestClientUnifiedApiSubAccounts(this);
         CopyTrading = new OKXRestClientUnifiedApiCopyTrading(this);
+
+        _sharedApi = new OKXRestClientUnifiedSharedApi(this);
 
         if (options.Environment.Name == TradeEnvironmentNames.Testnet
             || options.Environment.Name == OKXEnvironment.EuropeDemo.Name)

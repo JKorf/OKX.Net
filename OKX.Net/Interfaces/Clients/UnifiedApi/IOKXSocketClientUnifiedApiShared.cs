@@ -20,4 +20,27 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
         IFuturesOrderManagementSocketClient
     {
     }
+
+    /// <summary>
+    /// Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    public interface IOKXSocketClientUnifiedSharedApi :
+        ISubscribeTickerOperation,
+        ISubscribeTradesOperation,
+        ISubscribeBookTickerOperation,
+        ISubscribeKlinesOperation,
+        ISubscribeOrderBookOperation,
+        ISubscribeBalancesOperation,
+        ISubscribeSpotOrdersOperation,
+        ISubscribeFuturesOrdersOperation,
+        ISubscribeUserTradesOperation,
+        ISubscribePositionsOperation,
+        IPlaceSpotOrderOperation,
+        ICancelSpotOrderOperation,
+        IPlaceFuturesOrderOperation,
+        ICancelFuturesOrderOperation
+    {
+    }
 }

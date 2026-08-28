@@ -16,6 +16,8 @@ namespace OKX.Net.Clients.UnifiedApi;
 /// <inheritdoc />
 internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironment, OKXAuthenticationProvider, OKXCredentials>, IOKXSocketClientUnifiedApi
 {
+    private readonly OKXSocketClientUnifiedSharedApi _sharedApi;
+
     public new OKXSocketOptions ClientOptions => (OKXSocketOptions)base.ClientOptions;
 
     protected override ErrorMapping ErrorMapping => OKXErrors.ErrorMapping;
@@ -39,6 +41,7 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
         Trading = new OKXSocketClientUnifiedApiTrading(_logger, this);
 
         _demoTrading = options.Environment.Name == TradeEnvironmentNames.Testnet || options.Environment.Name == OKXEnvironment.EuropeDemo.Name;
+        _sharedApi = new OKXSocketClientUnifiedSharedApi(this);
 
         AddSystemSubscription(new OKXConnCountSubscription(_logger));
 
@@ -65,7 +68,8 @@ internal partial class OKXSocketClientUnifiedApi : SocketApiClient<OKXEnvironmen
 
     public override ISocketMessageHandler CreateMessageConverter(WebSocketMessageType messageType) => new OKXSocketMessageHandler();
 
-    public IOKXSocketClientUnifiedApiShared SharedClient => this;
+    public IOKXSocketClientUnifiedApiShared SharedClient => _sharedApi;
+    public IOKXSocketClientUnifiedSharedApi SharedApi => _sharedApi;
 
     /// <inheritdoc />
     public override string FormatSymbol(string baseAsset, string quoteAsset, TradingMode tradingMode, DateTime? deliverTime = null)

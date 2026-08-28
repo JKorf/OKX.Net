@@ -32,13 +32,19 @@ public interface IOKXRestClientUnifiedApi : IRestApiClient<OKXCredentials>
     IOKXRestClientUnifiedApiTrading Trading { get; }
 
     /// <summary>
-    /// Get the shared rest requests client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
-    /// </summary>
-    IOKXRestClientUnifiedApiShared SharedClient { get; }
-
-    /// <summary>
     /// Endpoints related to copy trading
     /// </summary>
     /// <see cref="IOKXRestClientUnifiedApiCopyTrading"/>
     IOKXRestClientUnifiedApiCopyTrading CopyTrading { get; }
+
+    /// <summary>
+    /// Get the shared rest requests client. For new implementations prefer <see cref="SharedApi"/>
+    /// </summary>
+    IOKXRestClientUnifiedApiShared SharedClient { get; }
+    /// <summary>
+    /// Gets the aggregate Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    IOKXRestClientUnifiedSharedApi SharedApi { get; }
 }

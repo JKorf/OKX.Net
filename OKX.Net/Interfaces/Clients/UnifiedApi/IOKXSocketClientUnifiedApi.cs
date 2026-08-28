@@ -8,9 +8,15 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi;
 public interface IOKXSocketClientUnifiedApi : ISocketApiClient<OKXCredentials>
 {
     /// <summary>
-    /// Get the shared socket subscription client. This interface is shared with other exchanges to allow for a common implementation for different exchanges.
+    /// Get the shared socket subscription client. For new implementations prefer <see cref="SharedApi"/>
     /// </summary>
     IOKXSocketClientUnifiedApiShared SharedClient { get; }
+    /// <summary>
+    /// Gets the aggregate Shared API interface. Shared APIs provide a common,
+    /// exchange-independent contract for accessing functionality across different
+    /// exchange client libraries.
+    /// </summary>
+    IOKXSocketClientUnifiedSharedApi SharedApi { get; }
 
     /// <summary>
     /// Account streams and queries
