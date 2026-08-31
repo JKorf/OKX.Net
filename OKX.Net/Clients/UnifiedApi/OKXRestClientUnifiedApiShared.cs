@@ -793,6 +793,10 @@ namespace OKX.Net.Clients.UnifiedApi
             });
         }
 
+        Task<HttpResult<SharedAsset[]>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
+            => GetAllAssetsAsync(request, ct);
+        GetAllAssetsOptions IAssetsRestClient.GetAssetsOptions => GetAllAssetsOptions;
+
         public GetAllAssetsOptions GetAllAssetsOptions { get; } = new GetAllAssetsOptions(_exchangeName, true);
         public async Task<HttpResult<SharedAsset[]>> GetAllAssetsAsync(GetAssetsRequest request, CancellationToken ct)
         {
