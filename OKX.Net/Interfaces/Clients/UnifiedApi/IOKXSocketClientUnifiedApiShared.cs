@@ -27,20 +27,20 @@ namespace OKX.Net.Interfaces.Clients.UnifiedApi
     /// exchange client libraries.
     /// </summary>
     public interface IOKXSocketClientUnifiedSharedApi :
-        ISubscribeTickerOperation,
-        ISubscribeTradesOperation,
-        ISubscribeBookTickerOperation,
-        ISubscribeKlinesOperation,
-        ISubscribeOrderBookOperation,
-        ISubscribeBalancesOperation,
-        ISubscribeSpotOrdersOperation,
-        ISubscribeFuturesOrdersOperation,
-        ISubscribeUserTradesOperation,
-        ISubscribePositionsOperation,
-        IPlaceSpotOrderOperation,
-        ICancelSpotOrderOperation,
-        IPlaceFuturesOrderOperation,
-        ICancelFuturesOrderOperation
+        ISubscribeTickerSocket,
+        ISubscribeTradesSocket,
+        ISubscribeBookTickerSocket,
+        ISubscribeKlinesSocket,
+        ISubscribeOrderBookSocket,
+        ISubscribeBalancesSocket,
+        ISubscribeSpotOrdersSocket,
+        ISubscribeFuturesOrdersSocket,
+        ISubscribeUserTradesSocket,
+        ISubscribePositionsSocket,
+        IPlaceSpotOrderSocket,
+        ICancelSpotOrderSocket,
+        IPlaceFuturesOrderSocket,
+        ICancelFuturesOrderSocket
     {
     }
 }
