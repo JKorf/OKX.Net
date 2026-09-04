@@ -8,7 +8,8 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedSharedApi
     {
-        #region Futures Order client
+
+        #region Subscribe Futures Orders
 
         async Task<WebSocketResult<UpdateSubscription>> IFuturesOrderSocketClient.SubscribeToFuturesOrderUpdatesAsync(SubscribeFuturesOrderRequest request, Action<DataEvent<SharedFuturesOrder[]>> handler, CancellationToken ct)
             => await SubscribeToFuturesOrderUpdatesAsync(request, x => handler(x.ToType<SharedFuturesOrder[]>(x.Data)), ct).ConfigureAwait(false);
@@ -67,6 +68,8 @@ namespace OKX.Net.Clients.UnifiedApi
             return result;
         }
 
+        #endregion
+
         private decimal? ParseQuantity(OKXOrderUpdate data)
         {
             if (data.QuantityType == QuantityAsset.QuoteAsset)
@@ -82,9 +85,14 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return null;
         }
-        #endregion
 
-        #region Futures Order Client
+        #region Place Futures Order
+
+        async Task<ICallResult<SharedId>> IPlaceFuturesOrder.PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
+            => await PlaceFuturesOrderAsync(request, ct).ConfigureAwait(false);
+
+        PlaceFuturesOrderOptions IPlaceFuturesOrder.PlaceFuturesOrderOptions
+            => PlaceFuturesOrderOptions;
 
         public SharedFeeDeductionType FuturesFeeDeductionType => SharedFeeDeductionType.AddToCost;
         public SharedFeeAssetType FuturesFeeAssetType => SharedFeeAssetType.InputAsset;
@@ -133,6 +141,15 @@ namespace OKX.Net.Clients.UnifiedApi
             return QueryResult.Ok(result, new SharedId(result.Data.OrderId.ToString()!));
         }
 
+        #endregion
+
+        #region Cancel Futures Order
+
+        async Task<ICallResult<SharedId>> ICancelFuturesOrder.CancelFuturesOrderAsync(CancelOrderRequest request, CancellationToken ct)
+            => await CancelFuturesOrderAsync(request, ct).ConfigureAwait(false);
+
+        CancelFuturesOrderOptions ICancelFuturesOrder.CancelFuturesOrderOptions
+            => CancelFuturesOrderOptions;
 
         public CancelFuturesOrderSocketOptions CancelFuturesOrderOptions { get; } = new CancelFuturesOrderSocketOptions(_exchangeName, true)
         {
@@ -157,5 +174,6 @@ namespace OKX.Net.Clients.UnifiedApi
         }
 
         #endregion
+
     }
 }

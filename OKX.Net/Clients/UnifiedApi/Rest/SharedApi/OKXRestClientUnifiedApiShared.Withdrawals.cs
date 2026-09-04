@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Withdrawal client
+
+        #region Get Withdrawal History
+
+        async Task<ICallResult<SharedWithdrawal[]>> IGetWithdrawalHistory.GetWithdrawalHistoryAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
+            => await GetWithdrawalHistoryAsync(request, pageRequest, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedWithdrawal[]>> IWithdrawalRestClient.GetWithdrawalsAsync(GetWithdrawalsRequest request, PageRequest? pageRequest, CancellationToken ct)
             => GetWithdrawalHistoryAsync(request, pageRequest, ct);
@@ -64,6 +68,8 @@ namespace OKX.Net.Clients.UnifiedApi
                 .ToArray(), nextPageRequest);
         }
 
+        #endregion
+
         private SharedTransferStatus GetWithdrawalStatus(OKXWithdrawalHistory x)
         {
             if (x.State == WithdrawalState.Canceled
@@ -88,9 +94,11 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return SharedTransferStatus.Unknown;
         }
-        #endregion
 
-        #region Withdraw client
+        #region Withdraw
+
+        async Task<ICallResult<SharedId>> IWithdraw.WithdrawAsync(WithdrawRequest request, CancellationToken ct)
+            => await WithdrawAsync(request, ct).ConfigureAwait(false);
 
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName) {
             RequiredExchangeParameters = new List<ParameterDescription>
@@ -131,5 +139,6 @@ namespace OKX.Net.Clients.UnifiedApi
         }
 
         #endregion
+
     }
 }

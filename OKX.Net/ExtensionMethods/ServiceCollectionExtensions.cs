@@ -117,6 +117,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.GetRequiredService<IOptions<OKXRestOptions>>(),
                 x.GetRequiredService<IOptions<OKXSocketOptions>>()));
 
+            services.AddTransient<IOKXSharedApiClient, OKXSharedApiClient>();
+
+            services.RegisterSharedApi(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedApi);
+            services.RegisterSharedApi(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedApi);
+
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient);
 

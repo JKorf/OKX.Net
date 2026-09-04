@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Fee Client
+        #region Get Fees
+
+        async Task<ICallResult<SharedFee>> IGetFees.GetFeesAsync(GetFeeRequest request, CancellationToken ct)
+            => await GetFeesAsync(request, ct).ConfigureAwait(false);
+
         public GetFeeOptions GetFeeOptions { get; } = new GetFeeOptions(_exchangeName, true);
 
         public async Task<HttpResult<SharedFee>> GetFeesAsync(GetFeeRequest request, CancellationToken ct)
@@ -31,6 +35,7 @@ namespace OKX.Net.Clients.UnifiedApi
             // Return
             return HttpResult.Ok(result, new SharedFee(Math.Abs(result.Data.Maker ?? 0) * 100, Math.Abs(result.Data.Taker ?? 0) * 100));
         }
+
         #endregion
     }
 }

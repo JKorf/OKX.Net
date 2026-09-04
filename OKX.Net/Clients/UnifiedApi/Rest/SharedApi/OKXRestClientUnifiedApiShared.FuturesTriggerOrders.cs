@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Futures Trigger Order Client
+        #region Place Futures Trigger Order
+
+        async Task<ICallResult<SharedId>> IPlaceFuturesTriggerOrder.PlaceFuturesTriggerOrderAsync(PlaceFuturesTriggerOrderRequest request, CancellationToken ct)
+            => await PlaceFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
+
         public PlaceFuturesTriggerOrderOptions PlaceFuturesTriggerOrderOptions { get; } = new PlaceFuturesTriggerOrderOptions(_exchangeName, false)
         {
             RequiredRequestParameters = new List<ParameterDescription>
@@ -45,6 +49,8 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(result, new SharedId(result.Data.AlgoOrderId!));
         }
 
+        #endregion
+
         private OrderSide GetTriggerOrderSide(PlaceFuturesTriggerOrderRequest request)
         {
             if (request.PositionSide == SharedPositionSide.Long)
@@ -52,6 +58,11 @@ namespace OKX.Net.Clients.UnifiedApi
         
             return request.OrderDirection == SharedTriggerOrderDirection.Enter ? OrderSide.Sell : OrderSide.Buy;
         }
+
+        #region Get Futures Trigger Order
+
+        async Task<ICallResult<SharedFuturesTriggerOrder>> IGetFuturesTriggerOrder.GetFuturesTriggerOrderAsync(GetOrderRequest request, CancellationToken ct)
+            => await GetFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
 
         public GetFuturesTriggerOrderOptions GetFuturesTriggerOrderOptions { get; } = new GetFuturesTriggerOrderOptions(_exchangeName, true);
         public async Task<HttpResult<SharedFuturesTriggerOrder>> GetFuturesTriggerOrderAsync(GetOrderRequest request, CancellationToken ct)
@@ -99,6 +110,13 @@ namespace OKX.Net.Clients.UnifiedApi
             });
         }
 
+        #endregion
+
+        #region Cancel Futures Trigger Order
+
+        async Task<ICallResult<SharedId>> ICancelFuturesTriggerOrder.CancelFuturesTriggerOrderAsync(CancelOrderRequest request, CancellationToken ct)
+            => await CancelFuturesTriggerOrderAsync(request, ct).ConfigureAwait(false);
+
         public CancelFuturesTriggerOrderOptions CancelFuturesTriggerOrderOptions { get; } = new CancelFuturesTriggerOrderOptions(_exchangeName, true);
         public async Task<HttpResult<SharedId>> CancelFuturesTriggerOrderAsync(CancelOrderRequest request, CancellationToken ct)
         {
@@ -116,5 +134,6 @@ namespace OKX.Net.Clients.UnifiedApi
         }
 
         #endregion
+
     }
 }

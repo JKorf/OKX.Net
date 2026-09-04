@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Transfer client
+
+        #region Transfer
+
+        async Task<ICallResult<SharedId>> ITransfer.TransferAsync(TransferRequest request, CancellationToken ct)
+            => await TransferAsync(request, ct).ConfigureAwait(false);
 
         public TransferOptions TransferOptions { get; } = new TransferOptions(_exchangeName, [
             SharedAccountType.Funding,
@@ -42,6 +46,8 @@ namespace OKX.Net.Clients.UnifiedApi
             return HttpResult.Ok(transfer, new SharedId(transfer.Data.TransferId?.ToString() ?? ""));
         }
 
+        #endregion
+
         private AccountType? GetTransferType(SharedAccountType type)
         {
             if (type == SharedAccountType.Funding) return AccountType.Funding;
@@ -49,6 +55,5 @@ namespace OKX.Net.Clients.UnifiedApi
             return null;
         }
 
-        #endregion
     }
 }

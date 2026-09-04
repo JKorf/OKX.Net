@@ -8,7 +8,8 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedSharedApi
     {
-        #region Spot Order client
+        #region Subscribe Spot Orders
+
         async Task<WebSocketResult<UpdateSubscription>> ISpotOrderSocketClient.SubscribeToSpotOrderUpdatesAsync(SubscribeSpotOrderRequest request, Action<DataEvent<SharedSpotOrder[]>> handler, CancellationToken ct)
             => await SubscribeToSpotOrderUpdatesAsync(request, x => handler(x.ToType<SharedSpotOrder[]>(x.Data)), ct).ConfigureAwait(false);
 
@@ -62,6 +63,8 @@ namespace OKX.Net.Clients.UnifiedApi
             return result;
         }
 
+        #endregion
+
         private SharedOrderStatus ParseOrderStatus(OrderStatus orderState)
         {
             if (orderState == OrderStatus.Canceled)
@@ -73,9 +76,14 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return SharedOrderStatus.Unknown;
         }
-        #endregion
 
-        #region Spot Order client
+        #region Place Spot Order
+
+        async Task<ICallResult<SharedId>> IPlaceSpotOrder.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+            => await PlaceSpotOrderAsync(request, ct).ConfigureAwait(false);
+
+        PlaceSpotOrderOptions IPlaceSpotOrder.PlaceSpotOrderOptions
+            => PlaceSpotOrderOptions;
 
         public SharedOrderType[] SpotSupportedOrderTypes { get; } = new[] { SharedOrderType.Limit, SharedOrderType.Market, SharedOrderType.LimitMaker };
         public SharedTimeInForce[] SpotSupportedTimeInForce { get; } = new[] { SharedTimeInForce.GoodTillCanceled, SharedTimeInForce.ImmediateOrCancel, SharedTimeInForce.FillOrKill };
@@ -124,6 +132,16 @@ namespace OKX.Net.Clients.UnifiedApi
             return QueryResult.Ok(result, new SharedId(result.Data.OrderId.ToString()!));
         }
 
+        #endregion
+
+        #region Cancel Spot Order
+
+        async Task<ICallResult<SharedId>> ICancelSpotOrder.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+            => await CancelSpotOrderAsync(request, ct).ConfigureAwait(false);
+
+        CancelSpotOrderOptions ICancelSpotOrder.CancelSpotOrderOptions
+            => CancelSpotOrderOptions;
+
         public CancelSpotOrderSocketOptions CancelSpotOrderOptions { get; } = new CancelSpotOrderSocketOptions(_exchangeName, true)
         {
             RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetSpotSymbolsAsync method has been called prior to resolve the symbol code from name"
@@ -146,6 +164,8 @@ namespace OKX.Net.Clients.UnifiedApi
             return QueryResult.Ok(order, new SharedId(request.OrderId));
         }
 
+        #endregion
+
         private OrderType GetPlaceOrderType(SharedOrderType type, SharedTimeInForce? tif)
         {
             if (type == SharedOrderType.Market) return OrderType.Market;
@@ -155,6 +175,5 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return OrderType.Limit;
         }
-        #endregion
     }
 }

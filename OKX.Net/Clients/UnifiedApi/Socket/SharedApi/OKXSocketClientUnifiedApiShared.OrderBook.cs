@@ -8,7 +8,8 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedSharedApi
     {
-        #region Order Book client
+        #region Subscribe Order Book
+
         public SubscribeOrderBookOptions SubscribeOrderBookOptions { get; } = new SubscribeOrderBookOptions(_exchangeName, false, new[] { 1, 5 })
         {
             SupportsMultipleSymbols = true
@@ -28,6 +29,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return result;
         }
+
         #endregion
     }
 }

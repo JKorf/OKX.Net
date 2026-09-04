@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Leverage client
+        #region Get Leverage
+
+        async Task<ICallResult<SharedLeverage>> IGetLeverage.GetLeverageAsync(GetLeverageRequest request, CancellationToken ct)
+            => await GetLeverageAsync(request, ct).ConfigureAwait(false);
+
         public SharedLeverageSettingMode LeverageSettingType => SharedLeverageSettingMode.PerSide;
 
         public GetLeverageOptions GetLeverageOptions { get; } = new GetLeverageOptions(_exchangeName, true)
@@ -45,6 +49,13 @@ namespace OKX.Net.Clients.UnifiedApi
             });
         }
 
+        #endregion
+
+        #region Set Leverage
+
+        async Task<ICallResult<SharedLeverage>> ISetLeverage.SetLeverageAsync(SetLeverageRequest request, CancellationToken ct)
+            => await SetLeverageAsync(request, ct).ConfigureAwait(false);
+
         public SetLeverageOptions SetLeverageOptions { get; } = new SetLeverageOptions(_exchangeName) {
             RequiredRequestParameters = new List<ParameterDescription>
             {
@@ -71,6 +82,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 Side = request.Side
             });
         }
+
         #endregion
     }
 }

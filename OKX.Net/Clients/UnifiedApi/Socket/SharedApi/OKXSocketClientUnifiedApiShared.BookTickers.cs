@@ -8,7 +8,8 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXSocketClientUnifiedSharedApi
     {
-        #region Book Ticker client
+
+        #region Subscribe Book Ticker
 
         public SubscribeBookTickerOptions SubscribeBookTickerOptions { get; } = new SubscribeBookTickerOptions(_exchangeName, false)
         {
@@ -38,6 +39,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return result;
         }
+
         #endregion
     }
 }

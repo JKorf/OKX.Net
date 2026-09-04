@@ -11,7 +11,11 @@ namespace OKX.Net.Clients.UnifiedApi
 {
     internal partial class OKXRestClientUnifiedSharedApi
     {
-        #region Asset client
+
+        #region Get Asset
+
+        async Task<ICallResult<SharedAsset>> IGetAsset.GetAssetAsync(GetAssetRequest request, CancellationToken ct)
+            => await GetAssetAsync(request, ct).ConfigureAwait(false);
 
         public GetAssetOptions GetAssetOptions { get; } = new GetAssetOptions(_exchangeName, false);
         public async Task<HttpResult<SharedAsset>> GetAssetAsync(GetAssetRequest request, CancellationToken ct)
@@ -41,6 +45,13 @@ namespace OKX.Net.Clients.UnifiedApi
                 }).ToArray()
             });
         }
+
+        #endregion
+
+        #region Get All Assets
+
+        async Task<ICallResult<SharedAsset[]>> IGetAllAssets.GetAllAssetsAsync(GetAssetsRequest request, CancellationToken ct)
+            => await GetAllAssetsAsync(request, ct).ConfigureAwait(false);
 
         Task<HttpResult<SharedAsset[]>> IAssetsRestClient.GetAssetsAsync(GetAssetsRequest request, CancellationToken ct)
             => GetAllAssetsAsync(request, ct);
@@ -73,5 +84,6 @@ namespace OKX.Net.Clients.UnifiedApi
         }
 
         #endregion
+
     }
 }

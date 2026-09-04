@@ -26,6 +26,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public OKXRestClientUnifiedSharedApi(OKXRestClientUnifiedApi api)
             : base(
+                  SharedTransport.Rest,
                   api.Exchange,
                   [TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse],
                   () => api.Authenticated,
