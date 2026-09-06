@@ -103,7 +103,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName) {
             RequiredExchangeParameters = new List<ParameterDescription>
             {
-                ExchangeParameterDescription.Required(
+                ExchangeParameterRule.Required(
                     "withdrawFee",
                     aliases: ["fee"],
                     description: "Fee to use for the withdrawal",

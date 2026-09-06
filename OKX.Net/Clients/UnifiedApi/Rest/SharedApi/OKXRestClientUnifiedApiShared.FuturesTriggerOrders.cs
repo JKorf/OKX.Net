@@ -20,8 +20,8 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             RequiredRequestParameters = new List<ParameterDescription>
             {
-                RequestParameter<PlaceFuturesTriggerOrderRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
-                RequestParameter<PlaceFuturesTriggerOrderRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.HedgeMode),
+                RequestParameterRule<PlaceFuturesTriggerOrderRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
+                RequestParameterRule<PlaceFuturesTriggerOrderRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.HedgeMode),
             }
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesTriggerOrderAsync(PlaceFuturesTriggerOrderRequest request, CancellationToken ct)

@@ -31,7 +31,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             RequiredRequestParameters = new List<ParameterDescription>
             {
-                RequestParameter<PlaceFuturesOrderRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
+                RequestParameterRule<PlaceFuturesOrderRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
             }
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
@@ -464,7 +464,7 @@ namespace OKX.Net.Clients.UnifiedApi
             RequestNotes = "No order id returned by the API for this",
             RequiredRequestParameters = new List<ParameterDescription>
             {
-                RequestParameter<ClosePositionRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
+                RequestParameterRule<ClosePositionRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
             }
         };
         public async Task<HttpResult<SharedId>> ClosePositionAsync(ClosePositionRequest request, CancellationToken ct)

@@ -20,8 +20,8 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             RequiredRequestParameters = new List<ParameterDescription>
             {
-                RequestParameter<SetTpSlRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
-                RequestParameter<SetTpSlRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.OneWay)
+                RequestParameterRule<SetTpSlRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
+                RequestParameterRule<SetTpSlRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.OneWay)
             }
         };
 
@@ -63,7 +63,7 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             RequiredRequestParameters = new List<ParameterDescription>
             {
-                RequestParameter<CancelTpSlRequest>.Required(x => x.OrderId, "Id of the tp/sl order", "123123")
+                RequestParameterRule<CancelTpSlRequest>.Required(x => x.OrderId, "Id of the tp/sl order", "123123")
             }
         };
 
