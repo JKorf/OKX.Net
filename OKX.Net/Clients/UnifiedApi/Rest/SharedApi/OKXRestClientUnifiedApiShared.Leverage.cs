@@ -20,10 +20,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public GetLeverageOptions GetLeverageOptions { get; } = new GetLeverageOptions(_exchangeName, true)
         {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<GetLeverageRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<GetLeverageRequest>.Required(x => x.MarginMode),
+            ]
         };
         public async Task<HttpResult<SharedLeverage>> GetLeverageAsync(GetLeverageRequest request, CancellationToken ct)
         {
@@ -57,10 +56,9 @@ namespace OKX.Net.Clients.UnifiedApi
             => await SetLeverageAsync(request, ct).ConfigureAwait(false);
 
         public SetLeverageOptions SetLeverageOptions { get; } = new SetLeverageOptions(_exchangeName) {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<SetLeverageRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<SetLeverageRequest>.Required(x => x.MarginMode),
+            ]
         };
         public async Task<HttpResult<SharedLeverage>> SetLeverageAsync(SetLeverageRequest request, CancellationToken ct)
         {

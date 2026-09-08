@@ -107,10 +107,9 @@ namespace OKX.Net.Clients.UnifiedApi
         public PlaceFuturesOrderSocketOptions PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderSocketOptions(_exchangeName, false)
         {
             RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetFuturesSymbolsAsync method has been called prior to resolve the symbol code from name",
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                new ParameterDescription(nameof(PlaceFuturesOrderRequest.MarginMode), typeof(SharedMarginMode), "Isolated or cross margin", SharedMarginMode.Cross)
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<PlaceFuturesOrderRequest>.Required(x => x.MarginMode)
+            ]
         };
         public async Task<QueryResult<SharedId>> PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
         {

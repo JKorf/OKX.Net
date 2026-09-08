@@ -1,4 +1,5 @@
 using CryptoExchange.Net.Objects.Errors;
+using CryptoExchange.Net.Requests;
 using CryptoExchange.Net.SharedApis;
 using OKX.Net.Enums;
 using OKX.Net.Interfaces.Clients.UnifiedApi;
@@ -29,10 +30,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public PlaceFuturesOrderOptions PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions(_exchangeName, false)
         {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<PlaceFuturesOrderRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<PlaceFuturesOrderRequest>.Required(x => x.MarginMode),
+            ]
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)
         {
@@ -456,16 +456,32 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Close Position
 
-        async Task<ICallResult<SharedId>> IClosePosition.ClosePositionAsync(ClosePositionRequest request, CancellationToken ct)
-            => await ClosePositionAsync(request, ct).ConfigureAwait(false);
+        async Task<ICallResult<SharedId>> ICloseFullPosition.CloseFullPositionAsync(CloseFullPositionRequest request, CancellationToken ct)
+            => await CloseFullPositionAsync(request, ct).ConfigureAwait(false);
+
+        public CloseFullPositionOptions CloseFullPositionOptions { get; } = new CloseFullPositionOptions(_exchangeName, true)
+        {
+            RequestNotes = "No order id is returned by the API for this",
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<ClosePositionRequest>.Required(x => x.MarginMode),
+            ]
+        };
+
+        public async Task<HttpResult<SharedId>> CloseFullPositionAsync(CloseFullPositionRequest request, CancellationToken ct)
+        {
+            var validationError = CloseFullPositionOptions.ValidateRequest(request, this);
+            if (validationError != null)
+                return HttpResult.Fail<SharedId>(Exchange, validationError);
+
+            return await ClosePositionCoreAsync(request.Symbol!, request.MarginMode!.Value, request.PositionSide, ct).ConfigureAwait(false);
+        }
 
         public ClosePositionOptions ClosePositionOptions { get; } = new ClosePositionOptions(_exchangeName, true)
         {
-            RequestNotes = "No order id returned by the API for this",
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<ClosePositionRequest>.Required(x => x.MarginMode, "Cross or isolated margin", SharedMarginMode.Cross),
-            }
+            RequestNotes = "No order id is returned by the API for this",
+            ParameterRuleOverwrites = [            
+                RequestParameterRuleOverride<ClosePositionRequest>.Required(x => x.MarginMode),
+            ]
         };
         public async Task<HttpResult<SharedId>> ClosePositionAsync(ClosePositionRequest request, CancellationToken ct)
         {
@@ -473,16 +489,22 @@ namespace OKX.Net.Clients.UnifiedApi
             if (validationError != null)
                 return HttpResult.Fail<SharedId>(Exchange, validationError);
 
+            return await ClosePositionCoreAsync(request.Symbol!, request.MarginMode!.Value, request.PositionSide, ct).ConfigureAwait(false);
+        }
+
+        private async Task<HttpResult<SharedId>> ClosePositionCoreAsync(SharedSymbol symbol, SharedMarginMode marginMode, SharedPositionSide? positionSide, CancellationToken ct)
+        {
             var result = await _api.Trading.ClosePositionAsync(
-                request.Symbol!.GetSymbol(FormatSymbol),
-                request.MarginMode == SharedMarginMode.Cross ? MarginMode.Cross : MarginMode.Isolated,
-                positionSide: request.PositionSide == null ? null : request.PositionSide == SharedPositionSide.Short ? PositionSide.Short : PositionSide.Long,
+                symbol.GetSymbol(FormatSymbol),
+                marginMode == SharedMarginMode.Cross ? MarginMode.Cross : MarginMode.Isolated,
+                positionSide: positionSide == null ? null : positionSide == SharedPositionSide.Short ? PositionSide.Short : PositionSide.Long,
                 ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedId>(result);
 
             return HttpResult.Ok(result, new SharedId(string.Empty));
         }
+
 
         #endregion
 

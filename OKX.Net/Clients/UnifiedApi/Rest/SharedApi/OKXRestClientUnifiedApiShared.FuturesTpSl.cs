@@ -18,11 +18,10 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public SetFuturesTpSlOptions SetFuturesTpSlOptions { get; } = new SetFuturesTpSlOptions(_exchangeName, true)
         {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<SetTpSlRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
-                RequestParameterRule<SetTpSlRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.OneWay)
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<SetTpSlRequest>.Required(x => x.MarginMode),
+                RequestParameterRuleOverride<SetTpSlRequest>.Required(x => x.PositionMode)
+            ]
         };
 
         public async Task<HttpResult<SharedId>> SetFuturesTpSlAsync(SetTpSlRequest request, CancellationToken ct)
@@ -61,10 +60,9 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public CancelFuturesTpSlOptions CancelFuturesTpSlOptions { get; } = new CancelFuturesTpSlOptions(_exchangeName, true)
         {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<CancelTpSlRequest>.Required(x => x.OrderId, "Id of the tp/sl order", "123123")
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<CancelTpSlRequest>.Required(x => x.OrderId)
+            ]
         };
 
         public async Task<HttpResult<bool>> CancelFuturesTpSlAsync(CancelTpSlRequest request, CancellationToken ct)

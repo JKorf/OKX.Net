@@ -101,14 +101,13 @@ namespace OKX.Net.Clients.UnifiedApi
             => await WithdrawAsync(request, ct).ConfigureAwait(false);
 
         public WithdrawOptions WithdrawOptions { get; } = new WithdrawOptions(_exchangeName) {
-            RequiredExchangeParameters = new List<ParameterDescription>
-            {
+            ExchangeParameterRules = [
                 ExchangeParameterRule.Required(
                     "withdrawFee",
                     aliases: ["fee"],
                     description: "Fee to use for the withdrawal",
                     exampleValue: 0.001m)
-            }
+            ]
         };
 
         public async Task<HttpResult<SharedId>> WithdrawAsync(WithdrawRequest request, CancellationToken ct)

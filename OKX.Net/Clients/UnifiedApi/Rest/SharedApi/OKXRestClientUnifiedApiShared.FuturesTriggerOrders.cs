@@ -18,11 +18,10 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public PlaceFuturesTriggerOrderOptions PlaceFuturesTriggerOrderOptions { get; } = new PlaceFuturesTriggerOrderOptions(_exchangeName, false)
         {
-            RequiredRequestParameters = new List<ParameterDescription>
-            {
-                RequestParameterRule<PlaceFuturesTriggerOrderRequest>.Required(x => x.MarginMode, "Margin mode to use", SharedMarginMode.Cross),
-                RequestParameterRule<PlaceFuturesTriggerOrderRequest>.Required(x => x.PositionMode, "Position mode the account is in", SharedPositionMode.HedgeMode),
-            }
+            ParameterRuleOverwrites = [
+                RequestParameterRuleOverride<PlaceFuturesTriggerOrderRequest>.Required(x => x.MarginMode),
+                RequestParameterRuleOverride<PlaceFuturesTriggerOrderRequest>.Required(x => x.PositionMode),
+            ]
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesTriggerOrderAsync(PlaceFuturesTriggerOrderRequest request, CancellationToken ct)
         {
@@ -41,6 +40,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 orderPrice: request.OrderPrice ?? -1,
                 clientOrderId: request.ClientOrderId,
                 positionSide: request.PositionMode == SharedPositionMode.OneWay ? PositionSide.Net : request.PositionSide == SharedPositionSide.Long ? PositionSide.Long : PositionSide.Short,
+                reduceOnly: request.ReduceOnly,
                 ct: ct).ConfigureAwait(false);
             if (!result.Success)
                 return HttpResult.Fail<SharedId>(result);
