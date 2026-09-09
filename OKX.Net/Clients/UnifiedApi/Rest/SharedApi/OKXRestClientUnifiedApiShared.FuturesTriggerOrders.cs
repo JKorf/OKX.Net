@@ -21,6 +21,7 @@ namespace OKX.Net.Clients.UnifiedApi
             ParameterRuleOverwrites = [
                 RequestParameterRuleOverride<PlaceFuturesTriggerOrderRequest>.Required(x => x.MarginMode),
                 RequestParameterRuleOverride<PlaceFuturesTriggerOrderRequest>.Required(x => x.PositionMode),
+                RequestParameterRuleOverride<PlaceFuturesTriggerOrderRequest>.NotSupported(x => x.Leverage),
             ]
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesTriggerOrderAsync(PlaceFuturesTriggerOrderRequest request, CancellationToken ct)

@@ -32,6 +32,9 @@ namespace OKX.Net.Clients.UnifiedApi
         {
             ParameterRuleOverwrites = [
                 RequestParameterRuleOverride<PlaceFuturesOrderRequest>.Required(x => x.MarginMode),
+                RequestParameterRuleOverride<PlaceFuturesOrderRequest>.NotSupported(x => x.TakeProfitPrice),
+                RequestParameterRuleOverride<PlaceFuturesOrderRequest>.NotSupported(x => x.StopLossPrice),
+                RequestParameterRuleOverride<PlaceFuturesOrderRequest>.NotSupported(x => x.Leverage),
             ]
         };
         public async Task<HttpResult<SharedId>> PlaceFuturesOrderAsync(PlaceFuturesOrderRequest request, CancellationToken ct)

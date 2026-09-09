@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Clients;
+using CryptoExchange.Net.Interfaces.Clients;
 using CryptoExchange.Net.Objects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -226,6 +227,22 @@ namespace OKX.Net.UnitTests
 
             Assert.That(missingOptions, Is.Empty);
             Assert.That(missingInterfaces, Is.Empty);
+        }
+
+        [Test]
+        public void TestSpotRestSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = CryptoExchange.Net.Testing.TestHelpers.ValidateUnsupportedCapabilities(new OKXRestClient().UnifiedApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
+        }
+
+        [Test]
+        public void TestSpotSocketSharedApiDoesntHaveUnsupportedCapabilities()
+        {
+            var unsupported = CryptoExchange.Net.Testing.TestHelpers.ValidateUnsupportedCapabilities(new OKXSocketClient().UnifiedApi.SharedApi);
+
+            Assert.That(unsupported, Is.Empty);
         }
     }
 

@@ -39,6 +39,8 @@ namespace OKX.Net.Clients.UnifiedApi
                 TransferType.TransferWithinAccount,
                 fromType.Value,
                 toType.Value,
+                fromSymbol: request.FromSymbol,
+                toSymbol: request.ToSymbol,
                 ct: ct).ConfigureAwait(false);
             if (!transfer.Success)
                 return HttpResult.Fail<SharedId>(transfer);
