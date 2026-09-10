@@ -30,7 +30,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public PlaceFuturesOrderOptions PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderOptions(_exchangeName, false)
         {
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<PlaceFuturesOrderRequest>.Required(x => x.MarginMode),
                 RequestParameterRuleOverride<PlaceFuturesOrderRequest>.NotSupported(x => x.TakeProfitPrice),
                 RequestParameterRuleOverride<PlaceFuturesOrderRequest>.NotSupported(x => x.StopLossPrice),
@@ -465,7 +465,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public CloseFullPositionOptions CloseFullPositionOptions { get; } = new CloseFullPositionOptions(_exchangeName, true)
         {
             RequestNotes = "No order id is returned by the API for this",
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<ClosePositionRequest>.Required(x => x.MarginMode),
             ]
         };
@@ -482,7 +482,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public ClosePositionOptions ClosePositionOptions { get; } = new ClosePositionOptions(_exchangeName, true)
         {
             RequestNotes = "No order id is returned by the API for this",
-            ParameterRuleOverwrites = [            
+            ParameterRuleOverrides = [            
                 RequestParameterRuleOverride<ClosePositionRequest>.Required(x => x.MarginMode),
             ]
         };

@@ -107,7 +107,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public PlaceFuturesOrderSocketOptions PlaceFuturesOrderOptions { get; } = new PlaceFuturesOrderSocketOptions(_exchangeName, false)
         {
             RequestNotes = "The OKX WebSocket Order API uses symbol codes instead of symbol names. Make sure the REST GetFuturesSymbolsAsync method has been called prior to resolve the symbol code from name",
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<PlaceFuturesOrderRequest>.Required(x => x.MarginMode)
             ]
         };

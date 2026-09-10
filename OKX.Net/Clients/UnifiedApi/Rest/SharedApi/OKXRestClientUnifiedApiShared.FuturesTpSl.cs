@@ -18,7 +18,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public SetFuturesTpSlOptions SetFuturesTpSlOptions { get; } = new SetFuturesTpSlOptions(_exchangeName, true)
         {
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<SetTpSlRequest>.Required(x => x.MarginMode),
                 RequestParameterRuleOverride<SetTpSlRequest>.Required(x => x.PositionMode)
             ]
@@ -60,7 +60,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public CancelFuturesTpSlOptions CancelFuturesTpSlOptions { get; } = new CancelFuturesTpSlOptions(_exchangeName, true)
         {
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<CancelTpSlRequest>.Required(x => x.OrderId)
             ]
         };

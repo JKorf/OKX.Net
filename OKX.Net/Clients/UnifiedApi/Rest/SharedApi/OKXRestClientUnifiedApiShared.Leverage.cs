@@ -20,7 +20,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         public GetLeverageOptions GetLeverageOptions { get; } = new GetLeverageOptions(_exchangeName, true)
         {
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<GetLeverageRequest>.Required(x => x.MarginMode),
             ]
         };
@@ -56,7 +56,7 @@ namespace OKX.Net.Clients.UnifiedApi
             => await SetLeverageAsync(request, ct).ConfigureAwait(false);
 
         public SetLeverageOptions SetLeverageOptions { get; } = new SetLeverageOptions(_exchangeName) {
-            ParameterRuleOverwrites = [
+            ParameterRuleOverrides = [
                 RequestParameterRuleOverride<SetLeverageRequest>.Required(x => x.MarginMode),
             ]
         };
