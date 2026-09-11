@@ -1,11 +1,12 @@
-﻿using OKX.Net.Interfaces.Clients.UnifiedApi;
+﻿using CryptoExchange.Net.SharedApis;
+using OKX.Net.Interfaces.Clients.UnifiedApi;
 
 namespace OKX.Net.Interfaces.Clients
 {
     /// <summary>
     /// Client for the shared REST and WebSocket API implementations of OKX
     /// </summary>
-    public interface IOKXSharedApiClient
+    public interface IOKXSharedApiClient : ISharedApiClientBase
     {
         /// <summary>
         /// REST shared API implementations

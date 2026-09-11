@@ -1,4 +1,5 @@
 ﻿using CryptoExchange.Net.Objects.Options;
+using CryptoExchange.Net.SharedApis;
 
 namespace OKX.Net.Objects.Options;
 /// <summary>
@@ -9,5 +10,14 @@ public class OKXOptions : LibraryOptions<OKXRestOptions, OKXSocketOptions, OKXCr
     /// <summary>
     /// Whether to use XPerps as perpetual linear contracts when using the Shared API's
     /// </summary>
-    public bool SharedApiEuropeUseXPerps { get; set; }
+    public bool SharedApiEuropeUseXPerps
+    {
+        get => SharedApi.EuropeUseXPerps;
+        set => SharedApi.EuropeUseXPerps = value;
+    }
+
+    /// <summary>
+    /// Options for Shared API usage
+    /// </summary>
+    public SharedApiOptions SharedApi { get; set; } = new();
 }

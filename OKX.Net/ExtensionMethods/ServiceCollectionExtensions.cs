@@ -54,8 +54,9 @@ namespace Microsoft.Extensions.DependencyInjection
             options.Socket.Environment = OKXEnvironment.GetEnvironmentByName(socketEnvName) ?? options.Socket.Environment!;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddOKXCore(services, options.SocketClientLifeTime);
         }
@@ -85,8 +86,9 @@ namespace Microsoft.Extensions.DependencyInjection
             options.Socket.Environment = options.Socket.Environment ?? options.Environment ?? OKXEnvironment.Live;
             options.Socket.ApiCredentials = options.Socket.ApiCredentials ?? options.ApiCredentials;
 
-            services.AddSingleton(x => Options.Options.Create(options.Rest));
-            services.AddSingleton(x => Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options.Rest));
+            services.AddSingleton(Options.Options.Create(options.Socket));
+            services.AddSingleton(Options.Options.Create(options));
 
             return AddOKXCore(services, options.SocketClientLifeTime);
         }
@@ -121,6 +123,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.RegisterSharedApi(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedApi);
             services.RegisterSharedApi(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedApi);
+
+            services.RegisterSharedApiClientCapabilities<IOKXSharedApiClient>();
 
             services.RegisterSharedRestInterfaces(x => x.GetRequiredService<IOKXRestClient>().UnifiedApi.SharedClient);
             services.RegisterSharedSocketInterfaces(x => x.GetRequiredService<IOKXSocketClient>().UnifiedApi.SharedClient);
