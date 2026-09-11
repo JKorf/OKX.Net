@@ -19,5 +19,5 @@ public class OKXOptions : LibraryOptions<OKXRestOptions, OKXSocketOptions, OKXCr
     /// <summary>
     /// Options for Shared API usage
     /// </summary>
-    public SharedApiOptions SharedApi { get; set; } = new();
+    public OKXSharedApiOptions SharedApi { get; set; } = new();
 }
