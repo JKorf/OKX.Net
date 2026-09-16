@@ -91,6 +91,12 @@ public record OKXFeeRate
     /// </summary>
     [JsonPropertyName("fiat")]
     public OKXFiatFee[] Fiat { get; set; } = Array.Empty<OKXFiatFee>();
+
+    /// <summary>
+    /// ["<c>feeGroup</c>"] Fee groups
+    /// </summary>
+    [JsonPropertyName("feeGroup")]
+    public OKXFeeGroup[] FeeGroups { get; set; } = [];
 }
 
 /// <summary>
@@ -114,4 +120,31 @@ public record OKXFiatFee
     /// </summary>
     [JsonPropertyName("maker")]
     public decimal MakerFeeRate { get; set; }
+}
+
+/// <summary>
+/// Fee group
+/// </summary>
+public record OKXFeeGroup
+{
+    /// <summary>
+    /// ["<c>groupId</c>"] Group ID
+    /// </summary>
+    [JsonPropertyName("groupId")]
+    public string GroupId { get; set; } = string.Empty;
+    /// <summary>
+    /// ["<c>maker</c>"] Maker fee
+    /// </summary>
+    [JsonPropertyName("maker")]
+    public decimal MakerFeeRate { get; set; }
+    /// <summary>
+    /// ["<c>taker</c>"] Taker fee
+    /// </summary>
+    [JsonPropertyName("taker")]
+    public decimal TakerFeeRate { get; set; }
+    /// <summary>
+    /// ["<c>rpiMaker</c>"] RPI Maker fee
+    /// </summary>
+    [JsonPropertyName("rpiMaker")]
+    public decimal RpiMakerFeeRate { get; set; }
 }
