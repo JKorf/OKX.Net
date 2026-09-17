@@ -291,7 +291,7 @@ public interface IOKXRestClientUnifiedApiAccount
     /// Get non-tradable funding assets and their withdrawal details.
     /// <para>
     /// Docs:<br />
-    /// <a href="https://my.okx.com/docs-v5/en/#funding-account-rest-api-get-non-tradable-assets" /><br />
+    /// <a href="https://okx.com/docs-v5/en/#funding-account-rest-api-get-non-tradable-assets" /><br />
     /// Endpoint:<br />
     /// GET /api/v5/asset/non-tradable-assets
     /// </para>
