@@ -1,0 +1,41 @@
+GET
+/api/v5/asset/non-tradable-assets
+true
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "bal": "0.00000028",
+      "burningFeeRate": "",
+      "canWd": false,
+      "ccy": "NULS",
+      "chain": "NULS-NULS",
+      "ctAddr": "",
+      "fee": "1",
+      "feeCcy": "USDC",
+      "logoLink": "https://static.coinall.ltd/cdn/assets/imgs/221/ADAB79BE81A43128.png",
+      "minWd": "4",
+      "name": "NULS",
+      "needTag": false,
+      "wdAll": false,
+      "wdTickSz": "8"
+    },
+    {
+      "bal": "123.456",
+      "burningFeeRate": "0.04",
+      "canWd": true,
+      "ccy": "PIT",
+      "chain": "PIT-BSC",
+      "ctAddr": "2c2e50",
+      "fee": "0",
+      "feeCcy": "PIT",
+      "logoLink": "https://static.coinall.ltd/cdn/oksupport/asset/currency/icon/pit.png",
+      "minWd": "2604166667",
+      "name": "Pitbull",
+      "needTag": false,
+      "wdAll": false,
+      "wdTickSz": "8"
+    }
+  ]
+}
