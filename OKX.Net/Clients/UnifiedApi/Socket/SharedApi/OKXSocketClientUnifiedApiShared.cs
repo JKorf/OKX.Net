@@ -22,7 +22,7 @@ namespace OKX.Net.Clients.UnifiedApi
         public OKXSocketClientUnifiedSharedApi(OKXSocketClientUnifiedApi api)
             : base(
                   SharedTransport.Socket,
-                  api.Exchange,
+                  api,
                   [TradingMode.Spot, TradingMode.PerpetualLinear, TradingMode.PerpetualInverse, TradingMode.DeliveryLinear, TradingMode.DeliveryInverse],
                   () => api.Authenticated,
                   api.FormatSymbol)

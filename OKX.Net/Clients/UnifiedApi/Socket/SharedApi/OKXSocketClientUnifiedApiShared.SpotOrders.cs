@@ -79,7 +79,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Place Spot Order
 
-        async Task<ICallResult<SharedId>> IPlaceSpotOrder.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedId>> IPlaceSpotOrder.PlaceSpotOrderAsync(PlaceSpotOrderRequest request, CancellationToken ct)
             => await PlaceSpotOrderAsync(request, ct).ConfigureAwait(false);
 
         PlaceSpotOrderOptions IPlaceSpotOrder.PlaceSpotOrderOptions
@@ -136,7 +136,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
         #region Cancel Spot Order
 
-        async Task<ICallResult<SharedId>> ICancelSpotOrder.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
+        async Task<IExchangeCallResult<SharedId>> ICancelSpotOrder.CancelSpotOrderAsync(CancelOrderRequest request, CancellationToken ct)
             => await CancelSpotOrderAsync(request, ct).ConfigureAwait(false);
 
         CancelSpotOrderOptions ICancelSpotOrder.CancelSpotOrderOptions
