@@ -41,6 +41,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetMaximumWithdrawalsAsync(), "GetMaximumWithdrawals");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetAssetsAsync(), "GetAssets");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetFundingBalanceAsync(), "GetFundingBalance");
+            await tester.ValidateAsync(c => c.UnifiedApi.Account.GetNonTradableAssetsAsync(), "GetNonTradableAssets");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.TransferAsync("ETH", 1, TransferType.MasterAccountToSubAccount, AccountType.Funding, AccountType.Funding), "Transfer", useSingleArrayItem: true);
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetFundingBillDetailsAsync("ETH"), "GetFundingBillDetails");
             await tester.ValidateAsync(c => c.UnifiedApi.Account.GetFundingBillHistoryAsync("ETH"), "GetFundingBillHistory");

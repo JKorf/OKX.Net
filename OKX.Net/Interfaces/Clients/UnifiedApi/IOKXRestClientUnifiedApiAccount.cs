@@ -288,6 +288,19 @@ public interface IOKXRestClientUnifiedApiAccount
     Task<HttpResult<OKXFundingBalance[]>> GetFundingBalanceAsync(string? asset = null, CancellationToken ct = default);
 
     /// <summary>
+    /// Get non-tradable funding assets and their withdrawal details.
+    /// <para>
+    /// Docs:<br />
+    /// <a href="https://okx.com/docs-v5/en/#funding-account-rest-api-get-non-tradable-assets" /><br />
+    /// Endpoint:<br />
+    /// GET /api/v5/asset/non-tradable-assets
+    /// </para>
+    /// </summary>
+    /// <param name="asset">["<c>ccy</c>"] Single currency or up to 20 comma-separated currencies</param>
+    /// <param name="ct">Cancellation token</param>
+    Task<HttpResult<OKXNonTradableAsset[]>> GetNonTradableAssetsAsync(string? asset = null, CancellationToken ct = default);
+
+    /// <summary>
     /// Get billing records, you can get the latest 1 month historical data
     /// <para>
     /// Docs:<br />

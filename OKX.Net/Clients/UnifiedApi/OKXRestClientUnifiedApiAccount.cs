@@ -454,6 +454,17 @@ internal class OKXRestClientUnifiedApiAccount : IOKXRestClientUnifiedApiAccount
     }
 
     /// <inheritdoc />
+    public virtual async Task<HttpResult<OKXNonTradableAsset[]>> GetNonTradableAssetsAsync(string? asset = null, CancellationToken ct = default)
+    {
+        var parameters = new Parameters(OKXExchange._parameterSerializationSettings);
+        parameters.Add("ccy", asset);
+
+        var request = _definitions.GetOrCreate(HttpMethod.Get, _baseClient.BaseAddress, "api/v5/asset/non-tradable-assets", OKXExchange.RateLimiter.EndpointGate, 1, true,
+            limitGuard: new SingleLimitGuard(6, TimeSpan.FromSeconds(1), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
+        return await _baseClient.SendAsync<OKXNonTradableAsset[]>(request, parameters, ct).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<HttpResult<OKXTransferResponse>> TransferAsync(
         string asset,
         decimal amount,
