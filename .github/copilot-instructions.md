@@ -46,7 +46,7 @@ Methods return `WebCallResult<T>` for REST and `CallResult<T>` for WebSocket. Al
 
 ## Cross-Exchange
 
-For exchange-agnostic code, use `CryptoExchange.Net.SharedApis` via `.UnifiedApi.SharedClient`. Same pattern works for Binance, Bybit, Kraken, CoinEx, and other CryptoExchange.Net libraries.
+For exchange-agnostic code, use `CryptoExchange.Net.SharedApis` via `.UnifiedApi.SharedApi`. Same pattern works for Binance, Bybit, Kraken, CoinEx, and other CryptoExchange.Net libraries.
 
 The shared spot/futures symbol interfaces expose cached symbol catalogs and populate display name plus base/quote asset type and subtype metadata. Use that metadata for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of parsing symbol strings.
 

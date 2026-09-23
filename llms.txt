@@ -27,7 +27,7 @@
 - Use OKX symbol format such as `BTC-USDT` and `BTC-USDT-SWAP`.
 - Check `.Success` before reading `.Data` on `HttpResult<T>`, `HttpResult`, `WebSocketResult<UpdateSubscription>`, `QueryResult<T>`, and shared helper results.
 - REST calls return `HttpResult<T>` or `HttpResult`; socket subscriptions return `WebSocketResult<UpdateSubscription>`; socket API request/response methods return `QueryResult<T>`.
-- For multi-exchange code use `client.UnifiedApi.SharedClient`; call `SharedClient.Discover()` to inspect implemented shared interfaces and endpoint/subscription options at runtime.
+- Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 - Shared spot/futures symbol interfaces expose cached symbol catalogs and return display names plus base/quote asset type and subtype metadata.
 
 ## Reference

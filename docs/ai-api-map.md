@@ -23,7 +23,7 @@ Use this file to route common user intents to the correct OKX.Net client member.
 | Orders, fills, algo orders, order history | `client.UnifiedApi.Trading` |
 | Sub-account management | `client.UnifiedApi.SubAccounts` |
 | Copy trading | `client.UnifiedApi.CopyTrading` |
-| Shared REST abstraction | `client.UnifiedApi.SharedClient` |
+| Shared REST abstraction | `client.UnifiedApi.SharedApi` |
 
 ## Market Data REST
 
@@ -211,26 +211,28 @@ WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Soc
 
 | User intent | OKX.Net member or interface |
 |---|---|
-| Shared REST client | `new OKXRestClient().UnifiedApi.SharedClient` |
-| Shared socket client | `new OKXSocketClient().UnifiedApi.SharedClient` |
-| Discover shared capabilities | `client.UnifiedApi.SharedClient.Discover()` |
-| Shared spot symbols and catalog | `ISpotSymbolRestClient.GetSpotSymbolsAsync(...)` and `ISpotSymbolRestClient.SpotSymbolCatalog` |
-| Shared futures symbols and catalog | `IFuturesSymbolRestClient.GetFuturesSymbolsAsync(...)` and `IFuturesSymbolRestClient.FuturesSymbolCatalog` |
-| Shared spot ticker REST | `ISpotTickerRestClient.GetSpotTickerAsync(new GetTickerRequest(symbol))` |
-| Shared spot order REST | `ISpotOrderRestClient.PlaceSpotOrderAsync(...)` |
-| Shared futures order REST | `IFuturesOrderRestClient.PlaceFuturesOrderAsync(...)` |
-| Shared balances REST | `IBalanceRestClient.GetBalancesAsync(...)` |
-| Shared klines REST | `IKlineRestClient.GetKlinesAsync(...)` |
-| Shared order book REST | `IOrderBookRestClient.GetOrderBookAsync(...)` |
-| Shared funding rate REST | `IFundingRateRestClient.GetFundingRateAsync(...)` |
-| Shared leverage REST | `ILeverageRestClient.SetLeverageAsync(...)` |
-| Shared ticker socket | `ITickerSocketClient.SubscribeToTickerUpdatesAsync(...)` |
-| Shared trade socket | `ITradeSocketClient.SubscribeToTradeUpdatesAsync(...)` |
-| Shared order book socket | `IOrderBookSocketClient.SubscribeToOrderBookUpdatesAsync(...)` |
-| Shared balance socket | `IBalanceSocketClient.SubscribeToBalanceUpdatesAsync(...)` |
-| Shared position socket | `IPositionSocketClient.SubscribeToPositionUpdatesAsync(...)` |
-| Shared spot socket order management | `ISpotOrderManagementSocketClient.PlaceSpotOrderAsync(...)` and `CancelSpotOrderAsync(...)` |
-| Shared futures socket order management | `IFuturesOrderManagementSocketClient.PlaceFuturesOrderAsync(...)` and `CancelFuturesOrderAsync(...)` |
+| Shared REST client | `new OKXRestClient().UnifiedApi.SharedApi` |
+| Shared socket client | `new OKXSocketClient().UnifiedApi.SharedApi` |
+| Resolve a runtime-selected Shared API capability | `IOKXSharedApiClient.GetCapability(...)` |
+| Shared spot symbols and catalog | `IGetSpotSymbolsRest.GetSpotSymbolsAsync(...)` and `IGetSpotSymbolsRest.SpotSymbolCatalog` |
+| Shared futures symbols and catalog | `IGetFuturesSymbolsRest.GetFuturesSymbolsAsync(...)` and `IGetFuturesSymbolsRest.FuturesSymbolCatalog` |
+| Shared spot ticker REST | `IGetTickerRest.GetTickerAsync(new GetTickerRequest(symbol))` |
+| Shared spot order REST | `IPlaceSpotOrderRest.PlaceSpotOrderAsync(...)` |
+| Shared futures order REST | `IPlaceFuturesOrderRest.PlaceFuturesOrderAsync(...)` |
+| Shared balances REST | `IGetBalancesRest.GetBalancesAsync(...)` |
+| Shared klines REST | `IGetKlinesRest.GetKlinesAsync(...)` |
+| Shared order book REST | `IGetOrderBookRest.GetOrderBookAsync(...)` |
+| Shared funding info REST | `IGetFundingInfoRest.GetFundingInfoAsync(...)` |
+| Shared leverage REST | `ISetLeverageRest.SetLeverageAsync(...)` |
+| Shared ticker socket | `ISubscribeTickerSocket.SubscribeToTickerUpdatesAsync(...)` |
+| Shared trade socket | `ISubscribeTradesSocket.SubscribeToTradeUpdatesAsync(...)` |
+| Shared order book socket | `ISubscribeOrderBookSocket.SubscribeToOrderBookUpdatesAsync(...)` |
+| Shared balance socket | `ISubscribeBalancesSocket.SubscribeToBalanceUpdatesAsync(...)` |
+| Shared position socket | `ISubscribePositionsSocket.SubscribeToPositionUpdatesAsync(...)` |
+| Place shared spot order over socket | `IPlaceSpotOrderSocket.PlaceSpotOrderAsync(...)` |
+| Cancel shared spot order over socket | `ICancelSpotOrderSocket.CancelSpotOrderAsync(...)` |
+| Place shared futures order over socket | `IPlaceFuturesOrderSocket.PlaceFuturesOrderAsync(...)` |
+| Cancel shared futures order over socket | `ICancelFuturesOrderSocket.CancelFuturesOrderAsync(...)` |
 
 Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
 
