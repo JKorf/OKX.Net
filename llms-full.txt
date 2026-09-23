@@ -37,7 +37,7 @@ Primary documentation:
 - Use OKX symbol format such as `BTC-USDT`, `ETH-USDT`, and `ETH-USDT-SWAP`; do not use Binance-style `BTCUSDT`.
 - Use `UnifiedApi`. OKX.Net does not expose separate `SpotApi`, `FuturesApi`, `SwapApi`, `MarginApi`, `UsdFuturesApi`, or `GeneralApi` roots.
 - For product-specific calls, route by `InstrumentType`, symbol format, `TradeMode`, `MarginMode`, and `PositionSide`.
-- For multi-exchange code, use `CryptoExchange.Net.SharedApis` interfaces from `client.UnifiedApi.SharedClient`; use `.SharedClient.Discover()` to inspect implemented shared interfaces and endpoint/subscription options at runtime.
+- Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 
 ## Installation
 
@@ -217,7 +217,7 @@ OKXRestClient
     .Trading
     .SubAccounts
     .CopyTrading
-    .SharedClient
+    .SharedApi
 ```
 
 WebSocket:
@@ -228,7 +228,7 @@ OKXSocketClient
     .ExchangeData
     .Account
     .Trading
-    .SharedClient
+    .SharedApi
 ```
 
 Important: OKX.Net follows the OKX v5 unified account model. Spot, margin, futures, swaps, and options are not separate client roots. Route by symbol and enums:
@@ -597,10 +597,10 @@ Use CryptoExchange.Net.SharedApis when the user asks for code that can work agai
 using OKX.Net.Clients;
 using CryptoExchange.Net.SharedApis;
 
-ISpotTickerRestClient tickerClient = new OKXRestClient().UnifiedApi.SharedClient;
+IGetTickerRest tickerClient = new OKXRestClient().UnifiedApi.SharedApi;
 var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
 
-var ticker = await tickerClient.GetSpotTickerAsync(new GetTickerRequest(symbol));
+var ticker = await tickerClient.GetTickerAsync(new GetTickerRequest(symbol));
 if (!ticker.Success)
 {
     Console.WriteLine(ticker.Error);
@@ -610,22 +610,21 @@ if (!ticker.Success)
 Console.WriteLine(ticker.Data.LastPrice);
 ```
 
-Shared clients expose `Discover()` for runtime metadata about implemented shared interfaces, supported request options, and supported subscription options.
+Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 
 ```csharp
-var info = new OKXRestClient().UnifiedApi.SharedClient.Discover();
-Console.WriteLine(string.Join(", ", info.Features.Where(x => x.Supported).Select(x => x.EndpointName)));
+// Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
 ```
 
-`ISpotSymbolRestClient.SpotSymbolCatalog` and `IFuturesSymbolRestClient.FuturesSymbolCatalog` expose the cached shared symbol catalogs. Symbols returned by `GetSpotSymbolsAsync` and `GetFuturesSymbolsAsync` populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use these fields for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of inferring asset types from symbol strings.
+`IGetSpotSymbolsRest.SpotSymbolCatalog` and `IGetFuturesSymbolsRest.FuturesSymbolCatalog` expose the cached shared symbol catalogs. Symbols returned by `GetSpotSymbolsAsync` and `GetFuturesSymbolsAsync` populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use these fields for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of inferring asset types from symbol strings.
 
-`ISpotOrderManagementSocketClient` and `IFuturesOrderManagementSocketClient` support shared WebSocket place and cancel requests. Before calling them, load the matching catalog with the shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method. OKX's WebSocket order API requires numeric symbol codes, and the REST symbol call populates the name-to-code mapping used by these shared socket methods. They return `QueryResult<SharedId>`; check `.Success` before reading `.Data`.
+`IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket` and `IPlaceFuturesOrderSocket` and `ICancelFuturesOrderSocket` support shared WebSocket place and cancel requests. Before calling them, load the matching catalog with the shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method. OKX's WebSocket order API requires numeric symbol codes, and the REST symbol call populates the name-to-code mapping used by these shared socket methods. They return `QueryResult<SharedId>`; check `.Success` before reading `.Data`.
 
 Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`. Shared WebSocket subscriptions return `WebSocketResult<UpdateSubscription>` with an `UpdateSubscription` in `.Data`. For shared interface variables, unsubscribe through the concrete socket client:
 
 ```csharp
 var socketClient = new OKXSocketClient();
-ITickerSocketClient tickerSocket = socketClient.UnifiedApi.SharedClient;
+ISubscribeTickerSocket tickerSocket = socketClient.UnifiedApi.SharedApi;
 
 var sub = await tickerSocket.SubscribeToTickerUpdatesAsync(
     new SubscribeTickerRequest(new SharedSymbol(TradingMode.Spot, "BTC", "USDT")),
@@ -642,57 +641,59 @@ Console.ReadLine();
 await socketClient.UnsubscribeAsync(sub.Data);
 ```
 
-Do not call `tickerSocket.UnsubscribeAsync(...)` on `ITickerSocketClient`; that shared interface does not expose the method.
+Do not call `tickerSocket.UnsubscribeAsync(...)` on `ISubscribeTickerSocket`; that shared interface does not expose the method.
 
 OKX shared REST interfaces in this repository include:
 
 ```text
-IAssetsRestClient
-IBalanceRestClient
-IDepositRestClient
-IKlineRestClient
-IOrderBookRestClient
-IRecentTradeRestClient
-ISpotOrderRestClient
-ISpotSymbolRestClient
-ISpotTickerRestClient
-IWithdrawalRestClient
-IWithdrawRestClient
-IFuturesSymbolRestClient
-IFuturesOrderRestClient
-ILeverageRestClient
-IMarkPriceKlineRestClient
-IIndexPriceKlineRestClient
-IOpenInterestRestClient
-IFuturesTickerRestClient
-IFundingRateRestClient
-IPositionModeRestClient
-IPositionHistoryRestClient
-IFeeRestClient
-ISpotTriggerOrderRestClient
-IFuturesTriggerOrderRestClient
-IFuturesTpSlRestClient
-ISpotOrderClientIdRestClient
-IFuturesOrderClientIdRestClient
-IBookTickerRestClient
-ITransferRestClient
+IGetAllAssetsRest
+IGetBalancesRest
+IGetDepositHistoryRest
+IGetKlinesRest
+IGetOrderBookRest
+IGetRecentTradesRest
+IPlaceSpotOrderRest
+IGetSpotSymbolsRest
+IGetTickerRest
+IGetWithdrawalHistoryRest
+IWithdrawRest
+IGetFuturesSymbolsRest
+IPlaceFuturesOrderRest
+ISetLeverageRest
+IGetMarkPriceKlinesRest
+IGetIndexPriceKlinesRest
+IGetOpenInterestRest
+IGetTickerRest
+IGetFundingRateHistoryRest
+IGetPositionModeRest
+IGetPositionHistoryRest
+IGetFeesRest
+IPlaceSpotTriggerOrderRest
+IPlaceFuturesTriggerOrderRest
+ISetFuturesTpSlRest
+IGetSpotOrderByClientOrderIdRest
+IGetFuturesOrderByClientOrderIdRest
+IGetBookTickerRest
+ITransferRest
 ```
 
 OKX shared socket interfaces include:
 
 ```text
-ITickerSocketClient
-ITradeSocketClient
-IBookTickerSocketClient
-IKlineSocketClient
-IOrderBookSocketClient
-IBalanceSocketClient
-ISpotOrderSocketClient
-IFuturesOrderSocketClient
-IUserTradeSocketClient
-IPositionSocketClient
-ISpotOrderManagementSocketClient
-IFuturesOrderManagementSocketClient
+ISubscribeTickerSocket
+ISubscribeTradesSocket
+ISubscribeBookTickerSocket
+ISubscribeKlinesSocket
+ISubscribeOrderBookSocket
+ISubscribeBalancesSocket
+ISubscribeSpotOrdersSocket
+ISubscribeFuturesOrdersSocket
+ISubscribeUserTradesSocket
+ISubscribePositionsSocket
+IPlaceSpotOrderSocket
+ICancelSpotOrderSocket
+IPlaceFuturesOrderSocket
+ICancelFuturesOrderSocket
 ```
 
 ## Symbol And Rule Handling

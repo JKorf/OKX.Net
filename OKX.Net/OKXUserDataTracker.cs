@@ -19,12 +19,17 @@ namespace OKX.Net
             string? userIdentifier,
             SpotUserDataTrackerConfig? config) : base(
                 logger,
-                restClient.UnifiedApi.SharedClient,
-                restClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
-                restClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
+                restClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
                 userIdentifier,
                 config ?? new SpotUserDataTrackerConfig())
         {
@@ -46,13 +51,20 @@ namespace OKX.Net
             IOKXSocketClient socketClient,
             string? userIdentifier,
             FuturesUserDataTrackerConfig? config) : base(logger,
-                restClient.UnifiedApi.SharedClient,
-                restClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
-                restClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
-                socketClient.UnifiedApi.SharedClient,
+                restClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
+
+                restClient.UnifiedApi.SharedApi,
+                socketClient.UnifiedApi.SharedApi,
                 userIdentifier,
                 config ?? new FuturesUserDataTrackerConfig())
         {

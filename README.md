@@ -134,37 +134,21 @@ See [cryptoexchange-skills-hub](https://github.com/JKorf/cryptoexchange-skills-h
 
 ## Shared / unified API
 
-The CryptoExchange.Net [Shared APIs](https://cryptoexchange.jkorf.dev/docs/shared-api) provide exchange-agnostic, unified interfaces for common operations such as retrieving tickers, order books and balances, placing orders, and subscribing to market updates.
+The CryptoExchange.Net [Shared API V2](https://cryptoexchange.jkorf.dev/docs/shared-api) provides exchange-agnostic interfaces and models for common operations such as retrieving tickers, order books and balances, placing orders, and subscribing to market updates.
 
-This allows the same application code to work with different exchange libraries. The supported OKX API surfaces expose their shared functionality through a `SharedClient` property. Because support differs between exchanges and API surfaces, call `Discover()` to inspect the available trading modes, environments, endpoints, and subscriptions at runtime.
+V2 uses a strict interface per capability. The `SharedApi` property on each API surface therefore exposes only the operations or subscriptions that surface actually supports. `IOKXSharedApiClient` groups the exchange's Shared API surfaces for dependency injection and runtime capability lookup.
 
-### Supported shared interfaces
-
-| API | Type | Supported interfaces |
-|--|--|--|
-| `UnifiedApi` | REST | `IAssetsRestClient`, `IBalanceRestClient`, `IBookTickerRestClient`, `IDepositRestClient`, `IFeeRestClient`, `IFundingRateRestClient`, `IFuturesOrderClientIdRestClient`, `IFuturesOrderRestClient`, `IFuturesSymbolRestClient`, `IFuturesTickerRestClient`, `IFuturesTpSlRestClient`, `IFuturesTriggerOrderRestClient`, `IIndexPriceKlineRestClient`, `IKlineRestClient`, `ILeverageRestClient`, `IMarkPriceKlineRestClient`, `IOpenInterestRestClient`, `IOrderBookRestClient`, `IPositionHistoryRestClient`, `IPositionModeRestClient`, `IRecentTradeRestClient`, `ISpotOrderClientIdRestClient`, `ISpotOrderRestClient`, `ISpotSymbolRestClient`, `ISpotTickerRestClient`, `ISpotTriggerOrderRestClient`, `ITransferRestClient`, `IWithdrawalRestClient`, `IWithdrawRestClient` |
-| `UnifiedApi` | WebSocket | `IBalanceSocketClient`, `IBookTickerSocketClient`, `IFuturesOrderSocketClient`, `IKlineSocketClient`, `IOrderBookSocketClient`, `IPositionSocketClient`, `ISpotOrderSocketClient`, `ITickerSocketClient`, `ITradeSocketClient`, `IUserTradeSocketClient` |
-
-### Discover supported functionality
-
-```csharp
-var sharedClient = new OKXRestClient().UnifiedApi.SharedClient;
-var clientInfo = sharedClient.Discover();
-
-Console.WriteLine(clientInfo);
-```
-
-### Example
+### Access a strict capability
 
 ```csharp
 using OKX.Net.Clients;
 using CryptoExchange.Net.SharedApis;
 
-var sharedClient = new OKXRestClient().UnifiedApi.SharedClient;
-ISpotTickerRestClient tickerClient = sharedClient;
+using var restClient = new OKXRestClient();
+IGetTickerRest tickerClient = restClient.UnifiedApi.SharedApi;
 
 var symbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-var result = await tickerClient.GetSpotTickerAsync(
+var result = await tickerClient.GetTickerAsync(
     new GetTickerRequest(symbol));
 
 if (!result.Success)
@@ -176,7 +160,7 @@ if (!result.Success)
 Console.WriteLine(result.Data.LastPrice);
 ```
 
-The request and response models belong to `CryptoExchange.Net.SharedApis`, so the same pattern can be used with another exchange's `SharedClient`.
+The request and response models belong to `CryptoExchange.Net.SharedApis`, so the same operation can accept another exchange's `IGetTickerRest` implementation. When using dependency injection, inject `IOKXSharedApiClient` to access all of the exchange's Shared API surfaces or inject a capability such as `IGetTickerRest` directly. Use `GetCapability` on the aggregate when the operation, transport, or trading mode is selected at runtime.
 
 ## CryptoExchange.Net
 OKX.Net is based on the [CryptoExchange.Net](https://github.com/JKorf/CryptoExchange.Net) base library. Other exchange API implementations based on the CryptoExchange.Net base library are available and follow the same logic.
