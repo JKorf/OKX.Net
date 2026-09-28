@@ -47,5 +47,7 @@ namespace OKX.Net.Clients.UnifiedApi
                 );
         }
 
+        /// <inheritdoc />
+        public Task UnsubscribeAllAsync() => _api.UnsubscribeAllAsync();
     }
 }
