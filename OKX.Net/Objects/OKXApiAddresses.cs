@@ -20,34 +20,7 @@ public record OKXApiAddresses
     public static OKXApiAddresses Default = new OKXApiAddresses
     {
         UnifiedRestAddress = "https://www.okx.com",
-        UnifiedSocketAddress = "wss://ws.okx.com:8443",
-    };
-
-    /// <summary>
-    /// Europe customers addresses
-    /// </summary>
-    public static OKXApiAddresses Europe = new OKXApiAddresses
-    {
-        UnifiedRestAddress = "https://eea.okx.com",
-        UnifiedSocketAddress = "wss://wseea.okx.com:8443",
-    };
-
-    /// <summary>
-    /// Europe demo customers addresses
-    /// </summary>
-    public static OKXApiAddresses EuropeDemo = new OKXApiAddresses
-    {
-        UnifiedRestAddress = "https://eea.okx.com",
-        UnifiedSocketAddress = "wss://wseeapap.okx.com:8443",
-    };
-
-    /// <summary>
-    /// US and AU customers addresses
-    /// </summary>
-    public static OKXApiAddresses Us = new OKXApiAddresses
-    {
-        UnifiedRestAddress = "https://us.okx.com",
-        UnifiedSocketAddress = "wss://wsus.okx.com:8443",
+        UnifiedSocketAddress = "wss://ws.okx.com:443",
     };
 
     /// <summary>
@@ -56,6 +29,42 @@ public record OKXApiAddresses
     public static OKXApiAddresses Demo = new OKXApiAddresses
     {
         UnifiedRestAddress = "https://www.okx.com",
-        UnifiedSocketAddress = "wss://wspap.okx.com:8443",
+        UnifiedSocketAddress = "wss://wspap.okx.com:443",
+    };
+
+    /// <summary>
+    /// Europe customers addresses
+    /// </summary>
+    public static OKXApiAddresses Europe = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://eea.okx.com",
+        UnifiedSocketAddress = "wss://wseea.okx.com:443",
+    };
+
+    /// <summary>
+    /// Europe demo customers addresses
+    /// </summary>
+    public static OKXApiAddresses EuropeDemo = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://eea.okx.com",
+        UnifiedSocketAddress = "wss://wseeapap.okx.com:443",
+    };
+
+    /// <summary>
+    /// US and AU customers addresses
+    /// </summary>
+    public static OKXApiAddresses Us = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://us.okx.com",
+        UnifiedSocketAddress = "wss://wsus.okx.com:443",
+    };
+
+    /// <summary>
+    /// Demo addresses
+    /// </summary>
+    public static OKXApiAddresses UsDemo = new OKXApiAddresses
+    {
+        UnifiedRestAddress = "https://us.okx.com",
+        UnifiedSocketAddress = "wss://wsuspap.okx.com:443",
     };
 }

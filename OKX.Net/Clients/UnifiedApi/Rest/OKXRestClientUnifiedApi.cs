@@ -42,7 +42,8 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
         _sharedApi = new OKXRestClientUnifiedSharedApi(this);
 
         if (options.Environment.Name == TradeEnvironmentNames.Testnet
-            || options.Environment.Name == OKXEnvironment.EuropeDemo.Name)
+            || options.Environment.Name == OKXEnvironment.EuropeDemo.Name
+            || options.Environment.Name == OKXEnvironment.UsDemo.Name)
         {
             StandardRequestHeaders = new Dictionary<string, string>
             {

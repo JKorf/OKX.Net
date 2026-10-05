@@ -30,7 +30,7 @@ namespace OKX.Net.UnitTests
 
             }), logger);
 
-            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443/ws/v5/business", "data");
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:443/ws/v5/business", "data");
             await tester.ValidateConcurrentAsync<OKXKline>(
                 (c, handler) => c.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", KlineInterval.OneDay, handler),
                 (c, handler) => c.UnifiedApi.ExchangeData.SubscribeToKlineUpdatesAsync("ETH-USDT", KlineInterval.OneHour, handler),
@@ -48,7 +48,7 @@ namespace OKX.Net.UnitTests
                 OutputOriginalData = true,
                 ApiCredentials = new OKXCredentials("123", "456", "789")
             }), loggerFactory);
-            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:8443", "data");
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/ExchangeData", "wss://ws.okx.com:443", "data");
             await tester.ValidateAsync<OKXInstrument[]>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToSymbolUpdatesAsync(InstrumentType.Spot, handler), "Symbol");
             await tester.ValidateAsync<OKXTicker>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync("ETH-USDT", handler), "Ticker", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXOpenInterest>((c, handler) => c.UnifiedApi.ExchangeData.SubscribeToOpenInterestUpdatesAsync("ETH-USDT", handler), "Interest", useFirstUpdateItem: true);
@@ -76,7 +76,7 @@ namespace OKX.Net.UnitTests
             {
                 ApiCredentials = new OKXCredentials("123", "456", "789")
             }), loggerFactory);
-            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:8443", "data");
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Account", "wss://ws.okx.com:443", "data");
             //await tester.ValidateAsync<OKXAccountBalance>((c, handler) => c.UnifiedApi.Account.SubscribeToAccountUpdatesAsync(null, true, handler), "Balance", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXPositionAndBalanceUpdate>((c, handler) => c.UnifiedApi.Account.SubscribeToBalanceAndPositionUpdatesAsync(handler), "BalanceAndPosition", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXDepositUpdate>((c, handler) => c.UnifiedApi.Account.SubscribeToDepositUpdatesAsync(handler), "Deposit", useFirstUpdateItem: true);
@@ -91,7 +91,7 @@ namespace OKX.Net.UnitTests
             {
                 opts.ApiCredentials = new OKXCredentials("123", "456", "789");
             });
-            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:8443", "data");
+            var tester = new SocketSubscriptionValidator<OKXSocketClient>(client, "Subscriptions/Unified/Trading", "wss://ws.okx.com:443", "data");
             await tester.ValidateAsync<OKXPosition[]>((c, handler) => c.UnifiedApi.Trading.SubscribeToPositionUpdatesAsync(InstrumentType.Futures, null, null, true, handler), "Position");
             await tester.ValidateAsync<OKXPosition>((c, handler) => c.UnifiedApi.Trading.SubscribeToLiquidationWarningUpdatesAsync(InstrumentType.Futures, null, handler), "LiquidationWarning", useFirstUpdateItem: true);
             await tester.ValidateAsync<OKXOrderUpdate>((c, handler) => c.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(InstrumentType.Futures, null, null, handler), "Order", useFirstUpdateItem: true, ignoreProperties: ["msg", "code", "attachAlgoOrds"]);
