@@ -260,6 +260,11 @@ Make a one time donation in a crypto currency of your choice. If you prefer to d
 Alternatively, sponsor me on Github using [Github Sponsors](https://github.com/sponsors/JKorf). 
 
 ## Release notes
+* Version 5.7.0 - 05 Oct 2026
+    * Updated Socket connection addresses for all environment from 8443 to 443
+    * Added UsDemo environment
+    * Fixed missing EuropeDemo in OKXEnvironment.All
+
 * Version 5.6.0 - 30 Sep 2026
     * Updated CryptoExchange.Net to V13.1.0
 
