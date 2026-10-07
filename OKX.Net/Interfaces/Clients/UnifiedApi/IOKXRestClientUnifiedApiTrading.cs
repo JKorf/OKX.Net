@@ -360,7 +360,7 @@ public interface IOKXRestClientUnifiedApiTrading
     /// <param name="closeFraction">["<c>closeFraction</c>"] Fraction of position to be closed when the algo order is triggered. Currently the system supports fully closing the position only so the only accepted value is 1.</param>
     /// <param name="cancelOnClose">["<c>cxlOnClosePos</c>"] Whether the TP/SL order placed by the user is associated with the corresponding position of the instrument. If it is associated, the TP/SL order will be cancelled when the position is fully closed; if it is not, the TP/SL order will not be affected when the position is fully closed.</param>
     /// <param name="quickMarginType">["<c>quickMgnType</c>"] Quick Margin type. Only applicable to Quick Margin Mode of isolated margin</param>
-    /// <param name="clientOrderId">["<c>clOrdId</c>"] Client order id</param>
+    /// <param name="clientOrderId">["<c>algoClOrdId</c>"] Client algo order id</param>
     /// <param name="chaseType">["<c>chaseType</c>"] Chase order value type</param>
     /// <param name="chaseValue">["<c>chaseVal</c>"] Chase value, with chaseType.Distance it represents the USD chase value, with chaseType.Ratio 0.1 means 10%</param>
     /// <param name="maxChaseType">["<c>maxChaseType</c>"] Max chase order value type</param>

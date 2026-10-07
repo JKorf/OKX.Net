@@ -568,7 +568,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"instId", symbol },
             {"tag", LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange) }
         };
-        parameters.Add("clOrdId", clientOrderId);
+        parameters.Add("algoClOrdId", clientOrderId);
         parameters.Add("tdMode", tradeMode);
         parameters.Add("side", orderSide);
         parameters.Add("ordType", algoOrderType);
