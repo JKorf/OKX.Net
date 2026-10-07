@@ -1,6 +1,7 @@
 POST
 /api/v5/trade/order-algo
 true
+BodyParams: {"algoClOrdId": "123"}
 {
   "code": "0",
   "msg": "",
