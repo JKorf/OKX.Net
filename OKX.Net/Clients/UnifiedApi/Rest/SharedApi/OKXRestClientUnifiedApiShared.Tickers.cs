@@ -212,7 +212,7 @@ namespace OKX.Net.Clients.UnifiedApi
 
             return HttpResult.Ok(resultTickers.Result, resultData.Select(x =>
             {
-                var markPrice = resultMarkPrice.Result.Data.Single(p => p.Symbol == x.Symbol);
+                var markPrice = resultMarkPrice.Result.Data.SingleOrDefault(p => p.Symbol == x.Symbol);
                 return new SharedFuturesTicker(
                     ExchangeSymbolCache.ParseSymbol(_topicFuturesId, _api.EnvironmentName, null, x.Symbol),
                     x.Symbol,
@@ -222,7 +222,7 @@ namespace OKX.Net.Clients.UnifiedApi
                     new SharedOrderQuantity(x.QuoteVolume, null, x.Volume),
                     x.OpenPrice == null ? null : Math.Round((x.LastPrice ?? 0) / x.OpenPrice.Value * 100 - 100, 2))
                 {
-                    MarkPrice = markPrice.MarkPrice
+                    MarkPrice = markPrice?.MarkPrice
                 };
             }).ToArray());
         }
