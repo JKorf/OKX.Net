@@ -179,7 +179,7 @@ namespace OKX.Net.UnitTests
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.GetOrderArchiveAsync(InstrumentType.Contracts), "GetOrderArchive", ignoreProperties: ["attachAlgoOrds", "linkedAlgoOrd"]);
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.GetUserTradesAsync(InstrumentType.Contracts), "GetUserTrades", ignoreProperties: ["feeRate"]);
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.GetUserTradesArchiveAsync(InstrumentType.Contracts), "GetUserTradesArchive", ignoreProperties: ["feeRate"]);
-            await tester.ValidateAsync(c => c.UnifiedApi.Trading.PlaceAlgoOrderAsync("ETH-USDT", TradeMode.Isolated, OrderSide.Buy, AlgoOrderType.Conditional), "PlaceAlgoOrder", useSingleArrayItem: true);
+            await tester.ValidateAsync(c => c.UnifiedApi.Trading.PlaceAlgoOrderAsync("ETH-USDT", TradeMode.Isolated, OrderSide.Buy, AlgoOrderType.Conditional, clientOrderId: "123"), "PlaceAlgoOrder", useSingleArrayItem: true);
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.CancelAlgoOrderAsync([new OKXAlgoOrderRequest()]), "CancelAlgoOrder", useSingleArrayItem: true);
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.GetAlgoOrderListAsync(AlgoOrderType.OCO), "GetAlgoOrderList", ignoreProperties: ["amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd"]);
             await tester.ValidateAsync(c => c.UnifiedApi.Trading.GetAlgoOrderHistoryAsync(AlgoOrderType.OCO), "GetAlgoOrderHistory", ignoreProperties: ["amendPxOnTriggerType", "attachAlgoOrds", "linkedOrd"]);
