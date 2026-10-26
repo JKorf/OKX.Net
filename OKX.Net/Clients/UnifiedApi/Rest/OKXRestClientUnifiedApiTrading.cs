@@ -568,7 +568,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
             {"instId", symbol },
             {"tag", LibraryHelpers.GetClientReference(() => _baseClient.ClientOptions.BrokerId, _baseClient.Exchange) }
         };
-        parameters.Add("clOrdId", clientOrderId);
+        parameters.Add("algoClOrdId", clientOrderId);
         parameters.Add("tdMode", tradeMode);
         parameters.Add("side", orderSide);
         parameters.Add("ordType", algoOrderType);
@@ -634,7 +634,20 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var parameters = new Parameters(orders.ToArray(), OKXExchange._parameterSerializationSettings);
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/cancel-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
+        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXAlgoOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
+        if (!result.Success)
+            return HttpResult.Fail<OKXAlgoOrderResponse>(result);
+
+        var detailed = result.Data.Data?.FirstOrDefault();
+        if (result.Data.ErrorCode > 0)
+        {
+            if (detailed != null)
+                return HttpResult.Fail<OKXAlgoOrderResponse>(result, new ServerError(detailed.Code, _baseClient.GetErrorInfo(detailed.Code, detailed.Message)));
+
+            return HttpResult.Fail<OKXAlgoOrderResponse>(result, new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
+        }
+
+        return HttpResult.Ok(result, detailed!);
     }
 
     /// <inheritdoc />

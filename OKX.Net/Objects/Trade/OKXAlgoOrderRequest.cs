@@ -9,13 +9,13 @@ public record OKXAlgoOrderRequest
     /// <summary>
     /// ["<c>algoId</c>"] Algo order id
     /// </summary>
-    [JsonPropertyName("algoId")]
+    [JsonPropertyName("algoId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? AlgoOrderId { get; set; }
 
     /// <summary>
     /// ["<c>algoClOrdId</c>"] Client algo order id
     /// </summary>
-    [JsonPropertyName("algoClOrdId")]
+    [JsonPropertyName("algoClOrdId"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? ClientAlgoOrderId { get; set; }
 
     /// <summary>
