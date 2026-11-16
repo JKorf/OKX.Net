@@ -1,38 +1,13 @@
 # OKX.Net
 
-> Strongly typed .NET client library for the OKX REST and WebSocket APIs. Supports the OKX v5 Unified API for Spot, Margin, Futures, Swap, Options, account/funding operations, sub-accounts, copy trading, public market data, and private trading streams. Part of the CryptoExchange.Net ecosystem for unified access across many cryptocurrency exchanges.
+A .NET client for OKX Unified REST/WebSocket APIs, Spot, derivatives, accounts, funding, subaccounts, and copy trading.
 
-## Documentation
-
-- [README](https://github.com/JKorf/OKX.Net/blob/main/README.md): Overview, installation, supported features, basic usage examples, release notes
-- [Documentation Site](https://cryptoexchange.jkorf.dev/OKX.Net/): Full documentation hub including client reference, WebSocket subscriptions, dependency injection, and shared interfaces
-- [AI API Quick Map](https://github.com/JKorf/OKX.Net/blob/main/docs/ai-api-map.md): Table-style intent-to-method map for common OKX.Net requests
-- [Full LLM Context](https://github.com/JKorf/OKX.Net/blob/main/llms-full.txt): Detailed AI/LLM guide with code patterns, endpoint routing, common mistakes, and anti-hallucination rules
-- [Claude/Codex Skill](https://github.com/JKorf/OKX.Net/blob/main/CLAUDE.md): Assistant-facing quick patterns and pitfalls
-
-## Examples
-
-- [AI-friendly examples directory](https://github.com/JKorf/OKX.Net/tree/main/Examples/ai-friendly): Compact, compilable examples optimized for AI assistants and quick onboarding
-- [Unified Quickstart](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/01-unified-quickstart.cs): Client setup, ticker, balance, spot limit order, order lookup
-- [Derivatives Trading](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/02-derivatives.cs): Swap/futures symbols, leverage, market order, position retrieval, close position
-- [WebSocket Streams](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/03-websocket.cs): Public ticker/klines, private order stream, proper unsubscribe
-- [Multi-Exchange Pattern](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/04-multi-exchange.cs): Using CryptoExchange.Net SharedApis for exchange-agnostic code
-- [Error Handling](https://github.com/JKorf/OKX.Net/blob/main/Examples/ai-friendly/05-error-handling.cs): HttpResult, QueryResult, and WebSocketResult patterns, retry logic, error metadata
-
-## Critical Usage Rules
-
-- Use `OKXRestClient` and `OKXSocketClient`; do not generate raw OKX HTTP/WebSocket code.
-- Use `OKXCredentials("key", "secret", "passphrase")` for private endpoints.
-- Use `client.UnifiedApi.*`; OKX.Net does not expose separate `SpotApi` or `FuturesApi` roots.
-- Use OKX symbol format such as `BTC-USDT` and `BTC-USDT-SWAP`.
-- Check `.Success` before reading `.Data` on `HttpResult<T>`, `HttpResult`, `WebSocketResult<UpdateSubscription>`, `QueryResult<T>`, and shared helper results.
-- REST calls return `HttpResult<T>` or `HttpResult`; socket subscriptions return `WebSocketResult<UpdateSubscription>`; socket API request/response methods return `QueryResult<T>`.
-- Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
-- Shared spot/futures symbol interfaces expose cached symbol catalogs and return display names plus base/quote asset type and subtype metadata.
-
-## Reference
-
-- [CryptoExchange.Net base library](https://github.com/JKorf/CryptoExchange.Net)
-- [CryptoClients.Net](https://github.com/JKorf/CryptoClients.Net)
-- [NuGet Package](https://www.nuget.org/packages/JK.OKX.Net)
-- [GitHub Copilot instructions](https://github.com/JKorf/OKX.Net/blob/main/.github/copilot-instructions.md) and [Cursor rules](https://github.com/JKorf/OKX.Net/blob/main/.cursor/rules/okx-net.mdc) point back to `CLAUDE.md`, `llms.txt`, `llms-full.txt`, and the AI quick map.
+- [Consumer skill](.claude/skills/okx-net/SKILL.md)
+- [API routing](.claude/skills/okx-net/references/api-surfaces.md)
+- [Usage snippets](.claude/skills/okx-net/references/usage.md)
+- [Operational considerations](.claude/skills/okx-net/references/safety.md)
+- [README](README.md)
+- [Repository development](AGENTS.md)
+- [Public client interfaces](OKX.Net/Interfaces/Clients/)
+- [Library project](OKX.Net/OKX.Net.csproj)
+- [Complete examples](Examples/ai-friendly/)

@@ -1,32 +1,52 @@
-using CryptoExchange.Net.SharedApis;
+// Demonstrates portable REST and socket ticker capabilities through Shared API V2.
+// Setup: dotnet add package JK.OKX.Net
+
 using OKX.Net.Clients;
+using CryptoExchange.Net.SharedApis;
 
-// SharedApis are exchange-agnostic wrappers from CryptoExchange.Net.
-// OKX exposes them through UnifiedApi.SharedClient.
-var okxShared = new OKXRestClient().UnifiedApi.SharedClient;
-var capabilities = okxShared.Discover();
-Console.WriteLine($"Shared features: {capabilities.Features.Count(x => x.Supported)}");
+using var restClient = new OKXRestClient();
+IGetTickerRest ticker = restClient.UnifiedApi.SharedApi;
+var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
+await PrintTickerAsync(ticker, symbol);
 
-var spotSymbol = new SharedSymbol(TradingMode.Spot, "ETH", "USDT");
-var ticker = await okxShared.GetSpotTickerAsync(new GetTickerRequest(spotSymbol));
-if (!ticker.Success)
+IGetSpotSymbolsRest symbolsClient = restClient.UnifiedApi.SharedApi;
+var symbols = await symbolsClient.GetSpotSymbolsAsync(new GetSymbolsRequest());
+if (!symbols.Success)
 {
-    Console.WriteLine($"Shared ticker failed: {ticker.Error}");
+    Console.WriteLine(symbols.Error);
     return;
 }
+foreach (var item in symbols.Data.Take(5))
+    Console.WriteLine($"{item.Name}: {item.BaseAsset}/{item.QuoteAsset}");
+var catalog = symbolsClient.SpotSymbolCatalog;
 
-Console.WriteLine($"OKX ETH/USDT: {ticker.Data.LastPrice}");
-
-var orderBook = await okxShared.GetOrderBookAsync(new GetOrderBookRequest(spotSymbol));
-if (!orderBook.Success)
+using var socketClient = new OKXSocketClient();
+ISubscribeTickerSocket tickerSocket = socketClient.UnifiedApi.SharedApi;
+var subscription = await tickerSocket.SubscribeToTickerUpdatesAsync(
+    new SubscribeTickerRequest(symbol),
+    update => Console.WriteLine(update.Data.LastPrice));
+if (!subscription.Success)
 {
-    Console.WriteLine($"Shared order book failed: {orderBook.Error}");
+    Console.WriteLine(subscription.Error);
     return;
 }
+try
+{
+    await Task.Delay(TimeSpan.FromSeconds(30));
+}
+finally
+{
+    await socketClient.UnsubscribeAsync(subscription.Data);
+}
 
-Console.WriteLine($"Best bid: {orderBook.Data.Bids.FirstOrDefault()?.Price}");
-
-// For another CryptoExchange.Net exchange, replace only the concrete client:
-// var binanceShared = new BinanceRestClient().SpotApi.SharedClient;
-// var bybitShared = new BybitRestClient().V5Api.SharedClient;
-// The request/response pattern remains the same.
+// Another exchange can supply IGetTickerRest without changing this function.
+static async Task PrintTickerAsync(IGetTickerRest client, SharedSymbol symbol)
+{
+    var result = await client.GetTickerAsync(new GetTickerRequest(symbol));
+    if (!result.Success)
+    {
+        Console.WriteLine(result.Error);
+        return;
+    }
+    Console.WriteLine($"{result.Data.Symbol}: {result.Data.LastPrice}");
+}

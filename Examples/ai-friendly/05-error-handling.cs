@@ -2,7 +2,7 @@ using CryptoExchange.Net.Objects;
 using OKX.Net.Clients;
 using OKX.Net.Enums;
 
-var client = new OKXRestClient();
+using var client = new OKXRestClient();
 
 // REST methods return HttpResult<T> or HttpResult.
 // Socket API request/response methods return QueryResult<T>; socket subscriptions return
@@ -34,6 +34,7 @@ static void LogError<T>(string operation, HttpResult<T> result)
     Console.WriteLine($"Message: {result.Error?.Message}");
 }
 
+// Public reads only: reconcile uncertain account changes before considering resubmission.
 static async Task<HttpResult<T>> ExecuteWithTransientRetryAsync<T>(
     Func<Task<HttpResult<T>>> action)
 {

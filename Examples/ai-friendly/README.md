@@ -1,29 +1,15 @@
-# AI-Friendly Examples
+# OKX.Net examples
 
-These examples are optimized for AI coding assistants and quick onboarding. Each file is:
+Each file is an independent console program. Install `JK.OKX.Net` in a console project and copy one program to `Program.cs`.
 
-- **Compilable** - drop into a console project with `dotnet add package JK.OKX.Net` and it builds.
-- **Self-contained** - single file, no shared helpers.
-- **Heavily commented** - explains OKX-specific choices like `UnifiedApi`, `TradeMode`, and passphrase credentials.
-- **Idiomatic** - follows current OKX.Net 4.x patterns.
-
-## Files
-
-| File | What it shows |
+| Program | Workflow |
 |---|---|
-| `01-unified-quickstart.cs` | Client setup, public ticker, authenticated balance, spot limit order, order lookup |
-| `02-derivatives.cs` | Swap/futures flow: symbols, leverage, market order, positions, close position |
-| `03-websocket.cs` | Public ticker/klines and private order streams with proper teardown |
-| `04-multi-exchange.cs` | `CryptoExchange.Net.SharedApis` pattern and discovery metadata for exchange-agnostic code |
-| `05-error-handling.cs` | `HttpResult`, `QueryResult`, and `WebSocketResult` patterns, transient retry, common error metadata |
+| [01-unified-quickstart.cs](01-unified-quickstart.cs) | Public market data, account reads and Spot trading |
+| [02-derivatives.cs](02-derivatives.cs) | Swap instruments, leverage, orders, positions and close workflow |
+| [03-websocket.cs](03-websocket.cs) | Public/private subscriptions and cleanup |
+| [04-multi-exchange.cs](04-multi-exchange.cs) | Shared API V2 ticker, catalog and subscription |
+| [05-error-handling.cs](05-error-handling.cs) | Results and bounded public-read retry |
 
-## Running
+Replace key, secret and passphrase placeholders for intended private operations. Review each program before execution: trading/leverage/close calls change account state, and limit orders may fill before cancellation. Read [operational considerations](../../.claude/skills/okx-net/references/safety.md) and use the [usage snippets](../../.claude/skills/okx-net/references/usage.md) for focused patterns.
 
-```bash
-dotnet new console -n MyOKXApp
-cd MyOKXApp
-dotnet add package JK.OKX.Net
-# Copy one example .cs file into Program.cs
-# Replace API_KEY / API_SECRET / PASSPHRASE placeholders for private endpoints
-dotnet run
-```
+`AiExampleCompileTests` compiles these programs without executing exchange operations.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "OKX.Net"
+  short_description: "Build C# OKX Unified API integrations."
+  default_prompt: "Use $okx-net to implement an OKX.Net REST, websocket, account, or trading workflow."

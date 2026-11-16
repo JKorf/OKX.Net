@@ -1,29 +1,8 @@
-# OKX.Net AI API Quick Map
+# OKX.Net API surfaces
 
-Use this file to route common user intents to the correct OKX.Net client member. If a method name or parameter is not listed here, inspect `OKX.Net/Interfaces/Clients/UnifiedApi/**` before generating code.
+## Client roots
 
-## Client Roots
-
-| Intent | Use |
-|---|---|
-| REST calls | `new OKXRestClient()` |
-| WebSocket streams and socket API requests | `new OKXSocketClient()` |
-| API key authentication | `options.ApiCredentials = new OKXCredentials("key", "secret", "passphrase")` |
-| Live environment | `OKXEnvironment.Live` |
-| Demo / test environment | `OKXEnvironment.Demo` |
-| Europe environment | `OKXEnvironment.Europe` |
-| Dependency injection | `services.AddOKX(options => { ... })` |
-
-## Unified REST Roots
-
-| User intent | OKX.Net member |
-|---|---|
-| Public market data | `client.UnifiedApi.ExchangeData` |
-| Account, balances, funding, withdrawals, leverage | `client.UnifiedApi.Account` |
-| Orders, fills, algo orders, order history | `client.UnifiedApi.Trading` |
-| Sub-account management | `client.UnifiedApi.SubAccounts` |
-| Copy trading | `client.UnifiedApi.CopyTrading` |
-| Shared REST abstraction | `client.UnifiedApi.SharedApi` |
+`OKXRestClient` / `IOKXRestClient` expose `UnifiedApi.{ExchangeData|Account|Trading|SubAccounts|CopyTrading}`. `OKXSocketClient` / `IOKXSocketClient` expose `UnifiedApi.{ExchangeData|Account|Trading}`. There are no separate Spot/Futures roots.
 
 ## Market Data REST
 
@@ -207,62 +186,31 @@ Use this file to route common user intents to the correct OKX.Net client member.
 
 WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Socket API request/response methods return `QueryResult<T>`.
 
-## SharedApis
+## Shared API V2
 
-| User intent | OKX.Net member or interface |
-|---|---|
-| Shared REST client | `new OKXRestClient().UnifiedApi.SharedApi` |
-| Shared socket client | `new OKXSocketClient().UnifiedApi.SharedApi` |
-| Resolve a runtime-selected Shared API capability | `IOKXSharedApiClient.GetCapability(...)` |
-| Shared spot symbols and catalog | `IGetSpotSymbolsRest.GetSpotSymbolsAsync(...)` and `IGetSpotSymbolsRest.SpotSymbolCatalog` |
-| Shared futures symbols and catalog | `IGetFuturesSymbolsRest.GetFuturesSymbolsAsync(...)` and `IGetFuturesSymbolsRest.FuturesSymbolCatalog` |
-| Shared spot ticker REST | `IGetTickerRest.GetTickerAsync(new GetTickerRequest(symbol))` |
-| Shared spot order REST | `IPlaceSpotOrderRest.PlaceSpotOrderAsync(...)` |
-| Shared futures order REST | `IPlaceFuturesOrderRest.PlaceFuturesOrderAsync(...)` |
-| Shared balances REST | `IGetBalancesRest.GetBalancesAsync(...)` |
-| Shared klines REST | `IGetKlinesRest.GetKlinesAsync(...)` |
-| Shared order book REST | `IGetOrderBookRest.GetOrderBookAsync(...)` |
-| Shared funding info REST | `IGetFundingInfoRest.GetFundingInfoAsync(...)` |
-| Shared leverage REST | `ISetLeverageRest.SetLeverageAsync(...)` |
-| Shared ticker socket | `ISubscribeTickerSocket.SubscribeToTickerUpdatesAsync(...)` |
-| Shared trade socket | `ISubscribeTradesSocket.SubscribeToTradeUpdatesAsync(...)` |
-| Shared order book socket | `ISubscribeOrderBookSocket.SubscribeToOrderBookUpdatesAsync(...)` |
-| Shared balance socket | `ISubscribeBalancesSocket.SubscribeToBalanceUpdatesAsync(...)` |
-| Shared position socket | `ISubscribePositionsSocket.SubscribeToPositionUpdatesAsync(...)` |
-| Place shared spot order over socket | `IPlaceSpotOrderSocket.PlaceSpotOrderAsync(...)` |
-| Cancel shared spot order over socket | `ICancelSpotOrderSocket.CancelSpotOrderAsync(...)` |
-| Place shared futures order over socket | `IPlaceFuturesOrderSocket.PlaceFuturesOrderAsync(...)` |
-| Cancel shared futures order over socket | `ICancelFuturesOrderSocket.CancelFuturesOrderAsync(...)` |
+`IOKXSharedApiClient` exposes these aggregate properties; the corresponding native Unified surface exposes `.SharedApi`.
 
-Shared REST methods return `HttpResult<T>` or `HttpResult`. Shared socket subscriptions return `WebSocketResult<UpdateSubscription>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`.
+- `Rest` (`IOKXRestClientUnifiedSharedApi`): `IGetAssetRest`, `IGetAllAssetsRest`, `IGetBalancesRest`, `IGetDepositAddressesRest`, `IGetDepositHistoryRest`, `IGetOrderBookRest`, `IGetKlinesRest`, `IGetRecentTradesRest`, `IPlaceSpotOrderRest`, `IGetSpotOrderRest`, `IGetOpenSpotOrdersRest`, `IGetClosedSpotOrdersRest`, `IGetSpotOrderTradesRest`, `IGetSpotUserTradeHistoryRest`, `ICancelSpotOrderRest`, `IGetSpotSymbolsRest`, `IGetTickerRest`, `IGetAllTickersRest`, `IGetWithdrawalHistoryRest`, `IWithdrawRest`, `IGetFuturesSymbolsRest`, `IPlaceFuturesOrderRest`, `IGetFuturesOrderRest`, `IGetOpenFuturesOrdersRest`, `IGetClosedFuturesOrdersRest`, `IGetFuturesOrderTradesRest`, `IGetFuturesUserTradeHistoryRest`, `ICancelFuturesOrderRest`, `IGetPositionsRest`, `ICloseFullPositionRest`, `IGetLeverageRest`, `ISetLeverageRest`, `IGetMarkPriceKlinesRest`, `IGetIndexPriceKlinesRest`, `IGetOpenInterestRest`, `IGetFundingRateHistoryRest`, `IGetPositionModeRest`, `ISetPositionModeRest`, `IGetPositionHistoryRest`, `IGetFeesRest`, `IPlaceSpotTriggerOrderRest`, `IGetSpotTriggerOrderRest`, `ICancelSpotTriggerOrderRest`, `IPlaceFuturesTriggerOrderRest`, `IGetFuturesTriggerOrderRest`, `ICancelFuturesTriggerOrderRest`, `ISetFuturesTpSlRest`, `ICancelFuturesTpSlRest`, `IGetSpotOrderByClientOrderIdRest`, `ICancelSpotOrderByClientOrderIdRest`, `IGetFuturesOrderByClientOrderIdRest`, `ICancelFuturesOrderByClientOrderIdRest`, `IGetBookTickerRest`, `ITransferRest`.
+- `Socket` (`IOKXSocketClientUnifiedSharedApi`): `ISubscribeTickerSocket`, `ISubscribeTradesSocket`, `ISubscribeBookTickerSocket`, `ISubscribeKlinesSocket`, `ISubscribeOrderBookSocket`, `ISubscribeBalancesSocket`, `ISubscribeSpotOrdersSocket`, `ISubscribeFuturesOrdersSocket`, `ISubscribeUserTradesSocket`, `ISubscribePositionsSocket`, `IPlaceSpotOrderSocket`, `ICancelSpotOrderSocket`, `IPlaceFuturesOrderSocket`, `ICancelFuturesOrderSocket`.
 
-Shared spot and futures symbols populate `DisplayName`, `BaseAssetType`, `BaseAssetSubType`, `QuoteAssetType`, and `QuoteAssetSubType`. Use this metadata for crypto, fiat, TradFi, stablecoin, equity, and commodity classification instead of parsing symbol strings.
+Use aggregate properties or inject narrow capabilities for known workflows. For dynamic selection call `aggregate.GetCapability(SharedCapabilities.Tickers.GetTicker.Rest, tradingMode: TradingMode.Spot)` and check for null before using `Capability` and `Options`. Descriptors identify operations, not guarantees of support. `GetCapabilities` enumerates matches and `Discover` summarizes metadata. With several exchanges registered, inject `IEnumerable<TCapability>` and select by exchange, supported mode and options.
 
-For shared socket subscriptions, keep the concrete socket client and unsubscribe with `await socketClient.UnsubscribeAsync(subscription.Data)`.
+## Symbols, catalogs and quantities
 
-Before using shared socket order management, call the matching shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method. This populates the numeric symbol-code mapping required by OKX WebSocket order requests.
+Spot uses `ETH-USDT`; perpetual swaps use `ETH-USDT-SWAP`. Delivery futures include the expiry suffix; options use complete option instrument IDs. Choose metadata using `InstrumentType`, underlying and instrument family as required. Native socket place/amend/cancel requests use numeric `OKXInstrument.SymbolCode`, retrieved from `UnifiedApi.ExchangeData.GetSymbolsAsync(...)`.
 
-## Result Handling
+Call `IGetSpotSymbolsRest.GetSpotSymbolsAsync(new GetSymbolsRequest())` or `IGetFuturesSymbolsRest.GetFuturesSymbolsAsync(new GetSymbolsRequest())`, check success, then inspect `SpotSymbolCatalog` or `FuturesSymbolCatalog`. Requests honor base/quote asset type/subtype filters. Returned metadata includes display names, availability, price/quantity steps, contract value and crypto/fiat/stablecoin/TradFi classifications where populated.
 
-| Situation | Pattern |
-|---|---|
-| REST success check | REST methods return `HttpResult<T>` or `HttpResult`; use `if (!result.Success) { Console.WriteLine(result.Error); return; }` |
-| Socket subscription success check | Socket subscriptions return `WebSocketResult<UpdateSubscription>`; use `if (!sub.Success) { Console.WriteLine(sub.Error); return; }` |
-| Socket API request success check | Socket request/response methods return `QueryResult<T>`; use the same `.Success` and `.Error` pattern |
-| Read result data | Read `result.Data` or `sub.Data` only after `.Success` |
-| Shared helper success check | Shared symbol/cache helpers can return `ExchangeCallResult<T>`; use the same `.Success` and `.Error` pattern |
-| Retry decision | Retry only when `result.Error?.IsTransient == true` |
-| Cancellation | Pass `ct: cancellationToken` |
+Shared Futures order sizing uses `SharedOrderQuantity.QuantityInContracts`; Futures books use `SharedQuantityType.Contracts`, Spot books base assets. Native derivatives quantities also represent contracts; use contract value, settlement asset and lot constraints rather than assuming one contract equals one coin. Spot market sizing can depend on the target currency/quantity unit; inspect supported quantity options. `SharedApiEuropeUseXPerps` and `OKXExchange.FormatSymbolEurope(...)` affect European derivatives symbol selection; use the configured environment's instruments.
 
-## Common Routing Pitfalls
+## Native workflow prerequisites
 
-| Do not use | Use instead |
-|---|---|
-| `OKXClient` | `OKXRestClient` |
-| `ApiCredentials` in examples | `OKXCredentials("key", "secret", "passphrase")` |
-| `SpotApi` | `UnifiedApi` with `InstrumentType.Spot` or spot symbol |
-| `FuturesApi` / `SwapApi` | `UnifiedApi` with futures/swap symbol and `InstrumentType` |
-| Binance-style `BTCUSDT` | OKX symbol format `BTC-USDT` |
-| `.Data` without `.Success` check | Check `.Success` first |
-| Recreating clients per request | Reuse clients or use `services.AddOKX(...)` |
-| Forgetting WebSocket teardown | Store `UpdateSubscription` and call `UnsubscribeAsync` |
+`Account.GetAccountConfigurationAsync()` exposes account configuration. Account mode, position mode, per-order trade mode, margin mode, leverage and position side have different meanings. `TradeMode.Cash` selects Spot cash trading. Algo orders, batch item results and copy-trading positions require their own query/edit/cancel workflows. `CheckOrderAsync` performs an order check; it does not submit an order or guarantee future execution.
+
+`OKXEnvironment.Live`, `Demo`, and `Europe` select distinct environments. Configure Demo deliberately with appropriate credentials. Factories `IOKXOrderBookFactory` and `IOKXTrackerFactory` provide managed books/trackers; `IOKXUserClientProvider` caches per-user clients.
+
+## Checkout-only sources
+
+- [Public interfaces](../../../../OKX.Net/Interfaces/Clients/): signatures, mode prerequisites and cancellation tokens (checkout-only).
+- [Client implementations](../../../../OKX.Net/Clients/): Shared options, conversions and classifications (checkout-only).
+- [Complete examples](../../../../Examples/ai-friendly/): independent consumer programs (checkout-only).

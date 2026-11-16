@@ -2,7 +2,7 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Enums;
 
-var socketClient = new OKXSocketClient();
+using var socketClient = new OKXSocketClient();
 
 // Subscription methods return WebSocketResult<UpdateSubscription>.
 var tickerSubscription = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(
@@ -34,7 +34,7 @@ if (!klineSubscription.Success)
 }
 
 // Private streams require the OKX key, secret, and passphrase.
-var privateSocketClient = new OKXSocketClient(options =>
+using var privateSocketClient = new OKXSocketClient(options =>
 {
     options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
 });

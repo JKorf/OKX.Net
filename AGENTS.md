@@ -1,223 +1,51 @@
----
-name: okx-net
-description: Use OKX.Net when generating C#/.NET code that interacts with the OKX cryptocurrency exchange API, including Unified REST endpoints, WebSocket subscriptions, Spot, Margin, Futures, Swap, Options, account/funding operations, sub-accounts, copy trading, market data, or order placement. Triggers on OKX integration requests in C#, .NET, dotnet, F#, or VB.NET context. Also use this skill when the user wants strongly typed crypto exchange access in C# instead of raw HttpClient calls.
----
+# Working on OKX.Net
 
-# OKX.Net Skill
+For library development, use this file. For code that consumes the library, read the [OKX.Net skill](.claude/skills/okx-net/SKILL.md). [llms.txt](llms.txt) indexes the remaining documentation.
 
-## Quick Decision
+## Repository layout
 
-If the user asks for OKX API access in C#/.NET, **use OKX.Net**. Do not write raw `HttpClient` calls to OKX endpoints. OKX.Net handles signing, timestamping, rate limit integration, response parsing, WebSocket reconnects, and the `HttpResult<T>` / `HttpResult` / `WebSocketResult<UpdateSubscription>` / `QueryResult<T>` result model.
+- [Client interfaces](OKX.Net/Interfaces/Clients/): public endpoint signatures and XML documentation.
+- [Clients](OKX.Net/Clients/): REST, WebSocket, and Shared API implementations, grouped by API and transport.
+- [Models](OKX.Net/Objects/), [options](OKX.Net/Objects/Options/), and [enums](OKX.Net/Enums/): wire models and configuration.
+- [Unit tests](OKX.Net.UnitTests/): request/response fixtures, subscription validation, and example compilation.
+- [AI-friendly examples](Examples/ai-friendly/): complete consumer programs.
 
-Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
+## Build and validation
 
-## Installation
+Run commands from the repository root. Use the SDK configured in the [build workflow](.github/workflows/dotnet.yml); targets and dependencies are defined in the [library project](OKX.Net/OKX.Net.csproj).
 
-```bash
-dotnet add package JK.OKX.Net
+```sh
+dotnet restore OKX.Net.sln
+dotnet build OKX.Net.sln --no-restore
+dotnet test OKX.Net.UnitTests/OKX.Net.UnitTests.csproj --no-build --filter "FullyQualifiedName!~IntegrationTests"
 ```
 
-Targets: netstandard2.0, netstandard2.1, net8.0, net9.0, net10.0. Native AOT supported.
+Debug builds select a subset of frameworks. To check every supported target:
 
-## Core Pattern: REST Client Setup
-
-```csharp
-using OKX.Net;
-using OKX.Net.Clients;
-
-var restClient = new OKXRestClient(options =>
-{
-    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
-});
+```sh
+dotnet build OKX.Net/OKX.Net.csproj -p:BuildAllFrameworks=true
 ```
 
-Public market data does not require credentials:
+Run focused tests for the change. For edits to consumer examples:
 
-```csharp
-var publicClient = new OKXRestClient();
+```sh
+dotnet test OKX.Net.UnitTests/OKX.Net.UnitTests.csproj --filter FullyQualifiedName~AiExampleCompileTests
 ```
 
-## Core Pattern: Result Handling
+That test compiles the examples; it does not execute their exchange operations or validate Markdown snippets. The normal test command above excludes integration fixtures. Native REST and socket integration fixtures have `Run = false`; Shared REST integration can be enabled with `INTEGRATION=1`. Inspect integration fixtures before running the unfiltered CI test command; they can contact the exchange. Do not enable authenticated exchange calls as part of routine validation.
 
-REST methods return `HttpResult<T>` or `HttpResult`. WebSocket subscription methods return `WebSocketResult<UpdateSubscription>`. Socket API request/response methods return `QueryResult<T>`. Shared symbol/cache helper methods can return `ExchangeCallResult<T>`. Always check `.Success` before reading `.Data`.
+## Implementation conventions
 
-```csharp
-var ticker = await restClient.UnifiedApi.ExchangeData.GetTickerAsync("BTC-USDT");
-if (!ticker.Success)
-{
-    Console.WriteLine($"Error: {ticker.Error}");
-    return;
-}
+- Use the matching client interface and a neighboring endpoint implementation as the starting point. Preserve endpoint metadata, serialization, signing, rate limits, and cancellation behavior.
+- Update public interfaces and XML documentation together with implementations. Add meaningful request/response or subscription coverage when behavior changes.
+- Keep Shared API adapters consistent with native endpoint behavior; verify capability support and trading modes against the implemented surface.
+- Preserve serialization compatibility and source-generated JSON metadata when changing models.
+- Keep changes compatible with every target in the library project; gate framework-specific APIs where required.
 
-var lastPrice = ticker.Data.LastPrice;
-```
+## AI documentation ownership
 
-## Core Pattern: API Surface
-
-OKX.Net follows the OKX v5 unified account shape:
-
-```csharp
-restClient.UnifiedApi.ExchangeData // market data, public data, announcements, trading stats
-restClient.UnifiedApi.Account      // balances, positions, funding, deposits, withdrawals, leverage
-restClient.UnifiedApi.Trading      // place/amend/cancel/query orders, algo orders, fills
-restClient.UnifiedApi.SubAccounts  // sub-account management and transfers
-restClient.UnifiedApi.CopyTrading  // copy trading endpoints
-restClient.UnifiedApi.SharedApi // CryptoExchange.Net shared REST interfaces
-
-socketClient.UnifiedApi.ExchangeData // public subscriptions
-socketClient.UnifiedApi.Account      // private account/funding subscriptions
-socketClient.UnifiedApi.Trading      // private order, position, algo, and socket trading calls
-socketClient.UnifiedApi.SharedApi // CryptoExchange.Net shared socket interfaces
-```
-
-There is no `SpotApi`, `FuturesApi`, or `MarginApi` root. Use `UnifiedApi` and select product behavior with `InstrumentType`, symbol format, `TradeMode`, and `PositionSide`.
-
-## Core Pattern: Symbols And Product Types
-
-OKX symbols use hyphenated instrument ids:
-
-- Spot: `BTC-USDT`, `ETH-USDT`
-- Swap: `BTC-USDT-SWAP`, `ETH-USDT-SWAP`
-- Futures: date-suffixed instruments such as `BTC-USDT-250627`
-- Options: option instrument ids exposed by `GetSymbolsAsync(InstrumentType.Option, ...)`
-
-Use `InstrumentType.Spot`, `InstrumentType.Swap`, `InstrumentType.Futures`, and `InstrumentType.Option` where an endpoint requires product selection.
-
-## Core Pattern: Placing A Spot Order
-
-```csharp
-using OKX.Net.Enums;
-
-var order = await restClient.UnifiedApi.Trading.PlaceOrderAsync(
-    symbol: "BTC-USDT",
-    side: OrderSide.Buy,
-    type: OrderType.Limit,
-    quantity: 0.001m,
-    price: 50000m,
-    tradeMode: TradeMode.Cash);
-
-if (!order.Success) { /* handle order.Error */ return; }
-var orderId = order.Data.OrderId;
-```
-
-## Core Pattern: Derivatives Orders
-
-For swaps/futures, use the same `PlaceOrderAsync` method. Provide the swap/futures symbol, margin mode, and position side when the account configuration requires it.
-
-```csharp
-await restClient.UnifiedApi.Account.SetLeverageAsync(
-    leverage: 10,
-    marginMode: MarginMode.Cross,
-    symbol: "ETH-USDT-SWAP",
-    positionSide: PositionSide.Long);
-
-var order = await restClient.UnifiedApi.Trading.PlaceOrderAsync(
-    symbol: "ETH-USDT-SWAP",
-    side: OrderSide.Buy,
-    type: OrderType.Market,
-    quantity: 1m,
-    positionSide: PositionSide.Long,
-    tradeMode: TradeMode.Cross);
-```
-
-## Core Pattern: WebSocket Subscriptions
-
-Use `OKXSocketClient`. Store the returned `UpdateSubscription` and unsubscribe on shutdown.
-
-```csharp
-var socketClient = new OKXSocketClient();
-
-var subscription = await socketClient.UnifiedApi.ExchangeData.SubscribeToTickerUpdatesAsync(
-    "BTC-USDT",
-    update => Console.WriteLine(update.Data.LastPrice));
-
-if (!subscription.Success) { /* handle subscription.Error */ return; }
-
-await socketClient.UnsubscribeAsync(subscription.Data);
-```
-
-Private streams require credentials:
-
-```csharp
-var socketClient = new OKXSocketClient(options =>
-{
-    options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
-});
-
-await socketClient.UnifiedApi.Trading.SubscribeToOrderUpdatesAsync(
-    InstrumentType.Spot,
-    symbol: "BTC-USDT",
-    instrumentFamily: null,
-    onData: update => { /* update.Data is OKXOrderUpdate */ });
-```
-
-## Multi-Exchange via CryptoExchange.Net.SharedApis
-
-```csharp
-using CryptoExchange.Net.SharedApis;
-using OKX.Net.Clients;
-
-var okxShared = new OKXRestClient().UnifiedApi.SharedApi;
-var symbol = new SharedSymbol(TradingMode.Spot, "BTC", "USDT");
-var ticker = await okxShared.GetTickerAsync(new GetTickerRequest(symbol));
-```
-
-Use the exchange-level `IOKXSharedApiClient` aggregate's `GetCapability(...)` or `GetCapabilities(...)` methods for runtime capability lookup; use an API surface's `.SharedApi` property when the transport and API are known.
-
-`IGetSpotSymbolsRest` and `IGetFuturesSymbolsRest` expose cached symbol catalogs. Their shared symbol results include display names plus base/quote asset type and subtype metadata, including crypto, fiat, TradFi, stablecoin, equity, and commodity classifications where applicable.
-
-Available shared REST interfaces include `IGetTickerRest`, `IPlaceSpotOrderRest`, `IPlaceFuturesOrderRest`, `IGetBalancesRest`, `IGetKlinesRest`, `IGetOrderBookRest`, `IGetFundingRateHistoryRest`, `ISetLeverageRest`, `IGetWithdrawalHistoryRest`, and more. Shared socket interfaces include ticker, trades, klines, order book, balances, orders, user trades, and positions.
-
-Shared socket order management is available through `IPlaceSpotOrderSocket` and `ICancelSpotOrderSocket` and `IPlaceFuturesOrderSocket` and `ICancelFuturesOrderSocket` for placing and canceling orders. First call the matching shared REST `GetSpotSymbolsAsync` or `GetFuturesSymbolsAsync` method so OKX.Net can resolve shared symbol names to the numeric codes required by the WebSocket order API.
-
-## Dependency Injection
-
-```csharp
-using OKX.Net;
-
-services.AddOKX(options =>
-{
-    options.Rest.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
-    options.Socket.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
-});
-
-// Inject IOKXRestClient and IOKXSocketClient.
-```
-
-## Environments
-
-```csharp
-var live = new OKXRestClient(o => o.Environment = OKXEnvironment.Live);
-var demo = new OKXRestClient(o => o.Environment = OKXEnvironment.Demo);
-var europe = new OKXRestClient(o => o.Environment = OKXEnvironment.Europe);
-```
-
-## Common Pitfalls - Avoid
-
-- Do not write raw `HttpClient` calls to OKX endpoints. Use `OKXRestClient` or `OKXSocketClient`.
-- Do not use generic `ApiCredentials` in examples. OKX uses `OKXCredentials("key", "secret", "passphrase")`.
-- Do not invent separate `SpotApi`, `FuturesApi`, or `MarginApi` properties. OKX.Net uses `UnifiedApi`.
-- Do not use Binance-style symbols like `BTCUSDT`. OKX uses `BTC-USDT` and `BTC-USDT-SWAP`.
-- Do not access `.Data` before checking `.Success`.
-- Do not block on async with `.Result` or `.Wait()`.
-- Do not instantiate clients per request in services. Reuse them or use dependency injection.
-- Do not forget to unsubscribe WebSocket subscriptions.
-
-## When The User Wants Other OKX Features
-
-- Funding, deposit, withdrawal, asset transfer: `restClient.UnifiedApi.Account`
-- Account balances and positions: `restClient.UnifiedApi.Account.GetAccountBalanceAsync`, `GetPositionsAsync`
-- Leverage and account mode: `SetLeverageAsync`, `SetPositionModeAsync`, `SetAccountModeAsync`
-- Sub-accounts: `restClient.UnifiedApi.SubAccounts`
-- Copy trading: `restClient.UnifiedApi.CopyTrading`
-- Announcements and trading statistics: `restClient.UnifiedApi.ExchangeData`
-- Algo orders and TP/SL: `restClient.UnifiedApi.Trading.PlaceAlgoOrderAsync` and attached algo order parameters on `PlaceOrderAsync`
-
-## Reference
-
-- Full client reference: https://cryptoexchange.jkorf.dev/OKX.Net/
-- Examples: `Examples/ai-friendly/`
-- AI quick map: `docs/ai-api-map.md`
-- Source: https://github.com/JKorf/OKX.Net
-- NuGet: https://www.nuget.org/packages/JK.OKX.Net
-- Discord: https://discord.gg/MSpeEtSY8t
+- [SKILL.md](.claude/skills/okx-net/SKILL.md) owns consumer conventions and routes to detailed skill references.
+- [API surfaces](.claude/skills/okx-net/references/api-surfaces.md) owns endpoint routing; [usage](.claude/skills/okx-net/references/usage.md) owns snippets.
+- Link to those files instead of repeating API guides here or in tool-specific instructions.
+- Keep skill links relative. References outside the skill are checkout-only; packaged guidance must remain usable without repository sources.
+- The project packs [.claude/skills](.claude/skills/) into `skills/` in NuGet. After changing its layout, inspect package entries and verify referenced resources are included.

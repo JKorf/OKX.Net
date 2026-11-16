@@ -4,7 +4,7 @@ using OKX.Net.Enums;
 
 // OKX.Net exposes the OKX v5 API through a single UnifiedApi root.
 // Public market data does not require API credentials.
-var publicClient = new OKXRestClient();
+using var publicClient = new OKXRestClient();
 
 var ticker = await publicClient.UnifiedApi.ExchangeData.GetTickerAsync("ETH-USDT");
 if (!ticker.Success)
@@ -17,7 +17,7 @@ Console.WriteLine($"ETH-USDT last price: {ticker.Data.LastPrice}");
 
 // Private account and trading endpoints require key, secret, and passphrase.
 // Reuse clients in production, or register them through services.AddOKX(...).
-var tradingClient = new OKXRestClient(options =>
+using var tradingClient = new OKXRestClient(options =>
 {
     options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
 });

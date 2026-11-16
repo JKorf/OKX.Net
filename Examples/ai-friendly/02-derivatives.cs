@@ -2,7 +2,7 @@ using OKX.Net;
 using OKX.Net.Clients;
 using OKX.Net.Enums;
 
-var client = new OKXRestClient(options =>
+using var client = new OKXRestClient(options =>
 {
     options.ApiCredentials = new OKXCredentials("API_KEY", "API_SECRET", "PASSPHRASE");
 });
