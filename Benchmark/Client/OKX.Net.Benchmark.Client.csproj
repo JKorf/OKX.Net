@@ -11,11 +11,7 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="ccxt" Version="4.5.92" />
+    <PackageReference Include="JK.OKX.Net" Version="5.8.0" />
     <PackageReference Include="OKX.Api" Version="5.6.1001" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\OKX.Net\OKX.Net.csproj" />
-  </ItemGroup>
-
 </Project>
