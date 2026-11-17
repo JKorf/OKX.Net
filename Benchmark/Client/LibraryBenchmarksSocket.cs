@@ -117,7 +117,7 @@ namespace OKX.Net.Benchmark.Client
                 ReconnectPolicy = ReconnectPolicy.Disabled,
                 RateLimiterEnabled = false,
                 Environment = env
-            }));
+            }), null);
         }
     }
 }
