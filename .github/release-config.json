@@ -1,0 +1,18 @@
+{
+  "baseBranch": "main",
+  "sdk": "11.0.100",
+  "packages": [
+    {
+      "key": "okx",
+      "project": "OKX.Net/OKX.Net.csproj",
+      "testProjects": [
+        "OKX.Net.UnitTests/OKX.Net.UnitTests.csproj"
+      ],
+      "packageId": "JK.OKX.Net",
+      "readme": "README.md",
+      "tagPrefix": "OKX.Net.",
+      "releaseIntegrationTests": false,
+      "publishToGitHubPackages": true
+    }
+  ]
+}
