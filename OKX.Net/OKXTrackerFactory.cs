@@ -45,8 +45,8 @@ namespace OKX.Net
         /// <inheritdoc />
         public IKlineTracker CreateKlineTracker(SharedSymbol symbol, SharedKlineInterval interval, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
-            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedClient;
-            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedApi;
+            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedApi;
 
             return new KlineTracker(
                 _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
@@ -63,8 +63,8 @@ namespace OKX.Net
         /// <inheritdoc />
         public ITradeTracker CreateTradeTracker(SharedSymbol symbol, int? limit = null, TimeSpan? period = null, ExchangeParameters? exchangeParameters = null)
         {
-            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedClient;
-            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedClient;
+            var restClient = (_serviceProvider?.GetRequiredService<IOKXRestClient>() ?? new OKXRestClient()).UnifiedApi.SharedApi;
+            var socketClient = (_serviceProvider?.GetRequiredService<IOKXSocketClient>() ?? new OKXSocketClient()).UnifiedApi.SharedApi;
 
             return new TradeTracker(
                 _serviceProvider?.GetRequiredService<ILoggerFactory>().CreateLogger(restClient.Exchange),
