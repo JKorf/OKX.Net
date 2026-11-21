@@ -1,10 +1,12 @@
+using OKX.Net.Objects.Core;
+
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order amend response
 /// </summary>
 [SerializationModel]
-public record OKXAlgoOrderAmendResponse
+public record OKXAlgoOrderAmendResponse : OKXOperationResponse
 {
     /// <summary>
     /// ["<c>algoId</c>"] Order id
@@ -23,16 +25,4 @@ public record OKXAlgoOrderAmendResponse
     /// </summary>
     [JsonPropertyName("reqId")]
     public string RequestId { get; set; } = string.Empty;
-
-    /// <summary>
-    /// ["<c>sCode</c>"] Code
-    /// </summary>
-    [JsonPropertyName("sCode")]
-    public string Code { get; set; } = string.Empty;
-
-    /// <summary>
-    /// ["<c>sMsg</c>"] Message
-    /// </summary>
-    [JsonPropertyName("sMsg")]
-    public string Message { get; set; } = string.Empty;
 }

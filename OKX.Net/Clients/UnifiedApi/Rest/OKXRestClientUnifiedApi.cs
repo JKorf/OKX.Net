@@ -94,6 +94,40 @@ internal partial class OKXRestClientUnifiedApi : RestApiClient<OKXEnvironment, O
         return HttpResult.Ok(result, result.Data.First());
     }
 
+    /// <summary>
+    /// Sends a single-order request and returns the rejected order with its error when available.
+    /// </summary>
+    internal async Task<HttpResult<T>> SendGetSingleOrderAsync<T>(
+        RequestDefinition definition,
+        Parameters? parameters,
+        CancellationToken cancellationToken,
+        string? rateLimitKeySuffix = null) where T : OKXOperationResponse
+    {
+        var result = await base.SendAsync<OKXRestApiResponse<T[]>>(definition, parameters, cancellationToken, rateLimitKeySuffix: rateLimitKeySuffix).ConfigureAwait(false);
+        if (!result.Success)
+            return HttpResult.Fail<T>(result);
+
+        var response = result.Data;
+        var orders = response.Data;
+        var order = orders != null && orders.Length > 0 ? orders[0] : null;
+        
+        // The order result can explain a generic failure reported by envelope code 1.
+        if ((response.ErrorCode == 0 || response.ErrorCode == 1) && order != null)
+        {
+            var code = order.Code;
+            if (!string.IsNullOrEmpty(code) && code != OKXOperationResponse.SuccessCode)
+                return HttpResult.Fail<T>(result, new ServerError(code, GetErrorInfo(code, order.Message)), order);
+        }
+
+        if (response.ErrorCode != 0)
+            return HttpResult.Fail<T>(result, new ServerError(response.ErrorCode, GetErrorInfo(response.ErrorCode, response.ErrorMessage)));
+
+        if (order == null)
+            return HttpResult.Fail<T>(result, new ServerError(ErrorInfo.Unknown) { Message = "No response data" });
+
+        return HttpResult.Ok(result, order);
+    }
+
     /// <inheritdoc />
     protected override Task<HttpResult<DateTime>> GetServerTimestampAsync()
         => ExchangeData.GetServerTimeAsync();
