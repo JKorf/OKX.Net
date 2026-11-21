@@ -1,10 +1,14 @@
 namespace OKX.Net.Objects.Core;
 
-/// <summary>The status and message for an individual operation in an OKX response.</summary>
+/// <summary>
+/// The status and message for an individual operation in an OKX response.
+/// </summary>
 [SerializationModel]
 public abstract record OKXOperationResponse
 {
-    /// <summary>The result code for a successful operation.</summary>
+    /// <summary>
+    /// The result code for a successful operation.
+    /// </summary>
     internal const string SuccessCode = "0";
 
     /// <summary>
