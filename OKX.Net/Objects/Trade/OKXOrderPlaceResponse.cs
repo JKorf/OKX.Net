@@ -1,10 +1,12 @@
+using OKX.Net.Objects.Core;
+
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order placement response
 /// </summary>
 [SerializationModel]
-public record OKXOrderPlaceResponse
+public record OKXOrderPlaceResponse : OKXOperationResponse
 {
     /// <summary>
     /// ["<c>ordId</c>"] Order id
@@ -25,18 +27,6 @@ public record OKXOrderPlaceResponse
     public string Tag { get; set; } = string.Empty;
 
     /// <summary>
-    /// ["<c>sCode</c>"] Code
-    /// </summary>
-    [JsonPropertyName("sCode")]
-    public int Code { get; set; }
-
-    /// <summary>
-    /// ["<c>sMsg</c>"] Message
-    /// </summary>
-    [JsonPropertyName("sMsg")]
-    public string Message { get; set; } = string.Empty;
-
-    /// <summary>
     /// ["<c>subCode</c>"] Sub code
     /// </summary>
     [JsonPropertyName("subCode")]
@@ -51,5 +41,5 @@ public record OKXOrderPlaceResponse
     /// <summary>
     /// Whether order placement was successful
     /// </summary>
-    public bool Success => Code == 0;
+    public bool Success => Code == SuccessCode;
 }
