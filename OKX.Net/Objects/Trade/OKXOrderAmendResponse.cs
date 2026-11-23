@@ -1,10 +1,12 @@
+using OKX.Net.Objects.Core;
+
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Order amend response
 /// </summary>
 [SerializationModel]
-public record OKXOrderAmendResponse
+public record OKXOrderAmendResponse : OKXOperationResponse
 {
     /// <summary>
     /// ["<c>ordId</c>"] Order id
@@ -25,22 +27,10 @@ public record OKXOrderAmendResponse
     public string RequestId { get; set; } = string.Empty;
 
     /// <summary>
-    /// ["<c>sCode</c>"] Code
-    /// </summary>
-    [JsonPropertyName("sCode")]
-    public int Code { get; set; }
-
-    /// <summary>
     /// ["<c>ts</c>"] Timestamp
     /// </summary>
     [JsonPropertyName("ts"), JsonConverter(typeof(DateTimeConverter))]
     public DateTime? Timestamp { get; set; }
-
-    /// <summary>
-    /// ["<c>sMsg</c>"] Message
-    /// </summary>
-    [JsonPropertyName("sMsg")]
-    public string Message { get; set; } = string.Empty;
 
     /// <summary>
     /// ["<c>subCode</c>"] Sub code
@@ -51,5 +41,5 @@ public record OKXOrderAmendResponse
     /// <summary>
     /// Whether order edit was successful
     /// </summary>
-    public bool Success => Code == 0;
+    public bool Success => Code == SuccessCode;
 }
