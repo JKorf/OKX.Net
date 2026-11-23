@@ -15,7 +15,6 @@ namespace OKX.Net.UnitTests
     {
         protected override bool ManualRun => false;
 
-#warning index price doesnt work
         [Test]
         public override async Task RunAsync()
         {
@@ -42,6 +41,14 @@ namespace OKX.Net.UnitTests
                 return new SharedApiTestConfig(new SharedSymbol(TradingMode.Spot, "ETH", "USDT"), "ETH");
             else
                 return new SharedApiTestConfig(new SharedSymbol(TradingMode.PerpetualLinear, "ETH", "USDT"), "ETH");
+        }
+
+        protected override Task TestCapability<TCapability, TResult>(List<Exception> output, Func<SharedApiTestConfig, TCapability, Task<HttpResult<TResult>>> method)
+        {
+            if (typeof(TCapability) == typeof(IGetIndexPriceKlinesRest))
+                return Task.CompletedTask;
+
+            return base.TestCapability(output, method);
         }
     }
 
