@@ -1,10 +1,12 @@
+using OKX.Net.Objects.Core;
+
 namespace OKX.Net.Objects.Trade;
 
 /// <summary>
 /// Algo order response
 /// </summary>
 [SerializationModel]
-public record OKXAlgoOrderResponse
+public record OKXAlgoOrderResponse : OKXOperationResponse
 {
     /// <summary>
     /// ["<c>algoId</c>"] Algo order id
@@ -25,19 +27,7 @@ public record OKXAlgoOrderResponse
     public string? AgloClientOrderId { get; set; }
 
     /// <summary>
-    /// ["<c>sCode</c>"] Code
-    /// </summary>
-    [JsonPropertyName("sCode")]
-    public int Code { get; set; }
-
-    /// <summary>
-    /// ["<c>sMsg</c>"] Message
-    /// </summary>
-    [JsonPropertyName("sMsg")]
-    public string Message { get; set; } = string.Empty;
-
-    /// <summary>
     /// Whether order placement was successful
     /// </summary>
-    public bool Success => Code == 0;
+    public bool Success => Code == SuccessCode;
 }

@@ -85,20 +85,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderPlaceResponse[]>>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
-        if (!result.Success)
-            return HttpResult.Fail<OKXOrderPlaceResponse>(result);
-
-        var detailed = result.Data.Data?.FirstOrDefault();
-        if (result.Data.ErrorCode > 0)
-        {
-            if (detailed != null)
-                return HttpResult.Fail<OKXOrderPlaceResponse>(result, new ServerError(detailed.Code, _baseClient.GetErrorInfo(detailed.Code, detailed.Message)));
-
-            return HttpResult.Fail<OKXOrderPlaceResponse>(result, new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
-        }
-
-        return HttpResult.Ok(result, detailed!);
+        return await _baseClient.SendGetSingleOrderAsync<OKXOrderPlaceResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -171,7 +158,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
         var ordersResult = new List<CallResult<OKXOrderPlaceResponse>>();
         foreach (var item in result.Data.Data!)
         {
-            if (item.Code > 0)
+            if (!item.Success)
                 ordersResult.Add(CallResult.Fail<OKXOrderPlaceResponse>(new ServerError(item.Code, _baseClient.GetErrorInfo(item.Code, item.Message!))));
             else
                 ordersResult.Add(CallResult.Ok(item));
@@ -194,23 +181,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/cancel-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXOrderCancelResponse[]>>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
-
-        if (!result.Success)
-            return HttpResult.Fail<OKXOrderCancelResponse>(result);
-
-        if (result.Data.ErrorCode != 0 && result.Data.ErrorCode != 1)
-            return HttpResult.Fail<OKXOrderCancelResponse>(result, new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage)));
-
-        var order = result.Data.Data?.FirstOrDefault();
-        if (order == null)
-            // Shouldn't happen with error code 0/1
-            return HttpResult.Fail<OKXOrderCancelResponse>(result, new ServerError(ErrorInfo.Unknown));
-
-        if (order.Code != 0)
-            return HttpResult.Fail<OKXOrderCancelResponse>(result, new ServerError(order.Code, _baseClient.GetErrorInfo(order.Code, order.Message)), order);
-
-        return HttpResult.Ok(result, result.Data.Data!.First());
+        return await _baseClient.SendGetSingleOrderAsync<OKXOrderCancelResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -283,7 +254,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/amend-order", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(60, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXOrderAmendResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleOrderAsync<OKXOrderAmendResponse>(request, parameters, ct, rateLimitKeySuffix: symbol).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -612,20 +583,7 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/order-algo", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        var result = await _baseClient.SendRawAsync<OKXRestApiResponse<OKXAlgoOrderResponse[]>>(request, parameters, ct).ConfigureAwait(false);
-        if (!result.Success)
-            return HttpResult.Fail<OKXAlgoOrderResponse>(result);
-
-        var detailed = result.Data.Data?.FirstOrDefault();
-        if (result.Data.ErrorCode > 0)
-        {
-            if (detailed != null)
-                return HttpResult.Fail<OKXAlgoOrderResponse>(result, new ServerError(detailed.Code, _baseClient.GetErrorInfo(detailed.Code, detailed.Message)));
-
-            return HttpResult.Fail<OKXAlgoOrderResponse>(result, new ServerError(result.Data.ErrorCode, _baseClient.GetErrorInfo(result.Data.ErrorCode, result.Data.ErrorMessage!)));
-        }
-
-        return HttpResult.Ok(result, detailed!);
+        return await _baseClient.SendGetSingleOrderAsync<OKXAlgoOrderResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -838,6 +796,6 @@ internal class OKXRestClientUnifiedApiTrading : IOKXRestClientUnifiedApiTrading
 
         var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "api/v5/trade/amend-algos", OKXExchange.RateLimiter.EndpointGate, 1, true,
             limitGuard: new SingleLimitGuard(20, TimeSpan.FromSeconds(2), RateLimitWindowType.Sliding, keySelector: SingleLimitGuard.PerApiKey));
-        return await _baseClient.SendGetSingleAsync<OKXAlgoOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
+        return await _baseClient.SendGetSingleOrderAsync<OKXAlgoOrderAmendResponse>(request, parameters, ct).ConfigureAwait(false);
     }
 }
