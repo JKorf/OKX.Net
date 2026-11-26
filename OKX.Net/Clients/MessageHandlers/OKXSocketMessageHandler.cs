@@ -12,8 +12,8 @@ namespace OKX.Net.Clients.MessageHandlers
 
         public OKXSocketMessageHandler()
         {
-            AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol);
-            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.InstrumentType + x.Arg?.InstrumentFamily + (x.Arg?.Symbol ?? x.Arg?.Asset));
+            AddTopicMapping<OKXSocketUpdate>(x => x.Arg.InstrumentType + x.Arg.InstrumentFamily + x.Arg.Symbol + x.Arg.Asset + x.Arg.AlgoId);
+            AddTopicMapping<OKXSocketResponse>(x => x.Arg?.InstrumentType + x.Arg?.InstrumentFamily + (x.Arg?.Symbol ?? x.Arg?.Asset) + x.Arg?.AlgoId);
         }
 
         protected override MessageTypeDefinition[] TypeEvaluators { get; } = [

@@ -28,7 +28,7 @@ internal class OKXSubscription<T> : Subscription
 
     private IEnumerable<string>? GetTopicFilters(List<OKXSocketArgs> args)
     {
-        var ids = args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol).ToArray();
+        var ids = args.Select(x => x.InstrumentType + x.InstrumentFamily + x.Symbol + x.Asset + x.AlgoId).ToArray();
         if (ids.Length == 1 && string.IsNullOrEmpty(ids[0]))
             return null;
 
