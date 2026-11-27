@@ -125,13 +125,13 @@ namespace OKX.Net.Clients.UnifiedApi
                 return HttpResult.Fail<SharedFuturesOrder[]>(Exchange, validationError);
 
             var symbol = request.Symbol?.GetSymbol(FormatSymbol);
-            var tradingMode = request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear;
-            HttpResult<OKXOrder[]> orders;
-            if (tradingMode.IsPerpetual())
-                orders = await _api.Trading.GetOrdersAsync(InstrumentType.Swap, symbol: symbol, ct: ct).ConfigureAwait(false);
-            else
-                orders = await _api.Trading.GetOrdersAsync(InstrumentType.Futures, symbol: symbol, ct: ct).ConfigureAwait(false);
 
+            var tradingMode = request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear;
+            var europeXPerps = _api.EnvironmentName == OKXEnvironment.Europe.Name && _api.ClientOptions.SharedApiEuropeUseXPerps;
+            // Europe XPerps are returned as futures with 5y delivery
+            var requestType = europeXPerps ? InstrumentType.Futures : tradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+
+            var orders = await _api.Trading.GetOrdersAsync(requestType, symbol: symbol, ct: ct).ConfigureAwait(false);
             if (!orders.Success)
                 return HttpResult.Fail<SharedFuturesOrder[]>(orders);
 
@@ -187,29 +187,20 @@ namespace OKX.Net.Clients.UnifiedApi
 
             // Get data
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            HttpResult<OKXOrder[]> result;
-            if (request.Symbol.TradingMode.IsPerpetual())
-            {
-                result = await _api.Trading.GetOrderArchiveAsync(
-                    InstrumentType.Swap,
+
+            var tradingMode = request.Symbol.TradingMode;
+            var europeXPerps = _api.EnvironmentName == OKXEnvironment.Europe.Name && _api.ClientOptions.SharedApiEuropeUseXPerps;
+            // Europe XPerps are returned as futures with 5y delivery
+            var requestType = europeXPerps ? InstrumentType.Futures : tradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+
+            var result = await _api.Trading.GetOrderArchiveAsync(
+                    requestType,
                     symbol: symbol,
                     startTime: pageParams.StartTime,
                     endTime: pageParams.EndTime,
                     limit: pageParams.Limit,
                     toId: pageParams.FromId,
                     ct: ct).ConfigureAwait(false);
-            }
-            else
-            {
-                result = await _api.Trading.GetOrderArchiveAsync(
-                    InstrumentType.Futures,
-                    symbol: symbol,
-                    startTime: pageParams.StartTime,
-                    endTime: pageParams.EndTime,
-                    limit: pageParams.Limit,
-                    toId: pageParams.FromId,
-                    ct: ct).ConfigureAwait(false);
-            }
 
             if (!result.Success)
                 return HttpResult.Fail<SharedFuturesOrder[]>(result);
@@ -271,24 +262,17 @@ namespace OKX.Net.Clients.UnifiedApi
             if (!long.TryParse(request.OrderId, out var orderId))
                 return HttpResult.Fail<SharedUserTrade[]>(Exchange, ArgumentError.Invalid(nameof(GetOrderTradesRequest), "Invalid order id"));
 
+            var tradingMode = request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear;
+            var europeXPerps = _api.EnvironmentName == OKXEnvironment.Europe.Name && _api.ClientOptions.SharedApiEuropeUseXPerps;
+            // Europe XPerps are returned as futures with 5y delivery
+            var requestType = europeXPerps ? InstrumentType.Futures : tradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            HttpResult<OKXTransaction[]> orders;
-            if (request.Symbol.TradingMode.IsPerpetual())
-            {
-                orders = await _api.Trading.GetUserTradesArchiveAsync(
-                    InstrumentType.Swap,
+            var orders = await _api.Trading.GetUserTradesArchiveAsync(
+                    requestType,
                     symbol: symbol,
                     orderId: orderId,
                     ct: ct).ConfigureAwait(false);
-            }
-            else
-            {
-                orders = await _api.Trading.GetUserTradesArchiveAsync(
-                    InstrumentType.Futures,
-                    symbol: symbol,
-                    orderId: orderId,
-                    ct: ct).ConfigureAwait(false);
-            }
 
             if (!orders.Success)
                 return HttpResult.Fail<SharedUserTrade[]>(orders);
@@ -337,12 +321,14 @@ namespace OKX.Net.Clients.UnifiedApi
             var pageParams = Pagination.GetPaginationParameters(direction, limit, request.StartTime, request.EndTime ?? DateTime.UtcNow, pageRequest);
 
             // Get data
+            var tradingMode = request.Symbol?.TradingMode ?? request.TradingMode ?? TradingMode.PerpetualLinear;
+            var europeXPerps = _api.EnvironmentName == OKXEnvironment.Europe.Name && _api.ClientOptions.SharedApiEuropeUseXPerps;
+            // Europe XPerps are returned as futures with 5y delivery
+            var requestType = europeXPerps ? InstrumentType.Futures : tradingMode.IsPerpetual() ? InstrumentType.Swap : InstrumentType.Futures;
+
             var symbol = request.Symbol!.GetSymbol(FormatSymbol);
-            HttpResult<OKXTransaction[]> result;
-            if (request.Symbol.TradingMode.IsPerpetual())
-            {
-                result = await _api.Trading.GetUserTradesAsync(
-                    InstrumentType.Swap,
+            var result = await _api.Trading.GetUserTradesAsync(
+                    requestType,
                     request.Symbol.GetSymbol(FormatSymbol),
                     startTime: pageParams.StartTime,
                     endTime: pageParams.EndTime,
@@ -350,19 +336,6 @@ namespace OKX.Net.Clients.UnifiedApi
                     toId: pageParams.FromId,
                     ct: ct
                 ).ConfigureAwait(false);
-            }
-            else
-            {
-                result = await _api.Trading.GetUserTradesAsync(
-                    InstrumentType.Futures,
-                    request.Symbol.GetSymbol(FormatSymbol),
-                    startTime: pageParams.StartTime,
-                    endTime: pageParams.EndTime,
-                    limit: pageParams.Limit,
-                    toId: pageParams.FromId,
-                    ct: ct
-                ).ConfigureAwait(false);
-            }
             if (!result.Success)
                 return HttpResult.Fail<SharedUserTrade[]>(result);
 

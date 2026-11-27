@@ -32,8 +32,12 @@ namespace OKX.Net.SymbolOrderBooks
         /// <inheritdoc />
         public ISymbolOrderBook Create(SharedSymbol symbol, Action<OKXOrderBookOptions>? options = null)
         {
-            var symbolName = symbol.GetSymbol(OKXExchange.FormatSymbol);
-            return Create(symbolName, options);
+            var client = _serviceProvider.GetRequiredService<IOKXSocketClient>();
+            var symbolName = symbol.GetSymbol(client.UnifiedApi.FormatSymbol);
+            return new OKXSymbolOrderBook(symbolName,
+                                    options,
+                                    _serviceProvider.GetRequiredService<ILoggerFactory>(),
+                                    _serviceProvider.GetRequiredService<IOKXSocketClient>());
         }
 
         /// <inheritdoc />
